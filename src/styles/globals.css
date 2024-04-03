@@ -57,3 +57,34 @@
     @apply bg-background text-foreground;
   }
 }
+
+.rotating-word_rotate-words-5 {
+  animation: rotating-word_rotate_words_5__8iX5A 4s infinite;
+}
+
+@keyframes rotating-word_rotate_words_5__8iX5A {
+  0% {
+    transform: translateY(-80%);
+    animation-timing-function: cubic-bezier(0.9, 0, 0.1, 1);
+  }
+
+  25% {
+    transform: translateY(-60%);
+    animation-timing-function: cubic-bezier(0.9, 0, 0.1, 1);
+  }
+
+  50% {
+    transform: translateY(-40%);
+    animation-timing-function: cubic-bezier(0.9, 0, 0.1, 1);
+  }
+
+  75% {
+    transform: translateY(-20%);
+    animation-timing-function: cubic-bezier(0.9, 0, 0.1, 1);
+  }
+
+  to {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.9, 0, 0.1, 1);
+  }
+}
