@@ -25,11 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-background h-screen w-screen font-sans antialiased ${inter.variable}`}
+        className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
