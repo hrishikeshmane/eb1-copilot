@@ -12,7 +12,7 @@ const Toi = () => {
       width="328.419px"
       height="22.677px"
       viewBox="0 0 323.419 22.677"
-      enable-background="new 0 0 323.419 22.677"
+      enableBackground="new 0 0 323.419 22.677"
     >
       <pattern
         x="-53.532"

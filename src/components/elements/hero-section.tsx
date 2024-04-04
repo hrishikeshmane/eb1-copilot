@@ -36,7 +36,7 @@ export default function HeroSection() {
           <div className="flex scale-[115%] gap-4">
             <Button className="">Get Started</Button>
             <Button className="flex gap-1" variant={"secondary"}>
-              Watch Demo
+              Book a free call
               <TriangleRightIcon />
             </Button>
           </div>
