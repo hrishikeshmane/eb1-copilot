@@ -39,7 +39,7 @@ export default function Home() {
                 </svg>
               </span>
             </h2>
-            <p className="mx-4 text-center">
+            <p className="mx-6 text-center md:mx-4">
               Get focus, efficiency and consistent reliable support till you get
               approved. <br />
               Here’s our no-nonsense process that’s been delivering success in 1
@@ -47,8 +47,8 @@ export default function Home() {
             </p>
 
             <div className="mb-8 flex flex-col items-center justify-center gap-1 space-x-0 space-y-16 pt-8 lg:flex-row lg:space-y-0 lg:pt-[4.5rem]">
-              <div className="relative flex w-[400px] flex-col items-center rounded-2xl  bg-gradient-to-t from-transparent via-black/40 to-[#0c2521] text-center xl:w-[400px]">
-                <div className="w-full py-10">
+              <div className="relative flex w-[330px] flex-col items-center rounded-2xl bg-gradient-to-t  from-transparent via-black/40 to-[#0c2521] text-center sm:w-[400px] xl:w-[400px]">
+                <div className="w-full py-12">
                   <span className="relative inline-flex w-full overflow-y-hidden text-[4rem] font-bold">
                     <span
                       className="select-none text-transparent"
@@ -92,8 +92,8 @@ export default function Home() {
                 />
               </svg>
 
-              <div className="relative flex w-[400px] flex-col items-center rounded-2xl  bg-gradient-to-t from-transparent via-primary/20 to-primary/80 text-center xl:w-[400px]">
-                <div className="py-10">
+              <div className="relative flex w-[330px] flex-col items-center rounded-2xl bg-gradient-to-t  from-transparent via-primary/20 to-primary/80 text-center md:w-[400px] xl:w-[400px]">
+                <div className="py-12">
                   <h3 className="text-[4rem] font-extrabold">EB-1</h3>
                 </div>
                 <div className="absolute bottom-[-40px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2">
@@ -156,20 +156,20 @@ export default function Home() {
 
           <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
           <div className="z-10">
-            <div className="mt-10 grid grid-cols-3 content-center gap-20 text-white">
+            <div className="mt-10 grid grid-cols-1 content-center gap-20 text-white md:grid-cols-3">
               <div className="flex flex-col items-center justify-center gap-2">
-                <div className="flex items-end">
+                <div className="col-span-1 flex items-end">
                   <Counter
                     from={0}
                     to={441}
                     className="text-6xl font-bold text-primary"
                   />
-                  <span className=" text-3xl font-bold">yrs</span>
+                  <span className="text-3xl font-bold">yrs</span>
                 </div>
                 <p className="text-center font-bold">Total Time Saved</p>
               </div>
               <div className="flex flex-col items-center justify-center gap-2">
-                <div className="flex items-end">
+                <div className="col-span-1 flex items-end">
                   <Counter
                     from={0}
                     to={77}
@@ -180,7 +180,7 @@ export default function Home() {
                 <p className="text-center font-bold">Total Case</p>
               </div>
               <div className="flex flex-col items-center justify-center gap-2">
-                <div className="flex items-end">
+                <div className="col-span-1 flex items-end">
                   <Counter
                     from={0}
                     to={100}
@@ -207,7 +207,7 @@ export default function Home() {
           {/* </div> */}
         </section>
 
-        <section className="z-10 my-8 flex w-[72rem] flex-col">
+        <section className="z-10 my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
           <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-4xl font-bold">
             FAQ
           </h2>
