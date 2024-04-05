@@ -5,6 +5,8 @@ import { LandingBentoGrid } from "@/components/elements/landing-bento-grid";
 import Counter from "@/components/elements/animated-counter";
 import Footer from "@/components/elements/footer";
 
+import { TriangleRightIcon } from "@radix-ui/react-icons";
+
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +14,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Testimonials } from "@/components/elements/testimonials";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import MasonryTestimonials from "@/components/elements/masonry-testimonials";
 
 export default function Home() {
   return (
@@ -25,7 +30,7 @@ export default function Home() {
           <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
 
           <div className="z-10 text-white">
-            <h2 className=" mx-auto mb-2 -skew-x-2 text-center text-4xl font-bold">
+            <h2 className=" mx-auto mb-2 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
               Take control of your{" "}
               <span className="relative inline-block text-primary">
                 American Dream
@@ -146,7 +151,7 @@ export default function Home() {
         </section>
 
         <section className="relative mx-4 my-8 flex w-[95%] flex-col items-center justify-start overflow-hidden rounded-3xl bg-[#17332D] bg-gradient-to-b  py-16">
-          <h2 className="mx-auto mb-1 -skew-x-2 text-center text-4xl font-bold text-white">
+          <h2 className="mx-auto mb-1 -skew-x-2 text-center text-3xl font-bold text-white md:text-4xl">
             No BS, Green Card Accelerator
           </h2>
           <p className="mx-4 text-center text-white">
@@ -197,18 +202,27 @@ export default function Home() {
         <section className="z-10">
           <LandingBentoGrid />
         </section>
-
-        <section className="z-10 my-8 flex w-[99%] flex-col">
-          <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-4xl font-bold">
+        {/* 
+        <section className="z-10 my-8 flex w-[99%] flex-col ">
+          <h2 className="mx-auto my-4 mb-4 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
             Success stories
           </h2>
-          {/* <div className="bg-gradient-to-b from-transparent via-white to-transparent dark:via-black"> */}
-          <Testimonials />
-          {/* </div> */}
+          <VideoCarousel />
+        </section> */}
+
+        <section className="z-10 my-8 flex w-[99%] flex-col ">
+          <h2 className="mx-auto  my-4 mb-4 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
+            Success stories
+          </h2>
+          <div className="mx-auto w-full p-4">
+            <MasonryTestimonials />
+          </div>
+
+          {/* <Testimonials /> */}
         </section>
 
         <section className="z-10 my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
-          <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-4xl font-bold">
+          <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-3xl font-bold  md:text-4xl">
             FAQ
           </h2>
           <div className="w-full">
@@ -240,6 +254,25 @@ export default function Home() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+          </div>
+        </section>
+
+        <section className="relative mb-20 mt-28 flex w-[95%] flex-col items-center justify-center gap-2 rounded-3xl bg-[#17332D] py-20 text-white">
+          <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
+          <div className="relative z-10 flex flex-col items-center justify-center gap-6">
+            <div className="z-10 flex flex-col items-center justify-center gap-6">
+              <div className=" mx-2 -skew-x-2 text-center text-4xl font-bold md:text-5xl">
+                Start your Green Card Journey Now!
+              </div>
+
+              <div className="flex scale-[115%] gap-4">
+                <Button className="">Get Started</Button>
+                <Button className="flex gap-1" variant={"secondary"}>
+                  Book a free call
+                  <TriangleRightIcon />
+                </Button>
+              </div>
+            </div>
           </div>
         </section>
       </main>

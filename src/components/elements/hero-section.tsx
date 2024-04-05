@@ -29,7 +29,7 @@ export default function HeroSection() {
             </mark>{" "}
             Dream, <br /> Now Within Reach
           </div>
-          <div className="max-w-3xl py-4 text-center dark:text-neutral-200 md:text-xl">
+          <div className="mx-2 max-w-3xl py-4 text-center dark:text-neutral-200 md:text-xl">
             Start your EB-1A journey with a team that’s trusted by 300+
             immigrants and endorsed by top US immigration attorneys.
           </div>
