@@ -33,7 +33,18 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClerkProvider>
+          <ClerkProvider
+            appearance={{
+              layout: {
+                socialButtonsPlacement: "bottom",
+                socialButtonsVariant: "blockButton",
+              },
+              variables: {
+                colorPrimary: "#D9F522",
+                colorText: "#000000",
+              },
+            }}
+          >
             <TRPCReactProvider>{children}</TRPCReactProvider>
           </ClerkProvider>
         </ThemeProvider>
