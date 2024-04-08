@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input, InputProps } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import React from "react";
 import { type UseFormReturn } from "react-hook-form";
 import { type FormType } from "../page";
@@ -31,7 +31,7 @@ type SubFormProps = {
 
 const PersonalInfoForm = ({ form }: SubFormProps) => {
   return (
-    <ul className="mx-1 grid grid-cols-2 gap-4 lg:grid-cols-3">
+    <ul className="mx-1 grid grid-cols-2  gap-4 lg:grid-cols-3">
       <li className="col-span-1">
         <FormField
           control={form.control}
@@ -244,8 +244,8 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>
-                  I consent to the use of my details provides to receive
-                  information about currently offered services and promotions.
+                  I consent to the use of my details to receive information
+                  about currently offered services and promotions.
                 </FormLabel>
                 <FormMessage />
               </div>
