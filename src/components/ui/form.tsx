@@ -149,7 +149,8 @@ const FormMessage = React.forwardRef<
   const body = error ? String(error?.message) : children;
 
   if (!body) {
-    return null;
+    // return null;
+    return <div className="h-[19.2px] font-medium text-destructive"></div>;
   }
 
   return (

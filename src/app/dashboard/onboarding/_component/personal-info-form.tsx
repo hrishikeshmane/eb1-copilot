@@ -37,7 +37,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="fullName"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input placeholder="Dev Patel" {...field} />
@@ -53,7 +53,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input type="email" placeholder="dev@gmail.com" {...field} />
@@ -69,7 +69,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="phone"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Phone</FormLabel>
               <FormControl>
                 <Input type="tel" placeholder="8888888888" {...field} />
@@ -85,7 +85,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="linkedIn"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>LinkedIn</FormLabel>
               <FormControl>
                 <Input
@@ -105,7 +105,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="highestEducation"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>What is your highest level of education?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -132,7 +132,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="major"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>What was your Major?</FormLabel>
               <FormControl>
                 <Input placeholder="Computer Science" {...field} />
@@ -148,7 +148,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="brithCountry"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Country of Birth</FormLabel>
               <FormControl>
                 <Input placeholder="India" {...field} />
@@ -164,7 +164,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="nationalityCountry"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Country of Nationality</FormLabel>
               <FormControl>
                 <Input placeholder="India" {...field} />
@@ -180,7 +180,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="hearAboutUs"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>How did you hear about us?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -209,7 +209,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           render={({ field }) => {
             // https://github.com/shadcn-ui/ui/issues/1085
             return (
-              <FormItem>
+              <FormItem className="flex h-full flex-col justify-between">
                 <FormLabel>Upload your CV</FormLabel>
                 <FormControl>
                   <Input

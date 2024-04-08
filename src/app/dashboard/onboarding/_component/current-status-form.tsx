@@ -36,7 +36,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="currentlyInUS"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Are you currently in the United States?</FormLabel>
               <FormControl>
                 <Select
@@ -68,7 +68,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="everBeenToUS"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Have you ever been to the U.S?</FormLabel>
               <FormControl>
                 <Select
@@ -100,7 +100,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="everAppliedForGreenCard"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Have you ever applied for a Green Card?</FormLabel>
               <FormControl>
                 <Select
@@ -132,7 +132,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="everBeenJ1OrJ2"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>
                 Have you EVER been a J-1 exchange visitor or a J-2 dependent?
               </FormLabel>
@@ -166,7 +166,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="haveCriminalRecord"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Do you have a criminal record? </FormLabel>
               <FormControl>
                 <Select
@@ -198,7 +198,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="addFamilyMembers"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>
                 Would you like to add any family members to your petition?
               </FormLabel>
@@ -232,7 +232,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="currentEmployerInUS"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>
                 Do you have a current employer in the United States?
               </FormLabel>
@@ -266,7 +266,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="interestedIn"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>
                 What type of Visa or Green Card are you interested in?
               </FormLabel>
@@ -300,7 +300,7 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           control={form.control}
           name="fieldExpertIn"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>Your field of expertise</FormLabel>
               <FormControl>
                 <Input placeholder="Software Engineering" {...field} />
