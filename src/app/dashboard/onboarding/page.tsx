@@ -254,16 +254,20 @@ const OnboardingPage = () => {
     form.reset();
   };
 
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
+
   const next = async () => {
     const fields = steps[currentStep]?.fields;
     const output = await form.trigger(fields, { shouldFocus: true });
 
     if (!output) return;
 
+    if (currentStep === steps.length - 1) {
+      await form.handleSubmit(processForm)();
+    }
     if (currentStep < steps.length - 1) {
-      if (currentStep === steps.length - 2) {
-        await form.handleSubmit(processForm)();
-      }
       setPreviousStep(currentStep);
       setCurrentStep((step) => step + 1);
     }
@@ -275,10 +279,6 @@ const OnboardingPage = () => {
       setCurrentStep((step) => step - 1);
     }
   };
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
 
   return (
     <ScrollArea className="mx-2 h-full p-6">
@@ -359,7 +359,7 @@ const OnboardingPage = () => {
               <Button
                 type="button"
                 onClick={next}
-                disabled={currentStep === steps.length - 1}
+                // disabled={currentStep === steps.length - 1}
               >
                 {currentStep < 3 ? "Next" : "Submit"}
               </Button>
