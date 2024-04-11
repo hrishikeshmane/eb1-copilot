@@ -17,6 +17,7 @@ import { Testimonials } from "@/components/elements/testimonials";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import MasonryTestimonials from "@/components/elements/masonry-testimonials";
+import PricingGrid from "./pricing/_components/pricing-grid";
 
 export default function Home() {
   return (
@@ -220,6 +221,10 @@ export default function Home() {
 
           {/* <Testimonials /> */}
         </section>
+
+        <div>
+          <PricingGrid />
+        </div>
 
         <section className="z-10 my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
           <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-3xl font-bold  md:text-4xl">

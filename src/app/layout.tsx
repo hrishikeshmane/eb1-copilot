@@ -12,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "EBCo",
-  description: "Your one-stop shop for all things US Visa needs",
+  title: "Green Card Inc.",
+  description: "Your one-stop shop for all things US Green Card needs",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
