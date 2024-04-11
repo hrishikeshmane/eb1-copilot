@@ -202,7 +202,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
         />
       </li>
 
-      <li className="col-span-1">
+      {/* <li className="col-span-1">
         <FormField
           control={form.control}
           name="resume"
@@ -228,7 +228,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
             );
           }}
         />
-      </li>
+      </li> */}
 
       <li className="col-span-full">
         <FormField

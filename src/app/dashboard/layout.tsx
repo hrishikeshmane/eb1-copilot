@@ -192,7 +192,7 @@ export default function DashboardLayout({
           <UserAuthButton />
           <ModeToggle />
         </header>
-        <main className="h-[calc(100vh-4rem)] w-full">{children}</main>
+        <main className="h-[calc(100vh-3.8rem)] w-full">{children}</main>
       </div>
     </div>
   );

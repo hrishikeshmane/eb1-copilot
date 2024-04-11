@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "./logo";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -9,10 +10,10 @@ const Footer = () => {
           <div className="mb-6 flex flex-col gap-2 md:mb-0">
             <Logo />
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
-              © 2023{" "}
-              <a href="https://flowbite.com/" className="hover:underline">
-                EB1Copilot
-              </a>
+              © 2024{" "}
+              <Link href="https://greencard.inc/" className="hover:underline">
+                Green Card Inc
+              </Link>
               . All Rights Reserved.
             </span>
           </div>

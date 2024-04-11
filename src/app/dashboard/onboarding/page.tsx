@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,15 +14,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { ACCEPTED_FILE_TYPES, MAX_UPLOAD_SIZE } from "@/lib/constants";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import PersonalInfoForm from "./_component/personal-info-form";
 import FormWrapper from "./_component/from-wrapper";
 import CurrentStatusForm from "./_component/current-status-form";
 import VisaPillarForm from "./_component/visa-pillars-form";
+import { useCalendlyEventListener, InlineWidget } from "react-calendly";
 
 const formSchema = z.object({
   consent: z.boolean(),
@@ -57,14 +56,14 @@ const formSchema = z.object({
   hearAboutUs: z.enum(["socialMedia", "friend", "onlineSearch", "other"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
-  resume: z
-    .instanceof(File)
-    .refine((file) => {
-      return !file || file?.size <= MAX_UPLOAD_SIZE;
-    }, "File size must be less than 6MB")
-    .refine((file) => {
-      return ACCEPTED_FILE_TYPES.includes(file?.type);
-    }, "File must be a PDF"),
+  // resume: z
+  //   .instanceof(File)
+  //   .refine((file) => {
+  //     return !file || file?.size <= MAX_UPLOAD_SIZE;
+  //   }, "File size must be less than 6MB")
+  //   .refine((file) => {
+  //     return ACCEPTED_FILE_TYPES.includes(file?.type);
+  //   }, "File must be a PDF"),
 
   currentlyInUS: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
@@ -157,7 +156,7 @@ const steps: Step[] = [
       "email",
       "phone",
       "hearAboutUs",
-      "resume",
+      // "resume",
       "highestEducation",
       "major",
       "brithCountry",
@@ -204,6 +203,13 @@ const steps: Step[] = [
 ];
 
 const OnboardingPage = () => {
+  useCalendlyEventListener({
+    onProfilePageViewed: () => console.log("onProfilePageViewed"),
+    onDateAndTimeSelected: () => console.log("onDateAndTimeSelected"),
+    onEventTypeViewed: () => console.log("onEventTypeViewed"),
+    onEventScheduled: (e) => console.log(e.data.payload),
+  });
+
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -215,7 +221,7 @@ const OnboardingPage = () => {
       interestedIn: "" as FormType["interestedIn"],
       fieldExpertIn: "" as FormType["fieldExpertIn"],
       linkedIn: "" as FormType["linkedIn"],
-      resume: new File([], ""),
+      // resume: new File([], ""),
       highestEducation: "" as FormType["highestEducation"],
       major: "" as FormType["major"],
       brithCountry: "" as FormType["brithCountry"],
@@ -281,7 +287,7 @@ const OnboardingPage = () => {
   };
 
   return (
-    <ScrollArea className="mx-2 h-full p-6">
+    <ScrollArea className="mx-2 h-full p-6 pb-0">
       {/* steps */}
       <nav aria-label="Progress" className="mb-12">
         <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
@@ -317,8 +323,6 @@ const OnboardingPage = () => {
         </ol>
       </nav>
 
-      <Separator />
-
       {/* Form */}
       <div className="mt-6">
         <Form {...form}>
@@ -343,11 +347,19 @@ const OnboardingPage = () => {
 
             {currentStep === 3 && (
               <FormWrapper delta={delta}>
-                <CurrentStatusForm form={form} />
+                <InlineWidget
+                  styles={{
+                    height: "1000px",
+                    margin: "-4rem 0px -5rem 0px",
+                    padding: "0px",
+                  }}
+                  url="https://calendly.com/ihrishi/ama-w-hrishi"
+                />
+                {/* <CurrentStatusForm form={form} /> */}
               </FormWrapper>
             )}
 
-            <div className="mt-4 flex w-full justify-end gap-2">
+            <div className="mb-10 mt-4 flex w-full justify-end gap-2">
               <Button
                 type="button"
                 variant={"secondary"}
