@@ -4,23 +4,24 @@ import React from "react";
 import Link from "next/link";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { CustomKanban } from "@/components/elements/custom-kanban";
 
 const ProfileBuilderPage = () => {
   const { user } = useUser();
   const metadata = user?.publicMetadata as CustomJwtSessionClaims["metadata"];
 
   return (
-    <div className="h-full w-full p-4">
-      <div className="flex items-center">
+    <div className="h-full w-full p-4 pb-1 pr-0">
+      {/* <div className="flex items-center">
         <h1 className="text-lg font-bold md:text-3xl">
           Hello, {user?.firstName ?? "there"}
         </h1>
       </div>
       <div className="mt-1">
         <p>Your can monitor your profile here</p>
-      </div>
+      </div> */}
       {!!metadata?.onBoarded && <p>Kanban board here</p>}
-      {!metadata?.onBoarded && (
+      {/* {!metadata?.onBoarded && (
         <div className="my-6 flex h-[calc(100vh-12rem)] w-full items-center justify-center gap-4 rounded-md border border-dashed">
           <div className="m-auto flex w-full flex-col items-center gap-1 p-14 text-center">
             <h3 className="text-2xl font-bold tracking-tight">
@@ -43,7 +44,8 @@ const ProfileBuilderPage = () => {
             </Link>
           </div>
         </div>
-      )}
+      )} */}
+      <CustomKanban />
     </div>
   );
 };

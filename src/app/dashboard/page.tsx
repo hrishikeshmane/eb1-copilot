@@ -1,3 +1,4 @@
+import { CustomKanban } from "@/components/elements/custom-kanban";
 import { auth, currentUser } from "@clerk/nextjs";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
