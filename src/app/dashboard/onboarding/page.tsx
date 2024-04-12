@@ -14,13 +14,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ACCEPTED_FILE_TYPES, MAX_UPLOAD_SIZE } from "@/lib/constants";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import PersonalInfoForm from "./_component/personal-info-form";
-import FormWrapper from "./_component/from-wrapper";
-import CurrentStatusForm from "./_component/current-status-form";
-import VisaPillarForm from "./_component/visa-pillars-form";
+import PersonalInfoForm from "./_components/personal-info-form";
+import FormWrapper from "./_components/from-wrapper";
+import CurrentStatusForm from "./_components/current-status-form";
+import VisaPillarForm from "./_components/visa-pillars-form";
 import { useCalendlyEventListener, InlineWidget } from "react-calendly";
 
 const formSchema = z.object({
@@ -287,7 +284,7 @@ const OnboardingPage = () => {
   };
 
   return (
-    <ScrollArea className="mx-2 h-full p-6 pb-0">
+    <div className="mx-auto h-full max-w-6xl overflow-x-hidden p-6 pb-0">
       {/* steps */}
       <nav aria-label="Progress" className="mb-12">
         <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
@@ -379,7 +376,7 @@ const OnboardingPage = () => {
           </form>
         </Form>
       </div>
-    </ScrollArea>
+    </div>
   );
 };
 
