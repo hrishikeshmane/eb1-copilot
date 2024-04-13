@@ -13,7 +13,7 @@ type FormWrapperProps = {
 const FormWrapper = ({ delta, children }: FormWrapperProps) => {
   return (
     <motion.div
-      initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+      initial={{ x: delta >= 0 ? "20%" : "-20%", opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >

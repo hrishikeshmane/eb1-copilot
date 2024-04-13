@@ -9,7 +9,9 @@
     "db:studio": "drizzle-kit studio",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhook/stripe",
+    "clerk:listen": "ngrok http 3000"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.10",
@@ -76,6 +78,7 @@
     "server-only": "^0.0.1",
     "sonner": "^1.4.41",
     "superjson": "^2.2.1",
+    "svix": "^1.21.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.0",

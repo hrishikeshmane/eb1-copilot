@@ -2,6 +2,7 @@ import { Button } from "../ui/button";
 import { TriangleRightIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import HeroVideo from "./hero-video";
+import GetStartedButton from "./get-started-button";
 
 export default function HeroSection() {
   return (
@@ -34,7 +35,7 @@ export default function HeroSection() {
             immigrants and endorsed by top US immigration attorneys.
           </div>
           <div className="flex scale-[115%] gap-4">
-            <Button className="">Get Started</Button>
+            <GetStartedButton />
             <Button className="flex gap-1" variant={"secondary"}>
               Book a free call
               <TriangleRightIcon />

@@ -23,6 +23,7 @@ export const env = createEnv({
         "You forgot to change the default token",
       ),
     CLERK_SECRET_KEY: z.string(),
+    WEBHOOK_SECRET: z.string(),
   },
 
   /**
@@ -52,6 +53,7 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:
       process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
+    WEBHOOK_SECRET: process.env.WEBHOOK_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

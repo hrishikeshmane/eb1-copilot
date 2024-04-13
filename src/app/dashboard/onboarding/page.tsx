@@ -14,13 +14,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ACCEPTED_FILE_TYPES, MAX_UPLOAD_SIZE } from "@/lib/constants";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import PersonalInfoForm from "./_component/personal-info-form";
-import FormWrapper from "./_component/from-wrapper";
-import CurrentStatusForm from "./_component/current-status-form";
-import VisaPillarForm from "./_component/visa-pillars-form";
+import PersonalInfoForm from "./_components/personal-info-form";
+import FormWrapper from "./_components/from-wrapper";
+import CurrentStatusForm from "./_components/current-status-form";
+import VisaPillarForm from "./_components/visa-pillars-form";
 import { useCalendlyEventListener, InlineWidget } from "react-calendly";
 
 const formSchema = z.object({
@@ -149,6 +146,11 @@ type Step = {
 const steps: Step[] = [
   {
     id: "Step 1",
+    name: "Getting Started",
+    fields: ["consent"],
+  },
+  {
+    id: "Step 2",
     name: "Personal Information",
     fields: [
       "consent",
@@ -165,7 +167,7 @@ const steps: Step[] = [
     ],
   },
   {
-    id: "Step 2",
+    id: "Step 3",
     name: "Current Status",
     fields: [
       "currentlyInUS",
@@ -180,7 +182,7 @@ const steps: Step[] = [
     ],
   },
   {
-    id: "Step 3",
+    id: "Step 4",
     name: "Visa Pillars",
     fields: [
       "planToStartBusinessInUS",
@@ -200,6 +202,7 @@ const steps: Step[] = [
     ],
   },
   { id: "Step 4", name: "Complete", fields: [] },
+  { id: "Step 5", name: "Complete", fields: [] },
 ];
 
 const OnboardingPage = () => {
@@ -287,9 +290,12 @@ const OnboardingPage = () => {
   };
 
   return (
-    <ScrollArea className="mx-2 h-full p-6 pb-0">
+    <div className="mx-auto h-full w-full overflow-x-hidden p-6 pb-0">
       {/* steps */}
-      <nav aria-label="Progress" className="mb-12">
+      <nav
+        aria-label="Progress"
+        className="sticky top-0 z-10 mb-6 border-b bg-background pb-6"
+      >
         <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
           {steps.map((step, index) => (
             <li key={step.name} className="md:flex-1">
@@ -379,7 +385,7 @@ const OnboardingPage = () => {
           </form>
         </Form>
       </div>
-    </ScrollArea>
+    </div>
   );
 };
 
