@@ -20,7 +20,7 @@ export default async function Page() {
       <div className="my-6 flex h-[calc(100vh-12rem)] w-full items-center justify-center gap-4 rounded-md border border-dashed">
         <div className="m-auto flex w-full flex-col items-center gap-1 p-14 text-center">
           <h3 className="text-2xl font-bold tracking-tight">
-            Let's get your profile evaluated
+            Let&apos;s get your profile evaluated
           </h3>
           <p className="mb-4 text-sm text-muted-foreground">
             You can start your profile evaluation by filling up our
