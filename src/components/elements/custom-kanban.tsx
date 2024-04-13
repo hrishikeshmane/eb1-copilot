@@ -199,7 +199,9 @@ const Column = ({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`h-full w-full transition-colors ${
-          active ? "bg-neutral-800/50" : "bg-neutral-800/0"
+          active
+            ? "bg-neutral-200/50 dark:bg-neutral-800/50"
+            : "bg-neutral-800/0"
         }`}
       >
         {filteredCards.map((c) => {
