@@ -23,6 +23,8 @@ import GettingStartedForm from "./_components/getting-started-form";
 import useFormPersist from "react-hook-form-persist";
 import { auth } from "@clerk/nextjs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "sonner"
+
 
 const formSchema = z.object({
   // Getting started
@@ -318,6 +320,7 @@ const OnboardingPage = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    toast("Your Response has been submitted.")
   }
 
   const next = async () => {
