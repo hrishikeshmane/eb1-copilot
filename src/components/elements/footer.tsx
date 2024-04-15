@@ -12,7 +12,7 @@ const Footer = () => {
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
               © 2024{" "}
               <Link href="https://greencard.inc/" className="hover:underline">
-                Green Card Inc
+                Greencard Inc
               </Link>
               . All Rights Reserved.
             </span>

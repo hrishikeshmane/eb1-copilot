@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Green Card Inc.",
+  title: "Greencard Inc.",
   description: "Your one-stop shop for all things US Green Card needs",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };

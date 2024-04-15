@@ -73,6 +73,7 @@
     "react-day-picker": "^8.10.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.2",
+    "react-hook-form-persist": "^3.0.0",
     "react-resizable-panels": "^2.0.16",
     "react-youtube": "^10.1.0",
     "server-only": "^0.0.1",

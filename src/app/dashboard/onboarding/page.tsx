@@ -19,9 +19,16 @@ import FormWrapper from "./_components/from-wrapper";
 import CurrentStatusForm from "./_components/current-status-form";
 import VisaPillarForm from "./_components/visa-pillars-form";
 import { useCalendlyEventListener, InlineWidget } from "react-calendly";
+import GettingStartedForm from "./_components/getting-started-form";
+import useFormPersist from "react-hook-form-persist";
+import { auth } from "@clerk/nextjs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const formSchema = z.object({
+  // Getting started
   consent: z.boolean(),
+
+  // Personal Information
   fullName: z.string().min(2, {
     message: "Full Name is required.",
   }),
@@ -62,6 +69,7 @@ const formSchema = z.object({
   //     return ACCEPTED_FILE_TYPES.includes(file?.type);
   //   }, "File must be a PDF"),
 
+  // Current Status
   currentlyInUS: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
@@ -90,48 +98,56 @@ const formSchema = z.object({
     message: "Your field of expertise is required.",
   }),
 
-  planToStartBusinessInUS: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  bestDescribesYou: z.enum(["expert", "entrepreneur"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
+  // Visa Pillars
   haveAwards: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
-  haveRaiseFunds: z.enum(["yes", "no"], {
+  awardDetails: z.string().optional(),
+
+  haveOriginalContribution: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
-  haveParticipatedInIncubator: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  haveMembership: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  haveJudged: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  haveReviewed: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  havePress: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
+  originalContributionDetails: z.string().optional(),
+
   haveAuthored: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
+  authoredDetails: z.string().optional(),
+
+  haveJudged: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  judgedDetails: z.string().optional(),
+
+  havePress: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  pressDetails: z.string().optional(),
+
+  haveMembership: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  membershipDetails: z.string().optional(),
+
   haveCriticalCapacity: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
-  havePatents: z.enum(["yes", "no"], {
+  criticalCapacityDetails: z.string().optional(),
+
+  haveExhibited: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
-  haveContrubutionsToField: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
+  exhibitedDetails: z.string().optional(),
+
   haveHighCompensation: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
+  highCompensationDetails: z.string().optional(),
+
+  haveCommercialSuccess: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  commercialSuccessDetails: z.string().optional(),
 });
 
 export type FormType = z.infer<typeof formSchema>;
@@ -153,17 +169,16 @@ const steps: Step[] = [
     id: "Step 2",
     name: "Personal Information",
     fields: [
-      "consent",
       "fullName",
       "email",
       "phone",
-      "hearAboutUs",
+      "linkedIn",
       // "resume",
       "highestEducation",
       "major",
       "brithCountry",
       "nationalityCountry",
-      "linkedIn",
+      "hearAboutUs",
     ],
   },
   {
@@ -185,23 +200,28 @@ const steps: Step[] = [
     id: "Step 4",
     name: "Visa Pillars",
     fields: [
-      "planToStartBusinessInUS",
-      "bestDescribesYou",
       "haveAwards",
-      "haveRaiseFunds",
-      "haveParticipatedInIncubator",
-      "haveMembership",
-      "haveJudged",
-      "haveReviewed",
-      "havePress",
+      "awardDetails",
+      "haveOriginalContribution",
+      "originalContributionDetails",
       "haveAuthored",
+      "authoredDetails",
+      "haveJudged",
+      "judgedDetails",
+      "havePress",
+      "pressDetails",
+      "haveMembership",
+      "membershipDetails",
       "haveCriticalCapacity",
-      "havePatents",
-      "haveContrubutionsToField",
+      "criticalCapacityDetails",
+      "haveExhibited",
+      "exhibitedDetails",
       "haveHighCompensation",
+      "highCompensationDetails",
+      "haveCommercialSuccess",
+      "commercialSuccessDetails",
     ],
   },
-  { id: "Step 4", name: "Complete", fields: [] },
   { id: "Step 5", name: "Complete", fields: [] },
 ];
 
@@ -216,19 +236,21 @@ const OnboardingPage = () => {
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      // Getting started
       consent: undefined,
+
+      //  Personal Information
       fullName: "",
       email: "",
       phone: "",
-      hearAboutUs: "" as FormType["hearAboutUs"],
-      interestedIn: "" as FormType["interestedIn"],
-      fieldExpertIn: "" as FormType["fieldExpertIn"],
       linkedIn: "" as FormType["linkedIn"],
-      // resume: new File([], ""),
       highestEducation: "" as FormType["highestEducation"],
       major: "" as FormType["major"],
       brithCountry: "" as FormType["brithCountry"],
       nationalityCountry: "" as FormType["nationalityCountry"],
+      hearAboutUs: "" as FormType["hearAboutUs"],
+
+      // Current Status
       currentlyInUS: "" as FormType["currentlyInUS"],
       everBeenToUS: "" as FormType["everBeenToUS"],
       everAppliedForGreenCard: "" as FormType["everAppliedForGreenCard"],
@@ -236,26 +258,57 @@ const OnboardingPage = () => {
       haveCriminalRecord: "" as FormType["haveCriminalRecord"],
       addFamilyMembers: "" as FormType["addFamilyMembers"],
       currentEmployerInUS: "" as FormType["currentEmployerInUS"],
-      planToStartBusinessInUS: "" as FormType["planToStartBusinessInUS"],
-      bestDescribesYou: "" as FormType["bestDescribesYou"],
+      interestedIn: "" as FormType["interestedIn"],
+      fieldExpertIn: "" as FormType["fieldExpertIn"],
+
+      // Visa Pillars
       haveAwards: "" as FormType["haveAwards"],
-      haveRaiseFunds: "" as FormType["haveRaiseFunds"],
-      haveParticipatedInIncubator:
-        "" as FormType["haveParticipatedInIncubator"],
-      haveMembership: "" as FormType["haveMembership"],
-      haveJudged: "" as FormType["haveJudged"],
-      haveReviewed: "" as FormType["haveReviewed"],
-      havePress: "" as FormType["havePress"],
+      awardDetails: "" as FormType["awardDetails"],
+      haveOriginalContribution: "" as FormType["haveOriginalContribution"],
+      originalContributionDetails:
+        "" as FormType["originalContributionDetails"],
       haveAuthored: "" as FormType["haveAuthored"],
+      authoredDetails: "" as FormType["authoredDetails"],
+      haveJudged: "" as FormType["haveJudged"],
+      judgedDetails: "" as FormType["judgedDetails"],
+      havePress: "" as FormType["havePress"],
+      pressDetails: "" as FormType["pressDetails"],
+      haveMembership: "" as FormType["haveMembership"],
+      membershipDetails: "" as FormType["membershipDetails"],
       haveCriticalCapacity: "" as FormType["haveCriticalCapacity"],
-      havePatents: "" as FormType["havePatents"],
-      haveContrubutionsToField: "" as FormType["haveContrubutionsToField"],
+      criticalCapacityDetails: "" as FormType["criticalCapacityDetails"],
+      haveExhibited: "" as FormType["haveExhibited"],
+      exhibitedDetails: "" as FormType["exhibitedDetails"],
       haveHighCompensation: "" as FormType["haveHighCompensation"],
+      highCompensationDetails: "" as FormType["highCompensationDetails"],
+      haveCommercialSuccess: "" as FormType["haveCommercialSuccess"],
+      commercialSuccessDetails: "" as FormType["commercialSuccessDetails"],
+
+      // resume: new File([], ""),
+      // planToStartBusinessInUS: "" as FormType["planToStartBusinessInUS"],
+      // bestDescribesYou: "" as FormType["bestDescribesYou"],
+      // haveRaiseFunds: "" as FormType["haveRaiseFunds"],
+      // haveParticipatedInIncubator:
+      //   "" as FormType["haveParticipatedInIncubator"],
+      // haveMembership: "" as FormType["haveMembership"],
+      // haveJudged: "" as FormType["haveJudged"],
+      // haveReviewed: "" as FormType["haveReviewed"],
+      // havePress: "" as FormType["havePress"],
+      // haveAuthored: "" as FormType["haveAuthored"],
+      // haveCriticalCapacity: "" as FormType["haveCriticalCapacity"],
+      // havePatents: "" as FormType["havePatents"],
+      // haveContrubutionsToField: "" as FormType["haveContrubutionsToField"],
+      // haveHighCompensation: "" as FormType["haveHighCompensation"],
     },
   });
 
+  useFormPersist("onboarding-form", {
+    watch: form.watch,
+    setValue: form.setValue,
+  });
+
   const [previousStep, setPreviousStep] = useState(0);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(3);
   const delta = currentStep - previousStep;
 
   const processForm: SubmitHandler<FormType> = (data) => {
@@ -290,11 +343,11 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div className="mx-auto h-full w-full overflow-x-hidden p-6 pb-0">
+    <ScrollArea className="mx-auto h-full w-full overflow-x-hidden p-6 pb-0 pt-0">
       {/* steps */}
       <nav
         aria-label="Progress"
-        className="sticky top-0 z-10 mb-6 border-b bg-background pb-6"
+        className="sticky top-0 z-10 mb-6 border-b bg-background pb-6 pt-4"
       >
         <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
           {steps.map((step, index) => (
@@ -330,42 +383,55 @@ const OnboardingPage = () => {
       </nav>
 
       {/* Form */}
-      <div className="mt-6">
+      <div className="mt-6 flex flex-col justify-items-stretch">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {currentStep === 0 && (
               <FormWrapper delta={delta}>
-                <PersonalInfoForm form={form} />
+                <GettingStartedForm form={form} />
               </FormWrapper>
             )}
 
             {currentStep === 1 && (
               <FormWrapper delta={delta}>
-                <CurrentStatusForm form={form} />
+                <PersonalInfoForm form={form} />
               </FormWrapper>
             )}
 
             {currentStep === 2 && (
               <FormWrapper delta={delta}>
-                <VisaPillarForm form={form} />
+                <CurrentStatusForm form={form} />
               </FormWrapper>
             )}
 
             {currentStep === 3 && (
               <FormWrapper delta={delta}>
-                <InlineWidget
+                <VisaPillarForm form={form} />
+              </FormWrapper>
+            )}
+
+            {currentStep === 4 && (
+              <FormWrapper delta={delta}>
+                {/* <InlineWidget
                   styles={{
                     height: "1000px",
                     margin: "-4rem 0px -5rem 0px",
                     padding: "0px",
                   }}
                   url="https://calendly.com/ihrishi/ama-w-hrishi"
-                />
-                {/* <CurrentStatusForm form={form} /> */}
+                /> */}
+                <div className="flex flex-col space-y-2">
+                  <h3 className="text-lg font-bold">
+                    You have completed the onboarding steps.
+                  </h3>
+                  <p className="text-sm">
+                    Click Submit and we will reach out to you within 48hrs
+                  </p>
+                </div>
               </FormWrapper>
             )}
 
-            <div className="mb-10 mt-4 flex w-full justify-end gap-2">
+            <div className="my-4 mt-auto flex w-full justify-end gap-4 py-4">
               <Button
                 type="button"
                 variant={"secondary"}
@@ -379,13 +445,13 @@ const OnboardingPage = () => {
                 onClick={next}
                 // disabled={currentStep === steps.length - 1}
               >
-                {currentStep < 3 ? "Next" : "Submit"}
+                {currentStep < 4 ? "Next" : "Submit"}
               </Button>
             </div>
           </form>
         </Form>
       </div>
-    </div>
+    </ScrollArea>
   );
 };
 
