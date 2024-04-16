@@ -920,6 +920,250 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
           )}
         </div>
       </li>
+
+      {/* Miscellaneous */}
+      <li>
+        <div className="mb-4 flex flex-col gap-3 text-sm">
+          <h3 className="text-lg font-bold">Miscellaneous</h3>
+        </div>
+        <div className="col-span-1">
+          <FormField
+            control={form.control}
+            name="haveVolunteeredOrLed"
+            render={({ field }) => (
+              <FormItem className="flex h-full flex-col justify-between">
+                <FormLabel>
+                  Have you volunteered as a lead or major participant for a
+                  charity organization, government organization, or made any
+                  public service announcements (Letters from the organizations,
+                  press, internet, etc.)? What was your title, performance, and
+                  duties?
+                </FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex space-x-1 "
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="yes" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Yes</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="no" />
+                      </FormControl>
+                      <FormLabel className="font-normal">No</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {form.watch("haveVolunteeredOrLed") === "yes" && (
+            <FormField
+              control={form.control}
+              name="volunteeredOrLedDetails"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Describe in detail with the evidence you have to prove them
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Your deatiled response here"
+                      className="max-w-3xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+        </div>
+        <div className="col-span-1">
+          <FormField
+            control={form.control}
+            name="haveExpertLORSupport"
+            render={({ field }) => (
+              <FormItem className="flex h-full flex-col justify-between">
+                <FormLabel>
+                  Who are the experts in your field that you think can write
+                  strong letters of recommendation / support for you? Try to
+                  think for people that are arguably the best in your narrow
+                  niche field. They could be people that you worked with, or
+                  people don’t know you personally, but are familiar with your
+                  work and its impact. Explain in detail their qualifications
+                  and achievements as well that can be used to argue that they
+                  are considered experts in your field, and what they will be
+                  able to talk about you, and preferably link their LinkedIn URL
+                </FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex space-x-1 "
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="yes" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Yes</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="no" />
+                      </FormControl>
+                      <FormLabel className="font-normal">No</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {form.watch("haveExpertLORSupport") === "yes" && (
+            <FormField
+              control={form.control}
+              name="expertLORSupportDetails"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Describe in detail with the evidence you have to prove them
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Your deatiled response here"
+                      className="max-w-3xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+        </div>
+        <div className="col-span-1">
+          <FormField
+            control={form.control}
+            name="haveYourSpace"
+            render={({ field }) => (
+              <FormItem className="flex h-full flex-col justify-between">
+                <FormLabel>
+                  Is there any place where you are already showing a lot of
+                  thought leadership in your space? I.e., YouTube, LinkedIn,
+                  Blog, etc.
+                </FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex space-x-1 "
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="yes" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Yes</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="no" />
+                      </FormControl>
+                      <FormLabel className="font-normal">No</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {form.watch("haveYourSpace") === "yes" && (
+            <FormField
+              control={form.control}
+              name="yourSpaceDetails"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Describe in detail with the evidence you have to prove them
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Your deatiled response here"
+                      className="max-w-3xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+        </div>
+        <div className="col-span-1">
+          <FormField
+            control={form.control}
+            name="haveWorkedWithPrevailingIssues"
+            render={({ field }) => (
+              <FormItem className="flex h-full flex-col justify-between">
+                <FormLabel>
+                  Does any part of your work directly or indirectly resonate
+                  with prevailing issues of popular attention currently, such as
+                  global warming, housing, data privacy, cybersecurity,
+                  pandemic, supply chain, gender issues, etc.?
+                </FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex space-x-1 "
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="yes" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Yes</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="no" />
+                      </FormControl>
+                      <FormLabel className="font-normal">No</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {form.watch("haveWorkedWithPrevailingIssues") === "yes" && (
+            <FormField
+              control={form.control}
+              name="workedWithPrevailingIssuesDetails"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Describe in detail with the evidence you have to prove them
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Your deatiled response here"
+                      className="max-w-3xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+        </div>
+      </li>
     </ol>
   );
 };

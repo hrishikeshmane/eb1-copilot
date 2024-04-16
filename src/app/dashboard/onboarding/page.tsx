@@ -23,8 +23,7 @@ import GettingStartedForm from "./_components/getting-started-form";
 import useFormPersist from "react-hook-form-persist";
 import { auth } from "@clerk/nextjs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { toast } from "sonner"
-
+import { toast } from "sonner";
 
 const formSchema = z.object({
   // Getting started
@@ -150,6 +149,26 @@ const formSchema = z.object({
     errorMap: () => ({ message: "Select an option" }),
   }),
   commercialSuccessDetails: z.string().optional(),
+
+  haveVolunteeredOrLed: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  volunteeredOrLedDetails: z.string().optional(),
+
+  haveExpertLORSupport: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  expertLORSupportDetails: z.string().optional(),
+
+  haveYourSpace: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  yourSpaceDetails: z.string().optional(),
+
+  haveWorkedWithPrevailingIssues: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  workedWithPrevailingIssuesDetails: z.string().optional(),
 });
 
 export type FormType = z.infer<typeof formSchema>;
@@ -222,6 +241,14 @@ const steps: Step[] = [
       "highCompensationDetails",
       "haveCommercialSuccess",
       "commercialSuccessDetails",
+      "haveVolunteeredOrLed",
+      "volunteeredOrLedDetails",
+      "haveExpertLORSupport",
+      "expertLORSupportDetails",
+      "haveYourSpace",
+      "yourSpaceDetails",
+      "haveWorkedWithPrevailingIssues",
+      "workedWithPrevailingIssuesDetails",
     ],
   },
   { id: "Step 5", name: "Complete", fields: [] },
@@ -285,6 +312,16 @@ const OnboardingPage = () => {
       highCompensationDetails: "" as FormType["highCompensationDetails"],
       haveCommercialSuccess: "" as FormType["haveCommercialSuccess"],
       commercialSuccessDetails: "" as FormType["commercialSuccessDetails"],
+      haveVolunteeredOrLed: "" as FormType["haveVolunteeredOrLed"],
+      volunteeredOrLedDetails: "" as FormType["volunteeredOrLedDetails"],
+      haveExpertLORSupport: "" as FormType["haveExpertLORSupport"],
+      expertLORSupportDetails: "" as FormType["expertLORSupportDetails"],
+      haveYourSpace: "" as FormType["haveYourSpace"],
+      yourSpaceDetails: "" as FormType["yourSpaceDetails"],
+      haveWorkedWithPrevailingIssues:
+        "" as FormType["haveWorkedWithPrevailingIssues"],
+      workedWithPrevailingIssuesDetails:
+        "" as FormType["workedWithPrevailingIssuesDetails"],
 
       // resume: new File([], ""),
       // planToStartBusinessInUS: "" as FormType["planToStartBusinessInUS"],
@@ -320,7 +357,7 @@ const OnboardingPage = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    toast("Your Response has been submitted.")
+    toast("Your Response has been submitted.");
   }
 
   const next = async () => {
