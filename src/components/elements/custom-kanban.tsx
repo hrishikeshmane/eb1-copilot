@@ -2,18 +2,199 @@
 
 import React, { useState, type DragEvent } from "react";
 import { motion } from "framer-motion";
-import { Trash } from "lucide-react";
+import { ListFilterIcon, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { PlusIcon } from "@radix-ui/react-icons";
+import {
+  DragHandleDots2Icon,
+  PlusCircledIcon,
+  PlusIcon,
+} from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Checkbox } from "../ui/checkbox";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Badge } from "../ui/badge";
+
+type IPillars = {
+  value: string;
+  label: string;
+};
+
+const visaPillars: IPillars[] = [
+  {
+    value: "all",
+    label: "All",
+  },
+  {
+    value: "awards",
+    label: "Awards",
+  },
+  {
+    value: "original-contributions",
+    label: "Original Contributions",
+  },
+  {
+    value: "authorship",
+    label: "Authorship",
+  },
+  {
+    value: "judging",
+    label: "Judging",
+  },
+  {
+    value: "press",
+    label: "Press",
+  },
+  {
+    value: "memberships",
+    label: "Memberships",
+  },
+  {
+    value: "critical-role",
+    label: "Critical Role",
+  },
+  {
+    value: "exhibitions",
+    label: "Exhibitions",
+  },
+  {
+    value: "high-remuneration",
+    label: "High Remuneration",
+  },
+  {
+    value: "commercial-success",
+    label: "Commercial Success",
+  },
+];
 
 export const CustomKanban = () => {
   return (
-    <ScrollArea className="h-full w-[calc(100vw-261px)] ">
-      <Board />
-      <ScrollBar orientation="vertical" />
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    <>
+      <ScrollArea className="h-full w-[calc(100vw-261px)] ">
+        <Filterbar />
+        <Board />
+        <ScrollBar orientation="vertical" />
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </>
+  );
+};
+
+const Filterbar = () => {
+  const [open, setOpen] = React.useState(false);
+  const [selectedStatus, setSelectedStatus] = React.useState<IPillars | null>({
+    value: "all",
+    label: "All",
+  });
+
+  return (
+    <div className="sticky left-1 mb-4 flex w-[calc(100vw-290px)] gap-3 border-b p-2 pt-0 text-sm">
+      {/* All Visa fillars here */}
+      <div className="flex items-center gap-2">
+        {/* <p className="text-sm text-muted-foreground">Visa Pillars</p> */}
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              className="-ml-2 flex items-center gap-1"
+              size={"sm"}
+              variant="outline"
+            >
+              {/* {selectedStatus ? <>{selectedStatus.label}</> : <>+ Pillar</>} */}
+              Visa Pillars
+              <PlusIcon />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="p-0" side="right" align="start">
+            <Command>
+              <CommandInput placeholder="Select Pillars..." />
+              <CommandList>
+                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandGroup>
+                  {visaPillars.map((status) => (
+                    <CommandItem
+                      key={status.value}
+                      value={status.value}
+                      className="flex items-center gap-2"
+                      onSelect={(value) => {
+                        setSelectedStatus(
+                          visaPillars.find(
+                            (pillar) => pillar.value === value,
+                          ) || null,
+                        );
+                        setOpen(false);
+                      }}
+                    >
+                      {/* <Checkbox id={status.value} /> */}
+                      {status.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </div>
+      <div className="ml-auto flex gap-2 ">
+        <Button size={"icon"} variant={"ghost"}>
+          <ListFilterIcon size={"16px"} />
+        </Button>
+        {/* <Button size="sm" variant="outline">
+          All
+        </Button>
+        <Button size="sm" variant="outline">
+          Awards
+        </Button>
+        <Button size="sm" variant="outline">
+          Original Contributions
+        </Button>
+        <Button size="sm" variant="outline">
+          Authorship
+        </Button>
+        <Button size="sm" variant="outline">
+          Judging
+        </Button>
+        <Button size="sm" variant="outline">
+          Press
+        </Button>
+        <Button size="sm" variant="outline">
+          Memberships
+        </Button>
+        <Button size="sm" variant="outline">
+          Critical
+        </Button>
+        <Button size="sm" variant="outline">
+          Exhibitions
+        </Button>
+        <Button size="sm" variant="outline">
+          High Remuneration
+        </Button>
+        <Button size="sm" variant="outline">
+          Commercial Success
+        </Button> */}
+      </div>
+    </div>
   );
 };
 
@@ -205,7 +386,9 @@ const Column = ({
         }`}
       >
         {filteredCards.map((c) => {
-          return <Card key={c.id} {...c} handleDragStart={handleDragStart} />;
+          return (
+            <KanbanCard key={c.id} {...c} handleDragStart={handleDragStart} />
+          );
         })}
         <DropIndicator beforeId={null} column={column} />
         <AddCard column={column} setCards={setCards} />
@@ -214,18 +397,25 @@ const Column = ({
   );
 };
 
-const Card = ({
+const KanbanCard = ({
   title,
   id,
   column,
   handleDragStart,
+  pillars,
 }: {
   title: string;
   id: string;
   column: string;
+  pillars: string[];
   handleDragStart: (
     e: DragEvent<HTMLDivElement>,
-    { title, id, column }: { title: string; id: string; column: string },
+    {
+      title,
+      id,
+      column,
+      pillars,
+    }: { title: string; id: string; column: string; pillars: string[] },
   ) => void;
 }) => {
   return (
@@ -241,11 +431,91 @@ const Card = ({
             title,
             id,
             column,
+            pillars,
           })
         }
-        className="cursor-grab rounded border bg-card p-3 active:cursor-grabbing"
+        className="relative cursor-pointer rounded border bg-card p-3 active:cursor-grabbing"
       >
-        <p className="text-sm">{title}</p>
+        <Sheet>
+          <SheetTrigger asChild>
+            <div>
+              <DragHandleDots2Icon className="absolute left-2 top-3.5 -ml-1 h-4 w-4" />
+              <div className="flex pl-3">
+                <p className="text-sm">{title}</p>
+              </div>
+              <div className="mt-1 flex flex-wrap gap-1 pl-3">
+                {pillars.map((pillar) => (
+                  <Badge
+                    variant="secondary"
+                    className="font-mono font-light"
+                    key={pillar}
+                  >
+                    {pillar}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </SheetTrigger>
+          <SheetContent className="flex h-full flex-col sm:w-[650px] sm:max-w-[650px]">
+            <SheetHeader>
+              <>
+                <SheetTitle>{title}</SheetTitle>
+                <SheetDescription className="flex flex-col gap-2 border-b pb-2">
+                  <div className="grid grid-cols-[78px_1fr] items-center gap-3">
+                    <p className="">Visa Pillars:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {pillars.map((pillar) => (
+                        <Badge
+                          className="font-mono font-light"
+                          variant="secondary"
+                          key={pillar}
+                        >
+                          {pillar}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-[78px_1fr] items-center gap-3">
+                    <p className="">Assign:</p>
+                    <div className="flex flex-wrap gap-1">
+                      <p>Username</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-[78px_1fr] items-center gap-3">
+                    <p className="">Status:</p>
+                    <div className="flex flex-wrap gap-1">
+                      <p>{column}</p>
+                    </div>
+                  </div>
+                </SheetDescription>
+              </>
+            </SheetHeader>
+            <div>
+              {/* <p className="font-semibold">{title}</p> */}
+              <div className="mt-1 flex flex-wrap gap-1">
+                {/* {pillars.map((pillar) => (
+                  <Badge
+                    className="font-mono font-light"
+                    variant="secondary"
+                    key={pillar}
+                  >
+                    {pillar}
+                  </Badge>
+                ))} */}
+              </div>
+            </div>
+            <SheetFooter>
+              <div className="mt-auto flex gap-2">
+                <Button size="sm" variant="outline">
+                  Discard
+                </Button>
+                <Button size="sm">Save</Button>
+              </div>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
       </motion.div>
     </>
   );
@@ -326,6 +596,7 @@ const AddCard = ({
       column,
       title: text.trim(),
       id: Math.random().toString(),
+      pillars: [],
     };
 
     setCards((pv) => [...pv, newCard]);
@@ -341,7 +612,7 @@ const AddCard = ({
             onChange={(e) => setText(e.target.value)}
             autoFocus
             placeholder="Add new task..."
-            className="w-full rounded border border-primary bg-primary/20 p-3 text-sm placeholder-primary/80 focus:outline-0"
+            className="w-full rounded border border-primary bg-primary/20 p-3 text-sm placeholder-muted-foreground focus:outline-0 dark:placeholder-primary/80"
           />
           <div className="mt-1 flex items-center justify-end gap-1.5">
             <Button
@@ -382,39 +653,79 @@ export type IKanbanCard = {
   title: string;
   id: string;
   column: string;
+  pillars: string[];
 };
 
 const DEFAULT_CARDS: IKanbanCard[] = [
   // BACKLOG
-  { title: "Look into render bug in dashboard", id: "1", column: "backlog" },
-  { title: "SOX compliance checklist", id: "2", column: "backlog" },
-  { title: "[SPIKE] Migrate to Azure", id: "3", column: "backlog" },
-  { title: "Document Notifications service", id: "4", column: "backlog" },
-  // TODO
+  {
+    title: "Look into render bug in dashboard",
+    id: "1",
+    column: "backlog",
+    pillars: ["awards", "original-contributions"],
+  },
+  {
+    title: "SOX compliance checklist",
+    id: "2",
+    column: "backlog",
+    pillars: ["original-contributions", "authorship"],
+  },
+  {
+    title: "[SPIKE] Migrate to Azure",
+    id: "3",
+    column: "backlog",
+    pillars: ["awards"],
+  },
+  {
+    title: "Document Notifications service",
+    id: "4",
+    column: "backlog",
+    pillars: ["awards"],
+  },
+  // TODO ,pillars: ['awards']
   {
     title: "Research DB options for new microservice",
     id: "5",
     column: "todo",
+    pillars: ["awards"],
   },
-  { title: "Postmortem for outage", id: "6", column: "todo" },
-  { title: "Sync with product on Q3 roadmap", id: "7", column: "todo" },
+  {
+    title: "Postmortem for outage",
+    id: "6",
+    column: "todo",
+    pillars: ["awards"],
+  },
+  {
+    title: "Sync with product on Q3 roadmap",
+    id: "7",
+    column: "todo",
+    pillars: ["awards"],
+  },
   // DOING
   {
     title: "Refactor context providers to use Zustand",
     id: "8",
     column: "doing",
+    pillars: ["awards"],
   },
-  { title: "Add logging to daily CRON", id: "9", column: "doing" },
+  {
+    title: "Add logging to daily CRON",
+    id: "9",
+    column: "doing",
+    pillars: ["awards"],
+  },
   // REVIEW
   {
     title: "Set up DD dashboards for Lambda listener",
     id: "11",
     column: "review",
+    pillars: ["awards"],
   },
   // DONE
   {
     title: "Set up DD dashboards for Lambda listener",
     id: "10",
     column: "done",
+    pillars: ["awards"],
   },
 ];
