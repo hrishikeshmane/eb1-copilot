@@ -347,7 +347,7 @@ const OnboardingPage = () => {
   });
 
   const [previousStep, setPreviousStep] = useState(0);
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(0);
   const delta = currentStep - previousStep;
 
   const processForm: SubmitHandler<FormType> = (data) => {
