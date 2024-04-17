@@ -44,7 +44,7 @@ import { getLableForPillars } from "@/lib/utils";
 export const CustomKanban = () => {
   return (
     <>
-      <ScrollArea className="h-full w-[calc(100vw-261px)] ">
+      <ScrollArea className="h-full w-[calc(100vw-30px)] md:w-[calc(100vw-261px)] ">
         <Filterbar />
         <Board />
         <ScrollBar orientation="vertical" />
@@ -60,7 +60,7 @@ const Filterbar = () => {
     React.useState<IPillars[]>(visaPillars);
 
   return (
-    <div className="sticky left-1 mb-4 flex w-[calc(100vw-290px)] gap-3 border-b p-2 pt-0 text-sm">
+    <div className="sticky left-1 mb-4 flex w-[calc(100vw-30px)] gap-3 border-b p-2 pt-0 text-sm md:w-[calc(100vw-290px)]">
       {/* All Visa fillars here */}
       <div className="flex items-center gap-2">
         {/* <p className="text-sm text-muted-foreground">Visa Pillars</p> */}

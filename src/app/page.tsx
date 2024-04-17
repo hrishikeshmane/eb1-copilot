@@ -267,7 +267,7 @@ export default function Home() {
           <div className="relative z-10 flex flex-col items-center justify-center gap-6">
             <div className="z-10 flex flex-col items-center justify-center gap-6">
               <div className=" mx-2 -skew-x-2 text-center text-4xl font-bold md:text-5xl">
-                Start your Green Card Journey Now!
+                Start Your Green Card Journey Now!
               </div>
 
               <div className="flex scale-[115%] gap-4">

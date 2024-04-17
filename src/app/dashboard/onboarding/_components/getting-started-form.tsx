@@ -16,7 +16,7 @@ type SubFormProps = {
 
 const GettingStartedForm = ({ form }: SubFormProps) => {
   return (
-    <div className="mx-10 flex flex-col gap-3">
+    <div className="mx-1 flex flex-col gap-3">
       <div className="flex flex-col gap-3 text-sm">
         <h3 className="text-lg font-bold">
           This form takes around 30 minutes to complete. You might need a strong

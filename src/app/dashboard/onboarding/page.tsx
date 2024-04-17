@@ -177,7 +177,7 @@ const OnboardingPage = () => {
       {/* steps */}
       <nav
         aria-label="Progress"
-        className="sticky top-0 z-10 mb-6 border-b bg-background pb-6 pt-4"
+        className="top-0 z-10 mb-6 border-b bg-background pb-6 pt-4 sm:sticky"
       >
         <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
           {steps.map((step, index) => (
