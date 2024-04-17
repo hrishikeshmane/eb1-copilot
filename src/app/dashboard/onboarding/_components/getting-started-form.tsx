@@ -1,6 +1,5 @@
 import React from "react";
 import { type UseFormReturn } from "react-hook-form";
-import { type FormType } from "../page";
 import {
   FormControl,
   FormField,
@@ -9,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
+import { type FormType } from "./form-utils";
 
 type SubFormProps = {
   form: UseFormReturn<FormType>;

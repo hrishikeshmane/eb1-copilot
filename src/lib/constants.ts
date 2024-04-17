@@ -54,8 +54,20 @@ export const DESCRIBES_YOU: describesYouOptions[] = [
   { label: "Entrepreneur", value: "entrepreneur" },
 ];
 
+export type VISA_PILLARS =
+  | "awards"
+  | "original-contributions"
+  | "authorship"
+  | "judging"
+  | "press"
+  | "memberships"
+  | "critical-role"
+  | "exhibitions"
+  | "high-remuneration"
+  | "commercial-success";
+
 export type IPillars = {
-  value: string;
+  value: VISA_PILLARS;
   label: string;
 };
 

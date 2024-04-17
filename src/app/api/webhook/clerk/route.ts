@@ -4,6 +4,7 @@ import { type WebhookEvent } from "@clerk/nextjs/server";
 import { clerkClient } from "@clerk/nextjs";
 import { db } from "@/server/db";
 import { env } from "@/env";
+import { users } from "@/server/db/schema";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = env.WEBHOOK_SECRET;
@@ -65,39 +66,23 @@ export async function POST(req: Request) {
       },
     });
 
-    // const customer: Stripe.Customer = await stripe.customers.create({
-    //   email: email_addresses[0].email_address,
-    // });
+    await db.insert(users).values({
+      userId: id,
+      role: "customer",
+      onBoarded: false,
+    });
+  }
 
-    //     await db.transaction(async (tx) => {
-    //       await tx
-    //         .insert(users)
-    //         .values({
-    //           userId: id,
-    //           defaultResumeId: "placeholder default resume id",
-    //         })
-    //         .onConflictDoNothing();
+  if (eventType === "user.updated") {
+    const { id } = evt.data;
+    const publicMetadata = evt.data
+      .public_metadata as CustomJwtSessionClaims["metadata"];
 
-    //       const resume = await tx
-    //         .insert(resumes)
-    //         .values({
-    //           userId: id,
-    //           content: newResumeObj,
-    //           resumeName: "Default Resume",
-    //         })
-    //         .returning();
-
-    //       await tx.insert(credits).values({
-    //         userId: id,
-    //         amount: NEW_USER_CREDITS,
-    //         memo: "New user credits",
-    //       });
-
-    //       await tx.update(users).set({
-    //         totalCredits: NEW_USER_CREDITS,
-    //         defaultResumeId: resume[0].resumeId,
-    //       });
-    //     });
+    db.update(users).set({
+      role: publicMetadata.role,
+      onBoarded: publicMetadata.onBoarded,
+      updatedAt: new Date(),
+    });
   }
 
   return new Response("", { status: 200 });

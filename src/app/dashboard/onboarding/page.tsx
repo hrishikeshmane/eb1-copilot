@@ -24,235 +24,14 @@ import useFormPersist from "react-hook-form-persist";
 import { auth } from "@clerk/nextjs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
-
-const formSchema = z.object({
-  // Getting started
-  consent: z.boolean(),
-
-  // Personal Information
-  fullName: z.string().min(2, {
-    message: "Full Name is required.",
-  }),
-  email: z
-    .string()
-    .min(2, {
-      message: "Email is required.",
-    })
-    .email(),
-  phone: z.string().min(10, {
-    message: "Phone number must be at least 10 characters.",
-  }),
-  linkedIn: z.string().url(),
-  highestEducation: z.enum(
-    ["phd", "masters", "bachelors", "noDegree", "other"],
-    {
-      errorMap: () => ({ message: "Select an option" }),
-    },
-  ),
-  major: z.string().min(2, {
-    message: "Your Major is required.",
-  }),
-  brithCountry: z.string().min(2, {
-    message: "Your Birth Country is required.",
-  }),
-  nationalityCountry: z.string().min(2, {
-    message: "Your National Country is required.",
-  }),
-  hearAboutUs: z.enum(["socialMedia", "friend", "onlineSearch", "other"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  // resume: z
-  //   .instanceof(File)
-  //   .refine((file) => {
-  //     return !file || file?.size <= MAX_UPLOAD_SIZE;
-  //   }, "File size must be less than 6MB")
-  //   .refine((file) => {
-  //     return ACCEPTED_FILE_TYPES.includes(file?.type);
-  //   }, "File must be a PDF"),
-
-  // Current Status
-  currentlyInUS: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  everBeenToUS: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  everAppliedForGreenCard: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  everBeenJ1OrJ2: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  haveCriminalRecord: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  addFamilyMembers: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  currentEmployerInUS: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  interestedIn: z.enum(["o1A", "o1b", "eb1a", "notSure", "other"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  fieldExpertIn: z.string().min(2, {
-    message: "Your field of expertise is required.",
-  }),
-
-  // Visa Pillars
-  haveAwards: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  awardDetails: z.string().optional(),
-
-  haveOriginalContribution: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  originalContributionDetails: z.string().optional(),
-
-  haveAuthored: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  authoredDetails: z.string().optional(),
-
-  haveJudged: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  judgedDetails: z.string().optional(),
-
-  havePress: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  pressDetails: z.string().optional(),
-
-  haveMembership: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  membershipDetails: z.string().optional(),
-
-  haveCriticalCapacity: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  criticalCapacityDetails: z.string().optional(),
-
-  haveExhibited: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  exhibitedDetails: z.string().optional(),
-
-  haveHighCompensation: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  highCompensationDetails: z.string().optional(),
-
-  haveCommercialSuccess: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  commercialSuccessDetails: z.string().optional(),
-
-  haveVolunteeredOrLed: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  volunteeredOrLedDetails: z.string().optional(),
-
-  haveExpertLORSupport: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  expertLORSupportDetails: z.string().optional(),
-
-  haveYourSpace: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  yourSpaceDetails: z.string().optional(),
-
-  haveWorkedWithPrevailingIssues: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  workedWithPrevailingIssuesDetails: z.string().optional(),
-});
-
-export type FormType = z.infer<typeof formSchema>;
-export type FormFileds = keyof FormType;
-
-type Step = {
-  id: string;
-  name: string;
-  fields: FormFileds[] | [];
-};
-
-const steps: Step[] = [
-  {
-    id: "Step 1",
-    name: "Getting Started",
-    fields: ["consent"],
-  },
-  {
-    id: "Step 2",
-    name: "Personal Information",
-    fields: [
-      "fullName",
-      "email",
-      "phone",
-      "linkedIn",
-      // "resume",
-      "highestEducation",
-      "major",
-      "brithCountry",
-      "nationalityCountry",
-      "hearAboutUs",
-    ],
-  },
-  {
-    id: "Step 3",
-    name: "Current Status",
-    fields: [
-      "currentlyInUS",
-      "everBeenToUS",
-      "everAppliedForGreenCard",
-      "everBeenJ1OrJ2",
-      "haveCriminalRecord",
-      "addFamilyMembers",
-      "currentEmployerInUS",
-      "interestedIn",
-      "fieldExpertIn",
-    ],
-  },
-  {
-    id: "Step 4",
-    name: "Visa Pillars",
-    fields: [
-      "haveAwards",
-      "awardDetails",
-      "haveOriginalContribution",
-      "originalContributionDetails",
-      "haveAuthored",
-      "authoredDetails",
-      "haveJudged",
-      "judgedDetails",
-      "havePress",
-      "pressDetails",
-      "haveMembership",
-      "membershipDetails",
-      "haveCriticalCapacity",
-      "criticalCapacityDetails",
-      "haveExhibited",
-      "exhibitedDetails",
-      "haveHighCompensation",
-      "highCompensationDetails",
-      "haveCommercialSuccess",
-      "commercialSuccessDetails",
-      "haveVolunteeredOrLed",
-      "volunteeredOrLedDetails",
-      "haveExpertLORSupport",
-      "expertLORSupportDetails",
-      "haveYourSpace",
-      "yourSpaceDetails",
-      "haveWorkedWithPrevailingIssues",
-      "workedWithPrevailingIssuesDetails",
-    ],
-  },
-  { id: "Step 5", name: "Complete", fields: [] },
-];
+import { api } from "@/trpc/react";
+import {
+  type Step,
+  steps,
+  formSchema,
+  FormType,
+  FormFileds,
+} from "./_components/form-utils";
 
 const OnboardingPage = () => {
   useCalendlyEventListener({
@@ -350,15 +129,26 @@ const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const delta = currentStep - previousStep;
 
-  const processForm: SubmitHandler<FormType> = (data) => {
-    console.log(data);
-    form.reset();
-  };
+  const addUserMutaion = api.userDetails.addUser.useMutation({
+    onSuccess: () => {
+      toast.success("Your Response has been submitted.");
+      // await clerkClient.users.updateUserMetadata(userId, {
+      //   publicMetadata:{
+      //     "example": "metadata"
+      //   }
+      // });
+    },
+    onError: (error) => {
+      toast.error("An error occured- " + error.message);
+      console.error("Error submitting onboarding form", error);
+    },
+  });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast("Your Response has been submitted.");
-  }
+  const processForm: SubmitHandler<FormType> = async (data) => {
+    // TODO: Add logic to see if everything in each form step is validated
+    const msg = await addUserMutaion.mutate({ formData: data });
+    console.log("msg", msg);
+  };
 
   const next = async () => {
     const fields = steps[currentStep]?.fields;
@@ -425,7 +215,7 @@ const OnboardingPage = () => {
       {/* Form */}
       <div className="mt-6 flex flex-col justify-items-stretch">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(processForm)}>
             {currentStep === 0 && (
               <FormWrapper delta={delta}>
                 <GettingStartedForm form={form} />
