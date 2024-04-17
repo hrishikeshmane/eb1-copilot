@@ -1,5 +1,6 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { userDetailsRouter } from "./routers/user-details";
+import { waitlistRouter } from "./routers/waitlist";
 
 /**
  * This is the primary router for your server.
@@ -7,6 +8,7 @@ import { userDetailsRouter } from "./routers/user-details";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  waitlist: waitlistRouter,
   userDetails: userDetailsRouter,
 });
 
