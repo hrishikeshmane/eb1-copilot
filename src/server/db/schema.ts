@@ -3,7 +3,6 @@
 
 import { sql } from "drizzle-orm";
 import {
-  index,
   int,
   sqliteTableCreator,
   text,
@@ -31,9 +30,11 @@ export const users = createTable("users", {
   }).notNull(),
   onBoarded: integer("onBoarded", { mode: "boolean" }).notNull(),
   createdAt: int("createdAt", { mode: "timestamp" })
-    .default(new Date())
+    .default(sql`(current_timestamp)`)
     .notNull(),
-  updatedAt: int("updatedAt", { mode: "timestamp" }),
+  updatedAt: int("updatedAt", { mode: "timestamp" }).default(
+    sql`(current_timestamp)`,
+  ),
 });
 
 export const userInfo = createTable("userInfo", {
@@ -128,11 +129,11 @@ export const userInfo = createTable("userInfo", {
   // }),
 
   createdAt: int("createdAt", { mode: "timestamp" })
-    .default(new Date())
+    .default(sql`(current_timestamp)`)
     .notNull(),
-  updatedAt: int("updatedAt", { mode: "timestamp" })
-    .default(new Date())
-    .notNull(),
+  updatedAt: int("updatedAt", { mode: "timestamp" }).default(
+    sql`(current_timestamp)`,
+  ),
 });
 
 export const userVisaPillarDetails = createTable(

@@ -28,7 +28,7 @@ const Header = () => {
         </Link>
       </div>
       <div className="ml-auto hidden items-center space-x-4 sm:flex">
-        <GetStartedButton />
+        {!process.env.NEXT_PUBLIC_WAITLIST && <GetStartedButton />}
         <ModeToggle />
       </div>
       <div className="ml-auto sm:hidden">
@@ -55,9 +55,11 @@ const Header = () => {
                 Pricing
               </Link>
 
-              <div className="my-2 flex items-center space-x-4">
-                <GetStartedButton className="w-full" />
-              </div>
+              {!process.env.NEXT_PUBLIC_WAITLIST && (
+                <div className="my-2 flex items-center space-x-4">
+                  <GetStartedButton className="w-full" />
+                </div>
+              )}
             </nav>
           </SheetContent>
         </Sheet>

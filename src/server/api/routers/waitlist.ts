@@ -13,8 +13,11 @@ export const waitlistRouter = createTRPCRouter({
   addToWaitlist: publicProcedure
     .input(z.object({ email: z.string() }))
     .mutation(async ({ input }) => {
-      await db.insert(waitlist).values({
-        email: input.email,
-      });
+      await db
+        .insert(waitlist)
+        .values({
+          email: input.email,
+        })
+        .onConflictDoNothing();
     }),
 });

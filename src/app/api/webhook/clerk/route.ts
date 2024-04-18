@@ -70,6 +70,8 @@ export async function POST(req: Request) {
       userId: id,
       role: "customer",
       onBoarded: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
   }
 
