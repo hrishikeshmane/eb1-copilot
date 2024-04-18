@@ -16,14 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { type UseFormReturn } from "react-hook-form";
-import { type FormType } from "../page";
+import { type FormType } from "./form-utils";
 import {
   EDUCATION,
   type EducationOptions,
   HEAR_ABOUT_US,
   type HearAboutUsOption,
 } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 
 type SubFormProps = {
   form: UseFormReturn<FormType>;
@@ -229,30 +228,6 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           }}
         />
       </li> */}
-
-      <li className="col-span-full">
-        <FormField
-          control={form.control}
-          name="consent"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-3 ">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>
-                  I consent to the use of my details to receive information
-                  about currently offered services and promotions.
-                </FormLabel>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-      </li>
     </ul>
   );
 };

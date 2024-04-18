@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { Masonry } from "masonic";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -77,6 +78,16 @@ const testimonials = [
 ];
 
 const MasonryTestimonials = () => {
+  const [isServerSide, setIsServerSide] = React.useState(true);
+
+  React.useEffect(() => {
+    setIsServerSide(false);
+  }, []);
+
+  if (isServerSide) {
+    return;
+  }
+
   return (
     <div>
       <Masonry

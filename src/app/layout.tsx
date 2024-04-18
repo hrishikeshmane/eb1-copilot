@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 import { ThemeProvider } from "@/components/elements/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Green Card Inc.",
+  title: "Greencard Inc.",
   description: "Your one-stop shop for all things US Green Card needs",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
@@ -45,7 +46,10 @@ export default function RootLayout({
               },
             }}
           >
-            <TRPCReactProvider>{children}</TRPCReactProvider>
+            <TRPCReactProvider>
+              {children}
+              <Toaster />
+            </TRPCReactProvider>
           </ClerkProvider>
         </ThemeProvider>
       </body>

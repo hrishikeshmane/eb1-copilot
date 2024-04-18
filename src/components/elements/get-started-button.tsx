@@ -5,14 +5,18 @@ import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
 
-const GetStartedButton = () => {
+const GetStartedButton = ({ className }: { className?: string }) => {
   return (
     <>
       <SignedIn>
         <Link
           href="/dashboard"
-          className="group inline-flex h-9 items-center justify-center gap-1 whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          className={cn(
+            "group inline-flex h-9 items-center justify-center gap-1 whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+            className,
+          )}
         >
           Dashboard
           <ArrowRightIcon className="transform transition-transform duration-200 ease-in-out group-hover:translate-x-1" />
