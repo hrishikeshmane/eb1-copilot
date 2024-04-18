@@ -16,13 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { type UseFormReturn } from "react-hook-form";
-import { type FormType } from "../page";
 import {
   BOOLEAN_RESPONSES,
   INTRESTED_IN,
   type intrestedInOptions,
   type BooleanOption,
 } from "@/lib/constants";
+import { type FormType } from "./form-utils";
 
 type SubFormProps = {
   form: UseFormReturn<FormType>;
