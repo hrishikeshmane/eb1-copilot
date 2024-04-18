@@ -132,6 +132,7 @@ const OnboardingPage = () => {
   const addUserMutaion = api.userDetails.addUser.useMutation({
     onSuccess: () => {
       toast.success("Your Response has been submitted.");
+      // TODO: update metadata
       // await clerkClient.users.updateUserMetadata(userId, {
       //   publicMetadata:{
       //     "example": "metadata"
@@ -213,6 +214,7 @@ const OnboardingPage = () => {
       </nav>
 
       {/* Form */}
+      {/*  TODO: only display if not onbarded */}
       <div className="mt-6 flex flex-col justify-items-stretch">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(processForm)}>
