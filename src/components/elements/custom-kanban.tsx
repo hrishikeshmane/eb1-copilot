@@ -6,6 +6,7 @@ import { ListFilterIcon, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import {
   DragHandleDots2Icon,
+  MixerHorizontalIcon,
   PlusCircledIcon,
   PlusIcon,
 } from "@radix-ui/react-icons";
@@ -36,63 +37,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Badge } from "../ui/badge";
-
-type IPillars = {
-  value: string;
-  label: string;
-};
-
-const visaPillars: IPillars[] = [
-  {
-    value: "all",
-    label: "All",
-  },
-  {
-    value: "awards",
-    label: "Awards",
-  },
-  {
-    value: "original-contributions",
-    label: "Original Contributions",
-  },
-  {
-    value: "authorship",
-    label: "Authorship",
-  },
-  {
-    value: "judging",
-    label: "Judging",
-  },
-  {
-    value: "press",
-    label: "Press",
-  },
-  {
-    value: "memberships",
-    label: "Memberships",
-  },
-  {
-    value: "critical-role",
-    label: "Critical Role",
-  },
-  {
-    value: "exhibitions",
-    label: "Exhibitions",
-  },
-  {
-    value: "high-remuneration",
-    label: "High Remuneration",
-  },
-  {
-    value: "commercial-success",
-    label: "Commercial Success",
-  },
-];
+import { Separator } from "../ui/separator";
+import { IPillars, visaPillars } from "@/lib/constants";
+import { getLableForPillars } from "@/lib/utils";
 
 export const CustomKanban = () => {
   return (
     <>
-      <ScrollArea className="h-full w-[calc(100vw-261px)] ">
+      <ScrollArea className="h-full w-[calc(100vw-30px)] md:w-[calc(100vw-261px)] ">
         <Filterbar />
         <Board />
         <ScrollBar orientation="vertical" />
@@ -103,27 +55,43 @@ export const CustomKanban = () => {
 };
 
 const Filterbar = () => {
-  const [open, setOpen] = React.useState(false);
-  const [selectedStatus, setSelectedStatus] = React.useState<IPillars | null>({
-    value: "all",
-    label: "All",
-  });
+  const [openVisaFilter, setOpenVisaFilter] = React.useState(false);
+  const [selectedPillars, setSelectedPillars] =
+    React.useState<IPillars[]>(visaPillars);
 
   return (
-    <div className="sticky left-1 mb-4 flex w-[calc(100vw-290px)] gap-3 border-b p-2 pt-0 text-sm">
+    <div className="sticky left-1 mb-4 flex w-[calc(100vw-30px)] gap-3 border-b p-2 pt-0 text-sm md:w-[calc(100vw-290px)]">
       {/* All Visa fillars here */}
       <div className="flex items-center gap-2">
         {/* <p className="text-sm text-muted-foreground">Visa Pillars</p> */}
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={openVisaFilter} onOpenChange={setOpenVisaFilter}>
           <PopoverTrigger asChild>
             <Button
-              className="-ml-2 flex items-center gap-1"
+              className="-ml-2 flex items-center gap-1 pr-1"
               size={"sm"}
               variant="outline"
             >
-              {/* {selectedStatus ? <>{selectedStatus.label}</> : <>+ Pillar</>} */}
+              <PlusIcon className="" />
               Visa Pillars
-              <PlusIcon />
+              <Separator orientation="vertical" className="ml-2" />
+              <div className="flex max-w-[30rem] gap-1 overflow-x-hidden font-mono">
+                {selectedPillars.length == 10 && (
+                  <div className="rounded-sm bg-secondary px-2 py-1">
+                    All Selected
+                  </div>
+                )}
+                {selectedPillars.length >= 4 && selectedPillars.length < 10 && (
+                  <div className="rounded-sm bg-secondary px-2 py-1">
+                    {selectedPillars.length} Selected
+                  </div>
+                )}
+                {selectedPillars.length < 4 &&
+                  selectedPillars.map((vp) => (
+                    <div className="rounded-sm bg-secondary px-2 py-1">
+                      {vp.label}
+                    </div>
+                  ))}
+              </div>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="p-0" side="right" align="start">
@@ -132,21 +100,46 @@ const Filterbar = () => {
               <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
                 <CommandGroup>
+                  <CommandItem onSelect={() => setSelectedPillars(visaPillars)}>
+                    --Select All--
+                  </CommandItem>
                   {visaPillars.map((status) => (
                     <CommandItem
                       key={status.value}
                       value={status.value}
                       className="flex items-center gap-2"
                       onSelect={(value) => {
-                        setSelectedStatus(
-                          visaPillars.find(
-                            (pillar) => pillar.value === value,
-                          ) || null,
+                        const newPillar = visaPillars.find(
+                          (pillar) => pillar.value === value,
                         );
-                        setOpen(false);
+                        if (!newPillar) return;
+
+                        // if new pillar is already in the selectedPillars, remove it
+                        if (
+                          selectedPillars.some(
+                            (pillar) => pillar.value === newPillar.value,
+                          )
+                        ) {
+                          setSelectedPillars((prevState) =>
+                            prevState.filter(
+                              (pillar) => pillar.value !== newPillar.value,
+                            ),
+                          );
+                          return;
+                        }
+
+                        setSelectedPillars((prevState) => [
+                          ...prevState,
+                          newPillar,
+                        ]);
                       }}
                     >
-                      {/* <Checkbox id={status.value} /> */}
+                      <Checkbox
+                        id={status.value}
+                        checked={selectedPillars.some(
+                          (pillar) => pillar.value === status.value,
+                        )}
+                      />
                       {status.label}
                     </CommandItem>
                   ))}
@@ -158,41 +151,8 @@ const Filterbar = () => {
       </div>
       <div className="ml-auto flex gap-2 ">
         <Button size={"icon"} variant={"ghost"}>
-          <ListFilterIcon size={"16px"} />
+          <MixerHorizontalIcon />
         </Button>
-        {/* <Button size="sm" variant="outline">
-          All
-        </Button>
-        <Button size="sm" variant="outline">
-          Awards
-        </Button>
-        <Button size="sm" variant="outline">
-          Original Contributions
-        </Button>
-        <Button size="sm" variant="outline">
-          Authorship
-        </Button>
-        <Button size="sm" variant="outline">
-          Judging
-        </Button>
-        <Button size="sm" variant="outline">
-          Press
-        </Button>
-        <Button size="sm" variant="outline">
-          Memberships
-        </Button>
-        <Button size="sm" variant="outline">
-          Critical
-        </Button>
-        <Button size="sm" variant="outline">
-          Exhibitions
-        </Button>
-        <Button size="sm" variant="outline">
-          High Remuneration
-        </Button>
-        <Button size="sm" variant="outline">
-          Commercial Success
-        </Button> */}
       </div>
     </div>
   );
@@ -450,7 +410,7 @@ const KanbanCard = ({
                     className="font-mono font-light"
                     key={pillar}
                   >
-                    {pillar}
+                    {getLableForPillars(pillar)}
                   </Badge>
                 ))}
               </div>
@@ -459,28 +419,33 @@ const KanbanCard = ({
           <SheetContent className="flex h-full flex-col sm:w-[650px] sm:max-w-[650px]">
             <SheetHeader>
               <>
-                <SheetTitle>{title}</SheetTitle>
+                <SheetTitle>
+                  <input
+                    className="inline-block w-full border-none bg-transparent p-0 outline-none ring-0"
+                    value={title}
+                  ></input>
+                </SheetTitle>
                 <SheetDescription className="flex flex-col gap-2 border-b pb-2">
                   <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                     <p className="">Visa Pillars:</p>
-                    <div className="flex flex-wrap gap-1">
+                    <button className="flex flex-wrap gap-1">
                       {pillars.map((pillar) => (
                         <Badge
                           className="font-mono font-light"
                           variant="secondary"
                           key={pillar}
                         >
-                          {pillar}
+                          {getLableForPillars(pillar)}
                         </Badge>
                       ))}
-                    </div>
+                    </button>
                   </div>
 
                   <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                     <p className="">Assign:</p>
-                    <div className="flex flex-wrap gap-1">
+                    <button className="flex flex-wrap gap-1">
                       <p>Username</p>
-                    </div>
+                    </button>
                   </div>
 
                   <div className="grid grid-cols-[78px_1fr] items-center gap-3">

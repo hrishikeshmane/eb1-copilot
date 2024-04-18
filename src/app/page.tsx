@@ -4,20 +4,17 @@ import FeaturedIn from "@/components/elements/featured-in";
 import { LandingBentoGrid } from "@/components/elements/landing-bento-grid";
 import Counter from "@/components/elements/animated-counter";
 import Footer from "@/components/elements/footer";
-
 import { TriangleRightIcon } from "@radix-ui/react-icons";
-
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Testimonials } from "@/components/elements/testimonials";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import MasonryTestimonials from "@/components/elements/masonry-testimonials";
 import PricingGrid from "./pricing/_components/pricing-grid";
+import GetStartedButton from "@/components/elements/get-started-button";
 
 export default function Home() {
   return (
@@ -126,19 +123,7 @@ export default function Home() {
           <div className="absolute inset-0 top-[25%] m-auto block h-fit w-fit -skew-x-2  p-0 text-4xl font-bold">
             <h2 className="text-4xl">
               All visa pillars,
-              <span className="relative block">
-                under one roof
-                {/* <img
-                  alt="logo"
-                  loading="eager"
-                  width="300"
-                  height="100"
-                  decoding="async"
-                  data-nimg="1"
-                  className="absolute right-0 top-[-5px] xl:top-[-10px]"
-                  src="/images/services-scribble.svg"
-                ></img> */}
-              </span>
+              <span className="relative block">under one roof</span>
             </h2>
           </div>
           <div className="flex flex-col">
@@ -181,7 +166,6 @@ export default function Home() {
                     to={77}
                     className="text-6xl font-bold text-primary"
                   />
-                  {/* <span className="text-3xl font-bold">Years</span> */}
                 </div>
                 <p className="text-center font-bold">Total Case</p>
               </div>
@@ -203,13 +187,6 @@ export default function Home() {
         <section className="z-10">
           <LandingBentoGrid />
         </section>
-        {/* 
-        <section className="z-10 my-8 flex w-[99%] flex-col ">
-          <h2 className="mx-auto my-4 mb-4 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
-            Success stories
-          </h2>
-          <VideoCarousel />
-        </section> */}
 
         <section className="z-10 my-8 flex w-[99%] flex-col ">
           <h2 className="mx-auto  my-4 mb-4 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
@@ -218,13 +195,11 @@ export default function Home() {
           <div className="mx-auto w-full p-4">
             <MasonryTestimonials />
           </div>
-
-          {/* <Testimonials /> */}
         </section>
 
-        <div>
+        <section>
           <PricingGrid />
-        </div>
+        </section>
 
         <section className="z-10 my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
           <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-3xl font-bold  md:text-4xl">
@@ -267,16 +242,18 @@ export default function Home() {
           <div className="relative z-10 flex flex-col items-center justify-center gap-6">
             <div className="z-10 flex flex-col items-center justify-center gap-6">
               <div className=" mx-2 -skew-x-2 text-center text-4xl font-bold md:text-5xl">
-                Start your Green Card Journey Now!
+                Start Your Green Card Journey Now!
               </div>
 
-              <div className="flex scale-[115%] gap-4">
-                <Button className="">Get Started</Button>
-                <Button className="flex gap-1" variant={"secondary"}>
-                  Book a free call
-                  <TriangleRightIcon />
-                </Button>
-              </div>
+              {!process.env.NEXT_PUBLIC_WAITLIST && (
+                <div className="flex scale-[115%] gap-4">
+                  <GetStartedButton />
+                  <Button className="flex gap-1" variant={"secondary"}>
+                    Book a free call
+                    <TriangleRightIcon />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </section>

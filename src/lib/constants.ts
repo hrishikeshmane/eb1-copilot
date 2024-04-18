@@ -53,3 +53,67 @@ export const DESCRIBES_YOU: describesYouOptions[] = [
   { label: "Expert in a Field", value: "expert" },
   { label: "Entrepreneur", value: "entrepreneur" },
 ];
+
+export type VISA_PILLARS =
+  | "awards"
+  | "original-contributions"
+  | "authorship"
+  | "judging"
+  | "press"
+  | "memberships"
+  | "critical-role"
+  | "exhibitions"
+  | "high-remuneration"
+  | "commercial-success";
+
+export type IPillars = {
+  value: VISA_PILLARS;
+  label: string;
+};
+
+export const visaPillars: IPillars[] = [
+  // {
+  //   value: "all",
+  //   label: "All",
+  // },
+  {
+    value: "awards",
+    label: "Awards",
+  },
+  {
+    value: "original-contributions",
+    label: "Original Contributions",
+  },
+  {
+    value: "authorship",
+    label: "Authorship",
+  },
+  {
+    value: "judging",
+    label: "Judging",
+  },
+  {
+    value: "press",
+    label: "Press",
+  },
+  {
+    value: "memberships",
+    label: "Memberships",
+  },
+  {
+    value: "critical-role",
+    label: "Critical Role",
+  },
+  {
+    value: "exhibitions",
+    label: "Exhibitions",
+  },
+  {
+    value: "high-remuneration",
+    label: "High Remuneration",
+  },
+  {
+    value: "commercial-success",
+    label: "Commercial Success",
+  },
+];

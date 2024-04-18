@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { type UseFormReturn } from "react-hook-form";
-import { type FormType } from "../page";
+import { type FormType } from "./form-utils";
 import {
   EDUCATION,
   type EducationOptions,

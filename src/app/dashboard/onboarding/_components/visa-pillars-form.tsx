@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form";
 import React from "react";
 import { type UseFormReturn } from "react-hook-form";
-import { type FormType } from "../page";
+import { type FormType } from "./form-utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 
