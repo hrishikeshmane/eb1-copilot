@@ -150,7 +150,7 @@ const FormMessage = React.forwardRef<
 
   if (!body) {
     // return null;
-    return <div className="h-[19.2px] font-medium text-destructive"></div>;
+    return <div className="h-[19.2px]"></div>;
   }
 
   return (
@@ -160,7 +160,7 @@ const FormMessage = React.forwardRef<
       className={cn("text-[0.8rem] font-medium text-destructive", className)}
       {...props}
     >
-      {body}
+      {body ?? "Required"}
     </p>
   );
 });

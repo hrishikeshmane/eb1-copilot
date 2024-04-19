@@ -7,10 +7,143 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import React from "react";
-import { type UseFormReturn } from "react-hook-form";
+import { type UseFormReturn, useFieldArray, useWatch } from "react-hook-form";
 import { type FormType } from "./form-utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { TrashIcon } from "@radix-ui/react-icons";
+import { nanoid } from "nanoid";
+import { cn } from "@/lib/utils";
+import { watch } from "fs";
+
+type CardInputFormProps = {
+  form: UseFormReturn<FormType>;
+  watchFieldName:
+    | "haveAwards"
+    | "haveOriginalContribution"
+    | "haveAuthored"
+    | "haveJudged"
+    | "havePress"
+    | "haveMembership"
+    | "haveCriticalCapacity"
+    | "haveExhibited"
+    | "haveHighCompensation"
+    | "haveCommercialSuccess"
+    | "haveVolunteeredOrLed"
+    | "haveExpertLORSupport"
+    | "haveYourSpace"
+    | "haveWorkedWithPrevailingIssues";
+  fieldName:
+    | "awards"
+    | "originalContribution"
+    | "authored"
+    | "judged"
+    | "press"
+    | "membership"
+    | "criticalCapacity"
+    | "exhibited"
+    | "highCompensation"
+    | "commercialSuccess"
+    | "volunteeredOrLed"
+    | "expertLORSupport"
+    | "yourSpace"
+    | "workedWithPrevailingIssues";
+  addButtonLabel: string;
+};
+
+const CardInputForm = ({
+  form,
+  fieldName,
+  watchFieldName,
+  addButtonLabel,
+}: CardInputFormProps) => {
+  const watchField = useWatch({
+    control: form.control,
+    name: watchFieldName,
+  });
+
+  const arrayFileds = useFieldArray({
+    control: form.control,
+    name: fieldName,
+    rules: {
+      required: "Please add at leaset one item",
+      validate: (value) => value.length < 1,
+    },
+  });
+
+  return (
+    <div className="mb-4">
+      <div className="w-full max-w-4xl">
+        {watchField === "yes" &&
+          arrayFileds.fields.map((arrayElement, index) => {
+            return (
+              <div className="flex gap-2" key={arrayElement.id}>
+                <FormField
+                  control={form.control}
+                  name={`${fieldName}.${index}.title`}
+                  render={({ field }) => (
+                    <FormItem className="flex h-full w-1/2 flex-col justify-between">
+                      <FormLabel>{`${addButtonLabel} Title`}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          // {...form.register(`${fieldName}.${index}.title`)}
+                          // defaultValue={arrayElement.title}
+                          placeholder="Write a short title here"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={`${fieldName}.${index}.detail`}
+                  render={({ field }) => (
+                    <FormItem className="flex h-full w-1/2 flex-col justify-between">
+                      <FormLabel>{`${addButtonLabel} Detail`}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          // {...form.register(`${fieldName}.${index}.detail`)}
+                          // defaultValue={arrayElement.detail}
+                          placeholder="Write a detailed description here"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  variant={"destructive"}
+                  size={"icon"}
+                  className="mt-6"
+                  onClick={() => arrayFileds.remove(index)}
+                >
+                  <TrashIcon />
+                </Button>
+              </div>
+            );
+          })}
+      </div>
+      {watchField === "yes" && (
+        <Button
+          className="w-full max-w-4xl"
+          variant={"secondary"}
+          onClick={() =>
+            arrayFileds.append({ id: nanoid(), title: "", detail: "" })
+          }
+        >
+          {`+ Add ${addButtonLabel}`}
+        </Button>
+      )}
+    </div>
+  );
+};
 
 type SubFormProps = {
   form: UseFormReturn<FormType>;
@@ -126,27 +259,56 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
+
+          {/* <div className="w-full max-w-4xl">
+            {form.watch("haveAwards") === "yes" &&
+              awards.fields.map((award, index) => {
+                return (
+                  <div key={award.id} className="flex w-full gap-2 ">
+                    <label className="w-1/2">
+                      Title
+                      <Textarea
+                        {...form.register(`awards.${index}.title`)}
+                        defaultValue={award.title}
+                      />
+                    </label>
+                    <label className="w-1/2">
+                      Detail
+                      <Textarea
+                        {...form.register(`awards.${index}.detail`)}
+                        defaultValue={award.detail}
+                      />
+                    </label>
+                    <Button
+                      variant={"destructive"}
+                      size={"icon"}
+                      className="mt-5"
+                      onClick={() => awards.remove(index)}
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </div>
+                );
+              })}
+          </div>
           {form.watch("haveAwards") === "yes" && (
-            <FormField
-              control={form.control}
-              name="awardDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your awards and the evidence you have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+            <Button
+              className="my-2 w-full max-w-4xl"
+              variant={"secondary"}
+              onClick={() =>
+                awards.append({ id: nanoid(), title: "", detail: "" })
+              }
+            >
+              + Add Award
+            </Button>
+          )} */}
+
+          <CardInputForm
+            form={form}
+            fieldName="awards"
+            watchFieldName="haveAwards"
+            addButtonLabel="Award"
+          />
         </div>
       </li>
 
@@ -228,7 +390,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveOriginalContribution") === "yes" && (
+          {/* {form.watch("haveOriginalContribution") === "yes" && (
             <FormField
               control={form.control}
               name="originalContributionDetails"
@@ -249,7 +411,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            fieldName="originalContribution"
+            watchFieldName="haveOriginalContribution"
+            addButtonLabel="Original Contribution"
+          />
         </div>
       </li>
 
@@ -316,7 +484,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveAuthored") === "yes" && (
+          {/* {form.watch("haveAuthored") === "yes" && (
             <FormField
               control={form.control}
               name="authoredDetails"
@@ -337,7 +505,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveAuthored"
+            fieldName="authored"
+            addButtonLabel="Original Authorship"
+          />
         </div>
       </li>
 
@@ -413,7 +587,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveJudged") === "yes" && (
+          {/* {form.watch("haveJudged") === "yes" && (
             <FormField
               control={form.control}
               name="judgedDetails"
@@ -434,7 +608,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveJudged"
+            fieldName="judged"
+            addButtonLabel="Judging"
+          />
         </div>
       </li>
 
@@ -496,7 +676,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("havePress") === "yes" && (
+          {/* {form.watch("havePress") === "yes" && (
             <FormField
               control={form.control}
               name="pressDetails"
@@ -517,7 +697,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="havePress"
+            fieldName="press"
+            addButtonLabel="Media Coverage"
+          />
         </div>
       </li>
 
@@ -581,7 +767,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveMembership") === "yes" && (
+          {/* {form.watch("haveMembership") === "yes" && (
             <FormField
               control={form.control}
               name="membershipDetails"
@@ -602,12 +788,17 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveMembership"
+            fieldName="membership"
+            addButtonLabel="Membership"
+          />
         </div>
       </li>
 
-      {/* Critical Role
-       */}
+      {/* Critical Role */}
       <li>
         <div className="mb-4 flex flex-col gap-3 text-sm">
           <h3 className="text-lg font-bold">Critical Role</h3>
@@ -672,7 +863,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveCriticalCapacity") === "yes" && (
+          {/* {form.watch("haveCriticalCapacity") === "yes" && (
             <FormField
               control={form.control}
               name="criticalCapacityDetails"
@@ -693,7 +884,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveCriticalCapacity"
+            fieldName="criticalCapacity"
+            addButtonLabel="Critical Role"
+          />
         </div>
       </li>
 
@@ -747,7 +944,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveExhibited") === "yes" && (
+          {/* {form.watch("haveExhibited") === "yes" && (
             <FormField
               control={form.control}
               name="exhibitedDetails"
@@ -768,7 +965,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveExhibited"
+            fieldName="exhibited"
+            addButtonLabel="Exhibition OR Showcase"
+          />
         </div>
       </li>
 
@@ -824,7 +1027,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveHighCompensation") === "yes" && (
+          {/* {form.watch("haveHighCompensation") === "yes" && (
             <FormField
               control={form.control}
               name="highCompensationDetails"
@@ -845,7 +1048,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveHighCompensation"
+            fieldName="highCompensation"
+            addButtonLabel="High Remuneration"
+          />
         </div>
       </li>
 
@@ -896,7 +1105,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveCommercialSuccess") === "yes" && (
+          {/* {form.watch("haveCommercialSuccess") === "yes" && (
             <FormField
               control={form.control}
               name="commercialSuccessDetails"
@@ -917,7 +1126,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveCommercialSuccess"
+            fieldName="commercialSuccess"
+            addButtonLabel="Commercial Success"
+          />
         </div>
       </li>
 
@@ -963,7 +1178,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveVolunteeredOrLed") === "yes" && (
+          {/* {form.watch("haveVolunteeredOrLed") === "yes" && (
             <FormField
               control={form.control}
               name="volunteeredOrLedDetails"
@@ -982,8 +1197,14 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
-          )}
+            /> 
+              )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveVolunteeredOrLed"
+            fieldName="volunteeredOrLed"
+            addButtonLabel=""
+          />
         </div>
         <div className="col-span-1">
           <FormField
@@ -1026,7 +1247,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveExpertLORSupport") === "yes" && (
+          {/* {form.watch("haveExpertLORSupport") === "yes" && (
             <FormField
               control={form.control}
               name="expertLORSupportDetails"
@@ -1046,7 +1267,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveExpertLORSupport"
+            fieldName="expertLORSupport"
+            addButtonLabel=""
+          />
         </div>
         <div className="col-span-1">
           <FormField
@@ -1083,7 +1310,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveYourSpace") === "yes" && (
+          {/* {form.watch("haveYourSpace") === "yes" && (
             <FormField
               control={form.control}
               name="yourSpaceDetails"
@@ -1103,7 +1330,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveYourSpace"
+            fieldName="yourSpace"
+            addButtonLabel=""
+          />
         </div>
         <div className="col-span-1">
           <FormField
@@ -1141,7 +1374,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {form.watch("haveWorkedWithPrevailingIssues") === "yes" && (
+          {/* {form.watch("haveWorkedWithPrevailingIssues") === "yes" && (
             <FormField
               control={form.control}
               name="workedWithPrevailingIssuesDetails"
@@ -1161,7 +1394,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
+          <CardInputForm
+            form={form}
+            watchFieldName="haveWorkedWithPrevailingIssues"
+            fieldName="workedWithPrevailingIssues"
+            addButtonLabel=""
+          />
         </div>
       </li>
     </ol>
