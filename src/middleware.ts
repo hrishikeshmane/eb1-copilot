@@ -10,8 +10,9 @@ export default authMiddleware({
     "/blog",
     "/faqs",
     "/pricing",
-    "/sign-in",
-    "/sign-up",
+    "/sign-in(.*)",
+    "/sign-up(.*)",
+    "/api/webhook/clerk",
     "/api/webhook(.*)",
   ],
   afterAuth: async (auth, req: NextRequest) => {
@@ -24,9 +25,12 @@ export default authMiddleware({
     // }
 
     // If the user isn't signed in and the route is private, redirect to sign-in
-    if (!userId && !auth.isPublicRoute)
+    if (!userId && !auth.isPublicRoute) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return redirectToSignIn({ returnBackUrl: req.url });
+      // return redirectToSignIn({ returnBackUrl: req.url });
+      url.pathname = "/sign-in";
+      return NextResponse.redirect(url);
+    }
 
     // Catch users who do not have `onboardingComplete: true` in their publicMetadata
     // Redirect them to the /onboading route to complete onboarding
