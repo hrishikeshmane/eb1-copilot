@@ -6,9 +6,9 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  images: {
-    domains: ["https://github.com"],
-  },
+  // images: {
+  //   domains: ["https://github.com"],
+  // },
   typescript: {
     ignoreBuildErrors: true,
   },
