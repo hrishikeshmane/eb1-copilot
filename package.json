@@ -15,7 +15,7 @@
     "clerk:listen": "ngrok http 3000"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.29.10",
+    "@clerk/nextjs": "^4.29.5",
     "@clerk/themes": "^1.7.11",
     "@hookform/resolvers": "^3.3.4",
     "@libsql/client": "^0.6.0",
