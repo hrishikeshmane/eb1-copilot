@@ -50,23 +50,37 @@ export const userDetailsRouter = createTRPCRouter({
           });
 
           // go trough each visa pillar from the form  and insert the data
-          visaPillarFields.forEach(async (pillar: IVisaPillarFields) => {
+          // visaPillarFields.forEach(async (pillar: IVisaPillarFields) => {
+          //   if (input.formData[pillar.key] === "yes") {
+          //     const detailsForm = input.formData[pillar.detailsBlob];
+
+          //     detailsForm?.forEach(async (form) => {
+          //       await tx.insert(userVisaPillarDetails).values({
+          //         id: form.id,
+          //         userId: ctx.session.userId,
+          //         pillar: pillar.pillar,
+          //         title: form.title,
+          //         detail: form.detail,
+          //       });
+          //     });
+          //   }
+          // });
+
+          // convert above foreach to normal for loop
+          for (const pillar of visaPillarFields) {
             if (input.formData[pillar.key] === "yes") {
               const detailsForm = input.formData[pillar.detailsBlob];
-
-              detailsForm?.forEach(async (form) => {
+              for (const form of detailsForm ?? []) {
                 await tx.insert(userVisaPillarDetails).values({
                   id: form.id,
                   userId: ctx.session.userId,
                   pillar: pillar.pillar,
                   title: form.title,
                   detail: form.detail,
-                  // details: input.formData[pillar.detailsField] ?? "",
-                  // details: input.formData[pillar.detailsBlob]!,
                 });
-              });
+              }
             }
-          });
+          }
 
           // update the user onboarding status
           const publicMetaData = ctx.session.sessionClaims.metadata;

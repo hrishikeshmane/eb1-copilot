@@ -154,10 +154,10 @@ const OnboardingPage = () => {
     },
   });
 
-  const processForm: SubmitHandler<FormType> = async (data) => {
+  const processForm: SubmitHandler<FormType> = (data) => {
     console.log("data", data);
     // TODO: Add logic to see if everything in each form step is validated
-    const msg = await addUserMutaion.mutate({ formData: data });
+    const msg = addUserMutaion.mutate({ formData: data });
     console.log("msg", msg);
   };
 

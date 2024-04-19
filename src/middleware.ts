@@ -25,6 +25,8 @@ export default authMiddleware({
     "/blog",
     "/faqs",
     "/pricing",
+    "/sign-in",
+    "/sign-up",
     "/sign-in(.*)",
     "/sign-up(.*)",
     "/api/webhook/clerk",

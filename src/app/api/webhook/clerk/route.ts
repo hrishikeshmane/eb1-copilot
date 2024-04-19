@@ -83,7 +83,8 @@ export async function POST(req: Request) {
     const publicMetadata = evt.data
       .public_metadata as CustomJwtSessionClaims["metadata"];
 
-    db.update(users)
+    await db
+      .update(users)
       .set({
         role: publicMetadata.role,
         onBoarded: publicMetadata.onBoarded,
