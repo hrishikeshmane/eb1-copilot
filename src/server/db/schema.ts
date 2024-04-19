@@ -8,6 +8,7 @@ import {
   text,
   integer,
   primaryKey,
+  blob,
 } from "drizzle-orm/sqlite-core";
 
 /**
@@ -29,11 +30,12 @@ export const users = createTable("users", {
     enum: ["admin", "moderator", "customer", "vendor"],
   }).notNull(),
   onBoarded: integer("onBoarded", { mode: "boolean" }).notNull(),
+
   createdAt: int("createdAt", { mode: "timestamp" })
-    .default(sql`(current_timestamp)`)
+    .default(sql`(unixepoch())`)
     .notNull(),
   updatedAt: int("updatedAt", { mode: "timestamp" }).default(
-    sql`(current_timestamp)`,
+    sql`(unixepoch())`,
   ),
 });
 
@@ -129,39 +131,37 @@ export const userInfo = createTable("userInfo", {
   // }),
 
   createdAt: int("createdAt", { mode: "timestamp" })
-    .default(sql`(current_timestamp)`)
+    .default(sql`(unixepoch())`)
     .notNull(),
   updatedAt: int("updatedAt", { mode: "timestamp" }).default(
-    sql`(current_timestamp)`,
+    sql`(unixepoch())`,
   ),
 });
 
-export const userVisaPillarDetails = createTable(
-  "userVisaPillarDetails",
-  {
-    userId: text("userId", { length: 256 })
-      .notNull()
-      .references(() => users.userId, { onDelete: "cascade" }),
-    pillar: text("pillar", {
-      enum: [
-        "awards",
-        "original-contributions",
-        "authorship",
-        "judging",
-        "press",
-        "memberships",
-        "critical-role",
-        "exhibitions",
-        "high-remuneration",
-        "commercial-success",
-        "misc",
-      ],
-    }).notNull(),
-    details: text("details", { length: 2000 }).notNull(),
-  },
-  (table) => {
-    return {
-      userIdPillarPK: primaryKey({ columns: [table.userId, table.pillar] }),
-    };
-  },
-);
+export const userVisaPillarDetails = createTable("userVisaPillarDetails", {
+  id: text("id").primaryKey().notNull(),
+  userId: text("userId", { length: 256 })
+    .notNull()
+    .references(() => users.userId, { onDelete: "cascade" }),
+  pillar: text("pillar", {
+    enum: [
+      "awards",
+      "original-contributions",
+      "authorship",
+      "judging",
+      "press",
+      "memberships",
+      "critical-role",
+      "exhibitions",
+      "high-remuneration",
+      "commercial-success",
+      "misc",
+    ],
+  }).notNull(),
+  title: text("title", { length: 256 }).notNull(),
+  detail: text("detail", { length: 2000 }).notNull(),
+  // details: text("details", { length: 2000 }).notNull(),
+  // details: blob("details")
+  //   .$type<{ id: string; title: string; detail: string }[]>()
+  //   .notNull(),
+});
