@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "../ui/separator";
+import UserAuthButton from "./user-auth-button";
 
 const Header = () => {
   return (
@@ -28,7 +29,13 @@ const Header = () => {
         </Link>
       </div>
       <div className="ml-auto hidden items-center space-x-4 sm:flex">
-        {!process.env.NEXT_PUBLIC_WAITLIST && <GetStartedButton />}
+        {!process.env.NEXT_PUBLIC_WAITLIST && (
+          <>
+            <GetStartedButton />
+            <UserAuthButton />
+          </>
+        )}
+
         <ModeToggle />
       </div>
       <div className="ml-auto sm:hidden">
