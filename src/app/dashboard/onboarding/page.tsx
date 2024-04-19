@@ -32,6 +32,7 @@ import {
   FormType,
   FormFileds,
 } from "./_components/form-utils";
+import { nanoid } from "nanoid";
 
 const OnboardingPage = () => {
   useCalendlyEventListener({
@@ -71,52 +72,63 @@ const OnboardingPage = () => {
 
       // Visa Pillars
       haveAwards: "" as FormType["haveAwards"],
+      awards: [{ id: nanoid(), title: "", detail: "" }],
       awardDetails: "" as FormType["awardDetails"],
+
       haveOriginalContribution: "" as FormType["haveOriginalContribution"],
+      originalContribution: [{ id: nanoid(), title: "", detail: "" }],
       originalContributionDetails:
         "" as FormType["originalContributionDetails"],
+
       haveAuthored: "" as FormType["haveAuthored"],
+      authored: [{ id: nanoid(), title: "", detail: "" }],
       authoredDetails: "" as FormType["authoredDetails"],
+
       haveJudged: "" as FormType["haveJudged"],
+      judged: [{ id: nanoid(), title: "", detail: "" }],
       judgedDetails: "" as FormType["judgedDetails"],
+
       havePress: "" as FormType["havePress"],
+      press: [{ id: nanoid(), title: "", detail: "" }],
       pressDetails: "" as FormType["pressDetails"],
+
       haveMembership: "" as FormType["haveMembership"],
+      membership: [{ id: nanoid(), title: "", detail: "" }],
       membershipDetails: "" as FormType["membershipDetails"],
+
       haveCriticalCapacity: "" as FormType["haveCriticalCapacity"],
+      criticalCapacity: [{ id: nanoid(), title: "", detail: "" }],
       criticalCapacityDetails: "" as FormType["criticalCapacityDetails"],
+
       haveExhibited: "" as FormType["haveExhibited"],
+      exhibited: [{ id: nanoid(), title: "", detail: "" }],
       exhibitedDetails: "" as FormType["exhibitedDetails"],
+
       haveHighCompensation: "" as FormType["haveHighCompensation"],
+      highCompensation: [{ id: nanoid(), title: "", detail: "" }],
       highCompensationDetails: "" as FormType["highCompensationDetails"],
+
       haveCommercialSuccess: "" as FormType["haveCommercialSuccess"],
+      commercialSuccess: [{ id: nanoid(), title: "", detail: "" }],
       commercialSuccessDetails: "" as FormType["commercialSuccessDetails"],
+
       haveVolunteeredOrLed: "" as FormType["haveVolunteeredOrLed"],
+      volunteeredOrLed: [{ id: nanoid(), title: "", detail: "" }],
       volunteeredOrLedDetails: "" as FormType["volunteeredOrLedDetails"],
+
       haveExpertLORSupport: "" as FormType["haveExpertLORSupport"],
+      expertLORSupport: [{ id: nanoid(), title: "", detail: "" }],
       expertLORSupportDetails: "" as FormType["expertLORSupportDetails"],
+
       haveYourSpace: "" as FormType["haveYourSpace"],
+      yourSpace: [{ id: nanoid(), title: "", detail: "" }],
       yourSpaceDetails: "" as FormType["yourSpaceDetails"],
+
       haveWorkedWithPrevailingIssues:
         "" as FormType["haveWorkedWithPrevailingIssues"],
+      workedWithPrevailingIssues: [{ id: nanoid(), title: "", detail: "" }],
       workedWithPrevailingIssuesDetails:
         "" as FormType["workedWithPrevailingIssuesDetails"],
-
-      // resume: new File([], ""),
-      // planToStartBusinessInUS: "" as FormType["planToStartBusinessInUS"],
-      // bestDescribesYou: "" as FormType["bestDescribesYou"],
-      // haveRaiseFunds: "" as FormType["haveRaiseFunds"],
-      // haveParticipatedInIncubator:
-      //   "" as FormType["haveParticipatedInIncubator"],
-      // haveMembership: "" as FormType["haveMembership"],
-      // haveJudged: "" as FormType["haveJudged"],
-      // haveReviewed: "" as FormType["haveReviewed"],
-      // havePress: "" as FormType["havePress"],
-      // haveAuthored: "" as FormType["haveAuthored"],
-      // haveCriticalCapacity: "" as FormType["haveCriticalCapacity"],
-      // havePatents: "" as FormType["havePatents"],
-      // haveContrubutionsToField: "" as FormType["haveContrubutionsToField"],
-      // haveHighCompensation: "" as FormType["haveHighCompensation"],
     },
   });
 
@@ -129,15 +141,12 @@ const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const delta = currentStep - previousStep;
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const addUserMutaion = api.userDetails.addUser.useMutation({
     onSuccess: () => {
+      setIsSubmitting(false);
       toast.success("Your Response has been submitted.");
-      // TODO: update metadata
-      // await clerkClient.users.updateUserMetadata(userId, {
-      //   publicMetadata:{
-      //     "example": "metadata"
-      //   }
-      // });
     },
     onError: (error) => {
       toast.error("An error occured- " + error.message);
@@ -146,18 +155,27 @@ const OnboardingPage = () => {
   });
 
   const processForm: SubmitHandler<FormType> = async (data) => {
+    console.log("data", data);
     // TODO: Add logic to see if everything in each form step is validated
     const msg = await addUserMutaion.mutate({ formData: data });
     console.log("msg", msg);
   };
 
   const next = async () => {
+    // console.log("form", form.getValues());
     const fields = steps[currentStep]?.fields;
     const output = await form.trigger(fields, { shouldFocus: true });
 
-    if (!output) return;
+    if (!output) {
+      toast.error(
+        "Please complete the form with valid response before proceeding.",
+      );
+      return;
+    }
 
     if (currentStep === steps.length - 1) {
+      setIsSubmitting(true);
+      toast.info("Submitting your response...");
       await form.handleSubmit(processForm)();
     }
     if (currentStep < steps.length - 1) {
@@ -272,11 +290,7 @@ const OnboardingPage = () => {
               >
                 Previous
               </Button>
-              <Button
-                type="button"
-                onClick={next}
-                // disabled={currentStep === steps.length - 1}
-              >
+              <Button type="button" onClick={next} disabled={isSubmitting}>
                 {currentStep < 4 ? "Next" : "Submit"}
               </Button>
             </div>

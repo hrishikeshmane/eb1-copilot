@@ -5,6 +5,7 @@ import { clerkClient } from "@clerk/nextjs";
 import { db } from "@/server/db";
 import { env } from "@/env";
 import { users } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = env.WEBHOOK_SECRET;
@@ -66,13 +67,15 @@ export async function POST(req: Request) {
       },
     });
 
-    await db.insert(users).values({
-      userId: id,
-      role: "customer",
-      onBoarded: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+    await db
+      .insert(users)
+      .values({
+        userId: id,
+        role: "customer",
+        onBoarded: false,
+      })
+      .onConflictDoNothing()
+      .execute();
   }
 
   if (eventType === "user.updated") {
@@ -80,11 +83,13 @@ export async function POST(req: Request) {
     const publicMetadata = evt.data
       .public_metadata as CustomJwtSessionClaims["metadata"];
 
-    db.update(users).set({
-      role: publicMetadata.role,
-      onBoarded: publicMetadata.onBoarded,
-      updatedAt: new Date(),
-    });
+    db.update(users)
+      .set({
+        role: publicMetadata.role,
+        onBoarded: publicMetadata.onBoarded,
+      })
+      .where(eq(users.userId, id))
+      .execute();
   }
 
   return new Response("", { status: 200 });
