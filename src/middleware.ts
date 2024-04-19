@@ -22,6 +22,7 @@ export default authMiddleware({
   },
   publicRoutes: [
     "/",
+    "/dashboard",
     "/blog",
     "/faqs",
     "/pricing",
