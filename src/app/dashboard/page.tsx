@@ -8,8 +8,6 @@ export default async function Page() {
   const { sessionClaims } = auth();
   const user = await currentUser();
 
-  const data = await api.userDetails.getUserInfo();
-
   return (
     <div className="h-full w-full p-4">
       <div className="flex items-center">
@@ -20,7 +18,6 @@ export default async function Page() {
       <div className="mt-1">
         <p>Your journey to freedom begins here</p>
       </div>
-      {data.toString()}
       <div className="my-6 flex h-[calc(100vh-12rem)] w-full items-center justify-center gap-4 rounded-md border border-dashed">
         <div className="m-auto flex w-full flex-col items-center gap-1 p-14 text-center">
           <h3 className="text-2xl font-bold tracking-tight">
