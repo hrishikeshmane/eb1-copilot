@@ -1,4 +1,4 @@
-import { VISA_PILLARS } from "@/lib/constants";
+import { type VISA_PILLARS } from "@/lib/constants";
 import { z } from "zod";
 
 export const formSchema = z.object({
@@ -110,22 +110,45 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
+    // .refine(
+    //   (data) => {
+    //     if (data.length < 1) {
+    //       return false;
+    //     }
+    //   },
+    //   {
+    //     message:
+    //       "If 'haveAwards' is 'yes', the 'awards' array should have at least one item",
+    //   },
+    // )
+    // .refine(
+    //   (data) => {
+    //     if (data.some((award) => !award.title || !award.detail)) {
+    //       return false;
+    //     }
+    //   },
+    //   {
+    //     message: "Award title and detail are required for all awards",
+    //   },
+    // )
     .optional(),
   awardDetails: z.string().optional(),
 
@@ -136,20 +159,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -162,20 +187,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -188,20 +215,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -214,20 +243,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -240,20 +271,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -266,20 +299,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -292,20 +327,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -318,20 +355,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -344,20 +383,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -370,20 +411,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -396,20 +439,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -422,20 +467,22 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
@@ -448,37 +495,56 @@ export const formSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        title: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(200, {
-        //   message: "Your response should be less than 2000 characters.",
-        // })
-        detail: z.string(),
-        // .min(2, {
-        //   message: "Your response is required.",
-        // })
-        // .max(2000, {
-        //   message: "Your response should be less than 2000 characters.",
-        // }),
+        title: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(200, {
+            message: "Your response should be less than 2000 characters.",
+          }),
+        detail: z
+          .string()
+          .min(2, {
+            message: "Your response is required.",
+          })
+          .max(2000, {
+            message: "Your response should be less than 2000 characters.",
+          }),
       }),
     )
     .optional(),
   workedWithPrevailingIssuesDetails: z.string().optional(),
 });
 // .superRefine((data, refinementContext) => {
-// TODO: add validation for detail fileds
-// if (
-//   data.haveAwards === "yes" &&
-//   (!data.awardDetails || data.awardDetails === "")
-// ) {
-//   return refinementContext.addIssue({
-//     code: z.ZodIssueCode.custom,
-//     path: ["awardDetails"],
-//     message: "Response is required if above response is `Yes`.",
-//   });
-// }
+//   // TODO: add validation for detail fileds
+//   if (data.haveAwards === "yes" && (!data.awards || data.awards.length < 1)) {
+//     return refinementContext.addIssue({
+//       code: z.ZodIssueCode.custom,
+//       path: ["awards"],
+//       message: "You need to add awards if above response is `Yes`",
+//     });
+//   }
+//   if (data.haveAwards === "yes" && data.awards && data.awards.length > 0) {
+//     // all the Awards should have title and detail
+//     // data.awards.some((award, index) => {
+//     //   if (!award.title)
+//     //     return refinementContext.addIssue({
+//     //       code: z.ZodIssueCode.custom,
+//     //       path: [`awards.${index}.title`],
+//     //       message: "Title and Detail are required for all awards",
+//     //     });
+//     // });
+
+//     //check if awards [0] has title
+//     if (data.awards[0]!.title === "") {
+//       return refinementContext.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         path: ["awards.0.title"],
+//         message: "Title is required for all awards",
+//       });
+//     }
+//   }
 //   if (
 //     data.haveOriginalContribution === "yes" &&
 //     (!data.originalContributionDetails ||
@@ -663,35 +729,48 @@ export const steps: Step[] = [
     id: "Step 4",
     name: "Visa Pillars",
     fields: [
-      // "awards",
       "haveAwards",
-      "awardDetails",
+      "awards",
+      // "awardDetails",
       "haveOriginalContribution",
-      "originalContributionDetails",
+      "originalContribution",
+      // "originalContributionDetails",
       "haveAuthored",
-      "authoredDetails",
+      "authored",
+      // "authoredDetails",
       "haveJudged",
-      "judgedDetails",
+      "judged",
+      // "judgedDetails",
       "havePress",
-      "pressDetails",
+      "press",
+      // "pressDetails",
       "haveMembership",
-      "membershipDetails",
+      "membership",
+      // "membershipDetails",
       "haveCriticalCapacity",
-      "criticalCapacityDetails",
+      "criticalCapacity",
+      // "criticalCapacityDetails",
       "haveExhibited",
-      "exhibitedDetails",
+      "exhibited",
+      // "exhibitedDetails",
       "haveHighCompensation",
-      "highCompensationDetails",
+      "highCompensation",
+      // "highCompensationDetails",
       "haveCommercialSuccess",
-      "commercialSuccessDetails",
+      "commercialSuccess",
+      // "commercialSuccessDetails",
       "haveVolunteeredOrLed",
-      "volunteeredOrLedDetails",
+      "volunteeredOrLed",
+      // "volunteeredOrLedDetails",
       "haveExpertLORSupport",
-      "expertLORSupportDetails",
+      "expertLORSupport",
+      // "expertLORSupportDetails",
       "haveYourSpace",
-      "yourSpaceDetails",
+      "yourSpace",
+      // "yourSpaceDetails",
       "haveWorkedWithPrevailingIssues",
-      "workedWithPrevailingIssuesDetails",
+      "workedWithPrevailingIssues",
+      // "workedWithPrevailingIssuesDetails",
     ],
   },
   { id: "Step 5", name: "Complete", fields: ["consent"] },

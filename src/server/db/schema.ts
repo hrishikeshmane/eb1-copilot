@@ -82,54 +82,6 @@ export const userInfo = createTable("userInfo", {
   }).notNull(),
   fieldExpertIn: text("fieldExpertIn", { length: 50 }).notNull(),
 
-  // Visa Pillars
-  // haveAwards: integer("haveAwards", { mode: "boolean" }).notNull(),
-  // awardDetails: text("awardDetails", { length: 2000 }),
-  // haveOriginalContribution: integer("haveOriginalContribution", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // originalContributionDetails: text("originalContributionDetails", {
-  //   length: 2000,
-  // }),
-  // haveAuthored: integer("haveAuthored", { mode: "boolean" }).notNull(),
-  // authoredDetails: text("authoredDetails", { length: 2000 }),
-  // haveJudged: integer("haveJudged", { mode: "boolean" }).notNull(),
-  // judgedDetails: text("judgedDetails", { length: 2000 }),
-  // havePress: integer("havePress", { mode: "boolean" }).notNull(),
-  // pressDetails: text("pressDetails", { length: 2000 }),
-  // haveMembership: integer("haveMembership", { mode: "boolean" }).notNull(),
-  // membershipDetails: text("membershipDetails", { length: 2000 }),
-  // haveCriticalCapacity: integer("haveCriticalCapacity", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // criticalCapacityDetails: text("criticalCapacityDetails", { length: 2000 }),
-  // haveExhibited: integer("haveExhibited", { mode: "boolean" }).notNull(),
-  // exhibitedDetails: text("exhibitedDetails", { length: 2000 }),
-  // haveHighCompensation: integer("haveHighCompensation", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // highCompensationDetails: text("highCompensationDetails", { length: 2000 }),
-  // haveCommercialSuccess: integer("haveCommercialSuccess", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // commercialSuccessDetails: text("commercialSuccessDetails", { length: 2000 }),
-  // haveVolunteeredOrLed: integer("haveVolunteeredOrLed", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // volunteeredOrLedDetails: text("volunteeredOrLedDetails", { length: 2000 }),
-  // haveExpertLORSupport: integer("haveExpertLORSupport", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // expertLORSupportDetails: text("expertLORSupportDetails", { length: 2000 }),
-  // haveYourSpace: integer("haveYourSpace", { mode: "boolean" }).notNull(),
-  // yourSpaceDetails: text("yourSpaceDetails", { length: 2000 }),
-  // haveWorkedWithPrevailingIssues: integer("haveWorkedWithPrevailingIssues", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // workedWithPrevailingIssuesDetails: text("workedWithPrevailingIssuesDetails", {
-  //   length: 2000,
-  // }),
-
   createdAt: int("createdAt", { mode: "timestamp" })
     .default(sql`(unixepoch())`)
     .notNull(),

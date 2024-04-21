@@ -146,7 +146,10 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message) : children;
+  // const body = error ? String(error?.message) : children;
+  const body = error
+    ? String(error?.root?.message ?? error?.message)
+    : children; // from https://github.com/shadcn-ui/ui/pull/2685/commits/5f4c7e42cb57771eddb3ff841784a3baf736694e
 
   if (!body) {
     // return null;

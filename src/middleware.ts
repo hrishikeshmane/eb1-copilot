@@ -33,7 +33,7 @@ export default authMiddleware({
     "/api/webhook/clerk",
     "/api/webhook(.*)",
   ],
-  debug: true,
+  // debug: true,
 });
 
 export const config = {
