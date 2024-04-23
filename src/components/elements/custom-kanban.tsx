@@ -87,7 +87,10 @@ const Filterbar = () => {
                 )}
                 {selectedPillars.length < 4 &&
                   selectedPillars.map((vp) => (
-                    <div className="rounded-sm bg-secondary px-2 py-1">
+                    <div
+                      key={vp.value}
+                      className="rounded-sm bg-secondary px-2 py-1"
+                    >
                       {vp.label}
                     </div>
                   ))}

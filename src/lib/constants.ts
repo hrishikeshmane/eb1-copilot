@@ -45,6 +45,59 @@ export const INTRESTED_IN: intrestedInOptions[] = [
   { label: "Other", value: "other" },
 ];
 
+export type currentVisaOptions = {
+  label: string;
+  value: string;
+};
+export const CURRENT_VISA_OPTIONS: currentVisaOptions[] = [
+  { label: "B1/B2", value: "b1/b2" },
+  { label: "F1", value: "f1" },
+  { label: "J1", value: "j1" },
+  { label: "H1B", value: "h1b" },
+  { label: "H2A", value: "h2a" },
+  { label: "H2B", value: "h2b" },
+  { label: "L1", value: "l1" },
+  { label: "O1", value: "o1" },
+  { label: "EB1", value: "eb1" },
+  { label: "EB2", value: "eb2" },
+  { label: "EB3", value: "eb3" },
+  { label: "Other", value: "other" },
+];
+
+export const INDUSTRY_TYPE = [
+  "Manufacturing",
+  "Finance",
+  "Transportation",
+  "Agriculture",
+  "Construction",
+  "Mining",
+  "Retail",
+  "Entertainment",
+  "Hospitality",
+  "Secondary",
+  "Quaternary",
+  "Tertiary",
+  "Energy",
+  "Foodservice",
+  "Aerospace",
+  "Computer and Technology",
+  "Fashion",
+  "Media",
+  "Healthcare",
+  "Pharaceutucal",
+  "Education",
+  "Other",
+];
+
+export const MIN_YEAR = 1920;
+
+export const MAX_YEAR: number = new Date().getFullYear() + 10;
+
+export const YEARS: string[] = Array.from(
+  { length: MAX_YEAR - MIN_YEAR + 1 },
+  (_, i) => (i + MIN_YEAR).toString(),
+);
+
 export type describesYouOptions = {
   label: string;
   value: string;

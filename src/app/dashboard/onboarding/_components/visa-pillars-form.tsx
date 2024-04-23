@@ -1,4 +1,3 @@
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormControl,
   FormField,
@@ -12,11 +11,9 @@ import { type FormType } from "./form-utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { nanoid } from "nanoid";
 import { cn } from "@/lib/utils";
-import { watch } from "fs";
 
 type CardInputFormProps = {
   form: UseFormReturn<FormType>;
@@ -53,97 +50,102 @@ type CardInputFormProps = {
   addButtonLabel: string;
 };
 
-const CardInputForm = ({
-  form,
-  fieldName,
-  watchFieldName,
-  addButtonLabel,
-}: CardInputFormProps) => {
-  const watchField = useWatch({
-    control: form.control,
-    name: watchFieldName,
-  });
+const MemoTextarea = React.memo(Textarea);
+const MemoRadioGroupItem = React.memo(RadioGroupItem);
 
-  const arrayFileds = useFieldArray({
-    control: form.control,
-    name: fieldName,
-    rules: {
-      required: "Please add at leaset one item",
-      validate: (value) => value.length < 1,
-    },
-  });
+const CardInputForm = React.memo(
+  ({ form, fieldName, watchFieldName, addButtonLabel }: CardInputFormProps) => {
+    const watchField = useWatch({
+      control: form.control,
+      name: watchFieldName,
+    });
 
-  return (
-    <div className="mb-4">
-      <div className="w-full max-w-4xl">
-        {watchField === "yes" &&
-          arrayFileds.fields.map((arrayElement, index) => {
+    const arrayFileds = useFieldArray({
+      control: form.control,
+      name: fieldName,
+    });
+
+    return (
+      <div className="mb-4">
+        <div className="w-full max-w-4xl">
+          {arrayFileds.fields.map((arrayElement, index) => {
             return (
               <div className="flex gap-2" key={arrayElement.id}>
                 <FormField
                   control={form.control}
                   name={`${fieldName}.${index}.title`}
-                  render={({ field }) => (
-                    <FormItem className="flex h-full w-1/2 flex-col justify-between">
-                      <FormLabel>{`${addButtonLabel} Title`}</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          // {...form.register(`${fieldName}.${index}.title`)}
-                          // defaultValue={arrayElement.title}
-                          placeholder="Write a short title here"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) =>
+                    watchField === "yes" ? (
+                      <FormItem className="flex h-full w-1/2 flex-col justify-between">
+                        <FormLabel>{`${addButtonLabel} Title`}</FormLabel>
+                        <FormControl>
+                          <MemoTextarea
+                            {...field}
+                            placeholder="Write a short title here"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    ) : (
+                      <></>
+                    )
+                  }
                 />
 
                 <FormField
                   control={form.control}
                   name={`${fieldName}.${index}.detail`}
-                  render={({ field }) => (
-                    <FormItem className="flex h-full w-1/2 flex-col justify-between">
-                      <FormLabel>{`${addButtonLabel} Detail`}</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          // {...form.register(`${fieldName}.${index}.detail`)}
-                          // defaultValue={arrayElement.detail}
-                          placeholder="Write a detailed description here"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) =>
+                    watchField === "yes" ? (
+                      <FormItem className="flex h-full w-1/2 flex-col justify-between">
+                        <FormLabel>{`${addButtonLabel} Detail`}</FormLabel>
+                        <FormControl>
+                          <MemoTextarea
+                            {...field}
+                            placeholder="Write a detailed description here"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    ) : (
+                      <></>
+                    )
+                  }
                 />
 
-                <Button
-                  variant={"destructive"}
-                  size={"icon"}
-                  className="mt-6"
-                  onClick={() => arrayFileds.remove(index)}
-                >
-                  <TrashIcon />
-                </Button>
+                {watchField === "yes" && (
+                  <Button
+                    variant={"destructive"}
+                    size={"icon"}
+                    className="mt-6"
+                    onClick={() => arrayFileds.remove(index)}
+                  >
+                    <TrashIcon />
+                  </Button>
+                )}
               </div>
             );
           })}
+        </div>
+        {watchField === "yes" && (
+          <Button
+            className="w-full max-w-4xl"
+            variant={"secondary"}
+            onClick={() =>
+              arrayFileds.append({ id: nanoid(), title: "", detail: "" })
+            }
+          >
+            {`+ Add ${addButtonLabel}`}
+          </Button>
+        )}
       </div>
-      {watchField === "yes" && (
-        <Button
-          className="w-full max-w-4xl"
-          variant={"secondary"}
-          onClick={() =>
-            arrayFileds.append({ id: nanoid(), title: "", detail: "" })
-          }
-        >
-          {`+ Add ${addButtonLabel}`}
-        </Button>
-      )}
-    </div>
-  );
-};
+    );
+  },
+  (prevProps, nextProps) =>
+    prevProps.form.formState.isDirty === nextProps.form.formState.isDirty,
+);
+
+CardInputForm.displayName = "CardInputForm";
 
 type SubFormProps = {
   form: UseFormReturn<FormType>;
@@ -243,13 +245,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -374,13 +376,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -468,13 +470,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -571,13 +573,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -660,13 +662,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -751,13 +753,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -847,13 +849,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -928,13 +930,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1011,13 +1013,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1089,13 +1091,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1162,13 +1164,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1231,13 +1233,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1294,13 +1296,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1358,13 +1360,13 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="yes" />
+                        <MemoRadioGroupItem value="yes" />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="no" />
+                        <MemoRadioGroupItem value="no" />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>

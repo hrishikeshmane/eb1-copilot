@@ -26,14 +26,11 @@ export default authMiddleware({
     "/blog",
     "/faqs",
     "/pricing",
-    "/sign-in",
-    "/sign-up",
     "/sign-in(.*)",
     "/sign-up(.*)",
-    "/api/webhook/clerk",
     "/api/webhook(.*)",
   ],
-  debug: true,
+  // debug: true,
 });
 
 export const config = {

@@ -33,6 +33,7 @@ import {
   FormFileds,
 } from "./_components/form-utils";
 import { nanoid } from "nanoid";
+import { DevTool } from "@hookform/devtools";
 
 const OnboardingPage = () => {
   useCalendlyEventListener({
@@ -63,79 +64,83 @@ const OnboardingPage = () => {
       currentlyInUS: "" as FormType["currentlyInUS"],
       everBeenToUS: "" as FormType["everBeenToUS"],
       everAppliedForGreenCard: "" as FormType["everAppliedForGreenCard"],
-      everBeenJ1OrJ2: "" as FormType["everBeenJ1OrJ2"],
-      haveCriminalRecord: "" as FormType["haveCriminalRecord"],
       addFamilyMembers: "" as FormType["addFamilyMembers"],
       currentEmployerInUS: "" as FormType["currentEmployerInUS"],
+      currentVisa: "" as FormType["currentVisa"],
       interestedIn: "" as FormType["interestedIn"],
+      isStudent: "" as FormType["isStudent"],
+      graduationYear: "" as FormType["graduationYear"],
+      currentRole: "" as FormType["currentRole"],
+      industryType: "" as FormType["industryType"],
+      priorityDateIfAny: undefined,
       fieldExpertIn: "" as FormType["fieldExpertIn"],
 
       // Visa Pillars
       haveAwards: "" as FormType["haveAwards"],
-      awards: [{ id: nanoid(), title: "", detail: "" }],
+      awards: undefined,
       awardDetails: "" as FormType["awardDetails"],
 
       haveOriginalContribution: "" as FormType["haveOriginalContribution"],
-      originalContribution: [{ id: nanoid(), title: "", detail: "" }],
+      originalContribution: undefined,
       originalContributionDetails:
         "" as FormType["originalContributionDetails"],
 
       haveAuthored: "" as FormType["haveAuthored"],
-      authored: [{ id: nanoid(), title: "", detail: "" }],
+      authored: undefined,
       authoredDetails: "" as FormType["authoredDetails"],
 
       haveJudged: "" as FormType["haveJudged"],
-      judged: [{ id: nanoid(), title: "", detail: "" }],
+      judged: undefined,
       judgedDetails: "" as FormType["judgedDetails"],
 
       havePress: "" as FormType["havePress"],
-      press: [{ id: nanoid(), title: "", detail: "" }],
+      press: undefined,
       pressDetails: "" as FormType["pressDetails"],
 
       haveMembership: "" as FormType["haveMembership"],
-      membership: [{ id: nanoid(), title: "", detail: "" }],
+      membership: undefined,
       membershipDetails: "" as FormType["membershipDetails"],
 
       haveCriticalCapacity: "" as FormType["haveCriticalCapacity"],
-      criticalCapacity: [{ id: nanoid(), title: "", detail: "" }],
+      criticalCapacity: undefined,
       criticalCapacityDetails: "" as FormType["criticalCapacityDetails"],
 
       haveExhibited: "" as FormType["haveExhibited"],
-      exhibited: [{ id: nanoid(), title: "", detail: "" }],
+      exhibited: undefined,
       exhibitedDetails: "" as FormType["exhibitedDetails"],
 
       haveHighCompensation: "" as FormType["haveHighCompensation"],
-      highCompensation: [{ id: nanoid(), title: "", detail: "" }],
+      highCompensation: undefined,
       highCompensationDetails: "" as FormType["highCompensationDetails"],
 
       haveCommercialSuccess: "" as FormType["haveCommercialSuccess"],
-      commercialSuccess: [{ id: nanoid(), title: "", detail: "" }],
+      commercialSuccess: undefined,
       commercialSuccessDetails: "" as FormType["commercialSuccessDetails"],
 
       haveVolunteeredOrLed: "" as FormType["haveVolunteeredOrLed"],
-      volunteeredOrLed: [{ id: nanoid(), title: "", detail: "" }],
+      volunteeredOrLed: undefined,
       volunteeredOrLedDetails: "" as FormType["volunteeredOrLedDetails"],
 
       haveExpertLORSupport: "" as FormType["haveExpertLORSupport"],
-      expertLORSupport: [{ id: nanoid(), title: "", detail: "" }],
+      expertLORSupport: undefined,
       expertLORSupportDetails: "" as FormType["expertLORSupportDetails"],
 
       haveYourSpace: "" as FormType["haveYourSpace"],
-      yourSpace: [{ id: nanoid(), title: "", detail: "" }],
+      yourSpace: undefined,
       yourSpaceDetails: "" as FormType["yourSpaceDetails"],
 
       haveWorkedWithPrevailingIssues:
         "" as FormType["haveWorkedWithPrevailingIssues"],
-      workedWithPrevailingIssues: [{ id: nanoid(), title: "", detail: "" }],
+      workedWithPrevailingIssues: undefined,
       workedWithPrevailingIssuesDetails:
         "" as FormType["workedWithPrevailingIssuesDetails"],
     },
   });
 
-  useFormPersist("onboarding-form", {
-    watch: form.watch,
-    setValue: form.setValue,
-  });
+  // useFormPersist("onboarding-form", {
+  //   watch: form.watch,
+  //   setValue: form.setValue,
+  // });
 
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
@@ -149,13 +154,15 @@ const OnboardingPage = () => {
       toast.success("Your Response has been submitted.");
     },
     onError: (error) => {
+      setIsSubmitting(false);
       toast.error("An error occured- " + error.message);
       console.error("Error submitting onboarding form", error);
     },
   });
 
-  const processForm: SubmitHandler<FormType> = (data) => {
+  const processForm: SubmitHandler<FormType> = (data, errors) => {
     console.log("data", data);
+    console.log("errors", errors);
     // TODO: Add logic to see if everything in each form step is validated
     const msg = addUserMutaion.mutate({ formData: data });
     console.log("msg", msg);
@@ -166,6 +173,7 @@ const OnboardingPage = () => {
     const fields = steps[currentStep]?.fields;
     const output = await form.trigger(fields, { shouldFocus: true });
 
+    console.log("formErrors", form.formState.errors);
     if (!output) {
       toast.error(
         "Please complete the form with valid response before proceeding.",
@@ -176,7 +184,9 @@ const OnboardingPage = () => {
     if (currentStep === steps.length - 1) {
       setIsSubmitting(true);
       toast.info("Submitting your response...");
-      await form.handleSubmit(processForm)();
+      await form.handleSubmit(processForm, (errors) =>
+        console.log("handleSubmitError", errors),
+      )();
     }
     if (currentStep < steps.length - 1) {
       setPreviousStep(currentStep);
@@ -196,7 +206,7 @@ const OnboardingPage = () => {
       {/* steps */}
       <nav
         aria-label="Progress"
-        className="top-0 z-10 mb-6 border-b bg-background pb-6 pt-4 sm:sticky"
+        className="top-0 z-10 mb-6 border-b bg-background pb-6 pt-4 md:sticky"
       >
         <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
           {steps.map((step, index) => (
@@ -295,6 +305,7 @@ const OnboardingPage = () => {
               </Button>
             </div>
           </form>
+          {/* <DevTool control={form.control} /> */}
         </Form>
       </div>
     </ScrollArea>

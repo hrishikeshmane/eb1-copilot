@@ -69,66 +69,60 @@ export const userInfo = createTable("userInfo", {
   everAppliedForGreenCard: integer("everAppliedForGreenCard", {
     mode: "boolean",
   }).notNull(),
-  everBeenJ1OrJ2: integer("everBeenJ1OrJ2", { mode: "boolean" }).notNull(),
-  haveCriminalRecord: integer("haveCriminalRecord", {
-    mode: "boolean",
-  }).notNull(),
   addFamilyMembers: integer("addFamilyMembers", { mode: "boolean" }).notNull(),
   currentEmployerInUS: integer("currentEmployerInUS", {
     mode: "boolean",
   }).notNull(),
+  currentVisa: text("currentVisa", {
+    enum: [
+      "b1/b2",
+      "f1",
+      "j1",
+      "h1b",
+      "h2a",
+      "h2b",
+      "l1",
+      "o1",
+      "eb1",
+      "eb2",
+      "eb3",
+      "other",
+    ],
+  }).notNull(),
   interestedIn: text("interestedIn", {
     enum: ["o1A", "o1b", "eb1a", "notSure", "other"],
   }).notNull(),
+  isStudent: integer("isStudent", { mode: "boolean" }).notNull(),
+  graduationYear: text("graduationYear").notNull(),
+  currentRole: text("currentRole", { length: 200 }).notNull(),
+  industryType: text("industryType", {
+    enum: [
+      "Manufacturing",
+      "Finance",
+      "Transportation",
+      "Agriculture",
+      "Construction",
+      "Mining",
+      "Retail",
+      "Entertainment",
+      "Hospitality",
+      "Secondary",
+      "Quaternary",
+      "Tertiary",
+      "Energy",
+      "Foodservice",
+      "Aerospace",
+      "Computer and Technology",
+      "Fashion",
+      "Media",
+      "Healthcare",
+      "Pharaceutucal",
+      "Education",
+      "Other",
+    ],
+  }).notNull(),
+  priorityDateIfAny: text("priorityDateIfAny", { length: 300 }),
   fieldExpertIn: text("fieldExpertIn", { length: 50 }).notNull(),
-
-  // Visa Pillars
-  // haveAwards: integer("haveAwards", { mode: "boolean" }).notNull(),
-  // awardDetails: text("awardDetails", { length: 2000 }),
-  // haveOriginalContribution: integer("haveOriginalContribution", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // originalContributionDetails: text("originalContributionDetails", {
-  //   length: 2000,
-  // }),
-  // haveAuthored: integer("haveAuthored", { mode: "boolean" }).notNull(),
-  // authoredDetails: text("authoredDetails", { length: 2000 }),
-  // haveJudged: integer("haveJudged", { mode: "boolean" }).notNull(),
-  // judgedDetails: text("judgedDetails", { length: 2000 }),
-  // havePress: integer("havePress", { mode: "boolean" }).notNull(),
-  // pressDetails: text("pressDetails", { length: 2000 }),
-  // haveMembership: integer("haveMembership", { mode: "boolean" }).notNull(),
-  // membershipDetails: text("membershipDetails", { length: 2000 }),
-  // haveCriticalCapacity: integer("haveCriticalCapacity", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // criticalCapacityDetails: text("criticalCapacityDetails", { length: 2000 }),
-  // haveExhibited: integer("haveExhibited", { mode: "boolean" }).notNull(),
-  // exhibitedDetails: text("exhibitedDetails", { length: 2000 }),
-  // haveHighCompensation: integer("haveHighCompensation", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // highCompensationDetails: text("highCompensationDetails", { length: 2000 }),
-  // haveCommercialSuccess: integer("haveCommercialSuccess", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // commercialSuccessDetails: text("commercialSuccessDetails", { length: 2000 }),
-  // haveVolunteeredOrLed: integer("haveVolunteeredOrLed", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // volunteeredOrLedDetails: text("volunteeredOrLedDetails", { length: 2000 }),
-  // haveExpertLORSupport: integer("haveExpertLORSupport", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // expertLORSupportDetails: text("expertLORSupportDetails", { length: 2000 }),
-  // haveYourSpace: integer("haveYourSpace", { mode: "boolean" }).notNull(),
-  // yourSpaceDetails: text("yourSpaceDetails", { length: 2000 }),
-  // haveWorkedWithPrevailingIssues: integer("haveWorkedWithPrevailingIssues", {
-  //   mode: "boolean",
-  // }).notNull(),
-  // workedWithPrevailingIssuesDetails: text("workedWithPrevailingIssuesDetails", {
-  //   length: 2000,
-  // }),
 
   createdAt: int("createdAt", { mode: "timestamp" })
     .default(sql`(unixepoch())`)

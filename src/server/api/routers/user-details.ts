@@ -37,34 +37,19 @@ export const userDetailsRouter = createTRPCRouter({
             everBeenToUS: input.formData.everBeenToUS === "yes" ? true : false,
             everAppliedForGreenCard:
               input.formData.everAppliedForGreenCard === "yes" ? true : false,
-            everBeenJ1OrJ2:
-              input.formData.everBeenJ1OrJ2 === "yes" ? true : false,
-            haveCriminalRecord:
-              input.formData.haveCriminalRecord === "yes" ? true : false,
             addFamilyMembers:
               input.formData.addFamilyMembers === "yes" ? true : false,
             currentEmployerInUS:
               input.formData.currentEmployerInUS === "yes" ? true : false,
+            currentVisa: input.formData.currentVisa,
             interestedIn: input.formData.interestedIn,
+            isStudent: input.formData.isStudent === "yes" ? true : false,
+            graduationYear: input.formData.graduationYear,
+            currentRole: input.formData.currentRole,
+            industryType: input.formData.industryType,
+            priorityDateIfAny: JSON.stringify(input.formData.priorityDateIfAny),
             fieldExpertIn: input.formData.fieldExpertIn,
           });
-
-          // go trough each visa pillar from the form  and insert the data
-          // visaPillarFields.forEach(async (pillar: IVisaPillarFields) => {
-          //   if (input.formData[pillar.key] === "yes") {
-          //     const detailsForm = input.formData[pillar.detailsBlob];
-
-          //     detailsForm?.forEach(async (form) => {
-          //       await tx.insert(userVisaPillarDetails).values({
-          //         id: form.id,
-          //         userId: ctx.session.userId,
-          //         pillar: pillar.pillar,
-          //         title: form.title,
-          //         detail: form.detail,
-          //       });
-          //     });
-          //   }
-          // });
 
           // convert above foreach to normal for loop
           for (const pillar of visaPillarFields) {
