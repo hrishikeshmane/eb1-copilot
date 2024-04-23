@@ -64,11 +64,15 @@ const OnboardingPage = () => {
       currentlyInUS: "" as FormType["currentlyInUS"],
       everBeenToUS: "" as FormType["everBeenToUS"],
       everAppliedForGreenCard: "" as FormType["everAppliedForGreenCard"],
-      everBeenJ1OrJ2: "" as FormType["everBeenJ1OrJ2"],
-      haveCriminalRecord: "" as FormType["haveCriminalRecord"],
       addFamilyMembers: "" as FormType["addFamilyMembers"],
       currentEmployerInUS: "" as FormType["currentEmployerInUS"],
+      currentVisa: "" as FormType["currentVisa"],
       interestedIn: "" as FormType["interestedIn"],
+      isStudent: "" as FormType["isStudent"],
+      graduationYear: "" as FormType["graduationYear"],
+      currentRole: "" as FormType["currentRole"],
+      industryType: "" as FormType["industryType"],
+      priorityDateIfAny: undefined,
       fieldExpertIn: "" as FormType["fieldExpertIn"],
 
       // Visa Pillars
@@ -202,7 +206,7 @@ const OnboardingPage = () => {
       {/* steps */}
       <nav
         aria-label="Progress"
-        className="top-0 z-10 mb-6 border-b bg-background pb-6 pt-4 sm:sticky"
+        className="top-0 z-10 mb-6 border-b bg-background pb-6 pt-4 md:sticky"
       >
         <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
           {steps.map((step, index) => (

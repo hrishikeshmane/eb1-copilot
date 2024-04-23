@@ -78,21 +78,69 @@ export const formSchema = z.object({
   everAppliedForGreenCard: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
-  everBeenJ1OrJ2: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
-  haveCriminalRecord: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
-  }),
   addFamilyMembers: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
   currentEmployerInUS: z.enum(["yes", "no"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
+  currentVisa: z.enum(
+    [
+      "b1/b2",
+      "f1",
+      "j1",
+      "h1b",
+      "h2a",
+      "h2b",
+      "l1",
+      "o1",
+      "eb1",
+      "eb2",
+      "eb3",
+      "other",
+    ],
+    {
+      errorMap: () => ({ message: "Select an option" }),
+    },
+  ),
   interestedIn: z.enum(["o1A", "o1b", "eb1a", "notSure", "other"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
+  isStudent: z.enum(["yes", "no"], {
+    errorMap: () => ({ message: "Select an option" }),
+  }),
+  graduationYear: z.string(),
+  currentRole: z.string(),
+  industryType: z.enum(
+    [
+      "Manufacturing",
+      "Finance",
+      "Transportation",
+      "Agriculture",
+      "Construction",
+      "Mining",
+      "Retail",
+      "Entertainment",
+      "Hospitality",
+      "Secondary",
+      "Quaternary",
+      "Tertiary",
+      "Energy",
+      "Foodservice",
+      "Aerospace",
+      "Computer and Technology",
+      "Fashion",
+      "Media",
+      "Healthcare",
+      "Pharaceutucal",
+      "Education",
+      "Other",
+    ],
+    {
+      errorMap: () => ({ message: "Select an option" }),
+    },
+  ),
+  priorityDateIfAny: z.date().optional(),
   fieldExpertIn: z
     .string()
     .min(2, {
@@ -128,27 +176,6 @@ export const formSchema = z.object({
           }),
       }),
     )
-    // .refine(
-    //   (data) => {
-    //     if (data.length < 1) {
-    //       return false;
-    //     }
-    //   },
-    //   {
-    //     message:
-    //       "If 'haveAwards' is 'yes', the 'awards' array should have at least one item",
-    //   },
-    // )
-    // .refine(
-    //   (data) => {
-    //     if (data.some((award) => !award.title || !award.detail)) {
-    //       return false;
-    //     }
-    //   },
-    //   {
-    //     message: "Award title and detail are required for all awards",
-    //   },
-    // )
     .optional(),
   awardDetails: z.string().optional(),
 
@@ -516,168 +543,6 @@ export const formSchema = z.object({
     .optional(),
   workedWithPrevailingIssuesDetails: z.string().optional(),
 });
-// .superRefine((data, refinementContext) => {
-//   // TODO: add validation for detail fileds
-//   if (data.haveAwards === "yes" && (!data.awards || data.awards.length < 1)) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["awards"],
-//       message: "You need to add awards if above response is `Yes`",
-//     });
-//   }
-//   if (data.haveAwards === "yes" && data.awards && data.awards.length > 0) {
-//     // all the Awards should have title and detail
-//     // data.awards.some((award, index) => {
-//     //   if (!award.title)
-//     //     return refinementContext.addIssue({
-//     //       code: z.ZodIssueCode.custom,
-//     //       path: [`awards.${index}.title`],
-//     //       message: "Title and Detail are required for all awards",
-//     //     });
-//     // });
-
-//     //check if awards [0] has title
-//     if (data.awards[0]!.title === "") {
-//       return refinementContext.addIssue({
-//         code: z.ZodIssueCode.custom,
-//         path: ["awards.0.title"],
-//         message: "Title is required for all awards",
-//       });
-//     }
-//   }
-//   if (
-//     data.haveOriginalContribution === "yes" &&
-//     (!data.originalContributionDetails ||
-//       data.originalContributionDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["originalContributionDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveAuthored === "yes" &&
-//     (!data.authoredDetails || data.authoredDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["authoredDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveJudged === "yes" &&
-//     (!data.judgedDetails || data.judgedDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["judgedDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.havePress === "yes" &&
-//     (!data.pressDetails || data.pressDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["pressDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveMembership === "yes" &&
-//     (!data.membershipDetails || data.membershipDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["membershipDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveCriticalCapacity === "yes" &&
-//     (!data.criticalCapacityDetails || data.criticalCapacityDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["criticalCapacityDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveExhibited === "yes" &&
-//     (!data.exhibitedDetails || data.exhibitedDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["exhibitedDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveHighCompensation === "yes" &&
-//     (!data.highCompensationDetails || data.highCompensationDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["highCompensationDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveCommercialSuccess === "yes" &&
-//     (!data.commercialSuccessDetails || data.commercialSuccessDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["commercialSuccessDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveVolunteeredOrLed === "yes" &&
-//     (!data.volunteeredOrLedDetails || data.volunteeredOrLedDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["volunteeredOrLedDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveExpertLORSupport === "yes" &&
-//     (!data.expertLORSupportDetails || data.expertLORSupportDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["expertLORSupportDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveYourSpace === "yes" &&
-//     (!data.yourSpaceDetails || data.yourSpaceDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["yourSpaceDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-//   if (
-//     data.haveWorkedWithPrevailingIssues === "yes" &&
-//     (!data.workedWithPrevailingIssuesDetails ||
-//       data.workedWithPrevailingIssuesDetails === "")
-//   ) {
-//     return refinementContext.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       path: ["workedWithPrevailingIssuesDetails"],
-//       message: "Response is required if above response is `Yes`.",
-//     });
-//   }
-// });
 
 export type FormType = z.infer<typeof formSchema>;
 export type FormFileds = keyof FormType;
@@ -717,11 +582,15 @@ export const steps: Step[] = [
       "currentlyInUS",
       "everBeenToUS",
       "everAppliedForGreenCard",
-      "everBeenJ1OrJ2",
-      "haveCriminalRecord",
       "addFamilyMembers",
       "currentEmployerInUS",
+      "currentVisa",
       "interestedIn",
+      "isStudent",
+      "graduationYear",
+      "currentRole",
+      "industryType",
+      "priorityDateIfAny",
       "fieldExpertIn",
     ],
   },
