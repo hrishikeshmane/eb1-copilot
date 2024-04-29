@@ -20,7 +20,7 @@ const ProfileBuilderPage = () => {
       <div className="mt-1">
         <p>Your can monitor your profile here</p>
       </div> */}
-      {!!metadata?.onBoarded && <p>Kanban board here</p>}
+      {/* {!!metadata?.onBoarded && <p>Kanban board here</p>} */}
       {/* {!metadata?.onBoarded && (
         <div className="my-6 flex h-[calc(100vh-12rem)] w-full items-center justify-center gap-4 rounded-md border border-dashed">
           <div className="m-auto flex w-full flex-col items-center gap-1 p-14 text-center">

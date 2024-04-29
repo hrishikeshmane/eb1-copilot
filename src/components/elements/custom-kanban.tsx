@@ -1,17 +1,15 @@
 "use client";
 
-import React, { useState, type DragEvent } from "react";
+import React, { use, useState, type DragEvent } from "react";
 import { motion } from "framer-motion";
-import { ListFilterIcon, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import {
   DragHandleDots2Icon,
   MixerHorizontalIcon,
-  PlusCircledIcon,
   PlusIcon,
 } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Command,
   CommandEmpty,
@@ -28,7 +26,6 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -38,32 +35,76 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
-import { IPillars, visaPillars } from "@/lib/constants";
+import { type IPillars, visaPillars } from "@/lib/constants";
 import { getLableForPillars } from "@/lib/utils";
+import { api } from "@/trpc/react";
+import PillarButton from "@/app/dashboard/builder/_components/pillar-button";
+import AssigneeButton from "@/app/dashboard/builder/_components/assignee-button";
+import StatusButton from "@/app/dashboard/builder/_components/status-button";
+import NewTicketButton from "@/app/dashboard/builder/_components/new-ticket-button";
+import {
+  useKanbanActions,
+  useSelectedPillars,
+} from "@/app/_store/kanban-store";
+import { Loader2 } from "lucide-react";
+import { type User } from "@clerk/nextjs/server";
+import { type ISelectTickets } from "@/server/db/schema";
+import { useUser } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 
-export const CustomKanban = () => {
+type CustomKanbanProps = {
+  children?: React.ReactNode;
+  customer?: User;
+};
+
+export const CustomKanban = ({ children, customer }: CustomKanbanProps) => {
+  let ticketQuery: ReturnType<typeof api.kanban.getAllUsersTickets.useQuery>;
+  if (customer) {
+    ticketQuery = api.kanban.getTicketsByUserId.useQuery({
+      userId: customer.id,
+    });
+  } else {
+    ticketQuery = api.kanban.getAllUsersTickets.useQuery();
+  }
+
   return (
     <>
-      <ScrollArea className="h-full w-[calc(100vw-30px)] md:w-[calc(100vw-261px)] ">
-        <Filterbar />
-        <Board />
-        <ScrollBar orientation="vertical" />
-        <ScrollBar orientation="horizontal" />
+      <ScrollArea className="h-full w-[calc(100vw-30px)] md:w-[calc(100vw-261px)]">
+        {ticketQuery.status === "pending" && (
+          <div className="h-full w-full items-center justify-center">
+            <Loader2 className="animate-spin text-muted-foreground" />
+          </div>
+        )}
+        {ticketQuery.status === "success" && (
+          <div className="h-full">
+            <Filterbar customerSelect={children} customer={customer} />
+            <Board tickets={ticketQuery.data as ISelectTickets[]} />
+            <ScrollBar orientation="vertical" />
+            <ScrollBar orientation="horizontal" />
+          </div>
+        )}
       </ScrollArea>
     </>
   );
 };
 
-const Filterbar = () => {
+type FilterbarProps = { customerSelect?: React.ReactNode; customer?: User };
+
+const Filterbar = ({ customerSelect, customer }: FilterbarProps) => {
   const [openVisaFilter, setOpenVisaFilter] = React.useState(false);
-  const [selectedPillars, setSelectedPillars] =
-    React.useState<IPillars[]>(visaPillars);
+  const selectedPillars = useSelectedPillars();
+  const kanbanActions = useKanbanActions();
+  const setSelectedPillars = kanbanActions.setSelectedPillars;
+
+  const { user } = useUser();
+  const userRole = user?.publicMetadata.role;
+
+  const pathName = usePathname();
 
   return (
     <div className="sticky left-1 mb-4 flex w-[calc(100vw-30px)] gap-3 border-b p-2 pt-0 text-sm md:w-[calc(100vw-290px)]">
-      {/* All Visa fillars here */}
       <div className="flex items-center gap-2">
-        {/* <p className="text-sm text-muted-foreground">Visa Pillars</p> */}
+        {customerSelect}
         <Popover open={openVisaFilter} onOpenChange={setOpenVisaFilter}>
           <PopoverTrigger asChild>
             <Button
@@ -123,18 +164,15 @@ const Filterbar = () => {
                             (pillar) => pillar.value === newPillar.value,
                           )
                         ) {
-                          setSelectedPillars((prevState) =>
-                            prevState.filter(
+                          setSelectedPillars(
+                            selectedPillars.filter(
                               (pillar) => pillar.value !== newPillar.value,
                             ),
                           );
                           return;
                         }
 
-                        setSelectedPillars((prevState) => [
-                          ...prevState,
-                          newPillar,
-                        ]);
+                        setSelectedPillars([...selectedPillars, newPillar]);
                       }}
                     >
                       <Checkbox
@@ -152,66 +190,90 @@ const Filterbar = () => {
           </PopoverContent>
         </Popover>
       </div>
-      <div className="ml-auto flex gap-2 ">
-        <Button size={"icon"} variant={"ghost"}>
-          <MixerHorizontalIcon />
-        </Button>
+
+      <div className="ml-auto flex gap-2">
+        {userRole === "admin" && pathName.includes("/ticket-management") && (
+          <NewTicketButton customer={customer} />
+        )}
+        <Popover>
+          <PopoverTrigger asChild>
+            <div>
+              <Button size={"sm"} variant={"outline"} className="px-2">
+                <MixerHorizontalIcon />
+              </Button>
+            </div>
+          </PopoverTrigger>
+          <PopoverContent className="mr-6 p-0" side="bottom" align="start">
+            <Command>
+              <CommandList>
+                <CommandGroup>
+                  <CommandItem className="flex gap-1">
+                    <Checkbox checked={true} />
+                    Show Visa Pillars
+                  </CommandItem>
+                  <CommandItem className="flex gap-1">
+                    <Checkbox checked={true} />
+                    Show Assignee
+                  </CommandItem>
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   );
 };
 
-const Board = () => {
-  const [cards, setCards] = useState<IKanbanCard[]>(DEFAULT_CARDS);
-
+const Board = ({ tickets }: { tickets: ISelectTickets[] }) => {
   return (
-    <div className="flex gap-3">
+    <div className="flex h-full gap-3">
       <Column
         title="Backlog"
         column="backlog"
         headingColor="text-neutral-500"
-        cards={cards}
-        setCards={setCards}
+        cards={tickets}
+        // setCards={setCards}
       />
       <Column
         title="TODO"
         column="todo"
         headingColor="text-yellow-600 dark:text-yellow-200"
-        cards={cards}
-        setCards={setCards}
+        cards={tickets}
+        // setCards={setCards}
       />
       <Column
         title="In progress"
         column="doing"
         headingColor="text-blue-600 dark:text-blue-200"
-        cards={cards}
-        setCards={setCards}
+        cards={tickets}
+        // setCards={setCards}
       />
       <Column
         title="In Review"
         column="review"
         headingColor="text-violet-600 dark:text-violet-200"
-        cards={cards}
-        setCards={setCards}
+        cards={tickets}
+        // setCards={setCards}
       />
       <Column
         title="Complete"
         column="done"
         headingColor="text-emerald-600 dark:text-emerald-200"
-        cards={cards}
-        setCards={setCards}
+        cards={tickets}
+        // setCards={setCards}
       />
-      <BurnBarrel setCards={setCards} />
+      {/* <BurnBarrel setCards={setCards} /> */}
     </div>
   );
 };
 
 export type ColumProps = {
   title: string;
-  column: string;
+  column: "backlog" | "todo" | "doing" | "review" | "done";
   headingColor: string;
-  cards: IKanbanCard[];
-  setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
+  cards: ISelectTickets[];
+  // setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
 };
 
 const Column = ({
@@ -219,9 +281,16 @@ const Column = ({
   headingColor,
   cards,
   column,
-  setCards,
+  // setCards,
 }: ColumProps) => {
   const [active, setActive] = useState(false);
+
+  const utils = api.useUtils();
+  const updateTicketMutation = api.kanban.addTicket.useMutation({
+    onSettled: async () => {
+      await utils.kanban.getAllUsersTickets.invalidate();
+    },
+  });
 
   const handleDragStart = (e: DragEvent<HTMLDivElement>, card: IKanbanCard) => {
     e.dataTransfer.setData("cardId", card.id);
@@ -241,24 +310,24 @@ const Column = ({
     if (before !== cardId) {
       let copy = [...cards];
 
-      let cardToTransfer = copy.find((c) => c.id === cardId);
+      let cardToTransfer = copy.find((c) => c.ticketId === cardId);
       if (!cardToTransfer) return;
       cardToTransfer = { ...cardToTransfer, column };
 
-      copy = copy.filter((c) => c.id !== cardId);
+      copy = copy.filter((c) => c.ticketId !== cardId);
 
       const moveToBack = before === "-1";
 
       if (moveToBack) {
         copy.push(cardToTransfer);
       } else {
-        const insertAtIndex = copy.findIndex((el) => el.id === before);
+        const insertAtIndex = copy.findIndex((el) => el.ticketId === before);
         if (insertAtIndex === undefined) return;
 
         copy.splice(insertAtIndex, 0, cardToTransfer);
       }
 
-      setCards(copy);
+      // setCards(copy);
     }
   };
 
@@ -331,7 +400,7 @@ const Column = ({
   const filteredCards = cards.filter((c) => c.column === column);
 
   return (
-    <div className="w-56 shrink-0">
+    <div className="max-h-full w-56 shrink-0">
       <div className="mb-3 flex items-center justify-between">
         <h3 className={`font-medium ${headingColor}`}>{title}</h3>
         <span className="rounded text-sm text-neutral-400">
@@ -350,25 +419,30 @@ const Column = ({
       >
         {filteredCards.map((c) => {
           return (
-            <KanbanCard key={c.id} {...c} handleDragStart={handleDragStart} />
+            <KanbanCard
+              key={c.ticketId}
+              id={c.ticketId}
+              {...c}
+              handleDragStart={handleDragStart}
+            />
           );
         })}
         <DropIndicator beforeId={null} column={column} />
-        <AddCard column={column} setCards={setCards} />
+        {/* <AddCard column={column} setCards={setCards} /> */}
       </div>
     </div>
   );
 };
 
 const KanbanCard = ({
-  title,
   id,
+  title,
   column,
   handleDragStart,
   pillars,
 }: {
-  title: string;
   id: string;
+  title: string;
   column: string;
   pillars: string[];
   handleDragStart: (
@@ -381,6 +455,13 @@ const KanbanCard = ({
     }: { title: string; id: string; column: string; pillars: string[] },
   ) => void;
 }) => {
+  // const [ticketTitle, setTicketTitle] = React.useState(title);
+  // const [status, setStatus] = React.useState<
+  //   "backlog" | "todo" | "doing" | "review" | "done"
+  // >(column);
+  // const [selectedPillars, setSelectedPillars] = React.useState<IPillars[]>([]);
+  // const [assignee, setAssignee] = React.useState<User>(); // get from tickets data
+
   return (
     <>
       <DropIndicator beforeId={id} column={column} />
@@ -419,7 +500,7 @@ const KanbanCard = ({
               </div>
             </div>
           </SheetTrigger>
-          <SheetContent className="flex h-full flex-col sm:w-[650px] sm:max-w-[650px]">
+          <SheetContent className="flex h-full flex-col sm:w-[750px] sm:max-w-[750px]">
             <SheetHeader>
               <>
                 <SheetTitle>
@@ -428,34 +509,20 @@ const KanbanCard = ({
                     value={title}
                   ></input>
                 </SheetTitle>
-                <SheetDescription className="flex flex-col gap-2 border-b pb-2">
-                  <div className="grid grid-cols-[78px_1fr] items-center gap-3">
+                <SheetDescription className="flex flex-col gap-2 space-y-1 border-b pb-2">
+                  <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                    <p className="">Status:</p>
+                    <StatusButton />
+                  </div>
+
+                  <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                     <p className="">Visa Pillars:</p>
-                    <button className="flex flex-wrap gap-1">
-                      {pillars.map((pillar) => (
-                        <Badge
-                          className="font-mono font-light"
-                          variant="secondary"
-                          key={pillar}
-                        >
-                          {getLableForPillars(pillar)}
-                        </Badge>
-                      ))}
-                    </button>
+                    <PillarButton />
                   </div>
 
                   <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                     <p className="">Assign:</p>
-                    <button className="flex flex-wrap gap-1">
-                      <p>Username</p>
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-[78px_1fr] items-center gap-3">
-                    <p className="">Status:</p>
-                    <div className="flex flex-wrap gap-1">
-                      <p>{column}</p>
-                    </div>
+                    <AssigneeButton />
                   </div>
                 </SheetDescription>
               </>
@@ -582,6 +649,7 @@ const AddCard = ({
             placeholder="Add new task..."
             className="w-full rounded border border-primary bg-primary/20 p-3 text-sm placeholder-muted-foreground focus:outline-0 dark:placeholder-primary/80"
           />
+
           <div className="mt-1 flex items-center justify-end gap-1.5">
             <Button
               size={"sm"}

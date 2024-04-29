@@ -2,13 +2,25 @@
 
 import Logo from "@/components/elements/logo";
 import { cn } from "@/lib/utils";
-import { Home, Package, SquareKanbanIcon } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import {
+  Home,
+  KanbanSquareDashedIcon,
+  LayoutDashboard,
+  Package,
+  SquareKanbanIcon,
+  UserCog,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 const Navbar = () => {
   const pathName = usePathname();
+  const { user } = useUser();
+  const userMetadata =
+    user?.publicMetadata as CustomJwtSessionClaims["metadata"];
+  const userRole = userMetadata?.role;
 
   return (
     <div className="hidden border-r bg-muted/40 md:block">
@@ -55,6 +67,46 @@ const Navbar = () => {
                   6
                 </Badge> */}
             </Link>
+
+            <Link
+              href="/dashboard/profile-tracker"
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
+                pathName.endsWith("/dashboard/profile-tracker") &&
+                  "bg-muted text-foreground",
+              )}
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Profile Tracker
+            </Link>
+
+            {userRole === "admin" && (
+              <Link
+                href="/dashboard/ticket-management"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
+                  pathName.endsWith("/dashboard/ticket-management") &&
+                    "bg-muted text-foreground",
+                )}
+              >
+                <KanbanSquareDashedIcon className="h-4 w-4" />
+                Ticket Management
+              </Link>
+            )}
+
+            {userRole === "admin" && (
+              <Link
+                href="/dashboard/user-management"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
+                  pathName.endsWith("/dashboard/user-management") &&
+                    "bg-muted text-foreground",
+                )}
+              >
+                <UserCog className="h-4 w-4" />
+                User Management
+              </Link>
+            )}
           </nav>
         </div>
         <div className="mt-auto p-4">

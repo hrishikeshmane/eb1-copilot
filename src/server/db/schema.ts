@@ -14,7 +14,7 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 import { table } from "console";
-import { VISA_PILLARS } from "@/lib/constants";
+import { VISA_PILLARS_EX } from "@/lib/constants";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -171,22 +171,27 @@ export const tickets = createTable(
       .$defaultFn(createId),
     title: text("title", { length: 256 }).notNull(),
     description: text("description", { length: 2000 }),
-    customerId: text("boardId", { length: 256 })
+    customerId: text("customerId", { length: 256 })
       .notNull()
       .references(() => users.userId, { onDelete: "cascade" }),
     pillars: blob("pillars", { mode: "json" })
-      .$type<VISA_PILLARS | "misc"[]>()
-      .default([])
+      .$type<VISA_PILLARS_EX[]>()
       .notNull(),
-    column: text("columnId", {
+    column: text("column", {
       enum: ["backlog", "todo", "doing", "review", "done"],
     })
       .notNull()
       .default("backlog"),
     order: integer("order").notNull(),
-    assigneeId: text("userId", { length: 256 }).references(() => users.userId, {
-      onDelete: "no action",
-    }),
+    assigneeId: text("assigneeId", { length: 256 }).references(
+      () => users.userId,
+      {
+        onDelete: "no action",
+      },
+    ),
+    createdBy: text("createdBy", { length: 256 })
+      .notNull()
+      .references(() => users.userId, { onDelete: "no action" }),
     createdAt: int("createdAt", { mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
@@ -217,3 +222,8 @@ export const comments = createTable("comments", {
     .default(sql`(unixepoch())`)
     .notNull(),
 });
+
+export type ISelectTickets = typeof tickets.$inferSelect;
+export type ISelectUserInfo = typeof userInfo.$inferSelect;
+export type ISelectUserVisaPillarDetails =
+  typeof userVisaPillarDetails.$inferSelect;
