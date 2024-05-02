@@ -24,8 +24,9 @@ import {
   ticketPillarsAtom,
   ticketAssigneeIdAtom,
 } from "@/app/_store/kanban-store";
+import { type ISelectTickets } from "@/server/db/schema";
 
-const NewTicketButton = () => {
+const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const customer = useAtomValue(customerAtom);
 
   const [ticketTitle, setTicketTitle] = useAtom(ticketTitleAtom);
@@ -71,12 +72,16 @@ const NewTicketButton = () => {
       return;
     }
 
+    const ticketLenghtByColumn = tickets.filter(
+      (t) => t.column === ticketStatus,
+    ).length;
+
     addTicketMutation.mutate({
       title: ticketTitle,
       customerId: customer.id,
       pillars: ticketPillars.map((pillar) => pillar.value),
       column: ticketStatus,
-      order: 0, // TODO: get length of column
+      order: ticketLenghtByColumn,
       assigneeId: ticketAssigneeId,
     });
     resetTicketStates();
