@@ -14,18 +14,37 @@ import React from "react";
 import StatusButton from "./status-button";
 import PillarButton from "./pillar-button";
 import AssigneeButton from "./assignee-button";
-import { type User } from "@clerk/nextjs/server";
-import { type IPillars } from "@/lib/constants";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
+import { useAtom, useAtomValue } from "jotai";
+import {
+  customerAtom,
+  ticketTitleAtom,
+  ticketStatusAtom,
+  ticketPillarsAtom,
+  ticketAssigneeIdAtom,
+} from "@/app/_store/kanban-store";
 
-const NewTicketButton = ({ customer }: { customer?: User }) => {
-  const [title, setTitle] = React.useState("");
-  const [status, setStatus] = React.useState<
-    "backlog" | "todo" | "doing" | "review" | "done"
-  >("backlog");
-  const [selectedPillars, setSelectedPillars] = React.useState<IPillars[]>([]);
-  const [assignee, setAssignee] = React.useState<User>();
+const NewTicketButton = () => {
+  const customer = useAtomValue(customerAtom);
+
+  const [ticketTitle, setTicketTitle] = useAtom(ticketTitleAtom);
+  const [ticketStatus, setTicketStatus] = useAtom(ticketStatusAtom);
+  const [ticketPillars, setTicketPillars] = useAtom(ticketPillarsAtom);
+  const [ticketAssigneeId, setTicketAssigneeId] = useAtom(ticketAssigneeIdAtom);
+
+  const resetTicketStates = () => {
+    setTicketTitle("");
+    setTicketStatus("backlog");
+    setTicketPillars([]);
+    setTicketAssigneeId(null);
+  };
+
+  const [openSheet, setOpenSheet] = React.useState(false);
+  const sheetOpenHandler = () => {
+    resetTicketStates();
+    setOpenSheet((prevState) => !prevState);
+  };
 
   if (!customer) {
     return <div> Customer User not found</div>;
@@ -38,40 +57,34 @@ const NewTicketButton = ({ customer }: { customer?: User }) => {
     },
   });
 
-  const resetStates = () => {
-    setTitle("");
-    setStatus("backlog");
-    setSelectedPillars([]);
-    setAssignee(undefined);
-  };
-
   const addTicketHanlder = () => {
-    if (!title) {
+    if (!ticketTitle) {
       toast.error("Title is required");
       return;
     }
-    if (selectedPillars.length === 0) {
+    if (ticketPillars.length === 0) {
       toast.error("Select atleast one pillar");
       return;
     }
-    if (!assignee) {
+    if (!ticketAssigneeId) {
       toast.error("Select an assignee");
       return;
     }
 
     addTicketMutation.mutate({
-      title,
+      title: ticketTitle,
       customerId: customer.id,
-      pillars: selectedPillars.map((pillar) => pillar.value),
-      column: status,
-      order: 0, // get lenght of column
-      assigneeId: assignee.id,
+      pillars: ticketPillars.map((pillar) => pillar.value),
+      column: ticketStatus,
+      order: 0, // TODO: get length of column
+      assigneeId: ticketAssigneeId,
     });
-    resetStates();
+    resetTicketStates();
+    setOpenSheet(false);
   };
 
   return (
-    <Sheet>
+    <Sheet open={openSheet} onOpenChange={sheetOpenHandler}>
       <SheetTrigger asChild>
         <Button className="gap-1" size={"sm"}>
           <PlusIcon /> New Ticket
@@ -83,28 +96,34 @@ const NewTicketButton = ({ customer }: { customer?: User }) => {
             <SheetTitle>
               <input
                 className="inline-block w-full border-none bg-transparent p-0 outline-none ring-0"
-                value={title}
                 placeholder="New Ticket Title"
-                onChange={(e) => setTitle(e.target.value)}
+                value={ticketTitle}
+                onChange={(e) => setTicketTitle(e.target.value)}
               ></input>
             </SheetTitle>
             <SheetDescription className="flex flex-col gap-2 space-y-1 border-b pb-2">
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Status:</p>
-                <StatusButton status={status} setStatus={setStatus} />
+                <StatusButton
+                  status={ticketStatus}
+                  setStatus={setTicketStatus}
+                />
               </div>
 
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Visa Pillars:</p>
                 <PillarButton
-                  selectedPillars={selectedPillars}
-                  setSelectedPillars={setSelectedPillars}
+                  selectedPillars={ticketPillars}
+                  setSelectedPillars={setTicketPillars}
                 />
               </div>
 
               <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                 <p className="">Assign:</p>
-                <AssigneeButton assignee={assignee} setAssignee={setAssignee} />
+                <AssigneeButton
+                  assigneeId={ticketAssigneeId}
+                  setAssigneeId={setTicketAssigneeId}
+                />
               </div>
             </SheetDescription>
           </>
@@ -116,11 +135,11 @@ const NewTicketButton = ({ customer }: { customer?: User }) => {
                 Discard
               </Button>
             </SheetClose>
-            <SheetClose asChild>
-              <Button size="sm" onClick={addTicketHanlder}>
-                Add Ticket
-              </Button>
-            </SheetClose>
+            {/* <SheetClose asChild> */}
+            <Button size="sm" onClick={addTicketHanlder}>
+              Add Ticket
+            </Button>
+            {/* </SheetClose> */}
           </div>
         </SheetFooter>
       </SheetContent>

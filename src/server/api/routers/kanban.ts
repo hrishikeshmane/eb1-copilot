@@ -72,6 +72,20 @@ export const kanbanRouter = createTRPCRouter({
       return ticket;
     }),
 
+  updateTicketColumn: adminOrVendorProcedure
+    .input(
+      z.object({
+        ticketId: z.string(),
+        column: z.enum(["backlog", "todo", "doing", "review", "done"]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(tickets)
+        .set({ column: input.column })
+        .where(eq(tickets.ticketId, input.ticketId));
+    }),
+
   updateTicket: adminOrVendorProcedure
     .input(
       z.object({

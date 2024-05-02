@@ -14,9 +14,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { api } from "@/trpc/react";
-import { type User } from "@clerk/nextjs/server";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
 type TicketStatus = {

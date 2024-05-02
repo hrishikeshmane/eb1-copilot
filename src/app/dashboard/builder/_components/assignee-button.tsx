@@ -19,14 +19,16 @@ import { type User } from "@clerk/nextjs/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type AssigneeButtonProps = {
-  assignee: User | undefined;
-  setAssignee: React.Dispatch<React.SetStateAction<User | undefined>>;
+  assigneeId: string | null;
+  setAssigneeId: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-const AssigneeButton = ({ assignee, setAssignee }: AssigneeButtonProps) => {
+const AssigneeButton = ({ assigneeId, setAssigneeId }: AssigneeButtonProps) => {
   // TODO: move this call to in the custom kanban component
   // TODO: Find a away to do this on Server and send initial data to the client
   const vendors = api.userManagement.getAllVendors.useQuery();
+
+  const assignee = vendors.data?.find((v) => v.id === assigneeId);
 
   const [openAssigneePopover, setOpenAssigneePopover] = React.useState(false);
 
@@ -102,7 +104,8 @@ const AssigneeButton = ({ assignee, setAssignee }: AssigneeButtonProps) => {
                       value={vendor.id}
                       className="flex items-center gap-2"
                       onSelect={(value) => {
-                        setAssignee(vendors.data?.find((v) => v.id === value));
+                        setAssigneeId(value);
+                        // setAssignee(vendors.data?.find((v) => v.id === value));
                         setOpenAssigneePopover(false);
                       }}
                     >

@@ -26,6 +26,7 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -43,21 +44,34 @@ import AssigneeButton from "@/app/dashboard/builder/_components/assignee-button"
 import StatusButton from "@/app/dashboard/builder/_components/status-button";
 import NewTicketButton from "@/app/dashboard/builder/_components/new-ticket-button";
 import {
-  useKanbanActions,
-  useSelectedPillars,
+  customerAtom,
+  FilterPillarsAtom,
+  ticketTitleAtom,
+  ticketStatusAtom,
+  ticketPillarsAtom,
+  ticketAssigneeIdAtom,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
 import { type ISelectTickets } from "@/server/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
   customer?: User;
+  interactable?: boolean;
 };
 
-export const CustomKanban = ({ children, customer }: CustomKanbanProps) => {
+export const CustomKanban = ({
+  children,
+  customer,
+  interactable,
+}: CustomKanbanProps) => {
+  const setCustomer = useSetAtom(customerAtom);
+  setCustomer(customer);
+
   let ticketQuery: ReturnType<typeof api.kanban.getAllUsersTickets.useQuery>;
   if (customer) {
     ticketQuery = api.kanban.getTicketsByUserId.useQuery({
@@ -77,7 +91,7 @@ export const CustomKanban = ({ children, customer }: CustomKanbanProps) => {
         )}
         {ticketQuery.status === "success" && (
           <div className="h-full">
-            <Filterbar customerSelect={children} customer={customer} />
+            <Filterbar customerSelect={children} />
             <Board tickets={ticketQuery.data as ISelectTickets[]} />
             <ScrollBar orientation="vertical" />
             <ScrollBar orientation="horizontal" />
@@ -88,13 +102,11 @@ export const CustomKanban = ({ children, customer }: CustomKanbanProps) => {
   );
 };
 
-type FilterbarProps = { customerSelect?: React.ReactNode; customer?: User };
+type FilterbarProps = { customerSelect?: React.ReactNode };
 
-const Filterbar = ({ customerSelect, customer }: FilterbarProps) => {
+const Filterbar = ({ customerSelect }: FilterbarProps) => {
   const [openVisaFilter, setOpenVisaFilter] = React.useState(false);
-  const selectedPillars = useSelectedPillars();
-  const kanbanActions = useKanbanActions();
-  const setSelectedPillars = kanbanActions.setSelectedPillars;
+  const [filterPillars, setFilterPillars] = useAtom(FilterPillarsAtom);
 
   const { user } = useUser();
   const userRole = user?.publicMetadata.role;
@@ -116,18 +128,18 @@ const Filterbar = ({ customerSelect, customer }: FilterbarProps) => {
               Visa Pillars
               <Separator orientation="vertical" className="ml-2" />
               <div className="flex max-w-[30rem] gap-1 overflow-x-hidden font-mono">
-                {selectedPillars.length == 10 && (
+                {filterPillars.length == 10 && (
                   <div className="rounded-sm bg-secondary px-2 py-1">
                     All Selected
                   </div>
                 )}
-                {selectedPillars.length >= 4 && selectedPillars.length < 10 && (
+                {filterPillars.length >= 4 && filterPillars.length < 10 && (
                   <div className="rounded-sm bg-secondary px-2 py-1">
-                    {selectedPillars.length} Selected
+                    {filterPillars.length} Selected
                   </div>
                 )}
-                {selectedPillars.length < 4 &&
-                  selectedPillars.map((vp) => (
+                {filterPillars.length < 4 &&
+                  filterPillars.map((vp) => (
                     <div
                       key={vp.value}
                       className="rounded-sm bg-secondary px-2 py-1"
@@ -144,7 +156,7 @@ const Filterbar = ({ customerSelect, customer }: FilterbarProps) => {
               <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
                 <CommandGroup>
-                  <CommandItem onSelect={() => setSelectedPillars(visaPillars)}>
+                  <CommandItem onSelect={() => setFilterPillars(visaPillars)}>
                     --Select All--
                   </CommandItem>
                   {visaPillars.map((status) => (
@@ -160,24 +172,24 @@ const Filterbar = ({ customerSelect, customer }: FilterbarProps) => {
 
                         // if new pillar is already in the selectedPillars, remove it
                         if (
-                          selectedPillars.some(
+                          filterPillars.some(
                             (pillar) => pillar.value === newPillar.value,
                           )
                         ) {
-                          setSelectedPillars(
-                            selectedPillars.filter(
+                          setFilterPillars(
+                            filterPillars.filter(
                               (pillar) => pillar.value !== newPillar.value,
                             ),
                           );
                           return;
                         }
 
-                        setSelectedPillars([...selectedPillars, newPillar]);
+                        setFilterPillars([...filterPillars, newPillar]);
                       }}
                     >
                       <Checkbox
                         id={status.value}
-                        checked={selectedPillars.some(
+                        checked={filterPillars.some(
                           (pillar) => pillar.value === status.value,
                         )}
                       />
@@ -193,7 +205,7 @@ const Filterbar = ({ customerSelect, customer }: FilterbarProps) => {
 
       <div className="ml-auto flex gap-2">
         {userRole === "admin" && pathName.includes("/ticket-management") && (
-          <NewTicketButton customer={customer} />
+          <NewTicketButton />
         )}
         <Popover>
           <PopoverTrigger asChild>
@@ -233,35 +245,30 @@ const Board = ({ tickets }: { tickets: ISelectTickets[] }) => {
         column="backlog"
         headingColor="text-neutral-500"
         cards={tickets}
-        // setCards={setCards}
       />
       <Column
         title="TODO"
         column="todo"
         headingColor="text-yellow-600 dark:text-yellow-200"
         cards={tickets}
-        // setCards={setCards}
       />
       <Column
         title="In progress"
         column="doing"
         headingColor="text-blue-600 dark:text-blue-200"
         cards={tickets}
-        // setCards={setCards}
       />
       <Column
         title="In Review"
         column="review"
         headingColor="text-violet-600 dark:text-violet-200"
         cards={tickets}
-        // setCards={setCards}
       />
       <Column
         title="Complete"
         column="done"
         headingColor="text-emerald-600 dark:text-emerald-200"
         cards={tickets}
-        // setCards={setCards}
       />
       {/* <BurnBarrel setCards={setCards} /> */}
     </div>
@@ -273,27 +280,66 @@ export type ColumProps = {
   column: "backlog" | "todo" | "doing" | "review" | "done";
   headingColor: string;
   cards: ISelectTickets[];
-  // setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
 };
 
-const Column = ({
-  title,
-  headingColor,
-  cards,
-  column,
-  // setCards,
-}: ColumProps) => {
-  const [active, setActive] = useState(false);
+const Column = ({ title, headingColor, cards, column }: ColumProps) => {
+  const customer = useAtomValue(customerAtom);
 
+  const [active, setActive] = useState(false);
   const utils = api.useUtils();
   const updateTicketMutation = api.kanban.addTicket.useMutation({
     onSettled: async () => {
-      await utils.kanban.getAllUsersTickets.invalidate();
+      await utils.kanban.getTicketsByUserId.invalidate();
     },
   });
 
-  const handleDragStart = (e: DragEvent<HTMLDivElement>, card: IKanbanCard) => {
-    e.dataTransfer.setData("cardId", card.id);
+  const updateTicketColumnMutation = api.kanban.updateTicketColumn.useMutation({
+    onMutate: async ({ ticketId, column }) => {
+      // Cancel any outgoing refetches
+      // (so they don't overwrite our optimistic update)
+      await utils.kanban.getTicketsByUserId.cancel();
+
+      // Get the data from the queryCache
+      const previousTickets = utils.kanban.getTicketsByUserId.getData();
+
+      // Optimistically update the data with our new ticket column
+      utils.kanban.getTicketsByUserId.setData(
+        { userId: customer?.id ?? "" },
+        (old) => {
+          if (!old) return;
+          return old.map((ticket) => {
+            if (ticket.ticketId === ticketId) {
+              return {
+                ...ticket,
+                column: column,
+              };
+            }
+            return ticket;
+          });
+        },
+      );
+
+      // Return the previous data so we can revert if something goes wrong
+      return { previousTickets };
+    },
+    onError(err, newData, ctx) {
+      // If the mutation fails, use the context-value from onMutate
+      utils.kanban.getTicketsByUserId.setData(
+        { userId: customer?.id ?? "" },
+        ctx?.previousTickets,
+      );
+    },
+    onSettled: async () => {
+      // Sync with server once mutation has settled
+      await utils.kanban.getTicketsByUserId.invalidate();
+    },
+  });
+
+  const handleDragStart = (
+    e: DragEvent<HTMLDivElement>,
+    card: ISelectTickets,
+  ) => {
+    e.dataTransfer.setData("cardId", card.ticketId);
   };
 
   const handleDragEnd = (e: DragEvent<HTMLDivElement>) => {
@@ -326,6 +372,11 @@ const Column = ({
 
         copy.splice(insertAtIndex, 0, cardToTransfer);
       }
+
+      updateTicketColumnMutation.mutate({
+        ticketId: cardId,
+        column: column,
+      });
 
       // setCards(copy);
     }
@@ -421,74 +472,79 @@ const Column = ({
           return (
             <KanbanCard
               key={c.ticketId}
-              id={c.ticketId}
-              {...c}
+              card={c}
               handleDragStart={handleDragStart}
             />
           );
         })}
         <DropIndicator beforeId={null} column={column} />
-        {/* <AddCard column={column} setCards={setCards} /> */}
       </div>
     </div>
   );
 };
 
 const KanbanCard = ({
-  id,
-  title,
-  column,
+  card,
   handleDragStart,
-  pillars,
 }: {
-  id: string;
-  title: string;
-  column: string;
-  pillars: string[];
-  handleDragStart: (
-    e: DragEvent<HTMLDivElement>,
-    {
-      title,
-      id,
-      column,
-      pillars,
-    }: { title: string; id: string; column: string; pillars: string[] },
-  ) => void;
+  card: ISelectTickets;
+  handleDragStart: (e: DragEvent<HTMLDivElement>, card: ISelectTickets) => void;
 }) => {
-  // const [ticketTitle, setTicketTitle] = React.useState(title);
-  // const [status, setStatus] = React.useState<
-  //   "backlog" | "todo" | "doing" | "review" | "done"
-  // >(column);
-  // const [selectedPillars, setSelectedPillars] = React.useState<IPillars[]>([]);
-  // const [assignee, setAssignee] = React.useState<User>(); // get from tickets data
+  const [ticketTitle, setTicketTitle] = useAtom(ticketTitleAtom);
+  const [ticketStatus, setTicketStatus] = useAtom(ticketStatusAtom);
+  const [ticketPillars, setTicketPillars] = useAtom(ticketPillarsAtom);
+  const [ticketAssigneeId, setTicketAssigneeId] = useAtom(ticketAssigneeIdAtom);
+
+  const filteredCardPillars = card.pillars.map((pillar) => {
+    return visaPillars.find((vp) => vp.value === pillar);
+  }) as IPillars[];
+
+  const onSheetMount = () => {
+    setTicketTitle(card.title);
+    setTicketStatus(card.column);
+    setTicketPillars(filteredCardPillars);
+    setTicketAssigneeId(card.assigneeId);
+  };
+  const onUnMount = () => {
+    setTicketTitle("");
+    setTicketStatus("backlog");
+    setTicketPillars([]);
+    setTicketAssigneeId(null);
+  };
+
+  const [openSheet, setOpenSheet] = React.useState(false);
+  const sheetOpenHandler = () => {
+    if (openSheet) {
+      onUnMount();
+      setOpenSheet(false);
+      return;
+    }
+    onSheetMount();
+    setOpenSheet(true);
+  };
 
   return (
     <>
-      <DropIndicator beforeId={id} column={column} />
+      <DropIndicator beforeId={card.ticketId} column={card.column} />
       <motion.div
         layout
-        layoutId={id}
+        layoutId={card.ticketId}
         draggable="true"
         onDragStart={(e) =>
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          handleDragStart(e as any as DragEvent<HTMLDivElement>, {
-            title,
-            id,
-            column,
-            pillars,
-          })
+          handleDragStart(e as any as DragEvent<HTMLDivElement>, card)
         }
         className="relative cursor-pointer rounded border bg-card p-3 active:cursor-grabbing"
       >
-        <Sheet>
+        <Sheet open={openSheet} onOpenChange={sheetOpenHandler}>
           <SheetTrigger asChild>
             <div>
               <DragHandleDots2Icon className="absolute left-2 top-3.5 -ml-1 h-4 w-4" />
               <div className="flex pl-3">
-                <p className="text-sm">{title}</p>
+                <p className="text-sm">{card.title}</p>
               </div>
               <div className="mt-1 flex flex-wrap gap-1 pl-3">
-                {pillars.map((pillar) => (
+                {card.pillars.map((pillar) => (
                   <Badge
                     variant="secondary"
                     className="font-mono font-light"
@@ -506,47 +562,47 @@ const KanbanCard = ({
                 <SheetTitle>
                   <input
                     className="inline-block w-full border-none bg-transparent p-0 outline-none ring-0"
-                    value={title}
+                    value={ticketTitle}
+                    onChange={(e) => setTicketTitle(e.target.value)}
                   ></input>
                 </SheetTitle>
                 <SheetDescription className="flex flex-col gap-2 space-y-1 border-b pb-2">
                   <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                     <p className="">Status:</p>
-                    <StatusButton />
+                    <StatusButton
+                      status={ticketStatus}
+                      setStatus={setTicketStatus}
+                    />
                   </div>
 
                   <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                     <p className="">Visa Pillars:</p>
-                    <PillarButton />
+                    <PillarButton
+                      selectedPillars={ticketPillars}
+                      setSelectedPillars={setTicketPillars}
+                    />
                   </div>
 
                   <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                     <p className="">Assign:</p>
-                    <AssigneeButton />
+                    <AssigneeButton
+                      assigneeId={ticketAssigneeId}
+                      setAssigneeId={setTicketAssigneeId}
+                    />
                   </div>
                 </SheetDescription>
               </>
             </SheetHeader>
-            <div>
-              {/* <p className="font-semibold">{title}</p> */}
-              <div className="mt-1 flex flex-wrap gap-1">
-                {/* {pillars.map((pillar) => (
-                  <Badge
-                    className="font-mono font-light"
-                    variant="secondary"
-                    key={pillar}
-                  >
-                    {pillar}
-                  </Badge>
-                ))} */}
-              </div>
-            </div>
             <SheetFooter>
               <div className="mt-auto flex gap-2">
-                <Button size="sm" variant="outline">
-                  Discard
-                </Button>
-                <Button size="sm">Save</Button>
+                <SheetClose asChild>
+                  <Button size="sm" variant="outline">
+                    Discard
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button size="sm">Save</Button>
+                </SheetClose>
               </div>
             </SheetFooter>
           </SheetContent>
@@ -572,196 +628,115 @@ const DropIndicator = ({
   );
 };
 
-const BurnBarrel = ({
-  setCards,
-}: {
-  setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
-}) => {
-  const [active, setActive] = useState(false);
+// const BurnBarrel = ({
+//   setCards,
+// }: {
+//   setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
+// }) => {
+//   const [active, setActive] = useState(false);
 
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setActive(true);
-  };
+//   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+//     e.preventDefault();
+//     setActive(true);
+//   };
 
-  const handleDragLeave = () => {
-    setActive(false);
-  };
+//   const handleDragLeave = () => {
+//     setActive(false);
+//   };
 
-  const handleDragEnd = (e: DragEvent<HTMLDivElement>) => {
-    const cardId = e.dataTransfer.getData("cardId");
+//   const handleDragEnd = (e: DragEvent<HTMLDivElement>) => {
+//     const cardId = e.dataTransfer.getData("cardId");
 
-    setCards((pv) => pv.filter((c) => c.id !== cardId));
+//     setCards((pv) => pv.filter((c) => c.id !== cardId));
 
-    setActive(false);
-  };
+//     setActive(false);
+//   };
 
-  return (
-    <div
-      onDrop={handleDragEnd}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      className={`mt-10 grid h-56 w-56 shrink-0 place-content-center rounded border text-3xl ${
-        active
-          ? "border-red-500 bg-red-800/20 text-red-500"
-          : "bg-card text-muted-foreground/20"
-      }`}
-    >
-      {active ? <Trash className="animate-bounce" /> : <Trash />}
-    </div>
-  );
-};
+//   return (
+//     <div
+//       onDrop={handleDragEnd}
+//       onDragOver={handleDragOver}
+//       onDragLeave={handleDragLeave}
+//       className={`mt-10 grid h-56 w-56 shrink-0 place-content-center rounded border text-3xl ${
+//         active
+//           ? "border-red-500 bg-red-800/20 text-red-500"
+//           : "bg-card text-muted-foreground/20"
+//       }`}
+//     >
+//       {active ? <Trash className="animate-bounce" /> : <Trash />}
+//     </div>
+//   );
+// };
 
-const AddCard = ({
-  column,
-  setCards,
-}: {
-  column: string;
-  setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
-}) => {
-  const [text, setText] = useState("");
-  const [adding, setAdding] = useState(false);
+// const AddCard = ({
+//   column,
+//   setCards,
+// }: {
+//   column: string;
+//   setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
+// }) => {
+//   const [text, setText] = useState("");
+//   const [adding, setAdding] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
 
-    if (!text.trim().length) return;
+//     if (!text.trim().length) return;
 
-    const newCard = {
-      column,
-      title: text.trim(),
-      id: Math.random().toString(),
-      pillars: [],
-    };
+//     const newCard = {
+//       column,
+//       title: text.trim(),
+//       id: Math.random().toString(),
+//       pillars: [],
+//     };
 
-    setCards((pv) => [...pv, newCard]);
+//     setCards((pv) => [...pv, newCard]);
 
-    setAdding(false);
-  };
+//     setAdding(false);
+//   };
 
-  return (
-    <>
-      {adding ? (
-        <motion.form layout onSubmit={handleSubmit}>
-          <textarea
-            onChange={(e) => setText(e.target.value)}
-            autoFocus
-            placeholder="Add new task..."
-            className="w-full rounded border border-primary bg-primary/20 p-3 text-sm placeholder-muted-foreground focus:outline-0 dark:placeholder-primary/80"
-          />
+//   return (
+//     <>
+//       {adding ? (
+//         <motion.form layout onSubmit={handleSubmit}>
+//           <textarea
+//             onChange={(e) => setText(e.target.value)}
+//             autoFocus
+//             placeholder="Add new task..."
+//             className="w-full rounded border border-primary bg-primary/20 p-3 text-sm placeholder-muted-foreground focus:outline-0 dark:placeholder-primary/80"
+//           />
 
-          <div className="mt-1 flex items-center justify-end gap-1.5">
-            <Button
-              size={"sm"}
-              variant={"ghost"}
-              onClick={() => setAdding(false)}
-              className="flex  items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Close
-            </Button>
-            <Button
-              size={"sm"}
-              type="submit"
-              variant={"ghost"}
-              className="gap-1.5 text-xs "
-              //   className="flex items-center gap-1.5 rounded bg-neutral-50 px-3 py-1.5 text-xs text-neutral-950 transition-colors hover:bg-neutral-300"
-            >
-              <span>Add</span>
-              <PlusIcon />
-            </Button>
-          </div>
-        </motion.form>
-      ) : (
-        <motion.button
-          layout
-          onClick={() => setAdding(true)}
-          className="flex w-full items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <span>Add card</span>
-          <PlusIcon />
-        </motion.button>
-      )}
-    </>
-  );
-};
-
-export type IKanbanCard = {
-  title: string;
-  id: string;
-  column: string;
-  pillars: string[];
-};
-
-const DEFAULT_CARDS: IKanbanCard[] = [
-  // BACKLOG
-  {
-    title: "Look into render bug in dashboard",
-    id: "1",
-    column: "backlog",
-    pillars: ["awards", "original-contributions"],
-  },
-  {
-    title: "SOX compliance checklist",
-    id: "2",
-    column: "backlog",
-    pillars: ["original-contributions", "authorship"],
-  },
-  {
-    title: "[SPIKE] Migrate to Azure",
-    id: "3",
-    column: "backlog",
-    pillars: ["awards"],
-  },
-  {
-    title: "Document Notifications service",
-    id: "4",
-    column: "backlog",
-    pillars: ["awards"],
-  },
-  // TODO ,pillars: ['awards']
-  {
-    title: "Research DB options for new microservice",
-    id: "5",
-    column: "todo",
-    pillars: ["awards"],
-  },
-  {
-    title: "Postmortem for outage",
-    id: "6",
-    column: "todo",
-    pillars: ["awards"],
-  },
-  {
-    title: "Sync with product on Q3 roadmap",
-    id: "7",
-    column: "todo",
-    pillars: ["awards"],
-  },
-  // DOING
-  {
-    title: "Refactor context providers to use Zustand",
-    id: "8",
-    column: "doing",
-    pillars: ["awards"],
-  },
-  {
-    title: "Add logging to daily CRON",
-    id: "9",
-    column: "doing",
-    pillars: ["awards"],
-  },
-  // REVIEW
-  {
-    title: "Set up DD dashboards for Lambda listener",
-    id: "11",
-    column: "review",
-    pillars: ["awards"],
-  },
-  // DONE
-  {
-    title: "Set up DD dashboards for Lambda listener",
-    id: "10",
-    column: "done",
-    pillars: ["awards"],
-  },
-];
+//           <div className="mt-1 flex items-center justify-end gap-1.5">
+//             <Button
+//               size={"sm"}
+//               variant={"ghost"}
+//               onClick={() => setAdding(false)}
+//               className="flex  items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+//             >
+//               Close
+//             </Button>
+//             <Button
+//               size={"sm"}
+//               type="submit"
+//               variant={"ghost"}
+//               className="gap-1.5 text-xs "
+//               //   className="flex items-center gap-1.5 rounded bg-neutral-50 px-3 py-1.5 text-xs text-neutral-950 transition-colors hover:bg-neutral-300"
+//             >
+//               <span>Add</span>
+//               <PlusIcon />
+//             </Button>
+//           </div>
+//         </motion.form>
+//       ) : (
+//         <motion.button
+//           layout
+//           onClick={() => setAdding(true)}
+//           className="flex w-full items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+//         >
+//           <span>Add card</span>
+//           <PlusIcon />
+//         </motion.button>
+//       )}
+//     </>
+//   );
+// };
