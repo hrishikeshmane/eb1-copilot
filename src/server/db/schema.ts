@@ -1,15 +1,20 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
+import { desc, sql } from "drizzle-orm";
 import {
   int,
   sqliteTableCreator,
   text,
   integer,
+  index,
+  unique,
   primaryKey,
   blob,
 } from "drizzle-orm/sqlite-core";
+import { createId } from "@paralleldrive/cuid2";
+import { table } from "console";
+import { VISA_PILLARS_EX } from "@/lib/constants";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -154,8 +159,71 @@ export const userVisaPillarDetails = createTable("userVisaPillarDetails", {
   }).notNull(),
   title: text("title", { length: 256 }).notNull(),
   detail: text("detail", { length: 2000 }).notNull(),
-  // details: text("details", { length: 2000 }).notNull(),
-  // details: blob("details")
-  //   .$type<{ id: string; title: string; detail: string }[]>()
-  //   .notNull(),
 });
+
+// Kanban board
+export const tickets = createTable(
+  "tickets",
+  {
+    ticketId: text("ticketId", { length: 256 })
+      .primaryKey()
+      .notNull()
+      .$defaultFn(createId),
+    title: text("title", { length: 256 }).notNull(),
+    description: text("description", { length: 2000 }),
+    customerId: text("customerId", { length: 256 })
+      .notNull()
+      .references(() => users.userId, { onDelete: "cascade" }),
+    pillars: blob("pillars", { mode: "json" })
+      .$type<VISA_PILLARS_EX[]>()
+      .notNull(),
+    column: text("column", {
+      enum: ["backlog", "todo", "doing", "review", "done"],
+    })
+      .notNull()
+      .default("backlog"),
+    order: integer("order").notNull(),
+    assigneeId: text("assigneeId", { length: 256 }).references(
+      () => users.userId,
+      {
+        onDelete: "no action",
+      },
+    ),
+    createdBy: text("createdBy", { length: 256 })
+      .notNull()
+      .references(() => users.userId, { onDelete: "no action" }),
+    createdAt: int("createdAt", { mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: int("updatedAt", { mode: "timestamp" }).default(
+      sql`(unixepoch())`,
+    ),
+  },
+  (table) => {
+    return {
+      customerIdIdx: index("customerId_idx").on(table.customerId),
+    };
+  },
+);
+
+export const comments = createTable("comments", {
+  commentId: text("commentId", { length: 256 })
+    .primaryKey()
+    .notNull()
+    .$defaultFn(createId),
+  ticketId: text("ticketId", { length: 256 })
+    .notNull()
+    .references(() => tickets.ticketId, { onDelete: "cascade" }),
+  userId: text("userId", { length: 256 })
+    .notNull()
+    .references(() => users.userId, { onDelete: "cascade" }),
+  content: text("content", { length: 2000 }).notNull(),
+  createdAt: int("createdAt", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+});
+
+export type ISelectTickets = typeof tickets.$inferSelect;
+export type ISelectUserInfo = typeof userInfo.$inferSelect;
+export type ISelectUserVisaPillarDetails =
+  typeof userVisaPillarDetails.$inferSelect;

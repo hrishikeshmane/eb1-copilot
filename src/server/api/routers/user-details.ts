@@ -10,6 +10,7 @@ import {
   visaPillarFields,
 } from "@/app/dashboard/onboarding/_components/form-utils";
 import { db } from "@/server/db";
+import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 export const userDetailsRouter = createTRPCRouter({
@@ -88,7 +89,16 @@ export const userDetailsRouter = createTRPCRouter({
     }),
 
   getUserInfo: protectedProcedure.query(async ({ ctx }) => {
-    const userInfoData = await db.query.userVisaPillarDetails.findMany();
+    const userInfoData = await db.query.userInfo.findFirst({
+      where: (table) => eq(table.userId, ctx.session.userId),
+    });
     return userInfoData;
+  }),
+
+  getUserPillars: protectedProcedure.query(async ({ ctx }) => {
+    const userPillarData = await db.query.userVisaPillarDetails.findMany({
+      where: (table) => eq(table.userId, ctx.session.userId),
+    });
+    return userPillarData;
   }),
 });

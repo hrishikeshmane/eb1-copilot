@@ -61,7 +61,7 @@ const SkeletonOne = () => {
         variants={variants}
         className="flex flex-row items-center space-x-2 rounded-full border border-neutral-100  bg-white p-2 dark:border-white/[0.2] dark:bg-black"
       >
-        <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-pink-500 to-violet-500" />
+        <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-[#23d5ab] to-[#D9F522]" />
         <div className="h-4 w-full rounded-full bg-gray-100 dark:bg-neutral-900" />
       </motion.div>
       <motion.div
@@ -69,13 +69,13 @@ const SkeletonOne = () => {
         className="ml-auto flex w-3/4 flex-row items-center space-x-2 rounded-full border border-neutral-100 bg-white p-2 dark:border-white/[0.2] dark:bg-black"
       >
         <div className="h-4 w-full rounded-full bg-gray-100 dark:bg-neutral-900" />
-        <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-pink-500 to-violet-500" />
+        <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-[#23d5ab] to-[#D9F522]" />
       </motion.div>
       <motion.div
         variants={variants}
         className="flex flex-row items-center space-x-2 rounded-full border border-neutral-100 bg-white p-2 dark:border-white/[0.2] dark:bg-black"
       >
-        <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-pink-500 to-violet-500" />
+        <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-[#23d5ab] to-[#D9F522]" />
         <div className="h-4 w-full rounded-full bg-gray-100 dark:bg-neutral-900" />
       </motion.div>
     </motion.div>
@@ -141,8 +141,7 @@ const SkeletonThree = () => {
       }}
       className="dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2 rounded-lg"
       style={{
-        background:
-          "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)",
+        background: "linear-gradient(-45deg,#D9F522,  #23d5ab,  #0c2521  )",
         backgroundSize: "400% 400%",
       }}
     >
@@ -190,10 +189,11 @@ const SkeletonFour = () => {
           className="h-10 w-10 rounded-full"
         /> */}
         <p className="mt-4 text-center text-xs font-semibold text-neutral-500 sm:text-sm">
-          Just code in Vanilla Javascript
+          Streamlining your <br />
+          initial setup
         </p>
         <p className="mt-4 rounded-full border border-red-500 bg-red-100 px-2 py-0.5 text-xs text-red-600 dark:bg-red-900/20">
-          Delusional
+          Onboarding
         </p>
       </motion.div>
       <motion.div className="relative z-20 flex h-full w-1/3 flex-col items-center justify-center rounded-2xl border border-neutral-200 bg-white p-4 dark:border-white/[0.1] dark:bg-black">
@@ -205,10 +205,10 @@ const SkeletonFour = () => {
           className="h-10 w-10 rounded-full"
         /> */}
         <p className="mt-4 text-center text-xs font-semibold text-neutral-500 sm:text-sm">
-          Tailwind CSS is cool, you know
+          Keeping track of your <br /> profile progress
         </p>
         <p className="mt-4 rounded-full border border-green-500 bg-green-100 px-2 py-0.5 text-xs text-green-600 dark:bg-green-900/20">
-          Sensible
+          Profile Tracker
         </p>
       </motion.div>
       <motion.div
@@ -223,10 +223,11 @@ const SkeletonFour = () => {
           className="h-10 w-10 rounded-full"
         /> */}
         <p className="mt-4 text-center text-xs font-semibold text-neutral-500 sm:text-sm">
-          I love angular, RSC, and Redux.
+          Creating an impressive
+          <br /> and customized profile
         </p>
         <p className="mt-4 rounded-full border border-orange-500 bg-orange-100 px-2 py-0.5 text-xs text-orange-600 dark:bg-orange-900/20">
-          Helpless
+          Profile Builder
         </p>
       </motion.div>
     </motion.div>
@@ -276,16 +277,18 @@ const SkeletonFive = () => {
           className="h-10 w-10 rounded-full"
         /> */}
         <p className="text-xs text-neutral-500">
-          There are a lot of cool framerworks out there like React, Angular,
-          Vue, Svelte that can make your life ....
+          Considering my qualifications, what are the chances of success with my
+          EB-1A petition?
         </p>
       </motion.div>
       <motion.div
         variants={variantsSecond}
-        className="ml-auto flex w-3/4 flex-row items-center justify-end space-x-2 rounded-full border border-neutral-100 bg-white p-2 dark:border-white/[0.2] dark:bg-black"
+        className="ml-auto flex w-2/3 flex-row items-center justify-end space-x-2 rounded-full border border-neutral-100 bg-white p-2 dark:border-white/[0.2] dark:bg-black"
       >
-        <p className="text-xs text-neutral-500">Use PHP.</p>
-        <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-pink-500 to-violet-500" />
+        <p className="text-xs text-neutral-500">
+          Zero if you don&apos;t book a call
+        </p>
+        <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-[#23d5ab] to-[#D9F522]" />
       </motion.div>
     </motion.div>
   );
@@ -295,7 +298,8 @@ const items = [
     title: "AI Content Generation",
     description: (
       <span className="text-sm">
-        Experience the power of AI in generating unique content.
+        Experience the power of AI in generating unique content for writing your
+        scholary articles
       </span>
     ),
     header: <SkeletonOne />,
@@ -305,7 +309,8 @@ const items = [
     title: "Automated Proofreading",
     description: (
       <span className="text-sm">
-        Let AI handle the proofreading of your documents.
+        Let AI handle the proofreading of your documents to ensure USCIS
+        compliance
       </span>
     ),
     header: <SkeletonTwo />,
@@ -315,17 +320,20 @@ const items = [
     title: "Contextual Suggestions",
     description: (
       <span className="text-sm">
-        Get AI-powered suggestions based on your writing context.
+        Get AI-powered suggestions based on your professional background and
+        accomplishments
       </span>
     ),
     header: <SkeletonThree />,
     className: "md:col-span-1",
   },
   {
-    title: "Sentiment Analysis",
+    title: "End-to-End Automation",
     description: (
       <span className="text-sm">
-        Understand the sentiment of your text with AI analysis.
+        Kiss paperwork woes goodbye! Our AI tirelessly handles the grunt work,
+        from evidence gathering to petition preparation, leaving you free to
+        focus on showcasing your talents
       </span>
     ),
     header: <SkeletonFour />,
@@ -333,10 +341,11 @@ const items = [
   },
 
   {
-    title: "Text Summarization",
+    title: "Expert Human Review",
     description: (
       <span className="text-sm">
-        Summarize your lengthy documents with AI technology.
+        Trust our experienced immigration team to ensure perfection and boost
+        your approval
       </span>
     ),
     header: <SkeletonFive />,

@@ -80,6 +80,31 @@ export async function POST(req: Request) {
 
   if (eventType === "user.updated") {
     const { id } = evt.data;
+    // check if user in db
+    const user = await db.query.users.findFirst({
+      where: eq(users.userId, id),
+    });
+    if (!user) {
+      await clerkClient.users.updateUserMetadata(id, {
+        publicMetadata: {
+          role: "customer",
+          onBoarded: false,
+        },
+      });
+      // create new and return
+      await db
+        .insert(users)
+        .values({
+          userId: id,
+          role: "customer",
+          onBoarded: false,
+        })
+        .onConflictDoNothing()
+        .execute();
+
+      return new Response("", { status: 200 });
+    }
+
     const publicMetadata = evt.data
       .public_metadata as CustomJwtSessionClaims["metadata"];
 

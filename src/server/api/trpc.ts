@@ -81,6 +81,53 @@ const isAuthed = t.middleware(({ next, ctx }) => {
   });
 });
 
+// check if the user is an admin, otherwise throw a FORBIDDEN CODE
+const isAdmin = t.middleware(({ next, ctx }) => {
+  if (!ctx.session.userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  const role = ctx.session.sessionClaims?.metadata?.role;
+  if (role !== "admin") {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+  return next({
+    ctx: {
+      session: ctx.session,
+    },
+  });
+});
+
+// check if the user is a vendor, otherwise throw a FORBIDDEN CODE
+const isVendor = t.middleware(({ next, ctx }) => {
+  if (!ctx.session.userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  const role = ctx.session.sessionClaims?.metadata?.role;
+  if (role !== "vendor") {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+  return next({
+    ctx: {
+      session: ctx.session,
+    },
+  });
+});
+
+const isAdminOrVendor = t.middleware(({ next, ctx }) => {
+  if (!ctx.session.userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  const role = ctx.session.sessionClaims?.metadata?.role;
+  if (role !== "admin" && role !== "vendor") {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+  return next({
+    ctx: {
+      session: ctx.session,
+    },
+  });
+});
+
 /**
  * Create a server-side caller.
  *
@@ -113,3 +160,9 @@ export const publicProcedure = t.procedure;
 
 // export this procedure to be used anywhere in your application
 export const protectedProcedure = t.procedure.use(isAuthed);
+
+export const adminProcedure = t.procedure.use(isAdmin);
+
+export const vendorProcedure = t.procedure.use(isVendor);
+
+export const adminOrVendorProcedure = t.procedure.use(isAdminOrVendor);
