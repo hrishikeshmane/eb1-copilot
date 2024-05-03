@@ -32,7 +32,7 @@ const Header = () => {
         {!process.env.NEXT_PUBLIC_WAITLIST && (
           <>
             {/* <GetStartedButton /> */}
-            <UserAuthButton />
+            {/* <UserAuthButton /> */}
           </>
         )}
 

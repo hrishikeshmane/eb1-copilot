@@ -19,6 +19,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
@@ -64,10 +65,16 @@ export default function HeroSection() {
           {!process.env.NEXT_PUBLIC_WAITLIST && (
             <div className="flex scale-[115%] gap-4">
               {/* <GetStartedButton /> */}
-              <Button className="flex gap-1" variant={"secondary"}>
-                Book a free call
-                <TriangleRightIcon />
-              </Button>
+              <Link
+                href="https://www.calendly.com/nakshllc/eb1a-copilot"
+                target={"_blank"}
+                rel={"noreferrer"}
+              >
+                <Button className="flex gap-1" variant={"secondary"}>
+                  Book a free call
+                  <TriangleRightIcon />
+                </Button>
+              </Link>
             </div>
           )}
           {!!process.env.NEXT_PUBLIC_WAITLIST && (

@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import MasonryTestimonials from "@/components/elements/masonry-testimonials";
 import PricingGrid from "./pricing/_components/pricing-grid";
 import GetStartedButton from "@/components/elements/get-started-button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -405,10 +406,16 @@ export default function Home() {
               {!process.env.NEXT_PUBLIC_WAITLIST && (
                 <div className="flex scale-[115%] gap-4">
                   {/* <GetStartedButton /> */}
-                  <Button className="flex gap-1" variant={"secondary"}>
-                    Book a free call
-                    <TriangleRightIcon />
-                  </Button>
+                  <Link
+                    href="https://www.calendly.com/nakshllc/eb1a-copilot"
+                    target={"_blank"}
+                    rel={"noreferrer"}
+                  >
+                    <Button className="flex gap-1" variant={"secondary"}>
+                      Book a free call
+                      <TriangleRightIcon />
+                    </Button>
+                  </Link>
                 </div>
               )}
             </div>
