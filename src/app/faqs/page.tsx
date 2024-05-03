@@ -20,10 +20,10 @@ const FAQsPage = () => {
           answered
         </p>
         <div className="z-10 mx-auto my-8 flex w-full flex-col">
-          <div className="w-full">
-            <Accordion type="multiple" className="w-full">
+          <div className="w-full text-left">
+            <Accordion type="multiple" className="w-full text-left">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-xl font-bold">
+                <AccordionTrigger className="text-left text-xl font-bold">
                   Is this fraud? Is this a hacking tool?
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
@@ -42,7 +42,7 @@ const FAQsPage = () => {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-xl font-bold">
+                <AccordionTrigger className="text-left text-xl font-bold">
                   When should I start?
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
@@ -84,7 +84,7 @@ const FAQsPage = () => {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-xl font-bold">
+                <AccordionTrigger className="text-left text-xl font-bold">
                   Can individuals without advanced degrees or extraordinary
                   awards qualify for EB-1A?
                 </AccordionTrigger>
@@ -109,7 +109,7 @@ const FAQsPage = () => {
               </AccordionItem>
 
               <AccordionItem value="item-4">
-                <AccordionTrigger className="text-xl font-bold">
+                <AccordionTrigger className="text-left text-xl font-bold">
                   Can this product also help prepare for the O-1A?
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
@@ -136,7 +136,7 @@ const FAQsPage = () => {
               </AccordionItem>
 
               <AccordionItem value="item-5">
-                <AccordionTrigger className="text-xl font-bold">
+                <AccordionTrigger className="text-left text-xl font-bold">
                   Why should I not directly approach a lawyer?
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
@@ -164,7 +164,7 @@ const FAQsPage = () => {
               </AccordionItem>
 
               <AccordionItem value="item-6">
-                <AccordionTrigger className="text-xl font-bold">
+                <AccordionTrigger className="text-left text-xl font-bold">
                   I’m in a unique/different field. How can this product benefit
                   me?
                 </AccordionTrigger>
@@ -187,7 +187,7 @@ const FAQsPage = () => {
               </AccordionItem>
 
               <AccordionItem value="item-7">
-                <AccordionTrigger className="text-xl font-bold">
+                <AccordionTrigger className="text-left text-xl font-bold">
                   Do you provide payment plans and discounts for groups?
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
