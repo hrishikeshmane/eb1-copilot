@@ -2,7 +2,7 @@ import React from "react";
 
 const Msn = () => {
   return (
-    <div className="">
+    <div className="mx-3 flex items-center gap-1">
       <div>
         <svg
           fill="currentColor"
@@ -19,7 +19,7 @@ const Msn = () => {
           </g>
         </svg>
       </div>
-      {/* <h1 className="text-2xl font-bold">msn</h1> */}
+      <h1 className="text-4xl font-bold">msn</h1>
     </div>
   );
 };
