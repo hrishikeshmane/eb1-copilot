@@ -8,6 +8,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   CircleUser,
   Home,
+  KanbanSquareDashedIcon,
+  LayoutDashboard,
   LineChart,
   Menu,
   Package,
@@ -15,6 +17,7 @@ import {
   Search,
   ShoppingCart,
   SquareKanbanIcon,
+  UserCog,
   Users,
 } from "lucide-react";
 import Logo from "@/components/elements/logo";
@@ -24,9 +27,14 @@ import { ModeToggle } from "@/components/elements/mode-toggle";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import { useUser } from "@clerk/nextjs";
 
 const NavSheet = () => {
   const pathName = usePathname();
+  const { user } = useUser();
+  const userMetadata =
+    user?.publicMetadata as CustomJwtSessionClaims["metadata"];
+  const userRole = userMetadata?.role;
 
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -76,6 +84,44 @@ const NavSheet = () => {
             6
           </Badge> */}
             </Link>
+
+            <Link
+              href="/dashboard/profile-tracker"
+              className={cn(
+                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
+                pathName.endsWith("/dashboard/profile-tracker") && "bg-muted",
+              )}
+            >
+              <LayoutDashboard className="h-5 w-5" />
+              Profile Tracker
+            </Link>
+
+            {userRole === "admin" && (
+              <Link
+                href="/dashboard/ticket-management"
+                className={cn(
+                  "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
+                  pathName.endsWith("/dashboard/ticket-management") &&
+                    "bg-muted",
+                )}
+              >
+                <KanbanSquareDashedIcon className="h-5 w-5" />
+                Ticket Management
+              </Link>
+            )}
+
+            {userRole === "admin" && (
+              <Link
+                href="/dashboard/user-management"
+                className={cn(
+                  "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
+                  pathName.endsWith("/dashboard/user-management") && "bg-muted",
+                )}
+              >
+                <UserCog className="h-5 w-5" />
+                User Management
+              </Link>
+            )}
           </nav>
           <div className="mt-auto">
             {/* <Card>

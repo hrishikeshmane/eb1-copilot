@@ -19,6 +19,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
@@ -55,16 +56,25 @@ export default function HeroSection() {
             Dream, <br /> Now Within Reach
           </div>
           <div className="mx-2 max-w-3xl py-4 text-center dark:text-neutral-200 md:text-xl">
-            Start your EB-1A journey with a team that’s trusted by 300+
-            immigrants and endorsed by top US immigration attorneys.
+            {/* Start your EB-1A journey with a team that’s trusted by 300+
+            immigrants and endorsed by top US immigration attorneys. */}
+            Revolutionize your Immigration Journey and Unlock your EB1A
+            Potential
+            <br /> with AI-Powered Expertise
           </div>
           {!process.env.NEXT_PUBLIC_WAITLIST && (
             <div className="flex scale-[115%] gap-4">
-              <GetStartedButton />
-              <Button className="flex gap-1" variant={"secondary"}>
-                Book a free call
-                <TriangleRightIcon />
-              </Button>
+              {/* <GetStartedButton /> */}
+              <Link
+                href="https://www.calendly.com/nakshllc/eb1a-copilot"
+                target={"_blank"}
+                rel={"noreferrer"}
+              >
+                <Button className="flex gap-1" variant={"secondary"}>
+                  Book a free call
+                  <TriangleRightIcon />
+                </Button>
+              </Link>
             </div>
           )}
           {!!process.env.NEXT_PUBLIC_WAITLIST && (
@@ -95,8 +105,8 @@ export default function HeroSection() {
           )}
         </div>
       </div>
-
-      <HeroVideo />
+      <div className="my-24 h-16"></div>
+      {/* <HeroVideo /> */}
     </main>
   );
 }

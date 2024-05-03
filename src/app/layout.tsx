@@ -8,6 +8,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Provider as JotaiProvider } from "jotai";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,7 +50,7 @@ export default function RootLayout({
             }}
           >
             <TRPCReactProvider>
-              {children}
+              <JotaiProvider>{children}</JotaiProvider>
               <Toaster richColors closeButton />
             </TRPCReactProvider>
           </ClerkProvider>

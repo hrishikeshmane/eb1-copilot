@@ -119,6 +119,33 @@ export type VISA_PILLARS =
   | "high-remuneration"
   | "commercial-success";
 
+export type VISA_PILLARS_EX =
+  | "awards"
+  | "original-contributions"
+  | "authorship"
+  | "judging"
+  | "press"
+  | "memberships"
+  | "critical-role"
+  | "exhibitions"
+  | "high-remuneration"
+  | "commercial-success"
+  | "misc";
+
+export const VISA_PILLARS_EX_LIST: VISA_PILLARS_EX[] = [
+  "awards",
+  "original-contributions",
+  "authorship",
+  "judging",
+  "press",
+  "memberships",
+  "critical-role",
+  "exhibitions",
+  "high-remuneration",
+  "commercial-success",
+  "misc",
+];
+
 export type IPillars = {
   value: VISA_PILLARS;
   label: string;
