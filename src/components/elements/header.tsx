@@ -24,14 +24,14 @@ const Header = () => {
         <Link className="transition-all hover:underline" href="/faqs">
           FAQs
         </Link>
-        <Link className="transition-all hover:underline" href="/pricing">
+        {/* <Link className="transition-all hover:underline" href="/pricing">
           Pricing
-        </Link>
+        </Link> */}
       </div>
       <div className="ml-auto hidden items-center space-x-4 sm:flex">
         {!process.env.NEXT_PUBLIC_WAITLIST && (
           <>
-            <GetStartedButton />
+            {/* <GetStartedButton /> */}
             <UserAuthButton />
           </>
         )}
@@ -58,13 +58,13 @@ const Header = () => {
               <Link className="transition-all hover:underline" href="/faqs">
                 FAQs
               </Link>
-              <Link className="transition-all hover:underline" href="/pricing">
+              {/* <Link className="transition-all hover:underline" href="/pricing">
                 Pricing
-              </Link>
+              </Link> */}
 
               {!process.env.NEXT_PUBLIC_WAITLIST && (
                 <div className="my-2 flex items-center space-x-4">
-                  <GetStartedButton className="w-full" />
+                  {/* <GetStartedButton className="w-full" /> */}
                 </div>
               )}
             </nav>

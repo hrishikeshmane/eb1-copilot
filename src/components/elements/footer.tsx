@@ -42,20 +42,20 @@ const Footer = () => {
               <ul className="font-medium text-gray-500 dark:text-gray-400">
                 <li className="mb-4">
                   <a
-                    href="https://github.com/themesberg/flowbite"
+                    href="https://www.linkedin.com/company/greencardinc"
                     className="hover:underline "
                   >
                     LinkedIn
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a
                     href="https://discord.gg/4eeurUVvTy"
                     className="hover:underline"
                   >
                     Discord
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div>
