@@ -71,7 +71,7 @@ export default function HeroSection() {
                 rel={"noreferrer"}
               >
                 <Button className="flex gap-1" variant={"secondary"}>
-                  Book a free Consultation
+                  Book a Free Consultation
                   <TriangleRightIcon />
                 </Button>
               </Link>

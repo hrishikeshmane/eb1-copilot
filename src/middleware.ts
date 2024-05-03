@@ -23,9 +23,9 @@ export default authMiddleware({
   // },
   publicRoutes: [
     "/",
-    "/blog",
-    "/faqs",
-    "/pricing",
+    "/blog(.*)",
+    "/faqs(.*)",
+    "/pricing(.*)",
     "/sign-in(.*)",
     "/sign-up(.*)",
     "/api/webhook(.*)",
