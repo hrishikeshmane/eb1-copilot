@@ -42,11 +42,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { type User } from "@clerk/nextjs/server";
 import { api } from "@/trpc/react";
+import Loader from "@/components/elements/loader";
 
 export const UserTable = () => {
   const users = api.userManagement.getAllUsers.useQuery();
   if (users.status === "pending") {
-    return <div>Loading...</div>;
+    return <Loader className="p-4" />;
   }
   if (users.status === "success") {
     const userData = users.data;

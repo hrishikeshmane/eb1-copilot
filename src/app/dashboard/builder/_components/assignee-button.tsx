@@ -17,6 +17,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { api } from "@/trpc/react";
 import { type User } from "@clerk/nextjs/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Loader from "@/components/elements/loader";
 
 type AssigneeButtonProps = {
   assigneeId: string | null;
@@ -91,7 +92,9 @@ const AssigneeButton = ({ assigneeId, setAssigneeId }: AssigneeButtonProps) => {
             <CommandInput placeholder="Select Vendor..." />
             <CommandList>
               {vendors.status === "pending" && (
-                <CommandEmpty>Loading...</CommandEmpty>
+                <CommandEmpty>
+                  <Loader />
+                </CommandEmpty>
               )}
               {vendors.status === "success" && (
                 <CommandEmpty>No results found.</CommandEmpty>

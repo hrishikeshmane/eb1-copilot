@@ -50,6 +50,7 @@ import {
   ticketStatusAtom,
   ticketPillarsAtom,
   ticketAssigneeIdAtom,
+  kanbanVisibileOptionsAtom,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
@@ -91,7 +92,10 @@ export const CustomKanban = ({
         )}
         {ticketQuery.status === "success" && (
           <div className="h-full">
-            <Filterbar customerSelect={children} />
+            <Filterbar
+              customerSelect={children}
+              tickets={ticketQuery.data as ISelectTickets[]}
+            />
             <Board tickets={ticketQuery.data as ISelectTickets[]} />
             <ScrollBar orientation="vertical" />
             <ScrollBar orientation="horizontal" />
@@ -102,9 +106,12 @@ export const CustomKanban = ({
   );
 };
 
-type FilterbarProps = { customerSelect?: React.ReactNode };
+type FilterbarProps = {
+  customerSelect?: React.ReactNode;
+  tickets: ISelectTickets[];
+};
 
-const Filterbar = ({ customerSelect }: FilterbarProps) => {
+const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
   const [openVisaFilter, setOpenVisaFilter] = React.useState(false);
   const [filterPillars, setFilterPillars] = useAtom(FilterPillarsAtom);
 
@@ -112,6 +119,10 @@ const Filterbar = ({ customerSelect }: FilterbarProps) => {
   const userRole = user?.publicMetadata.role;
 
   const pathName = usePathname();
+
+  const [kanbanVisibileOptions, setKanbanVisibileOptions] = useAtom(
+    kanbanVisibileOptionsAtom,
+  );
 
   return (
     <div className="sticky left-1 mb-4 flex w-[calc(100vw-30px)] gap-3 border-b p-2 pt-0 text-sm md:w-[calc(100vw-290px)]">
@@ -163,7 +174,7 @@ const Filterbar = ({ customerSelect }: FilterbarProps) => {
                     <CommandItem
                       key={status.value}
                       value={status.value}
-                      className="flex items-center gap-2"
+                      className="flex cursor-pointer items-center gap-2"
                       onSelect={(value) => {
                         const newPillar = visaPillars.find(
                           (pillar) => pillar.value === value,
@@ -205,7 +216,7 @@ const Filterbar = ({ customerSelect }: FilterbarProps) => {
 
       <div className="ml-auto flex gap-2">
         {userRole === "admin" && pathName.includes("/ticket-management") && (
-          <NewTicketButton />
+          <NewTicketButton tickets={tickets} />
         )}
         <Popover>
           <PopoverTrigger asChild>
@@ -219,12 +230,28 @@ const Filterbar = ({ customerSelect }: FilterbarProps) => {
             <Command>
               <CommandList>
                 <CommandGroup>
-                  <CommandItem className="flex gap-1">
-                    <Checkbox checked={true} />
+                  <CommandItem
+                    className="flex cursor-pointer gap-1"
+                    onSelect={() =>
+                      setKanbanVisibileOptions({
+                        ...kanbanVisibileOptions,
+                        showVisaPillars: !kanbanVisibileOptions.showVisaPillars,
+                      })
+                    }
+                  >
+                    <Checkbox checked={kanbanVisibileOptions.showVisaPillars} />
                     Show Visa Pillars
                   </CommandItem>
-                  <CommandItem className="flex gap-1">
-                    <Checkbox checked={true} />
+                  <CommandItem
+                    className="flex cursor-pointer gap-1"
+                    onSelect={() =>
+                      setKanbanVisibileOptions({
+                        ...kanbanVisibileOptions,
+                        showAssignee: !kanbanVisibileOptions.showAssignee,
+                      })
+                    }
+                  >
+                    <Checkbox checked={kanbanVisibileOptions.showAssignee} />
                     Show Assignee
                   </CommandItem>
                 </CommandGroup>
@@ -495,6 +522,8 @@ const KanbanCard = ({
   const [ticketPillars, setTicketPillars] = useAtom(ticketPillarsAtom);
   const [ticketAssigneeId, setTicketAssigneeId] = useAtom(ticketAssigneeIdAtom);
 
+  const kanbanVisibileOptions = useAtomValue(kanbanVisibileOptionsAtom);
+
   const filteredCardPillars = card.pillars.map((pillar) => {
     return visaPillars.find((vp) => vp.value === pillar);
   }) as IPillars[];
@@ -544,15 +573,16 @@ const KanbanCard = ({
                 <p className="text-sm">{card.title}</p>
               </div>
               <div className="mt-1 flex flex-wrap gap-1 pl-3">
-                {card.pillars.map((pillar) => (
-                  <Badge
-                    variant="secondary"
-                    className="font-mono font-light"
-                    key={pillar}
-                  >
-                    {getLableForPillars(pillar)}
-                  </Badge>
-                ))}
+                {kanbanVisibileOptions.showVisaPillars &&
+                  card.pillars.map((pillar) => (
+                    <Badge
+                      variant="secondary"
+                      className="font-mono font-light"
+                      key={pillar}
+                    >
+                      {getLableForPillars(pillar)}
+                    </Badge>
+                  ))}
               </div>
             </div>
           </SheetTrigger>

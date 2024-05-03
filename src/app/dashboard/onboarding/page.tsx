@@ -21,7 +21,6 @@ import VisaPillarForm from "./_components/visa-pillars-form";
 import { useCalendlyEventListener, InlineWidget } from "react-calendly";
 import GettingStartedForm from "./_components/getting-started-form";
 import useFormPersist from "react-hook-form-persist";
-import { auth } from "@clerk/nextjs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import { api } from "@/trpc/react";
@@ -32,9 +31,13 @@ import {
   FormType,
   FormFileds,
 } from "./_components/form-utils";
-import { nanoid } from "nanoid";
+import { useUser } from "@clerk/nextjs";
 import { DevTool } from "@hookform/devtools";
+import { useAuth } from "@clerk/nextjs";
+import UserInfoDetails from "./_components/user-info-details";
+import Loader from "@/components/elements/loader";
 
+//TODO: make this server component and move form page to a new client component
 const OnboardingPage = () => {
   useCalendlyEventListener({
     onProfilePageViewed: () => console.log("onProfilePageViewed"),
@@ -200,6 +203,20 @@ const OnboardingPage = () => {
       setCurrentStep((step) => step - 1);
     }
   };
+
+  const { user, isLoaded } = useUser();
+
+  const userMetadata =
+    user?.publicMetadata as CustomJwtSessionClaims["metadata"];
+  const onBoarded = userMetadata?.onBoarded;
+
+  if (!isLoaded) {
+    return <Loader className="p-4" />;
+  }
+
+  if (onBoarded) {
+    return <UserInfoDetails></UserInfoDetails>;
+  }
 
   return (
     <ScrollArea className="mx-auto h-full w-full overflow-x-hidden p-6 pb-0 pt-0">

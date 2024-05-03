@@ -53,32 +53,36 @@ const Navbar = () => {
               Onboarding
             </Link>
 
-            <Link
-              href="/dashboard/builder"
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
-                pathName.endsWith("/dashboard/builder") &&
-                  "bg-muted text-foreground",
-              )}
-            >
-              <SquareKanbanIcon className="h-4 w-4" />
-              Profile Builder
-              {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+            {userRole === "customer" && (
+              <Link
+                href="/dashboard/builder"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
+                  pathName.endsWith("/dashboard/builder") &&
+                    "bg-muted text-foreground",
+                )}
+              >
+                <SquareKanbanIcon className="h-4 w-4" />
+                Profile Builder
+              </Link>
+            )}
+            {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                   6
                 </Badge> */}
-            </Link>
 
-            <Link
-              href="/dashboard/profile-tracker"
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
-                pathName.endsWith("/dashboard/profile-tracker") &&
-                  "bg-muted text-foreground",
-              )}
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              Profile Tracker
-            </Link>
+            {userRole === "customer" && (
+              <Link
+                href="/dashboard/profile-tracker"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
+                  pathName.endsWith("/dashboard/profile-tracker") &&
+                    "bg-muted text-foreground",
+                )}
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Profile Tracker
+              </Link>
+            )}
 
             {userRole === "admin" && (
               <Link
