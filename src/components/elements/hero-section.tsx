@@ -58,20 +58,20 @@ export default function HeroSection() {
           <div className="mx-2 max-w-3xl py-4 text-center dark:text-neutral-200 md:text-xl">
             {/* Start your EB-1A journey with a team that’s trusted by 300+
             immigrants and endorsed by top US immigration attorneys. */}
-            Revolutionize your Immigration Journey and Unlock your EB1A
-            Potential
+            Revolutionize Your Immigration Journey and Secure Your EB1A Green
+            Card
             <br /> with AI-Powered Expertise
           </div>
           {!process.env.NEXT_PUBLIC_WAITLIST && (
             <div className="flex scale-[115%] gap-4">
               {/* <GetStartedButton /> */}
               <Link
-                href="https://www.calendly.com/nakshllc/eb1a-copilot"
+                href="https://calendly.com/nakshllc/greencardinc"
                 target={"_blank"}
                 rel={"noreferrer"}
               >
                 <Button className="flex gap-1" variant={"secondary"}>
-                  Book a free call
+                  Book a free Consultation
                   <TriangleRightIcon />
                 </Button>
               </Link>

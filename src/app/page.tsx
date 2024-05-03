@@ -30,7 +30,7 @@ export default function Home() {
 
           <div className="z-10 text-white">
             <h2 className=" mx-auto mb-2 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
-              Take control of your{" "}
+              Empower your{" "}
               <span className="relative inline-block text-primary">
                 American Dream
                 <svg
@@ -49,11 +49,11 @@ export default function Home() {
               Here’s our no-nonsense process that’s been delivering success in 1
               year. */}
               {
-                "Our AI analyzes profiles and streamlines the application processes,"
+                "Our AI analyzes profiles and streamlines application processes,"
               }
               <br />
               {
-                "helping you qualify for the EB1-A Green Card and securing your future in the U.S."
+                "empowering you to qualify for the EB1-A Green Card and secure your future in the US"
               }
             </p>
 
@@ -79,8 +79,8 @@ export default function Home() {
                 <div className="absolute bottom-[-40px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2">
                   <span className="text-xl font-bold">Spectator</span>
                   <span className="">
-                    Chained to employers, visa stamping drama, worried about
-                    layoffs, 100+ years backlog
+                    Chained to employers, visa stamping drama, <br /> layoff
+                    worries, 100+ years backlog
                   </span>
                 </div>
               </div>
@@ -149,8 +149,7 @@ export default function Home() {
             No BS, Green Card Accelerator
           </h2>
           <p className="mx-4 text-center text-white">
-            Our product comes with AI features that effortlessly assist and
-            guide you at every step
+            Our AI features seamlessly guide you through every step
           </p>
 
           <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
@@ -175,7 +174,7 @@ export default function Home() {
                     className="text-6xl font-bold text-primary"
                   />
                 </div>
-                <p className="text-center font-bold">Total Case</p>
+                <p className="text-center font-bold">Total Cases</p>
               </div>
               <div className="flex flex-col items-center justify-center gap-2">
                 <div className="col-span-1 flex items-end">
@@ -407,12 +406,12 @@ export default function Home() {
                 <div className="flex scale-[115%] gap-4">
                   {/* <GetStartedButton /> */}
                   <Link
-                    href="https://www.calendly.com/nakshllc/eb1a-copilot"
+                    href="https://calendly.com/nakshllc/greencardinc"
                     target={"_blank"}
                     rel={"noreferrer"}
                   >
                     <Button className="flex gap-1" variant={"secondary"}>
-                      Book a free call
+                      Book a free Consultation
                       <TriangleRightIcon />
                     </Button>
                   </Link>

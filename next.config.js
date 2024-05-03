@@ -6,6 +6,15 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  transpilePackages: ["next-mdx-remote"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.licdn.com",
+      },
+    ],
+  },
   typescript: {
     ignoreBuildErrors: true,
   },

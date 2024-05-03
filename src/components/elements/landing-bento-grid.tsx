@@ -269,13 +269,6 @@ const SkeletonFive = () => {
         variants={variants}
         className="flex flex-row items-start space-x-2 rounded-2xl border border-neutral-100  bg-white p-2 dark:border-white/[0.2] dark:bg-black"
       >
-        {/* <Image
-          src="https://pbs.twimg.com/profile_images/1417752099488636931/cs2R59eW_400x400.jpg"
-          alt="avatar"
-          height="100"
-          width="100"
-          className="h-10 w-10 rounded-full"
-        /> */}
         <p className="text-xs text-neutral-500">
           Considering my qualifications, what are the chances of success with my
           EB-1A petition?
@@ -283,10 +276,10 @@ const SkeletonFive = () => {
       </motion.div>
       <motion.div
         variants={variantsSecond}
-        className="ml-auto flex w-2/3 flex-row items-center justify-end space-x-2 rounded-full border border-neutral-100 bg-white p-2 dark:border-white/[0.2] dark:bg-black"
+        className="ml-auto flex w-2/3 flex-row items-center justify-end space-x-2 rounded-2xl border border-neutral-100 bg-white p-2 dark:border-white/[0.2] dark:bg-black"
       >
-        <p className="text-xs text-neutral-500">
-          Zero if you don&apos;t book a call
+        <p className="ml-1 text-xs text-neutral-500">
+          Zero if you don&apos;t book our free consultation
         </p>
         <div className="h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-r from-[#23d5ab] to-[#D9F522]" />
       </motion.div>
