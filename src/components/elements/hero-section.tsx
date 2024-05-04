@@ -31,7 +31,7 @@ export default function HeroSection() {
   });
 
   return (
-    <main className="flex w-full flex-col items-center justify-center pb-0 pt-36">
+    <main className="flex w-full flex-col items-center justify-center pb-0 pt-12 md:pt-36">
       <div className="flex flex-col items-center justify-center gap-2">
         <Image
           priority={true}
@@ -105,7 +105,7 @@ export default function HeroSection() {
           )}
         </div>
       </div>
-      <div className="my-24 h-16"></div>
+      <div className="h-14 md:my-24 md:h-16"></div>
       {/* <HeroVideo /> */}
     </main>
   );
