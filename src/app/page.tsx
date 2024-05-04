@@ -26,7 +26,7 @@ export default function Home() {
         <FeaturedIn />
 
         <section className="relative mx-4 my-8 flex w-[95%] flex-col items-center justify-start overflow-hidden rounded-3xl bg-[#17332D] bg-gradient-to-b  py-16">
-          <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
+          <div className="absolute inset-0 bg-noise-pattern opacity-[0.04] brightness-100 contrast-150"></div>
 
           <div className="z-10 text-white">
             <h2 className=" mx-auto mb-2 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
@@ -152,7 +152,7 @@ export default function Home() {
             Our AI features seamlessly guide you through every step
           </p>
 
-          <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
+          <div className="absolute inset-0 bg-noise-pattern opacity-[0.04] brightness-100 contrast-150"></div>
           <div className="z-10">
             <div className="mt-10 grid grid-cols-1 content-center gap-20 text-white md:grid-cols-3">
               <div className="flex flex-col items-center justify-center gap-2">
@@ -220,7 +220,7 @@ export default function Home() {
                 className="w-full text-left"
               >
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-left text-xl font-bold">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                     Is this fraud? Is this a hacking tool?
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
@@ -239,7 +239,7 @@ export default function Home() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                  <AccordionTrigger className="text-left text-xl font-bold">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                     When should I start?
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
@@ -282,7 +282,7 @@ export default function Home() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
-                  <AccordionTrigger className="text-left text-xl font-bold">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                     Can individuals without advanced degrees or extraordinary
                     awards qualify for EB-1A?
                   </AccordionTrigger>
@@ -307,7 +307,7 @@ export default function Home() {
                 </AccordionItem>
 
                 <AccordionItem value="item-4">
-                  <AccordionTrigger className="text-left text-xl font-bold">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                     Can this product also help prepare for the O-1A?
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
@@ -334,7 +334,7 @@ export default function Home() {
                 </AccordionItem>
 
                 <AccordionItem value="item-5">
-                  <AccordionTrigger className="text-left text-xl font-bold">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                     Why should I not directly approach a lawyer?
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
@@ -363,7 +363,7 @@ export default function Home() {
                 </AccordionItem>
 
                 <AccordionItem value="item-6">
-                  <AccordionTrigger className="text-left text-xl font-bold">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                     I’m in a unique/different field. How can this product
                     benefit me?
                   </AccordionTrigger>
@@ -386,7 +386,7 @@ export default function Home() {
                 </AccordionItem>
 
                 <AccordionItem value="item-7">
-                  <AccordionTrigger className="text-left text-xl font-bold">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                     Do you provide payment plans and discounts for groups?
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
@@ -402,8 +402,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative mb-20 mt-28 flex w-[95%] flex-col items-center justify-center gap-2 rounded-3xl bg-[#17332D] py-20 text-white">
-          <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
+        <section className="relative mb-0 mt-1 flex w-[95%] flex-col items-center justify-center gap-2 rounded-3xl bg-[#17332D] py-24 text-white md:my-20  md:py-20">
+          <div className="absolute inset-0 bg-noise-pattern opacity-[0.04] brightness-100 contrast-150"></div>
           <div className="relative z-10 flex flex-col items-center justify-center gap-6">
             <div className="z-10 flex flex-col items-center justify-center gap-6">
               <div className=" mx-2 -skew-x-2 text-center text-4xl font-bold md:text-5xl">
