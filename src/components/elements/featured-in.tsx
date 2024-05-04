@@ -10,7 +10,7 @@ import YahooFin from "../svg/yahoo-fin";
 
 const FeaturedIn = () => {
   return (
-    <div className="mx-auto mb-12 flex flex-col dark:fill-white">
+    <div className="mx-auto mb-4 flex flex-col dark:fill-white md:mb-12">
       <h3 className="my-1 text-center text-lg font-bold text-muted-foreground">
         As Featured in
       </h3>
