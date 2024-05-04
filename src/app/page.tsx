@@ -37,7 +37,6 @@ export default function Home() {
                   className="absolute -bottom-2 right-0 w-[250px] rotate-180 scale-90 fill-primary"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 1213 73"
-                  // fill="#fff"
                 >
                   <path d="M1212.41 5.51c3.05 12.87-22.36 11.93-30.26 15.68-94.32 20.51-269.09 32.42-365.48 37.51-77.91 3.82-155.66 9.93-233.67 11.67-57.49 2.56-115.05-.19-172.57 1.58-121.28.91-243.17 1.88-363.69-13.33-12.51-2.64-25.8-2.92-37.77-7.45-30.66-21.42 26.02-21.53 38.52-19.26 359.95 29.05 364.68 27.36 638.24 17.85 121-3.78 241.22-19.21 426.76-41.46 4.72-.65 9.18 3.56 8.45 8.36a941.74 941.74 0 0 0 54.29-9.21c9.33-2.33 18.7-4.56 27.95-7.19a7.59 7.59 0 0 1 9.23 5.24Z"></path>
                 </svg>
@@ -76,11 +75,11 @@ export default function Home() {
                     </span>
                   </span>
                 </div>
-                <div className="absolute bottom-[-40px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2">
+                <div className="absolute bottom-[-50px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2 md:bottom-[-40px]">
                   <span className="text-xl font-bold">Spectator</span>
                   <span className="">
-                    Chained to employers, visa stamping drama, <br /> layoff
-                    worries, 100+ years backlog
+                    Chained to employers, visa stamping drama, layoff worries,
+                    100+ years backlog
                   </span>
                 </div>
               </div>
@@ -121,21 +120,22 @@ export default function Home() {
 
         <section className="relative mx-auto my-2 mb-8 flex w-[95%] flex-col items-center justify-between space-y-2 text-center md:flex-row">
           <div className="flex flex-col">
-            <div className="services items-start text-center md:text-left">
+            <div className="services bg-gradient-to-b from-[#829a5bb0] to-[#757e4e0f] bg-clip-text text-center font-extrabold leading-10 text-transparent md:text-left">
               <p>Original Contribution</p>
               <p>Authorship</p>
               <p>Judging</p>
               <p>Awards</p>
             </div>
           </div>
-          <div className="absolute inset-0 top-[25%] m-auto block h-fit w-fit -skew-x-2  p-0 text-4xl font-bold">
+          <div className="h-14"></div>
+          <div className="absolute inset-0 top-[42%] m-auto block h-fit w-fit -skew-x-2 p-0  text-4xl font-bold md:top-[25%]">
             <h2 className="text-4xl">
               All EB-1A pillars,
               <span className="relative block">under one roof</span>
             </h2>
           </div>
           <div className="flex flex-col">
-            <div className="services text-center md:text-right lg:items-end">
+            <div className="services flex flex-col-reverse bg-gradient-to-b from-[#757e4e0f] to-[#829a5bb0] bg-clip-text text-center font-extrabold leading-10 text-transparent md:flex-col md:from-[#829a5bb0] md:to-[#757e4e0f] md:text-right lg:items-end">
               <p>Critical Capacity</p>
               <p>Membership</p>
               <p>High Salary</p>
@@ -214,7 +214,11 @@ export default function Home() {
           </h2>
           <div className="z-10 mx-auto my-8 flex w-full flex-col">
             <div className="w-full text-left">
-              <Accordion type="single" className="w-full text-left">
+              <Accordion
+                type="single"
+                collapsible={true}
+                className="w-full text-left"
+              >
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-left text-xl font-bold">
                     Is this fraud? Is this a hacking tool?

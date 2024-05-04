@@ -181,13 +181,6 @@ const SkeletonFour = () => {
         variants={first}
         className="flex h-full w-1/3 flex-col items-center justify-center rounded-2xl border border-neutral-200 bg-white p-4 dark:border-white/[0.1] dark:bg-black"
       >
-        {/* <Image
-          src="https://pbs.twimg.com/profile_images/1417752099488636931/cs2R59eW_400x400.jpg"
-          alt="avatar"
-          height="100"
-          width="100"
-          className="h-10 w-10 rounded-full"
-        /> */}
         <p className="mt-4 text-center text-xs font-semibold text-neutral-500 sm:text-sm">
           Streamlining your <br />
           initial setup
@@ -197,17 +190,10 @@ const SkeletonFour = () => {
         </p>
       </motion.div>
       <motion.div className="relative z-20 flex h-full w-1/3 flex-col items-center justify-center rounded-2xl border border-neutral-200 bg-white p-4 dark:border-white/[0.1] dark:bg-black">
-        {/* <Image
-          src="https://pbs.twimg.com/profile_images/1417752099488636931/cs2R59eW_400x400.jpg"
-          alt="avatar"
-          height="100"
-          width="100"
-          className="h-10 w-10 rounded-full"
-        /> */}
         <p className="mt-4 text-center text-xs font-semibold text-neutral-500 sm:text-sm">
           Keeping track of your <br /> profile progress
         </p>
-        <p className="mt-4 rounded-full border border-green-500 bg-green-100 px-2 py-0.5 text-xs text-green-600 dark:bg-green-900/20">
+        <p className="mx-auto mt-4 rounded-full border border-green-500 bg-green-100 px-2 py-0.5 text-center text-xs text-green-600 dark:bg-green-900/20">
           Profile Tracker
         </p>
       </motion.div>
@@ -215,18 +201,11 @@ const SkeletonFour = () => {
         variants={second}
         className="flex h-full w-1/3 flex-col items-center justify-center rounded-2xl border border-neutral-200 bg-white p-4 dark:border-white/[0.1] dark:bg-black"
       >
-        {/* <Image
-          src="https://pbs.twimg.com/profile_images/1417752099488636931/cs2R59eW_400x400.jpg"
-          alt="avatar"
-          height="100"
-          width="100"
-          className="h-10 w-10 rounded-full"
-        /> */}
         <p className="mt-4 text-center text-xs font-semibold text-neutral-500 sm:text-sm">
           Creating an impressive
           <br /> and customized profile
         </p>
-        <p className="mt-4 rounded-full border border-orange-500 bg-orange-100 px-2 py-0.5 text-xs text-orange-600 dark:bg-orange-900/20">
+        <p className="mx-auto mt-4 rounded-full border border-orange-500 bg-orange-100 px-2 py-0.5 text-center text-xs text-orange-600 dark:bg-orange-900/20">
           Profile Builder
         </p>
       </motion.div>
