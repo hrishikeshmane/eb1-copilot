@@ -64,12 +64,11 @@
   font-weight: 800;
   /* --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity)); */
-  background: linear-gradient(180deg, #829a5bb0, #757e4e0f 114.95%);
+  /* background: linear-gradient(180deg, #829a5bb0, #757e4e0f 114.95%);
   background-clip: text;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; */
 }
-
 .rotating-word_rotate-words-5 {
   animation: rotating-word_rotate_words_5__8iX5A 4s infinite;
 }

@@ -96,7 +96,14 @@ const BlogPage = () => {
                 <h1 className="text-lg font-semibold text-black dark:text-gray-300">
                   {post.metadata.title}
                 </h1>
-                <p className="text-sm text-gray-500">{post.metadata.summary}</p>
+                {/* first 200 characters of post.content */}
+                <p className="text-sm text-gray-500">
+                  {post.content
+                    ?.replace(/<Image[\s\S]*?\/>/g, "")
+                    .replace(/##/g, "")
+                    .slice(0, 200)}
+                  ...
+                </p>
               </div>
             </Link>
           ))}
