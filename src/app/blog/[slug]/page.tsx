@@ -123,7 +123,7 @@ const BlogPage = ({ params }: any) => {
           }),
         }}
       />
-      <div className="my-8 max-w-6xl">
+      <div className="mx-4 my-8 max-w-6xl md:mx-0">
         <h1 className="title max-w-[650px] text-2xl font-medium tracking-tighter">
           {post.metadata.title}
         </h1>
@@ -133,9 +133,6 @@ const BlogPage = ({ params }: any) => {
               {formatDate(post.metadata.publishedAt)}
             </p>
           </Suspense>
-          {/* <Suspense fallback={<p className="h-5" />}>
-          <Views slug={post.slug} />
-        </Suspense> */}
         </div>
         <article className="prose prose-quoteless prose-neutral dark:prose-invert">
           <CustomMDX source={post.content} />

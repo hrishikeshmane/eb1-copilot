@@ -76,11 +76,11 @@ export default function Home() {
                     </span>
                   </span>
                 </div>
-                <div className="absolute bottom-[-40px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2">
+                <div className="absolute bottom-[-50px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2 md:bottom-[-40px]">
                   <span className="text-xl font-bold">Spectator</span>
                   <span className="">
-                    Chained to employers, visa stamping drama, <br /> layoff
-                    worries, 100+ years backlog
+                    Chained to employers, visa stamping drama, layoff worries,
+                    100+ years backlog
                   </span>
                 </div>
               </div>
@@ -121,21 +121,22 @@ export default function Home() {
 
         <section className="relative mx-auto my-2 mb-8 flex w-[95%] flex-col items-center justify-between space-y-2 text-center md:flex-row">
           <div className="flex flex-col">
-            <div className="services items-start text-center md:text-left">
+            <div className="services bg-gradient-to-b from-[#829a5bb0] to-[#757e4e0f] bg-clip-text text-center font-extrabold leading-10 text-transparent md:text-left">
               <p>Original Contribution</p>
               <p>Authorship</p>
               <p>Judging</p>
               <p>Awards</p>
             </div>
           </div>
-          <div className="absolute inset-0 top-[25%] m-auto block h-fit w-fit -skew-x-2  p-0 text-4xl font-bold">
+          <div className="h-14"></div>
+          <div className="absolute inset-0 top-[42%] m-auto block h-fit w-fit -skew-x-2 p-0  text-4xl font-bold md:top-[25%]">
             <h2 className="text-4xl">
               All EB-1A pillars,
               <span className="relative block">under one roof</span>
             </h2>
           </div>
           <div className="flex flex-col">
-            <div className="services text-center md:text-right lg:items-end">
+            <div className="services flex flex-col-reverse bg-gradient-to-b from-[#757e4e0f] to-[#829a5bb0] bg-clip-text text-center font-extrabold leading-10 text-transparent md:flex-col md:from-[#829a5bb0] md:to-[#757e4e0f] md:text-right lg:items-end">
               <p>Critical Capacity</p>
               <p>Membership</p>
               <p>High Salary</p>
@@ -214,7 +215,11 @@ export default function Home() {
           </h2>
           <div className="z-10 mx-auto my-8 flex w-full flex-col">
             <div className="w-full text-left">
-              <Accordion type="single" className="w-full text-left">
+              <Accordion
+                type="single"
+                collapsible={true}
+                className="w-full text-left"
+              >
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-left text-xl font-bold">
                     Is this fraud? Is this a hacking tool?
