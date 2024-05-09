@@ -144,4 +144,11 @@ export const kanbanRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await ctx.db.delete(tickets).where(eq(tickets.ticketId, input.ticketId));
     }),
+
+  getTicketStats: adminProcedure.query(async ({ ctx }) => {
+    // get all open ticket counts that is in backlog and todo in this month and last month
+    // get all in progress ticket counts in this month and last month
+    // get all done ticket counts in this month and last month
+    // get all customer counts in this month and last month
+  }),
 });

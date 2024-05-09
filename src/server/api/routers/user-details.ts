@@ -1,11 +1,13 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { userInfo, userVisaPillarDetails } from "@/server/db/schema";
-import { auth, clerkClient } from "@clerk/nextjs/server";
 import {
-  FormFileds,
-  IVisaPillarFields,
+  adminProcedure,
+  createTRPCRouter,
+  protectedProcedure,
+} from "@/server/api/trpc";
+import { userInfo, userVisaPillarDetails } from "@/server/db/schema";
+import { clerkClient } from "@clerk/nextjs/server";
+import {
   formSchema,
   visaPillarFields,
 } from "@/app/dashboard/onboarding/_components/form-utils";
@@ -101,4 +103,22 @@ export const userDetailsRouter = createTRPCRouter({
     });
     return userPillarData;
   }),
+
+  updateUserRole: adminProcedure
+    .input(z.object({ userId: z.string(), role: z.string() }))
+    .mutation(async ({ input }) => {
+      try {
+        const user = await clerkClient.users.getUser(input.userId);
+        const userMetaData =
+          user.publicMetadata as CustomJwtSessionClaims["metadata"];
+        await clerkClient.users.updateUser(input.userId, {
+          publicMetadata: { ...userMetaData, role: input.role },
+        });
+      } catch (e) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update user role",
+        });
+      }
+    }),
 });

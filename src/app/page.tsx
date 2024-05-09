@@ -410,21 +410,19 @@ export default function Home() {
                 Start Your Green Card Journey Now!
               </div>
 
-              {!process.env.NEXT_PUBLIC_WAITLIST && (
-                <div className="flex scale-[115%] gap-4">
-                  {/* <GetStartedButton /> */}
-                  <Link
-                    href="https://calendly.com/nakshllc/greencardinc"
-                    target={"_blank"}
-                    rel={"noreferrer"}
-                  >
-                    <Button className="flex gap-1" variant={"secondary"}>
-                      Book a Free Consultation
-                      <TriangleRightIcon />
-                    </Button>
-                  </Link>
-                </div>
-              )}
+              <div className="flex scale-[115%] gap-4">
+                <GetStartedButton />
+                <Link
+                  href="https://calendly.com/nakshllc/greencardinc"
+                  target={"_blank"}
+                  rel={"noreferrer"}
+                >
+                  <Button className="flex gap-1" variant={"secondary"}>
+                    Book a Free Consultation
+                    <TriangleRightIcon />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </section>

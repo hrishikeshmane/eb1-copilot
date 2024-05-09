@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -30,6 +30,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -39,10 +48,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { type User } from "@clerk/nextjs/server";
 import { api } from "@/trpc/react";
 import Loader from "@/components/elements/loader";
+import { clerkClient } from "@clerk/nextjs";
+import { toast } from "sonner";
 
 export const UserTable = () => {
   const users = api.userManagement.getAllUsers.useQuery();
@@ -59,6 +80,18 @@ export const UserTable = () => {
   }
 
   return <p>Error Loading users</p>;
+};
+
+const setRole = async (userId: string, role: string) => {
+  console.log(userId, role);
+  try {
+    await clerkClient.users.updateUser(userId, {
+      publicMetadata: { role: role },
+    });
+  } catch (e) {
+    toast.error("Error updating role");
+    console.log(e);
+  }
 };
 
 export const columns: ColumnDef<User>[] = [
@@ -140,28 +173,114 @@ export const columns: ColumnDef<User>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const userId = row.original.id;
+      const userFullName = row.original.firstName + " " + row.original.lastName;
+      const userRole = row.original.publicMetadata
+        ?.role as CustomJwtSessionClaims["metadata"]["role"];
+
+      const utils = api.useUtils();
+      const updateRoleMutation = api.userDetails.updateUserRole.useMutation({
+        onSettled: async () => {
+          await utils.userManagement.getAllUsers.invalidate();
+        },
+      });
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              {userRole !== "admin" && (
+                <DropdownMenuItem
+                  onClick={() =>
+                    updateRoleMutation.mutate({ userId: userId, role: "admin" })
+                  }
+                >
+                  Change Role to Admin
+                </DropdownMenuItem>
+              )}
+              {userRole !== "vendor" && (
+                <DropdownMenuItem
+                  onClick={() =>
+                    updateRoleMutation.mutate({
+                      userId: userId,
+                      role: "vendor",
+                    })
+                  }
+                >
+                  Change Role to Vendor
+                </DropdownMenuItem>
+              )}
+              {userRole !== "customer" && (
+                <DropdownMenuItem
+                  onClick={() =>
+                    updateRoleMutation.mutate({
+                      userId: userId,
+                      role: "customer",
+                    })
+                  }
+                >
+                  Change Role to Customer
+                </DropdownMenuItem>
+              )}
+              {/* <DropdownMenuItem>
+                <DialogTrigger>Change Role</DialogTrigger>
+              </DropdownMenuItem> */}
+
+              {/* <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id)}
             >
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            <DropdownMenuItem>View payment details</DropdownMenuItem> */}
+            </DropdownMenuContent>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Change Role</DialogTitle>
+                <DialogDescription>
+                  {`User role will be changed for ${userFullName ?? "a user"}`}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex items-center space-x-2">
+                <div className="grid flex-1 gap-2">
+                  <Select defaultValue={userRole}>
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Select a Role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Roles</SelectLabel>
+                        <SelectItem value="customer">Cutomer</SelectItem>
+                        <SelectItem value="vendor">Vendor</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter className="sm:justify-start">
+                <DialogClose asChild>
+                  <Button type="button" variant="secondary">
+                    Close
+                  </Button>
+                </DialogClose>
+                {/* <DialogClose asChild>
+                  <Button type="button" >
+                    Save
+                  </Button>
+                </DialogClose> */}
+              </DialogFooter>
+            </DialogContent>
+          </DropdownMenu>
+        </Dialog>
       );
     },
   },
@@ -286,8 +405,8 @@ export function DataTableDemo({ users }: { users: User[] }) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {/* {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected. */}
         </div>
         <div className="space-x-2">
           <Button
