@@ -6,9 +6,7 @@ import {
   protectedProcedure,
   adminOrVendorProcedure,
 } from "@/server/api/trpc";
-import { auth, clerkClient } from "@clerk/nextjs/server";
-import { TRPCError } from "@trpc/server";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { tickets } from "@/server/db/schema";
 
 export const kanbanRouter = createTRPCRouter({
@@ -28,6 +26,15 @@ export const kanbanRouter = createTRPCRouter({
       });
       return tickets;
     }),
+
+  getCompletedTickets: protectedProcedure.query(async ({ ctx }) => {
+    const tickets = await ctx.db.query.tickets.findMany({
+      where: (table) =>
+        and(eq(table.column, "done"), eq(table.customerId, ctx.session.userId)),
+    });
+
+    return tickets;
+  }),
 
   addTicket: adminProcedure
     .input(
@@ -77,6 +84,7 @@ export const kanbanRouter = createTRPCRouter({
       z.object({
         ticketId: z.string(),
         column: z.enum(["backlog", "todo", "doing", "review", "done"]),
+        // order: z.number(), // we cannot update order coz it need to change order for all other tickets in the column
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -91,7 +99,7 @@ export const kanbanRouter = createTRPCRouter({
       z.object({
         ticketId: z.string(),
         title: z.string(),
-        description: z.string().optional(),
+        description: z.string().optional().nullable(),
         customerId: z.string(),
         pillars: z.array(
           z.enum([
@@ -111,8 +119,8 @@ export const kanbanRouter = createTRPCRouter({
         column: z
           .enum(["backlog", "todo", "doing", "review", "done"])
           .optional(),
-        order: z.number(),
-        assigneeId: z.string().optional(),
+        // order: z.number(),
+        assigneeId: z.string().optional().nullable(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -124,10 +132,16 @@ export const kanbanRouter = createTRPCRouter({
           customerId: input.customerId,
           pillars: input.pillars,
           column: input.column,
-          order: input.order,
+          // order: input.order,
           assigneeId: input.assigneeId,
           createdBy: ctx.session.userId,
         })
         .where(eq(tickets.ticketId, input.ticketId));
+    }),
+
+  deleteTicketById: adminProcedure
+    .input(z.object({ ticketId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.delete(tickets).where(eq(tickets.ticketId, input.ticketId));
     }),
 });

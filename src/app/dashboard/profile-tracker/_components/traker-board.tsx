@@ -1,5 +1,6 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
+  ISelectTickets,
   type ISelectUserInfo,
   type ISelectUserVisaPillarDetails,
 } from "@/server/db/schema";
@@ -9,9 +10,14 @@ import React from "react";
 type TrackerBoardProps = {
   userInfo: ISelectUserInfo | undefined;
   userPillars: ISelectUserVisaPillarDetails[];
+  completedTickets: ISelectTickets[];
 };
 
-const TrackerBoard = ({ userInfo, userPillars }: TrackerBoardProps) => {
+const TrackerBoard = ({
+  userInfo,
+  userPillars,
+  completedTickets,
+}: TrackerBoardProps) => {
   return (
     <div className=" flex h-[calc(98vh-4rem)] w-[calc(100vw-30px)] gap-3 overflow-y-clip overflow-x-scroll text-sm md:w-[calc(100vw-261px)]">
       {VISA_PILLARS_EX_LIST.map((pillar) => {
@@ -21,6 +27,9 @@ const TrackerBoard = ({ userInfo, userPillars }: TrackerBoardProps) => {
             key={pillar}
             title={pillar}
             cards={pillarDetails}
+            completedTickets={completedTickets.filter((t) =>
+              t.pillars.includes(pillar),
+            )}
           />
         );
       })}
@@ -46,9 +55,14 @@ const TrackerBoard = ({ userInfo, userPillars }: TrackerBoardProps) => {
 type TrackerBoardColumnProps = {
   title: string;
   cards: ISelectUserVisaPillarDetails[];
+  completedTickets: ISelectTickets[];
 };
 
-const TrackerBoardColumn = ({ title, cards }: TrackerBoardColumnProps) => {
+const TrackerBoardColumn = ({
+  title,
+  cards,
+  completedTickets,
+}: TrackerBoardColumnProps) => {
   return (
     <div>
       <div className="sticky top-0 mb-2 w-64 rounded-t-sm bg-secondary p-2 font-semibold">
@@ -58,7 +72,7 @@ const TrackerBoardColumn = ({ title, cards }: TrackerBoardColumnProps) => {
         </p>
       </div>
       <ScrollArea className="h-full ">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 pb-20">
           {cards.map((card) => {
             return (
               <div
@@ -67,6 +81,20 @@ const TrackerBoardColumn = ({ title, cards }: TrackerBoardColumnProps) => {
               >
                 <p className="pb-2 font-medium">{card.title}</p>
                 <p>{card.detail}</p>
+              </div>
+            );
+          })}
+          {completedTickets.map((ticket) => {
+            return (
+              <div
+                key={ticket.ticketId}
+                className="relative w-64 overflow-hidden rounded-sm border bg-card p-[0.5px] backdrop-blur-3xl"
+              >
+                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#2dd4bf_0%,#84cc16_50%,#84cc16_100%)]" />
+                <div className="inline-flex h-full w-full flex-col rounded-sm bg-card px-3 py-1 text-sm backdrop-blur-3xl">
+                  <p className="pb-2 font-medium">{ticket.title}</p>
+                  <p>{ticket.description}</p>
+                </div>
               </div>
             );
           })}

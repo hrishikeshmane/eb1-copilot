@@ -60,43 +60,49 @@ const NavSheet = () => {
               Dashboard
             </Link>
 
-            <Link
-              href="/dashboard/onboarding"
-              className={cn(
-                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
-                pathName.endsWith("/dashboard/onboarding") && "bg-muted",
-              )}
-            >
-              <Package className="h-5 w-5" />
-              Onboaring
-            </Link>
+            {userRole === "customer" && (
+              <Link
+                href="/dashboard/onboarding"
+                className={cn(
+                  "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
+                  pathName.endsWith("/dashboard/onboarding") && "bg-muted",
+                )}
+              >
+                <Package className="h-5 w-5" />
+                Onboaring
+              </Link>
+            )}
 
-            <Link
-              href="/dashboard/builder"
-              className={cn(
-                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
-                pathName.endsWith("/dashboard/builder") && "bg-muted",
-              )}
-            >
-              <SquareKanbanIcon className="h-5 w-5" />
-              Profile Builder
-              {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+            {userRole === "customer" && (
+              <Link
+                href="/dashboard/builder"
+                className={cn(
+                  "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
+                  pathName.endsWith("/dashboard/builder") && "bg-muted",
+                )}
+              >
+                <SquareKanbanIcon className="h-5 w-5" />
+                Profile Builder
+              </Link>
+            )}
+            {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
             6
           </Badge> */}
-            </Link>
 
-            <Link
-              href="/dashboard/profile-tracker"
-              className={cn(
-                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
-                pathName.endsWith("/dashboard/profile-tracker") && "bg-muted",
-              )}
-            >
-              <LayoutDashboard className="h-5 w-5" />
-              Profile Tracker
-            </Link>
+            {userRole === "customer" && (
+              <Link
+                href="/dashboard/profile-tracker"
+                className={cn(
+                  "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
+                  pathName.endsWith("/dashboard/profile-tracker") && "bg-muted",
+                )}
+              >
+                <LayoutDashboard className="h-5 w-5" />
+                Profile Tracker
+              </Link>
+            )}
 
-            {userRole === "admin" && (
+            {userRole !== "customer" && (
               <Link
                 href="/dashboard/ticket-management"
                 className={cn(

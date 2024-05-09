@@ -9,11 +9,16 @@ const ProfileTrackerPage = async () => {
 
   const userInfo = await api.userDetails.getUserInfo();
   const userPillars = await api.userDetails.getUserPillars();
+  const completedTickets = await api.kanban.getCompletedTickets();
 
   return (
     <div className="h-full w-full p-4 pb-0 pr-2">
       {!!sessionClaims?.metadata?.onBoarded && (
-        <TrackerBoard userInfo={userInfo} userPillars={userPillars} />
+        <TrackerBoard
+          userInfo={userInfo}
+          userPillars={userPillars}
+          completedTickets={completedTickets}
+        />
       )}
       {!sessionClaims?.metadata?.onBoarded && (
         <OnboardingPlaceholder className="my-2 flex h-[calc(100vh-6rem)] w-[98%]" />

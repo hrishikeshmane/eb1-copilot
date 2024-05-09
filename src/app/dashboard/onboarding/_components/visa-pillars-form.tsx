@@ -15,38 +15,42 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import { nanoid } from "nanoid";
 import { cn } from "@/lib/utils";
 
+type WatchFiledName =
+  | "haveAwards"
+  | "haveOriginalContribution"
+  | "haveAuthored"
+  | "haveJudged"
+  | "havePress"
+  | "haveMembership"
+  | "haveCriticalCapacity"
+  | "haveExhibited"
+  | "haveHighCompensation"
+  | "haveCommercialSuccess"
+  | "haveVolunteeredOrLed"
+  | "haveExpertLORSupport"
+  | "haveYourSpace"
+  | "haveWorkedWithPrevailingIssues";
+
+type FieldName =
+  | "awards"
+  | "originalContribution"
+  | "authored"
+  | "judged"
+  | "press"
+  | "membership"
+  | "criticalCapacity"
+  | "exhibited"
+  | "highCompensation"
+  | "commercialSuccess"
+  | "volunteeredOrLed"
+  | "expertLORSupport"
+  | "yourSpace"
+  | "workedWithPrevailingIssues";
+
 type CardInputFormProps = {
   form: UseFormReturn<FormType>;
-  watchFieldName:
-    | "haveAwards"
-    | "haveOriginalContribution"
-    | "haveAuthored"
-    | "haveJudged"
-    | "havePress"
-    | "haveMembership"
-    | "haveCriticalCapacity"
-    | "haveExhibited"
-    | "haveHighCompensation"
-    | "haveCommercialSuccess"
-    | "haveVolunteeredOrLed"
-    | "haveExpertLORSupport"
-    | "haveYourSpace"
-    | "haveWorkedWithPrevailingIssues";
-  fieldName:
-    | "awards"
-    | "originalContribution"
-    | "authored"
-    | "judged"
-    | "press"
-    | "membership"
-    | "criticalCapacity"
-    | "exhibited"
-    | "highCompensation"
-    | "commercialSuccess"
-    | "volunteeredOrLed"
-    | "expertLORSupport"
-    | "yourSpace"
-    | "workedWithPrevailingIssues";
+  watchFieldName: WatchFiledName;
+  fieldName: FieldName;
   addButtonLabel: string;
 };
 
@@ -152,6 +156,13 @@ type SubFormProps = {
 };
 
 const VisaPillarForm = ({ form }: SubFormProps) => {
+  const onNoResponse = (fieldName: FieldName) => {
+    console.log("onNoResponse", fieldName);
+    // when user selects no after slelecting yes, set the fields to undefined
+    // Example: if user selects yes for haveAwards, then select no, then the fields for awards will be set to undefined
+    form.setValue(fieldName, undefined);
+  };
+
   return (
     <ol className="mx-1 grid grid-cols-1 gap-3 text-sm">
       <li>
@@ -251,7 +262,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("awards")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -261,49 +275,6 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-
-          {/* <div className="w-full max-w-4xl">
-            {form.watch("haveAwards") === "yes" &&
-              awards.fields.map((award, index) => {
-                return (
-                  <div key={award.id} className="flex w-full gap-2 ">
-                    <label className="w-1/2">
-                      Title
-                      <Textarea
-                        {...form.register(`awards.${index}.title`)}
-                        defaultValue={award.title}
-                      />
-                    </label>
-                    <label className="w-1/2">
-                      Detail
-                      <Textarea
-                        {...form.register(`awards.${index}.detail`)}
-                        defaultValue={award.detail}
-                      />
-                    </label>
-                    <Button
-                      variant={"destructive"}
-                      size={"icon"}
-                      className="mt-5"
-                      onClick={() => awards.remove(index)}
-                    >
-                      <TrashIcon />
-                    </Button>
-                  </div>
-                );
-              })}
-          </div>
-          {form.watch("haveAwards") === "yes" && (
-            <Button
-              className="my-2 w-full max-w-4xl"
-              variant={"secondary"}
-              onClick={() =>
-                awards.append({ id: nanoid(), title: "", detail: "" })
-              }
-            >
-              + Add Award
-            </Button>
-          )} */}
 
           <CardInputForm
             form={form}
@@ -382,7 +353,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("originalContribution")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -392,28 +366,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveOriginalContribution") === "yes" && (
-            <FormField
-              control={form.control}
-              name="originalContributionDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your original contribution and the evidence you
-                    have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             fieldName="originalContribution"
@@ -476,7 +429,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("authored")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -486,28 +442,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveAuthored") === "yes" && (
-            <FormField
-              control={form.control}
-              name="authoredDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your original authorship and the evidence you have
-                    to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveAuthored"
@@ -579,7 +514,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("judged")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -589,28 +527,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveJudged") === "yes" && (
-            <FormField
-              control={form.control}
-              name="judgedDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your judging work and the evidence you have to
-                    prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveJudged"
@@ -668,7 +585,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("press")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -678,28 +598,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("havePress") === "yes" && (
-            <FormField
-              control={form.control}
-              name="pressDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your media coverage and the evidence you have to
-                    prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="havePress"
@@ -759,7 +658,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("membership")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -769,28 +671,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveMembership") === "yes" && (
-            <FormField
-              control={form.control}
-              name="membershipDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your memberships in elite associations and the
-                    evidence you have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveMembership"
@@ -855,7 +736,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("criticalCapacity")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -865,28 +749,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveCriticalCapacity") === "yes" && (
-            <FormField
-              control={form.control}
-              name="criticalCapacityDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your critical role in detail and the evidence you
-                    have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveCriticalCapacity"
@@ -936,7 +799,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("exhibited")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -946,28 +812,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveExhibited") === "yes" && (
-            <FormField
-              control={form.control}
-              name="exhibitedDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your exhibitions and showcases and the evidence you
-                    have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveExhibited"
@@ -1019,7 +864,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("highCompensation")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1029,28 +877,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveHighCompensation") === "yes" && (
-            <FormField
-              control={form.control}
-              name="highCompensationDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your high remuneration and the evidence you have to
-                    prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveHighCompensation"
@@ -1097,7 +924,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("commercialSuccess")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1107,28 +937,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveCommercialSuccess") === "yes" && (
-            <FormField
-              control={form.control}
-              name="commercialSuccessDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe your Commercial Success and the evidence you have
-                    to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveCommercialSuccess"
@@ -1170,7 +979,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("volunteeredOrLed")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1180,27 +992,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveVolunteeredOrLed") === "yes" && (
-            <FormField
-              control={form.control}
-              name="volunteeredOrLedDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe in detail with the evidence you have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> 
-              )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveVolunteeredOrLed"
@@ -1239,7 +1031,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("expertLORSupport")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1249,27 +1044,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveExpertLORSupport") === "yes" && (
-            <FormField
-              control={form.control}
-              name="expertLORSupportDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe in detail with the evidence you have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveExpertLORSupport"
@@ -1302,7 +1077,10 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() => onNoResponse("yourSpace")}
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1312,27 +1090,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveYourSpace") === "yes" && (
-            <FormField
-              control={form.control}
-              name="yourSpaceDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe in detail with the evidence you have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveYourSpace"
@@ -1366,7 +1124,12 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="no" />
+                        <MemoRadioGroupItem
+                          value="no"
+                          onClick={() =>
+                            onNoResponse("workedWithPrevailingIssues")
+                          }
+                        />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
                     </FormItem>
@@ -1376,27 +1139,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               </FormItem>
             )}
           />
-          {/* {form.watch("haveWorkedWithPrevailingIssues") === "yes" && (
-            <FormField
-              control={form.control}
-              name="workedWithPrevailingIssuesDetails"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Describe in detail with the evidence you have to prove them
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Your deatiled response here"
-                      className="max-w-3xl"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )} */}
+
           <CardInputForm
             form={form}
             watchFieldName="haveWorkedWithPrevailingIssues"

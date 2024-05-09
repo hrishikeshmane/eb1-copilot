@@ -81,62 +81,62 @@ const OnboardingPage = () => {
       // Visa Pillars
       haveAwards: "" as FormType["haveAwards"],
       awards: undefined,
-      awardDetails: "" as FormType["awardDetails"],
+      // awardDetails: "" as FormType["awardDetails"],
 
       haveOriginalContribution: "" as FormType["haveOriginalContribution"],
       originalContribution: undefined,
-      originalContributionDetails:
-        "" as FormType["originalContributionDetails"],
+      // originalContributionDetails:
+      // "" as FormType["originalContributionDetails"],
 
       haveAuthored: "" as FormType["haveAuthored"],
       authored: undefined,
-      authoredDetails: "" as FormType["authoredDetails"],
+      // authoredDetails: "" as FormType["authoredDetails"],
 
       haveJudged: "" as FormType["haveJudged"],
       judged: undefined,
-      judgedDetails: "" as FormType["judgedDetails"],
+      // judgedDetails: "" as FormType["judgedDetails"],
 
       havePress: "" as FormType["havePress"],
       press: undefined,
-      pressDetails: "" as FormType["pressDetails"],
+      // pressDetails: "" as FormType["pressDetails"],
 
       haveMembership: "" as FormType["haveMembership"],
       membership: undefined,
-      membershipDetails: "" as FormType["membershipDetails"],
+      // membershipDetails: "" as FormType["membershipDetails"],
 
       haveCriticalCapacity: "" as FormType["haveCriticalCapacity"],
       criticalCapacity: undefined,
-      criticalCapacityDetails: "" as FormType["criticalCapacityDetails"],
+      // criticalCapacityDetails: "" as FormType["criticalCapacityDetails"],
 
       haveExhibited: "" as FormType["haveExhibited"],
       exhibited: undefined,
-      exhibitedDetails: "" as FormType["exhibitedDetails"],
+      // exhibitedDetails: "" as FormType["exhibitedDetails"],
 
       haveHighCompensation: "" as FormType["haveHighCompensation"],
       highCompensation: undefined,
-      highCompensationDetails: "" as FormType["highCompensationDetails"],
+      // highCompensationDetails: "" as FormType["highCompensationDetails"],
 
       haveCommercialSuccess: "" as FormType["haveCommercialSuccess"],
       commercialSuccess: undefined,
-      commercialSuccessDetails: "" as FormType["commercialSuccessDetails"],
+      // commercialSuccessDetails: "" as FormType["commercialSuccessDetails"],
 
       haveVolunteeredOrLed: "" as FormType["haveVolunteeredOrLed"],
       volunteeredOrLed: undefined,
-      volunteeredOrLedDetails: "" as FormType["volunteeredOrLedDetails"],
+      // volunteeredOrLedDetails: "" as FormType["volunteeredOrLedDetails"],
 
       haveExpertLORSupport: "" as FormType["haveExpertLORSupport"],
       expertLORSupport: undefined,
-      expertLORSupportDetails: "" as FormType["expertLORSupportDetails"],
+      // expertLORSupportDetails: "" as FormType["expertLORSupportDetails"],
 
       haveYourSpace: "" as FormType["haveYourSpace"],
       yourSpace: undefined,
-      yourSpaceDetails: "" as FormType["yourSpaceDetails"],
+      // yourSpaceDetails: "" as FormType["yourSpaceDetails"],
 
       haveWorkedWithPrevailingIssues:
         "" as FormType["haveWorkedWithPrevailingIssues"],
       workedWithPrevailingIssues: undefined,
-      workedWithPrevailingIssuesDetails:
-        "" as FormType["workedWithPrevailingIssuesDetails"],
+      // workedWithPrevailingIssuesDetails:
+      // "" as FormType["workedWithPrevailingIssuesDetails"],
     },
   });
 
@@ -161,14 +161,21 @@ const OnboardingPage = () => {
       toast.error("An error occured- " + error.message);
       console.error("Error submitting onboarding form", error);
     },
+    onSettled: () => {
+      setIsSubmitting(false);
+    },
   });
 
   const processForm: SubmitHandler<FormType> = (data, errors) => {
     console.log("data", data);
     console.log("errors", errors);
     // TODO: Add logic to see if everything in each form step is validated
+
     const msg = addUserMutaion.mutate({ formData: data });
     console.log("msg", msg);
+
+    // // TODO: remove this
+    // setIsSubmitting(false);
   };
 
   const next = async () => {

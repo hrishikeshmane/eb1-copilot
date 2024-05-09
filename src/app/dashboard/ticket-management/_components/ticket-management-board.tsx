@@ -127,7 +127,11 @@ const TicketManagementBoard = () => {
       )}
       {!!selectedCustomer && (
         // TODO: userid in router so that it becomes easy to share the link
-        <CustomKanban customer={selectedCustomer}>
+        <CustomKanban
+          customer={selectedCustomer}
+          isInteractable={true}
+          isAdmin={true}
+        >
           <CustomerSelect
             customers={customers}
             customer={selectedCustomer}

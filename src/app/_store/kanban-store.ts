@@ -11,6 +11,7 @@ export const ticketStatusAtom = atom<
 >("backlog");
 export const ticketPillarsAtom = atom<IPillars[]>([]);
 export const ticketAssigneeIdAtom = atom<string | null>(null);
+export const ticketDescriptionAtom = atom<string | null>(null);
 
 export type KanbanVisibileOptionsAtom = {
   showVisaPillars: boolean;
@@ -21,3 +22,5 @@ export const kanbanVisibileOptionsAtom = atom<KanbanVisibileOptionsAtom>({
   showVisaPillars: true,
   showAssignee: true,
 });
+
+export const isInteractableAtom = atom<boolean>(false);
