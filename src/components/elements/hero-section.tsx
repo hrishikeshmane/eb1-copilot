@@ -19,6 +19,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
@@ -30,7 +31,7 @@ export default function HeroSection() {
   });
 
   return (
-    <main className="flex w-full flex-col items-center justify-center pb-0 pt-36">
+    <main className="flex w-full flex-col items-center justify-center pb-0 pt-12 md:pt-36">
       <div className="flex flex-col items-center justify-center gap-2">
         <Image
           priority={true}
@@ -55,16 +56,25 @@ export default function HeroSection() {
             Dream, <br /> Now Within Reach
           </div>
           <div className="mx-2 max-w-3xl py-4 text-center dark:text-neutral-200 md:text-xl">
-            Start your EB-1A journey with a team that’s trusted by 300+
-            immigrants and endorsed by top US immigration attorneys.
+            {/* Start your EB-1A journey with a team that’s trusted by 300+
+            immigrants and endorsed by top US immigration attorneys. */}
+            Revolutionize Your Immigration Journey and Secure Your EB1A Green
+            Card
+            <br /> with AI-Powered Expertise
           </div>
           {!process.env.NEXT_PUBLIC_WAITLIST && (
             <div className="flex scale-[115%] gap-4">
-              <GetStartedButton />
-              <Button className="flex gap-1" variant={"secondary"}>
-                Book a free call
-                <TriangleRightIcon />
-              </Button>
+              {/* <GetStartedButton /> */}
+              <Link
+                href="https://calendly.com/nakshllc/greencardinc"
+                target={"_blank"}
+                rel={"noreferrer"}
+              >
+                <Button className="flex gap-1" variant={"secondary"}>
+                  Book a Free Consultation
+                  <TriangleRightIcon />
+                </Button>
+              </Link>
             </div>
           )}
           {!!process.env.NEXT_PUBLIC_WAITLIST && (
@@ -95,8 +105,8 @@ export default function HeroSection() {
           )}
         </div>
       </div>
-
-      <HeroVideo />
+      <div className="h-14 md:my-24 md:h-16"></div>
+      {/* <HeroVideo /> */}
     </main>
   );
 }

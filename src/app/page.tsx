@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import MasonryTestimonials from "@/components/elements/masonry-testimonials";
 import PricingGrid from "./pricing/_components/pricing-grid";
 import GetStartedButton from "@/components/elements/get-started-button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -25,28 +26,34 @@ export default function Home() {
         <FeaturedIn />
 
         <section className="relative mx-4 my-8 flex w-[95%] flex-col items-center justify-start overflow-hidden rounded-3xl bg-[#17332D] bg-gradient-to-b  py-16">
-          <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
+          <div className="absolute inset-0 bg-noise-pattern opacity-[0.04] brightness-100 contrast-150"></div>
 
           <div className="z-10 text-white">
             <h2 className=" mx-auto mb-2 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
-              Take control of your{" "}
+              Empower your{" "}
               <span className="relative inline-block text-primary">
                 American Dream
                 <svg
                   className="absolute -bottom-2 right-0 w-[250px] rotate-180 scale-90 fill-primary"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 1213 73"
-                  // fill="#fff"
                 >
                   <path d="M1212.41 5.51c3.05 12.87-22.36 11.93-30.26 15.68-94.32 20.51-269.09 32.42-365.48 37.51-77.91 3.82-155.66 9.93-233.67 11.67-57.49 2.56-115.05-.19-172.57 1.58-121.28.91-243.17 1.88-363.69-13.33-12.51-2.64-25.8-2.92-37.77-7.45-30.66-21.42 26.02-21.53 38.52-19.26 359.95 29.05 364.68 27.36 638.24 17.85 121-3.78 241.22-19.21 426.76-41.46 4.72-.65 9.18 3.56 8.45 8.36a941.74 941.74 0 0 0 54.29-9.21c9.33-2.33 18.7-4.56 27.95-7.19a7.59 7.59 0 0 1 9.23 5.24Z"></path>
                 </svg>
               </span>
             </h2>
             <p className="mx-6 text-center md:mx-4">
-              Get focus, efficiency and consistent reliable support till you get
+              {/* Get focus, efficiency and consistent reliable support till you get
               approved. <br />
               Here’s our no-nonsense process that’s been delivering success in 1
-              year.
+              year. */}
+              {
+                "Our AI analyzes profiles and streamlines application processes,"
+              }
+              <br />
+              {
+                "empowering you to qualify for the EB1-A Green Card and secure your future in the US"
+              }
             </p>
 
             <div className="mb-8 flex flex-col items-center justify-center gap-1 space-x-0 space-y-16 pt-8 lg:flex-row lg:space-y-0 lg:pt-[4.5rem]">
@@ -68,11 +75,11 @@ export default function Home() {
                     </span>
                   </span>
                 </div>
-                <div className="absolute bottom-[-40px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2">
-                  <span className="text-xl font-bold">Market Research</span>
+                <div className="absolute bottom-[-50px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2 md:bottom-[-40px]">
+                  <span className="text-xl font-bold">Spectator</span>
                   <span className="">
-                    Dive deep into your market, understand your competition, and
-                    discover customer needs.
+                    Chained to employers, visa stamping drama, layoff worries,
+                    100+ years backlog
                   </span>
                 </div>
               </div>
@@ -97,13 +104,13 @@ export default function Home() {
 
               <div className="relative flex w-[330px] flex-col items-center rounded-2xl bg-gradient-to-t  from-transparent via-primary/20 to-primary/80 text-center md:w-[400px] xl:w-[400px]">
                 <div className="py-12">
-                  <h3 className="text-[4rem] font-extrabold">EB-1</h3>
+                  <h3 className="text-[4rem] font-extrabold">EB-1A</h3>
                 </div>
                 <div className="absolute bottom-[-40px] left-0 right-0 flex flex-col items-center justify-center space-y-1 p-2">
-                  <span className="text-xl font-bold">Copy &amp; Design</span>
+                  <span className="text-xl font-bold">Success Story</span>
                   <span className="">
-                    Develop compelling copy and visuals that make your brand and
-                    website stand out.
+                    Get Green Card in less than 1 year with no employer
+                    dependency
                   </span>
                 </div>
               </div>
@@ -113,21 +120,22 @@ export default function Home() {
 
         <section className="relative mx-auto my-2 mb-8 flex w-[95%] flex-col items-center justify-between space-y-2 text-center md:flex-row">
           <div className="flex flex-col">
-            <div className="services items-start text-center md:text-left">
+            <div className="services bg-gradient-to-b from-[#829a5bb0] to-[#757e4e0f] bg-clip-text text-center font-extrabold leading-10 text-transparent md:text-left">
               <p>Original Contribution</p>
               <p>Authorship</p>
               <p>Judging</p>
               <p>Awards</p>
             </div>
           </div>
-          <div className="absolute inset-0 top-[25%] m-auto block h-fit w-fit -skew-x-2  p-0 text-4xl font-bold">
+          <div className="h-14"></div>
+          <div className="absolute inset-0 top-[42%] m-auto block h-fit w-fit -skew-x-2 p-0  text-4xl font-bold md:top-[25%]">
             <h2 className="text-4xl">
-              All visa pillars,
+              All EB-1A pillars,
               <span className="relative block">under one roof</span>
             </h2>
           </div>
           <div className="flex flex-col">
-            <div className="services text-center md:text-right lg:items-end">
+            <div className="services flex flex-col-reverse bg-gradient-to-b from-[#757e4e0f] to-[#829a5bb0] bg-clip-text text-center font-extrabold leading-10 text-transparent md:flex-col md:from-[#829a5bb0] md:to-[#757e4e0f] md:text-right lg:items-end">
               <p>Critical Capacity</p>
               <p>Membership</p>
               <p>High Salary</p>
@@ -141,18 +149,17 @@ export default function Home() {
             No BS, Green Card Accelerator
           </h2>
           <p className="mx-4 text-center text-white">
-            Crafted with precision, our program includes features to seamlessly
-            guide and support you through each stage.
+            Our AI features seamlessly guide you through every step
           </p>
 
-          <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
+          <div className="absolute inset-0 bg-noise-pattern opacity-[0.04] brightness-100 contrast-150"></div>
           <div className="z-10">
             <div className="mt-10 grid grid-cols-1 content-center gap-20 text-white md:grid-cols-3">
               <div className="flex flex-col items-center justify-center gap-2">
                 <div className="col-span-1 flex items-end">
                   <Counter
                     from={0}
-                    to={441}
+                    to={220}
                     className="text-6xl font-bold text-primary"
                   />
                   <span className="text-3xl font-bold">yrs</span>
@@ -163,11 +170,11 @@ export default function Home() {
                 <div className="col-span-1 flex items-end">
                   <Counter
                     from={0}
-                    to={77}
+                    to={34}
                     className="text-6xl font-bold text-primary"
                   />
                 </div>
-                <p className="text-center font-bold">Total Case</p>
+                <p className="text-center font-bold">Total Cases</p>
               </div>
               <div className="flex flex-col items-center justify-center gap-2">
                 <div className="col-span-1 flex items-end">
@@ -197,48 +204,206 @@ export default function Home() {
           </div>
         </section>
 
-        <section>
+        {/* <section>
           <PricingGrid />
-        </section>
+        </section> */}
 
         <section className="z-10 my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
           <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-3xl font-bold  md:text-4xl">
             FAQ
           </h2>
-          <div className="w-full">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger className="text-xl font-bold">
-                  Is it accessible?
-                </AccordionTrigger>
-                <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger className="text-xl font-bold">
-                  Is it styled?
-                </AccordionTrigger>
-                <AccordionContent>
-                  Yes. It comes with default styles that matches the other
-                  components&apos; aesthetic.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger className="text-xl font-bold">
-                  Is it animated?
-                </AccordionTrigger>
-                <AccordionContent>
-                  Yes. It&apos;s animated by default, but you can disable it if
-                  you prefer.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+          <div className="z-10 mx-auto my-8 flex w-full flex-col">
+            <div className="w-full text-left">
+              <Accordion
+                type="single"
+                collapsible={true}
+                className="w-full text-left"
+              >
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
+                    Is this fraud? Is this a hacking tool?
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-2">
+                    <p>
+                      Rest assured, it’s neither of those. If you’re looking to
+                      manipulate or exploit any immigration system, this product
+                      isn’t for you.
+                    </p>
+
+                    <p>
+                      Our product is designed to systematically assist you in
+                      enhancing your profile by recognizing, amplifying, and
+                      utilizing all your past and present work, along with the
+                      opportunities available to you.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
+                    When should I start?
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-2">
+                    <p>The best time is right now, and here’s why… </p>
+
+                    <p>
+                      We empower you to identify, cultivate, and utilize every
+                      opportunity around you to strengthen your case and enhance
+                      your eligibility, irrespective of whether you’re a
+                      professional or a student.
+                    </p>
+
+                    <p>
+                      Delaying means missing out on opportunities. Moreover, the
+                      primary objective of this endeavor is to save time. The
+                      earlier you begin, the more time you’ll have to construct
+                      an impressive profile.{" "}
+                    </p>
+
+                    <p>
+                      If you’re worried about the H-1B lottery, a robust profile
+                      like this can also aid in qualifying for the O-1A, which
+                      is merit-based and doesn’t rely on lottery luck.
+                    </p>
+
+                    <p>
+                      If you’re already in the EB-2 or EB-3 process, this won’t
+                      interfere at all. In fact, you’ll be able to use the same
+                      priority date for the EB-1A, accelerating your green card
+                      acquisition.
+                    </p>
+
+                    <p>
+                      Regarding location, you can be anywhere globally. Your
+                      significant work and the recognition you earn are what
+                      truly count. Many people apply for the EB-1A and O-1A from
+                      outside the US each year and relocate to the US under this
+                      status.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
+                    Can individuals without advanced degrees or extraordinary
+                    awards qualify for EB-1A?
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-2">
+                    <p>
+                      Absolutely! You don’t need a Ph.D., a Nobel Prize, an
+                      Oscar, or any such accolades to qualify for an EB-1A.{" "}
+                    </p>
+
+                    <p>
+                      Instead, you’re required to meet at least 3 out of 10
+                      criteria set by the USCIS for EB-1A qualification. Our
+                      product empowers you to meet all 10.{" "}
+                    </p>
+
+                    <p>
+                      Using AI and with diligent effort, our product can elevate
+                      a seemingly ordinary profile to meet the ‘extraordinary
+                      ability’ criteria for the Green Card.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-4">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
+                    Can this product also help prepare for the O-1A?
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-2">
+                    <p>Indeed</p>
+                    <p>
+                      The criteria for evidence for both EB-1A and O-1A are
+                      alike, but securing an O-1A doesn’t assure an EB-1A. It’s
+                      generally understood that the EB-1A demands a higher
+                      standard of proof compared to the O-1A.
+                    </p>
+                    <p>
+                      In essence, if you met the qualifications for the EB-1A,
+                      you would likely also qualify for the O-1A. This means you
+                      would have an alternative to the unpredictable H-1B
+                      lottery and wouldn’t be solely reliant on it.
+                    </p>
+                    <p>
+                      Moreover, the O-1 is a temporary visa, and you would
+                      eventually need to apply for the EB-1A Green Card. So, why
+                      not aim for the final goal, considering the O-1 as a
+                      stepping stone in the journey.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-5">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
+                    Why should I not directly approach a lawyer?
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-2">
+                    <p>
+                      Lawyers are excellent at assembling your evidence once you
+                      have it, formulating compelling legal arguments, and
+                      submitting your case to the authorities.
+                    </p>
+                    <p>
+                      However, a lawyer is not a specialist in your specific
+                      field of work and may not be able to provide you with the
+                      minute tactical advice you need in your daily life to
+                      build an EB-1A eligible profile.
+                    </p>
+                    <p>
+                      That’s where our product comes in. We guide you through
+                      this process using AI and our own experience of
+                      constructing our cases.
+                    </p>
+                    <p>
+                      You can use our product to build your profile from
+                      scratch, collect all the evidence, and then present that
+                      to a lawyer.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-6">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
+                    I’m in a unique/different field. How can this product
+                    benefit me?
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-2">
+                    <p>
+                      Our product is designed in a way that allows you to apply
+                      the foundational principles taught to any field you’re in.
+                    </p>
+                    <p>
+                      In fact, there are users of our product from a wide range
+                      of career fields such as Mechanical, Electrical, Computer
+                      Science, Data Science, Risk Analysis, Supply Chain, Public
+                      Policy, Design, and many more. They come from various
+                      industries including Automotive, Enterprise Computing,
+                      Data Analytics, Healthcare, Finance, and others. This
+                      diversity demonstrates the versatility and applicability
+                      of our product.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-7">
+                  <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
+                    Do you provide payment plans and discounts for groups?
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-2">
+                    <p>
+                      Yes, we do provide discounts for groups if you and one or
+                      more of your friends sign up together.
+                    </p>
+                    <p>We also have a 4-month installment plan available.</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
           </div>
         </section>
 
-        <section className="relative mb-20 mt-28 flex w-[95%] flex-col items-center justify-center gap-2 rounded-3xl bg-[#17332D] py-20 text-white">
-          <div className="bg-noise-pattern absolute inset-0 opacity-[0.04] brightness-100 contrast-150"></div>
+        <section className="relative mb-0 mt-1 flex w-[95%] flex-col items-center justify-center gap-2 rounded-3xl bg-[#17332D] py-24 text-white md:my-20  md:py-20">
+          <div className="absolute inset-0 bg-noise-pattern opacity-[0.04] brightness-100 contrast-150"></div>
           <div className="relative z-10 flex flex-col items-center justify-center gap-6">
             <div className="z-10 flex flex-col items-center justify-center gap-6">
               <div className=" mx-2 -skew-x-2 text-center text-4xl font-bold md:text-5xl">
@@ -247,11 +412,17 @@ export default function Home() {
 
               {!process.env.NEXT_PUBLIC_WAITLIST && (
                 <div className="flex scale-[115%] gap-4">
-                  <GetStartedButton />
-                  <Button className="flex gap-1" variant={"secondary"}>
-                    Book a free call
-                    <TriangleRightIcon />
-                  </Button>
+                  {/* <GetStartedButton /> */}
+                  <Link
+                    href="https://calendly.com/nakshllc/greencardinc"
+                    target={"_blank"}
+                    rel={"noreferrer"}
+                  >
+                    <Button className="flex gap-1" variant={"secondary"}>
+                      Book a Free Consultation
+                      <TriangleRightIcon />
+                    </Button>
+                  </Link>
                 </div>
               )}
             </div>

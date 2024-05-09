@@ -8,6 +8,7 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 import svgToDataUri from "mini-svg-data-uri";
 import defaultTheme from "tailwindcss/defaultTheme";
 import colors from "tailwindcss/colors";
+import typography from "@tailwindcss/typography";
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
@@ -32,6 +33,14 @@ const config = {
       },
     },
     extend: {
+      typography: {
+        quoteless: {
+          css: {
+            "blockquote p:first-of-type::before": { content: "none" },
+            "blockquote p:first-of-type::after": { content: "none" },
+          },
+        },
+      },
       backgroundImage: {
         "noise-pattern": "url('/noise.png')",
       },
@@ -102,6 +111,7 @@ const config = {
     },
   },
   plugins: [
+    typography,
     require("tailwindcss-animate"),
     addVariablesForColors,
     function ({ matchUtilities, theme }: any) {
