@@ -1,14 +1,10 @@
 "use client";
 
-import React, { use, useState, type DragEvent } from "react";
-import { m, motion } from "framer-motion";
+import React, { useState, type DragEvent } from "react";
+import { motion } from "framer-motion";
 import { Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import {
-  DragHandleDots2Icon,
-  MixerHorizontalIcon,
-  PlusIcon,
-} from "@radix-ui/react-icons";
+import { DragHandleDots2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import {
   Command,
@@ -36,7 +32,11 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
-import { type IPillars, visaPillars, VISA_PILLARS_EX } from "@/lib/constants";
+import {
+  type IPillars,
+  visaPillars,
+  type VISA_PILLARS_EX,
+} from "@/lib/constants";
 import { cn, getLableForPillars } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import PillarButton from "@/app/dashboard/builder/_components/pillar-button";
@@ -57,7 +57,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
 import { type ISelectTickets } from "@/server/db/schema";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { toast } from "sonner";

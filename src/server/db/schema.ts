@@ -1,20 +1,17 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { desc, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import {
   int,
   sqliteTableCreator,
   text,
   integer,
   index,
-  unique,
-  primaryKey,
   blob,
 } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
-import { table } from "console";
-import { VISA_PILLARS_EX } from "@/lib/constants";
+import { type VISA_PILLARS_EX } from "@/lib/constants";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same

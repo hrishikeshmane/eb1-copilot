@@ -3,37 +3,21 @@
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import PersonalInfoForm from "./_components/personal-info-form";
 import FormWrapper from "./_components/from-wrapper";
 import CurrentStatusForm from "./_components/current-status-form";
 import VisaPillarForm from "./_components/visa-pillars-form";
-import { useCalendlyEventListener, InlineWidget } from "react-calendly";
+import { useCalendlyEventListener } from "react-calendly";
 import GettingStartedForm from "./_components/getting-started-form";
 import useFormPersist from "react-hook-form-persist";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import { api } from "@/trpc/react";
-import {
-  type Step,
-  steps,
-  formSchema,
-  FormType,
-  FormFileds,
-} from "./_components/form-utils";
+import { steps, formSchema, type FormType } from "./_components/form-utils";
 import { useUser } from "@clerk/nextjs";
 import { DevTool } from "@hookform/devtools";
-import { useAuth } from "@clerk/nextjs";
 import UserInfoDetails from "./_components/user-info-details";
 import Loader from "@/components/elements/loader";
 
