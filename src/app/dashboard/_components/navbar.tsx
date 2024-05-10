@@ -86,7 +86,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            {userRole !== "customer" && (
+            {userRole === "admin" && (
               <Link
                 href="/dashboard/ticket-management"
                 className={cn(
