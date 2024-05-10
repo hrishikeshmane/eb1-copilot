@@ -20,11 +20,13 @@ import { PlusIcon } from "@radix-ui/react-icons";
 type PillarButtonProps = {
   selectedPillars: IPillars[];
   setSelectedPillars: React.Dispatch<React.SetStateAction<IPillars[]>>;
+  disabled: boolean;
 };
 
 const PillarButton = ({
   selectedPillars,
   setSelectedPillars,
+  disabled,
 }: PillarButtonProps) => {
   const [openPillarsPopover, setOpenPillarsPopover] = React.useState(false);
 
@@ -33,6 +35,7 @@ const PillarButton = ({
       <Popover open={openPillarsPopover} onOpenChange={setOpenPillarsPopover}>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             className="flex h-full w-full flex-wrap items-center justify-start gap-1 text-primary-foreground"
             size={"sm"}
             variant="ghost"

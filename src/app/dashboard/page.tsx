@@ -1,13 +1,13 @@
-import { CustomKanban } from "@/components/elements/custom-kanban";
-import { api } from "@/trpc/server";
 import { auth, currentUser } from "@clerk/nextjs";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import OnboardingPlaceholder from "./_components/onboarding-placeholder";
+import { AdminDashboard } from "./_components/admin-dashboard";
+import CustomerDashboard from "./_components/customer-dashboard";
 
 export default async function Page() {
   const { sessionClaims } = auth();
   const user = await currentUser();
+  const isAdmin = sessionClaims?.metadata.role === "admin";
+  const isCustomer = sessionClaims?.metadata.role === "customer";
 
   return (
     <div className="h-full w-full p-4">
@@ -16,10 +16,18 @@ export default async function Page() {
           Hello, {user?.firstName ?? "there"}
         </h1>
       </div>
-      <div className="mt-1">
-        <p>Your journey to freedom begins here</p>
-      </div>
-      {!sessionClaims?.metadata.onBoarded && <OnboardingPlaceholder />}
+      {isCustomer && (
+        <>
+          <div className="mt-1">
+            <p>Your journey to freedom begins here</p>
+          </div>
+        </>
+      )}
+      {/* {isAdmin && <AdminDashboard />} */}
+      {!sessionClaims?.metadata.onBoarded && isCustomer && (
+        <OnboardingPlaceholder />
+      )}
+      {sessionClaims?.metadata.onBoarded && <CustomerDashboard />}
     </div>
   );
 }

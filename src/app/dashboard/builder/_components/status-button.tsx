@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/popover";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
 
 type TicketStatus = {
   lable: "Backlog" | "Todo" | "In Progress" | "In Review" | "Complete";
@@ -47,16 +48,28 @@ type StatusButtonProps = {
   setStatus: React.Dispatch<
     React.SetStateAction<"backlog" | "todo" | "doing" | "review" | "done">
   >;
+  disabled: boolean;
 };
 
-const StatusButton = ({ status, setStatus }: StatusButtonProps) => {
+const StatusButton = ({ status, setStatus, disabled }: StatusButtonProps) => {
   const [openStatusPopover, setOpenStatusPopover] = React.useState(false);
+
+  const { user } = useUser();
+  const userRole = user?.publicMetadata.role;
+
+  let selectTicketStatus: TicketStatus[];
+  if (userRole === "vendor") {
+    selectTicketStatus = ticketStatus.filter((s) => s.value !== "done");
+  } else {
+    selectTicketStatus = ticketStatus;
+  }
 
   return (
     <div>
       <Popover open={openStatusPopover} onOpenChange={setOpenStatusPopover}>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             className="flex h-full w-full flex-wrap items-center justify-start gap-1 text-sm text-primary-foreground"
             size={"sm"}
             variant="ghost"
@@ -64,10 +77,10 @@ const StatusButton = ({ status, setStatus }: StatusButtonProps) => {
             <div
               className={cn(
                 "flex w-full flex-wrap gap-1 font-mono",
-                ticketStatus.find((s) => s.value === status)?.css,
+                selectTicketStatus.find((s) => s.value === status)?.css,
               )}
             >
-              {ticketStatus.find((s) => s.value === status)?.lable ?? (
+              {selectTicketStatus.find((s) => s.value === status)?.lable ?? (
                 <div className="flex gap-1 rounded-sm px-2 py-1 text-foreground">
                   <PlusIcon className="" />
                   Status
@@ -84,7 +97,7 @@ const StatusButton = ({ status, setStatus }: StatusButtonProps) => {
           <Command
             filter={(value, search) => {
               if (search && value) {
-                const selectedStatus = ticketStatus.find(
+                const selectedStatus = selectTicketStatus.find(
                   (s) => s.value === value,
                 );
                 if (!selectedStatus) return 0;
@@ -104,7 +117,7 @@ const StatusButton = ({ status, setStatus }: StatusButtonProps) => {
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
-                {ticketStatus.map((status) => (
+                {selectTicketStatus.map((status) => (
                   <CommandItem
                     key={status.value}
                     value={status.value}

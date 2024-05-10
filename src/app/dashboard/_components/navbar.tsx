@@ -41,17 +41,19 @@ const Navbar = () => {
               Dashboard
             </Link>
 
-            <Link
-              href="/dashboard/onboarding"
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
-                pathName.endsWith("/dashboard/onboarding") &&
-                  "bg-muted text-foreground",
-              )}
-            >
-              <Package className="h-4 w-4" />
-              Onboarding
-            </Link>
+            {userRole === "customer" && (
+              <Link
+                href="/dashboard/onboarding"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
+                  pathName.endsWith("/dashboard/onboarding") &&
+                    "bg-muted text-foreground",
+                )}
+              >
+                <Package className="h-4 w-4" />
+                Onboarding
+              </Link>
+            )}
 
             {userRole === "customer" && (
               <Link
@@ -84,7 +86,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            {userRole === "admin" && (
+            {userRole !== "customer" && (
               <Link
                 href="/dashboard/ticket-management"
                 className={cn(

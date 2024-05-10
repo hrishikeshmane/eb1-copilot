@@ -10,14 +10,14 @@ export default function HeroVideo() {
     event.target.pauseVideo();
   };
 
-  const opts = {
-    // height: "500",
-    // width: "900",
-    // playerVars: {
-    //     // https://developers.google.com/youtube/player_parameters
-    //     autoplay: 1,
-    // },
-  };
+  // const opts = {
+  // height: "500",
+  // width: "900",
+  // playerVars: {
+  //     // https://developers.google.com/youtube/player_parameters
+  //     autoplay: 1,
+  // },
+  // };
 
   return (
     <motion.div

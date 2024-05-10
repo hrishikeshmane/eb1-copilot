@@ -1,35 +1,11 @@
-"use client";
-
 import { Button } from "../ui/button";
 import { TriangleRightIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import HeroVideo from "./hero-video";
 import GetStartedButton from "./get-started-button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { z } from "zod";
-import { useState } from "react";
-import { api } from "@/trpc/react";
-import { toast } from "sonner";
 import Link from "next/link";
 
 export default function HeroSection() {
-  const [email, setEmail] = useState("");
-  const waitlistMutation = api.waitlist.addToWaitlist.useMutation({
-    onSuccess: () => {
-      setEmail("");
-      toast.success("Subscribed to waitlist");
-    },
-  });
-
   return (
     <main className="flex w-full flex-col items-center justify-center pb-0 pt-12 md:pt-36">
       <div className="flex flex-col items-center justify-center gap-2">
@@ -62,47 +38,20 @@ export default function HeroSection() {
             Card
             <br /> with AI-Powered Expertise
           </div>
-          {!process.env.NEXT_PUBLIC_WAITLIST && (
-            <div className="flex scale-[115%] gap-4">
-              {/* <GetStartedButton /> */}
-              <Link
-                href="https://calendly.com/nakshllc/greencardinc"
-                target={"_blank"}
-                rel={"noreferrer"}
-              >
-                <Button className="flex gap-1" variant={"secondary"}>
-                  Book a Free Consultation
-                  <TriangleRightIcon />
-                </Button>
-              </Link>
-            </div>
-          )}
-          {!!process.env.NEXT_PUBLIC_WAITLIST && (
-            <div className="rounded-md border bg-secondary p-1">
-              <form
-                className="flex w-full items-center space-x-2"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  waitlistMutation.mutate({ email });
-                }}
-              >
-                <Input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  placeholder="Sign up for waitlist"
-                  className="w-[16rem] border-0 shadow-none outline-none focus-visible:ring-0"
-                />
-                <Button
-                  type="submit"
-                  // variant="secondary"
-                  className="scale-[95%]"
-                >
-                  Subscribe
-                </Button>
-              </form>
-            </div>
-          )}
+
+          <div className="flex scale-[115%] gap-4">
+            <GetStartedButton />
+            <Link
+              href="https://calendly.com/nakshllc/greencardinc"
+              target={"_blank"}
+              rel={"noreferrer"}
+            >
+              <Button className="flex gap-1" variant={"secondary"}>
+                Book a Free Consultation
+                <TriangleRightIcon />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="h-14 md:my-24 md:h-16"></div>
