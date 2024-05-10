@@ -29,6 +29,7 @@ export default authMiddleware({
     "/sign-in(.*)",
     "/sign-up(.*)",
     "/api/webhook(.*)",
+    "/terms(.*)",
   ],
   // debug: true,
 });
