@@ -23,8 +23,10 @@ import {
   ticketStatusAtom,
   ticketPillarsAtom,
   ticketAssigneeIdAtom,
+  ticketDescriptionAtom,
 } from "@/app/_store/kanban-store";
 import { type ISelectTickets } from "@/server/db/schema";
+import { Textarea } from "@/components/ui/textarea";
 
 const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const customer = useAtomValue(customerAtom);
@@ -33,12 +35,16 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const [ticketStatus, setTicketStatus] = useAtom(ticketStatusAtom);
   const [ticketPillars, setTicketPillars] = useAtom(ticketPillarsAtom);
   const [ticketAssigneeId, setTicketAssigneeId] = useAtom(ticketAssigneeIdAtom);
+  const [ticketDescription, setTicketDescription] = useAtom(
+    ticketDescriptionAtom,
+  );
 
   const resetTicketStates = () => {
     setTicketTitle("");
     setTicketStatus("backlog");
     setTicketPillars([]);
     setTicketAssigneeId(null);
+    setTicketDescription(null);
   };
 
   const [openSheet, setOpenSheet] = React.useState(false);
@@ -83,6 +89,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       column: ticketStatus,
       order: ticketLenghtByColumn,
       assigneeId: ticketAssigneeId,
+      description: ticketDescription ?? undefined,
     });
     resetTicketStates();
     setOpenSheet(false);
@@ -110,6 +117,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Status:</p>
                 <StatusButton
+                  disabled={false}
                   status={ticketStatus}
                   setStatus={setTicketStatus}
                 />
@@ -118,6 +126,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Visa Pillars:</p>
                 <PillarButton
+                  disabled={false}
                   selectedPillars={ticketPillars}
                   setSelectedPillars={setTicketPillars}
                 />
@@ -126,10 +135,20 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
               <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                 <p className="">Assign:</p>
                 <AssigneeButton
+                  disabled={false}
                   assigneeId={ticketAssigneeId}
                   setAssigneeId={setTicketAssigneeId}
                 />
               </div>
+
+              <Textarea
+                className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0"
+                value={ticketDescription ?? ""}
+                placeholder="Ticket Description..."
+                onChange={(e) => {
+                  setTicketDescription(e.target.value);
+                }}
+              />
             </SheetDescription>
           </>
         </SheetHeader>

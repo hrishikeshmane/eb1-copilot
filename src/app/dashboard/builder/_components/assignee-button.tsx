@@ -22,9 +22,14 @@ import Loader from "@/components/elements/loader";
 type AssigneeButtonProps = {
   assigneeId: string | null;
   setAssigneeId: React.Dispatch<React.SetStateAction<string | null>>;
+  disabled: boolean;
 };
 
-const AssigneeButton = ({ assigneeId, setAssigneeId }: AssigneeButtonProps) => {
+const AssigneeButton = ({
+  assigneeId,
+  setAssigneeId,
+  disabled,
+}: AssigneeButtonProps) => {
   // TODO: move this call to in the custom kanban component
   // TODO: Find a away to do this on Server and send initial data to the client
   const vendors = api.userManagement.getAllVendors.useQuery();
@@ -38,6 +43,7 @@ const AssigneeButton = ({ assigneeId, setAssigneeId }: AssigneeButtonProps) => {
       <Popover open={openAssigneePopover} onOpenChange={setOpenAssigneePopover}>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             className="flex h-full w-full flex-wrap items-center justify-start gap-1 text-primary-foreground"
             size={"sm"}
             variant="ghost"

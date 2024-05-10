@@ -1,14 +1,10 @@
 "use client";
 
-import React, { use, useState, type DragEvent } from "react";
+import React, { useState, type DragEvent } from "react";
 import { motion } from "framer-motion";
 import { Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import {
-  DragHandleDots2Icon,
-  MixerHorizontalIcon,
-  PlusIcon,
-} from "@radix-ui/react-icons";
+import { DragHandleDots2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import {
   Command,
@@ -36,8 +32,12 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
-import { type IPillars, visaPillars } from "@/lib/constants";
-import { getLableForPillars } from "@/lib/utils";
+import {
+  type IPillars,
+  visaPillars,
+  type VISA_PILLARS_EX,
+} from "@/lib/constants";
+import { cn, getLableForPillars } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import PillarButton from "@/app/dashboard/builder/_components/pillar-button";
 import AssigneeButton from "@/app/dashboard/builder/_components/assignee-button";
@@ -51,6 +51,8 @@ import {
   ticketPillarsAtom,
   ticketAssigneeIdAtom,
   kanbanVisibileOptionsAtom,
+  isInteractableAtom,
+  ticketDescriptionAtom,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
@@ -58,18 +60,25 @@ import { type ISelectTickets } from "@/server/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { toast } from "sonner";
+import { Textarea } from "../ui/textarea";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
   customer?: User;
-  interactable?: boolean;
+  isInteractable: boolean;
+  isAdmin: boolean;
 };
 
 export const CustomKanban = ({
   children,
   customer,
-  interactable,
+  isInteractable,
+  isAdmin,
 }: CustomKanbanProps) => {
+  const setIsInteractable = useSetAtom(isInteractableAtom);
+  setIsInteractable(isInteractable);
+
   const setCustomer = useSetAtom(customerAtom);
   setCustomer(customer);
 
@@ -96,7 +105,10 @@ export const CustomKanban = ({
               customerSelect={children}
               tickets={ticketQuery.data as ISelectTickets[]}
             />
-            <Board tickets={ticketQuery.data as ISelectTickets[]} />
+            <Board
+              tickets={ticketQuery.data as ISelectTickets[]}
+              isAdmin={isAdmin}
+            />
             <ScrollBar orientation="vertical" />
             <ScrollBar orientation="horizontal" />
           </div>
@@ -218,7 +230,7 @@ const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
         {userRole === "admin" && pathName.includes("/ticket-management") && (
           <NewTicketButton tickets={tickets} />
         )}
-        <Popover>
+        {/* <Popover>
           <PopoverTrigger asChild>
             <div>
               <Button size={"sm"} variant={"outline"} className="px-2">
@@ -258,13 +270,23 @@ const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
               </CommandList>
             </Command>
           </PopoverContent>
-        </Popover>
+        </Popover> */}
       </div>
     </div>
   );
 };
 
-const Board = ({ tickets }: { tickets: ISelectTickets[] }) => {
+const Board = ({
+  tickets,
+  isAdmin,
+}: {
+  tickets: ISelectTickets[];
+  isAdmin: boolean | undefined;
+}) => {
+  const { user } = useUser();
+  const userRole = user?.publicMetadata.role;
+  const isVendor = userRole === "vendor";
+
   return (
     <div className="flex h-full gap-3">
       <Column
@@ -291,13 +313,15 @@ const Board = ({ tickets }: { tickets: ISelectTickets[] }) => {
         headingColor="text-violet-600 dark:text-violet-200"
         cards={tickets}
       />
-      <Column
-        title="Complete"
-        column="done"
-        headingColor="text-emerald-600 dark:text-emerald-200"
-        cards={tickets}
-      />
-      {/* <BurnBarrel setCards={setCards} /> */}
+      {!isVendor && (
+        <Column
+          title="Complete"
+          column="done"
+          headingColor="text-emerald-600 dark:text-emerald-200"
+          cards={tickets}
+        />
+      )}
+      {!!isAdmin && <BurnBarrel />}
     </div>
   );
 };
@@ -314,12 +338,6 @@ const Column = ({ title, headingColor, cards, column }: ColumProps) => {
 
   const [active, setActive] = useState(false);
   const utils = api.useUtils();
-  const updateTicketMutation = api.kanban.addTicket.useMutation({
-    onSettled: async () => {
-      await utils.kanban.getTicketsByUserId.invalidate();
-    },
-  });
-
   const updateTicketColumnMutation = api.kanban.updateTicketColumn.useMutation({
     onMutate: async ({ ticketId, column }) => {
       // Cancel any outgoing refetches
@@ -404,8 +422,6 @@ const Column = ({ title, headingColor, cards, column }: ColumProps) => {
         ticketId: cardId,
         column: column,
       });
-
-      // setCards(copy);
     }
   };
 
@@ -475,7 +491,15 @@ const Column = ({ title, headingColor, cards, column }: ColumProps) => {
     setActive(false);
   };
 
-  const filteredCards = cards.filter((c) => c.column === column);
+  const filterPillars = useAtomValue(FilterPillarsAtom);
+
+  //apply filters on filterPillars
+  const filteredCards = cards
+    .filter((c) => c.column === column)
+    .filter((c) => {
+      if (filterPillars.length === 0) return true;
+      return filterPillars.some((p) => c.pillars.includes(p.value));
+    });
 
   return (
     <div className="max-h-full w-56 shrink-0">
@@ -517,10 +541,19 @@ const KanbanCard = ({
   card: ISelectTickets;
   handleDragStart: (e: DragEvent<HTMLDivElement>, card: ISelectTickets) => void;
 }) => {
+  const { user } = useUser();
+  const userRole = user?.publicMetadata.role;
+  const isAdmin = userRole === "admin";
+  const isVendor = userRole === "vendor";
+  const isCustomer = userRole === "customer";
+
   const [ticketTitle, setTicketTitle] = useAtom(ticketTitleAtom);
   const [ticketStatus, setTicketStatus] = useAtom(ticketStatusAtom);
   const [ticketPillars, setTicketPillars] = useAtom(ticketPillarsAtom);
   const [ticketAssigneeId, setTicketAssigneeId] = useAtom(ticketAssigneeIdAtom);
+  const [ticketDescription, setTicketDescription] = useAtom(
+    ticketDescriptionAtom,
+  );
 
   const kanbanVisibileOptions = useAtomValue(kanbanVisibileOptionsAtom);
 
@@ -533,12 +566,14 @@ const KanbanCard = ({
     setTicketStatus(card.column);
     setTicketPillars(filteredCardPillars);
     setTicketAssigneeId(card.assigneeId);
+    setTicketDescription(card.description);
   };
   const onUnMount = () => {
     setTicketTitle("");
     setTicketStatus("backlog");
     setTicketPillars([]);
     setTicketAssigneeId(null);
+    setTicketDescription(null);
   };
 
   const [openSheet, setOpenSheet] = React.useState(false);
@@ -552,27 +587,83 @@ const KanbanCard = ({
     setOpenSheet(true);
   };
 
+  const isInteractable = useAtomValue(isInteractableAtom);
+
+  const utils = api.useUtils();
+  const updateTicketMutation = api.kanban.updateTicket.useMutation({
+    onMutate: () => {
+      toast.info("Updating ticket...");
+    },
+    onError: () => {
+      toast.error("Failed to update ticket");
+    },
+    onSuccess: () => {
+      toast.success("Ticket updated successfully");
+    },
+    onSettled: async () => {
+      await utils.kanban.getTicketsByUserId.invalidate();
+    },
+  });
+
+  type SaveTicketHandlerParameters = {
+    ticketId: string;
+    title: string;
+    description: string | null;
+    customerId: string;
+    pillars: VISA_PILLARS_EX[];
+    column: "backlog" | "todo" | "doing" | "review" | "done";
+    order: number;
+    assigneeId: string | null;
+  };
+
+  const saveTicketHandler = ({
+    ticketId,
+    title,
+    description,
+    customerId,
+    pillars,
+    column,
+    order,
+    assigneeId,
+  }: SaveTicketHandlerParameters) => {
+    updateTicketMutation.mutate({
+      ticketId,
+      title,
+      description,
+      customerId,
+      pillars,
+      column,
+      // order,
+      assigneeId,
+    });
+  };
+
   return (
     <>
       <DropIndicator beforeId={card.ticketId} column={card.column} />
       <motion.div
         layout
         layoutId={card.ticketId}
-        draggable="true"
+        draggable={isInteractable ? true : false}
         onDragStart={(e) =>
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           handleDragStart(e as any as DragEvent<HTMLDivElement>, card)
         }
-        className="relative cursor-pointer rounded border bg-card p-3 active:cursor-grabbing"
+        className={cn(
+          "relative cursor-pointer rounded border bg-card p-3 active:cursor-grabbing",
+          isInteractable ? "pl-6" : "",
+        )}
       >
         <Sheet open={openSheet} onOpenChange={sheetOpenHandler}>
           <SheetTrigger asChild>
             <div>
-              <DragHandleDots2Icon className="absolute left-2 top-3.5 -ml-1 h-4 w-4" />
-              <div className="flex pl-3">
+              {isInteractable && (
+                <DragHandleDots2Icon className="absolute left-2 top-3.5 -ml-1 h-4 w-4" />
+              )}
+              <div className="flex ">
                 <p className="text-sm">{card.title}</p>
               </div>
-              <div className="mt-1 flex flex-wrap gap-1 pl-3">
+              <div className="mt-1 flex flex-wrap gap-1 ">
                 {kanbanVisibileOptions.showVisaPillars &&
                   card.pillars.map((pillar) => (
                     <Badge
@@ -590,16 +681,21 @@ const KanbanCard = ({
             <SheetHeader>
               <>
                 <SheetTitle>
-                  <input
-                    className="inline-block w-full border-none bg-transparent p-0 outline-none ring-0"
-                    value={ticketTitle}
-                    onChange={(e) => setTicketTitle(e.target.value)}
-                  ></input>
+                  {isAdmin ? (
+                    <input
+                      className="inline-block w-full border-none bg-transparent p-0 outline-none ring-0"
+                      value={ticketTitle}
+                      onChange={(e) => setTicketTitle(e.target.value)}
+                    ></input>
+                  ) : (
+                    <p>{ticketTitle}</p>
+                  )}
                 </SheetTitle>
                 <SheetDescription className="flex flex-col gap-2 space-y-1 border-b pb-2">
                   <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                     <p className="">Status:</p>
                     <StatusButton
+                      disabled={isCustomer}
                       status={ticketStatus}
                       setStatus={setTicketStatus}
                     />
@@ -608,21 +704,51 @@ const KanbanCard = ({
                   <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                     <p className="">Visa Pillars:</p>
                     <PillarButton
+                      disabled={!isAdmin}
                       selectedPillars={ticketPillars}
                       setSelectedPillars={setTicketPillars}
                     />
                   </div>
 
-                  <div className="grid grid-cols-[78px_1fr] items-center gap-3">
-                    <p className="">Assign:</p>
-                    <AssigneeButton
-                      assigneeId={ticketAssigneeId}
-                      setAssigneeId={setTicketAssigneeId}
+                  {isAdmin && (
+                    <div className="grid grid-cols-[78px_1fr] items-center gap-3">
+                      <p className="">Assign:</p>
+                      <AssigneeButton
+                        disabled={!isAdmin}
+                        assigneeId={ticketAssigneeId}
+                        setAssigneeId={setTicketAssigneeId}
+                      />
+                    </div>
+                  )}
+                  {isAdmin ? (
+                    <Textarea
+                      className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0"
+                      // disabled={isCustomer}
+                      value={ticketDescription ?? ""}
+                      placeholder="Ticket Description..."
+                      onChange={(e) => {
+                        setTicketDescription(e.target.value);
+                      }}
                     />
-                  </div>
+                  ) : (
+                    <p className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0">
+                      {ticketDescription}
+                    </p>
+                  )}
                 </SheetDescription>
               </>
             </SheetHeader>
+            {/* <h3>Ticket Logs</h3> */}
+            <ScrollArea className="h-full w-full">
+              {
+                // enter comments here
+                // Array.from({ length: 50 }, (_, i) => (
+                //   <div key={i} className="h-8 w-full">
+                //     {i}
+                //   </div>
+                // ))
+              }
+            </ScrollArea>
             <SheetFooter>
               <div className="mt-auto flex gap-2">
                 <SheetClose asChild>
@@ -631,7 +757,23 @@ const KanbanCard = ({
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Button size="sm">Save</Button>
+                  <Button
+                    onClick={() =>
+                      saveTicketHandler({
+                        ticketId: card.ticketId,
+                        title: ticketTitle,
+                        description: ticketDescription,
+                        customerId: card.customerId,
+                        pillars: ticketPillars.map((p) => p.value),
+                        column: ticketStatus,
+                        order: card.order,
+                        assigneeId: ticketAssigneeId,
+                      })
+                    }
+                    size="sm"
+                  >
+                    Save
+                  </Button>
                 </SheetClose>
               </div>
             </SheetFooter>
@@ -658,45 +800,61 @@ const DropIndicator = ({
   );
 };
 
-// const BurnBarrel = ({
-//   setCards,
-// }: {
-//   setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
-// }) => {
-//   const [active, setActive] = useState(false);
+const BurnBarrel = (
+  {
+    // setCards,
+  }: {
+    // setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
+  },
+) => {
+  const [active, setActive] = useState(false);
 
-//   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-//     e.preventDefault();
-//     setActive(true);
-//   };
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setActive(true);
+  };
 
-//   const handleDragLeave = () => {
-//     setActive(false);
-//   };
+  const handleDragLeave = () => {
+    setActive(false);
+  };
+  const utils = api.useUtils();
+  const deleteTicketMutation = api.kanban.deleteTicketById.useMutation({
+    onMutate: () => {
+      toast.info("Deleting ticket...");
+    },
+    onError: () => {
+      toast.error("Failed to delete ticket");
+    },
+    onSuccess: () => {
+      toast.success("Ticket deleted successfully");
+    },
+    onSettled: async () => {
+      await utils.kanban.getTicketsByUserId.invalidate();
+    },
+  });
 
-//   const handleDragEnd = (e: DragEvent<HTMLDivElement>) => {
-//     const cardId = e.dataTransfer.getData("cardId");
+  const handleDragEnd = (e: DragEvent<HTMLDivElement>) => {
+    const cardId = e.dataTransfer.getData("cardId");
+    deleteTicketMutation.mutate({ ticketId: cardId });
 
-//     setCards((pv) => pv.filter((c) => c.id !== cardId));
+    setActive(false);
+  };
 
-//     setActive(false);
-//   };
-
-//   return (
-//     <div
-//       onDrop={handleDragEnd}
-//       onDragOver={handleDragOver}
-//       onDragLeave={handleDragLeave}
-//       className={`mt-10 grid h-56 w-56 shrink-0 place-content-center rounded border text-3xl ${
-//         active
-//           ? "border-red-500 bg-red-800/20 text-red-500"
-//           : "bg-card text-muted-foreground/20"
-//       }`}
-//     >
-//       {active ? <Trash className="animate-bounce" /> : <Trash />}
-//     </div>
-//   );
-// };
+  return (
+    <div
+      onDrop={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      className={`mt-10 grid h-56 w-56 shrink-0 place-content-center rounded border text-3xl ${
+        active
+          ? "border-red-500 bg-red-800/20 text-red-500"
+          : "bg-card text-muted-foreground/20"
+      }`}
+    >
+      {active ? <Trash className="animate-bounce" /> : <Trash />}
+    </div>
+  );
+};
 
 // const AddCard = ({
 //   column,

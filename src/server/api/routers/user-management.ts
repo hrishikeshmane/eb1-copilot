@@ -34,6 +34,16 @@ export const userManagementRouter = createTRPCRouter({
     return customers;
   }),
 
+  getLatestCustomers: adminProcedure.query(async ({ ctx }) => {
+    const allUsers = await clerkClient.users.getUserList({
+      limit: 7,
+    });
+    const customers = allUsers.filter(
+      (user) => user.publicMetadata.role === "customer",
+    );
+    return customers;
+  }),
+
   changeUserRole: adminProcedure
     .input(
       z.object({

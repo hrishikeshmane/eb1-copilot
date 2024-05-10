@@ -41,12 +41,12 @@ const Footer = () => {
               </h2>
               <ul className="font-medium text-gray-500 dark:text-gray-400">
                 <li className="mb-4">
-                  <a
+                  <Link
                     href="https://www.linkedin.com/company/greencardinc"
                     className="hover:underline "
                   >
                     LinkedIn
-                  </a>
+                  </Link>
                 </li>
                 {/* <li>
                   <a
@@ -64,14 +64,33 @@ const Footer = () => {
               </h2>
               <ul className="font-medium text-gray-500 dark:text-gray-400">
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
+                  <Link href="/terms" className="hover:underline ">
                     Terms &amp; Conditions
-                  </a>
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    href="https://docs.google.com/document/d/e/2PACX-1vSw3SRmlDvRTKsLwvMnGoJpimqIgqw2wBrkZojnQBDDAr4KiFKpYT6sQtvBGnghqA/pub"
+                    className="hover:underline"
+                  >
+                    Data Processing
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    href="https://docs.google.com/document/d/e/2PACX-1vSFryh8tuExtEPszK-fSFsIBwxIjWKqovmb0t2EoepZk8lPfYBCw_rFg8d_qdUczlX2TDn_YhMvFokE/pub"
+                    className="hover:underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    href="https://docs.google.com/document/d/e/2PACX-1vQTwm5Dnpkqajoxvuuh2XIXCtXlj6nyFxP5khRiyFaYSWDtJUAaX_wGI1D6H6VGpA/pub"
+                    className="hover:underline"
+                  >
+                    Saas
+                  </Link>
                 </li>
               </ul>
             </div>
