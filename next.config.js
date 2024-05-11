@@ -3,9 +3,10 @@
  * for Docker builds.
  */
 await import("./src/env.js");
+import { withAxiom } from "next-axiom";
 
 /** @type {import("next").NextConfig} */
-const config = {
+const config = withAxiom({
   transpilePackages: ["next-mdx-remote"],
   images: {
     remotePatterns: [
@@ -21,6 +22,7 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-};
+});
 
+// https://www.imakewebsites.ca/posts/axiom-logging-nextjs-api-routes/ for trpc + axiom logs
 export default config;
