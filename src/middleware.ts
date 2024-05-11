@@ -30,7 +30,7 @@ export default authMiddleware({
     "/api/webhook(.*)",
     "/terms(.*)",
   ],
-  debug: true,
+  // debug: true,
 });
 
 export const config = {
