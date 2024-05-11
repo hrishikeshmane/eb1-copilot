@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { nanoid } from "nanoid";
 import { cn } from "@/lib/utils";
+import ScrollToTop from "@/components/elements/scroll-to-top";
 
 type WatchFiledName =
   | "haveAwards"
@@ -165,6 +166,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
 
   return (
     <ol className="mx-1 grid grid-cols-1 gap-3 text-sm">
+      <ScrollToTop />
       <li>
         <div className="mb-4 flex flex-col gap-3 text-sm">
           <h3 className="text-lg font-bold">Awards for excellence</h3>

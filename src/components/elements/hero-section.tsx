@@ -42,7 +42,7 @@ export default function HeroSection() {
           <div className="flex scale-[115%] flex-col gap-4 md:flex-row">
             <GetStartedButton />
             <Link
-              href="https://calendly.com/nakshllc/greencardinc"
+              href="https://calendly.com/greencardinc"
               target={"_blank"}
               rel={"noreferrer"}
             >
