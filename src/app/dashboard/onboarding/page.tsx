@@ -151,19 +151,18 @@ const OnboardingPage = () => {
   });
 
   const processForm: SubmitHandler<FormType> = (data, errors) => {
-    console.log("data", data);
-    console.log("errors", errors);
+    // console.log("data", data);
+    // console.log("errors", errors);
     // TODO: Add logic to see if everything in each form step is validated
 
     const msg = addUserMutaion.mutate({ formData: data });
-    console.log("msg", msg);
+    // console.log("msg", msg);
 
     // // TODO: remove this
     // setIsSubmitting(false);
   };
 
   const next = async () => {
-    // console.log("form", form.getValues());
     const fields = steps[currentStep]?.fields;
     const output = await form.trigger(fields, { shouldFocus: true });
 
@@ -205,122 +204,121 @@ const OnboardingPage = () => {
     return <Loader className="p-4" />;
   }
 
-  // TODO: uncomment this
-  // if (onBoarded) {
-  //   return <UserInfoDetails></UserInfoDetails>;
-  // }
+  if (onBoarded) {
+    return <UserInfoDetails></UserInfoDetails>;
+  }
 
   return (
-    <div>
-      <h1> This page is under maintenance. Please come back later</h1>
-    </div>
-    // <ScrollArea className="mx-auto h-full w-full overflow-x-hidden p-6 pb-0 pt-0">
-    //   {/* steps */}
-    //   <nav
-    //     aria-label="Progress"
-    //     className="top-0 z-10 mb-6 border-b bg-background pb-6 pt-4 md:sticky"
-    //   >
-    //     <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
-    //       {steps.map((step, index) => (
-    //         <li key={step.name} className="md:flex-1">
-    //           {currentStep > index ? (
-    //             <div className="group flex w-full flex-col border-l-4 border-primary-foreground py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
-    //               <span className="text-sm font-medium transition-colors ">
-    //                 {step.id}
-    //               </span>
-    //               <span className="text-sm font-medium">{step.name}</span>
-    //             </div>
-    //           ) : currentStep === index ? (
-    //             <div
-    //               className="flex w-full flex-col border-l-4 border-primary py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4"
-    //               aria-current="step"
-    //             >
-    //               <span className="text-sm font-bold">{step.id}</span>
-    //               <span className="text-sm font-medium">{step.name}</span>
-    //             </div>
-    //           ) : (
-    //             <div className="group flex w-full flex-col border-l-4  py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
-    //               <span className="text-sm font-bold text-muted-foreground transition-colors">
-    //                 {step.id}
-    //               </span>
-    //               <span className="text-sm font-medium text-muted-foreground">
-    //                 {step.name}
-    //               </span>
-    //             </div>
-    //           )}
-    //         </li>
-    //       ))}
-    //     </ol>
-    //   </nav>
+    // <div>
+    //   <h1> This page is under maintenance. Please come back later</h1>
+    // </div>
+    <ScrollArea className="mx-auto h-full w-full overflow-x-hidden p-6 pb-0 pt-0">
+      {/* steps */}
+      <nav
+        aria-label="Progress"
+        className="top-0 z-10 mb-6 border-b bg-background pb-6 pt-4 md:sticky"
+      >
+        <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
+          {steps.map((step, index) => (
+            <li key={step.name} className="md:flex-1">
+              {currentStep > index ? (
+                <div className="group flex w-full flex-col border-l-4 border-primary-foreground py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
+                  <span className="text-sm font-medium transition-colors ">
+                    {step.id}
+                  </span>
+                  <span className="text-sm font-medium">{step.name}</span>
+                </div>
+              ) : currentStep === index ? (
+                <div
+                  className="flex w-full flex-col border-l-4 border-primary py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4"
+                  aria-current="step"
+                >
+                  <span className="text-sm font-bold">{step.id}</span>
+                  <span className="text-sm font-medium">{step.name}</span>
+                </div>
+              ) : (
+                <div className="group flex w-full flex-col border-l-4  py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
+                  <span className="text-sm font-bold text-muted-foreground transition-colors">
+                    {step.id}
+                  </span>
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {step.name}
+                  </span>
+                </div>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
 
-    //   {/* Form */}
-    //   {/*  TODO: only display if not onbarded */}
-    //   <div className="mt-6 flex flex-col justify-items-stretch">
-    //     <Form {...form}>
-    //       <form onSubmit={form.handleSubmit(processForm)}>
-    //         {currentStep === 0 && (
-    //           <FormWrapper delta={delta}>
-    //             <GettingStartedForm form={form} />
-    //           </FormWrapper>
-    //         )}
+      {/* Form */}
+      {/*  TODO: only display if not onbarded */}
+      <div className="mt-6 flex flex-col justify-items-stretch">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(processForm)}>
+            {currentStep === 0 && (
+              <FormWrapper delta={delta}>
+                <GettingStartedForm form={form} />
+              </FormWrapper>
+            )}
 
-    //         {currentStep === 1 && (
-    //           <FormWrapper delta={delta}>
-    //             <PersonalInfoForm form={form} />
-    //           </FormWrapper>
-    //         )}
+            {currentStep === 1 && (
+              <FormWrapper delta={delta}>
+                <PersonalInfoForm form={form} />
+              </FormWrapper>
+            )}
 
-    //         {currentStep === 2 && (
-    //           <FormWrapper delta={delta}>
-    //             <CurrentStatusForm form={form} />
-    //           </FormWrapper>
-    //         )}
+            {currentStep === 2 && (
+              <FormWrapper delta={delta}>
+                <CurrentStatusForm form={form} />
+              </FormWrapper>
+            )}
 
-    //         {currentStep === 3 && (
-    //           <FormWrapper delta={delta}>
-    //             <VisaPillarForm form={form} />
-    //           </FormWrapper>
-    //         )}
+            {currentStep === 3 && (
+              <FormWrapper delta={delta}>
+                <VisaPillarForm form={form} />
+              </FormWrapper>
+            )}
 
-    //         {currentStep === 4 && (
-    //           <FormWrapper delta={delta}>
-    //             {/* <InlineWidget
-    //               styles={{
-    //                 height: "1000px",
-    //                 margin: "-4rem 0px -5rem 0px",
-    //                 padding: "0px",
-    //               }}
-    //               url="https://calendly.com/ihrishi/ama-w-hrishi"
-    //             /> */}
-    //             <div className="flex flex-col space-y-2">
-    //               <h3 className="text-lg font-bold">
-    //                 You have completed the onboarding steps.
-    //               </h3>
-    //               <p className="text-sm">
-    //                 Click Submit and we will reach out to you within 48hrs
-    //               </p>
-    //             </div>
-    //           </FormWrapper>
-    //         )}
+            {currentStep === 4 && (
+              <FormWrapper delta={delta}>
+                {/* <InlineWidget
+                  styles={{
+                    height: "1000px",
+                    margin: "-4rem 0px -5rem 0px",
+                    padding: "0px",
+                  }}
+                  url="https://calendly.com/ihrishi/ama-w-hrishi"
+                /> */}
+                <div className="flex flex-col space-y-2">
+                  <h3 className="text-lg font-bold">
+                    You have completed the onboarding steps.
+                  </h3>
+                  <p className="text-sm">
+                    Click Submit and we will reach out to you within 48hrs
+                  </p>
+                </div>
+              </FormWrapper>
+            )}
 
-    //         <div className="my-4 mt-auto flex w-full justify-end gap-4 py-4">
-    //           <Button
-    //             type="button"
-    //             variant={"secondary"}
-    //             onClick={prev}
-    //             disabled={currentStep === 0}
-    //           >
-    //             Previous
-    //           </Button>
-    //           <Button type="button" onClick={next} disabled={isSubmitting}>
-    //             {currentStep < 4 ? "Next" : "Submit"}
-    //           </Button>
-    //         </div>
-    //       </form>
-    //       {/* <DevTool control={form.control} /> */}
-    //     </Form>
-    //   </div>
-    // </ScrollArea>
+            <div className="my-4 mt-auto flex w-full justify-end gap-4 py-4">
+              <Button
+                type="button"
+                variant={"secondary"}
+                onClick={prev}
+                disabled={currentStep === 0}
+              >
+                Previous
+              </Button>
+              <Button type="button" onClick={next} disabled={isSubmitting}>
+                {currentStep < 4 ? "Next" : "Submit"}
+              </Button>
+            </div>
+          </form>
+          {/* <DevTool control={form.control} /> */}
+        </Form>
+      </div>
+    </ScrollArea>
   );
 };
 
