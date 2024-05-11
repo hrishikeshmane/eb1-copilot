@@ -113,6 +113,21 @@ const Navbar = () => {
                 User Management
               </Link>
             )}
+
+            {/* user-profile-tracker */}
+            {userRole === "admin" && (
+              <Link
+                href="/dashboard/user-profile-tracker"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
+                  pathName.endsWith("/dashboard/user-profile-tracker") &&
+                    "bg-muted text-foreground",
+                )}
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                User Profile Tracker
+              </Link>
+            )}
           </nav>
         </div>
         <div className="mt-auto p-4">
