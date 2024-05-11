@@ -24,5 +24,7 @@ const config = withAxiom({
   },
 });
 
-// https://www.imakewebsites.ca/posts/axiom-logging-nextjs-api-routes/ for trpc + axiom logs
+// for trpc + axiom logs
+// https://github.com/axiomhq/next-axiom/issues/64
+// https://www.imakewebsites.ca/posts/axiom-logging-nextjs-api-routes/
 export default config;

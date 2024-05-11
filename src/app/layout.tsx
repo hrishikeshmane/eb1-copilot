@@ -10,6 +10,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Provider as JotaiProvider } from "jotai";
 import { AxiomWebVitals } from "next-axiom";
+import { CSPostHogProvider } from "@/components/elements/CSPostHogProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,37 +31,39 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
+      <CSPostHogProvider>
+        <body
+          className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
         >
-          <ClerkProvider
-            appearance={{
-              layout: {
-                socialButtonsPlacement: "bottom",
-                socialButtonsVariant: "blockButton",
-              },
-              variables: {
-                colorPrimary: "#D9F522",
-                colorText: "#000000",
-              },
-            }}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
           >
-            <TRPCReactProvider>
-              <JotaiProvider>{children}</JotaiProvider>
-              <Toaster richColors closeButton />
-            </TRPCReactProvider>
-          </ClerkProvider>
-        </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
-        <AxiomWebVitals />
-      </body>
+            <ClerkProvider
+              appearance={{
+                layout: {
+                  socialButtonsPlacement: "bottom",
+                  socialButtonsVariant: "blockButton",
+                },
+                variables: {
+                  colorPrimary: "#D9F522",
+                  colorText: "#000000",
+                },
+              }}
+            >
+              <TRPCReactProvider>
+                <JotaiProvider>{children}</JotaiProvider>
+                <Toaster richColors closeButton />
+              </TRPCReactProvider>
+            </ClerkProvider>
+          </ThemeProvider>
+          <Analytics />
+          <SpeedInsights />
+          <AxiomWebVitals />
+        </body>
+      </CSPostHogProvider>
     </html>
   );
 }
