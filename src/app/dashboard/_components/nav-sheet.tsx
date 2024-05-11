@@ -128,6 +128,20 @@ const NavSheet = () => {
                 User Management
               </Link>
             )}
+
+            {userRole === "admin" && (
+              <Link
+                href="/dashboard/user-profile-tracker"
+                className={cn(
+                  "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
+                  pathName.endsWith("/dashboard/user-profile-tracker") &&
+                    "bg-muted",
+                )}
+              >
+                <LayoutDashboard className="h-5 w-5" />
+                User Profile Tracker
+              </Link>
+            )}
           </nav>
           <div className="mt-auto">
             {/* <Card>

@@ -10,5 +10,5 @@ export default {
     authToken: env.DATABASE_AUTH_TOKEN,
   },
   tablesFilter: ["eb1-copilot_*"],
-  out: "./src/server/db/drizzle",
+  out: "./src/server/db/migrate",
 } satisfies Config;
