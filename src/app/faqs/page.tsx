@@ -24,7 +24,7 @@ const FAQsPage = () => {
             <Accordion type="multiple" className="w-full text-left">
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-left text-xl font-bold">
-                  Is this fraud? Is this a hacking tool?
+                  This sounds too good to be true. Is this legit?
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
                   <p>
