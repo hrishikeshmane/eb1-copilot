@@ -37,6 +37,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import ScrollToTop from "@/components/elements/scroll-to-top";
 
 type SubFormProps = {
   form: UseFormReturn<FormType>;
@@ -45,6 +46,7 @@ type SubFormProps = {
 const CurrentStatusForm = ({ form }: SubFormProps) => {
   return (
     <ul className="mx-1 grid grid-cols-2 gap-4 lg:grid-cols-3">
+      <ScrollToTop />
       <li className="col-span-1">
         <FormField
           control={form.control}

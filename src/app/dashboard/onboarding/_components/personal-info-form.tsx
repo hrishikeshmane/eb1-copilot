@@ -23,6 +23,7 @@ import {
   HEAR_ABOUT_US,
   type HearAboutUsOption,
 } from "@/lib/constants";
+import ScrollToTop from "@/components/elements/scroll-to-top";
 
 type SubFormProps = {
   form: UseFormReturn<FormType>;
@@ -31,6 +32,7 @@ type SubFormProps = {
 const PersonalInfoForm = ({ form }: SubFormProps) => {
   return (
     <ul className="mx-1 grid grid-cols-2  gap-4 lg:grid-cols-3">
+      <ScrollToTop />
       <li className="col-span-1">
         <FormField
           control={form.control}
