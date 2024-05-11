@@ -148,6 +148,27 @@ export const columns: ColumnDef<User>[] = [
     },
   },
   {
+    accessorKey: "Onboarded",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          On boarded
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const userData = row.original;
+      const userMetadata =
+        userData.publicMetadata as CustomJwtSessionClaims["metadata"];
+      const onboarded = userMetadata.onBoarded;
+      return <div className="">{onboarded ? "Yes" : "No"}</div>;
+    },
+  },
+  {
     accessorKey: "role",
     header: ({ column }) => {
       return (

@@ -185,7 +185,7 @@ export default function Home() {
                   />
                   <span className=" text-3xl font-bold">%</span>
                 </div>
-                <p className="text-center font-bold">Success Rate</p>
+                <p className="text-center font-bold">Customer Satisfaction</p>
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@ export default function Home() {
               >
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
-                    Is this fraud? Is this a hacking tool?
+                    This sounds too good to be true. Is this legit?
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
                     <p>
