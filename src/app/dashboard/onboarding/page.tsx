@@ -20,6 +20,7 @@ import { useUser } from "@clerk/nextjs";
 import { DevTool } from "@hookform/devtools";
 import UserInfoDetails from "./_components/user-info-details";
 import Loader from "@/components/elements/loader";
+import ScrollToTop from "@/components/elements/scroll-to-top";
 
 //TODO: make this server component and move form page to a new client component
 const OnboardingPage = () => {
@@ -282,6 +283,7 @@ const OnboardingPage = () => {
 
             {currentStep === 4 && (
               <FormWrapper delta={delta}>
+                <ScrollToTop />
                 {/* <InlineWidget
                   styles={{
                     height: "1000px",

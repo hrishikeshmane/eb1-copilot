@@ -413,7 +413,7 @@ export default function Home() {
               <div className="flex scale-[115%] gap-4">
                 <GetStartedButton />
                 <Link
-                  href="https://calendly.com/nakshllc/greencardinc"
+                  href="https://calendly.com/greencardinc"
                   target={"_blank"}
                   rel={"noreferrer"}
                 >
