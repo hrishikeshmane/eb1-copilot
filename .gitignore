@@ -41,6 +41,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-greencardinc-local.db
-greencardinc-local.db-shm
-greencardinc-local.db-wal
+# greencardinc-local.db
+# greencardinc-local.db-shm
+# greencardinc-local.db-wal
