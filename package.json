@@ -6,7 +6,7 @@
   "scripts": {
     "build": "next build",
     "db:push": "drizzle-kit pushhhh",
-    "db:studio": "drizzle-kit studio  --config=drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
     "db:generate": "drizzle-kit generate:sqlite  --config=drizzle.config.ts",
     "dev": "next dev",
     "lint": "next lint",

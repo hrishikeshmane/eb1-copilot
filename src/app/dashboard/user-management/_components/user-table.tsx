@@ -64,6 +64,7 @@ import { api } from "@/trpc/react";
 import Loader from "@/components/elements/loader";
 import { clerkClient } from "@clerk/nextjs";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export const UserTable = () => {
   const users = api.userManagement.getAllUsers.useQuery();
@@ -96,14 +97,14 @@ const setRole = async (userId: string, role: string) => {
 
 export const columns: ColumnDef<User>[] = [
   {
-    id: "name",
+    id: "user",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          User
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -112,43 +113,76 @@ export const columns: ColumnDef<User>[] = [
       const userData = row.original;
       const firstName = userData.firstName!;
       const lastName = userData.lastName!;
+      const emailAddresses = userData.emailAddresses;
 
       return (
         <div className="flex items-center gap-2">
-          <Avatar className="h-6 w-6">
+          <Avatar className="h-8 w-8">
             <AvatarImage src={userData.imageUrl} />
             <AvatarFallback>
               {firstName.charAt(0) + lastName.charAt(0)}
             </AvatarFallback>
           </Avatar>
-          <span>{firstName + " " + lastName}</span>
+          <div className="flex flex-col">
+            <span>{firstName + " " + lastName}</span>
+            <span className="lowercase text-muted-foreground">
+              {emailAddresses.at(0)?.emailAddress}
+            </span>
+          </div>
         </div>
       );
     },
   },
   {
-    accessorKey: "email",
+    accessorKey: "contact",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Contact
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const userData = row.original;
+      const userId = userData.id;
       const emailAddresses = userData.emailAddresses;
+
+      const phoneNumberAndLinkedin =
+        api.userManagement.getUserInfoById.useQuery({
+          userId: userId,
+        });
+
+      if (phoneNumberAndLinkedin.status === "pending") {
+        return <Loader className="p-0" />;
+      }
+      if (phoneNumberAndLinkedin.status === "error") {
+        return <p>---</p>;
+      }
+
+      // const userInfo = await clerkClient.users.getUser(userId);
+      // console.log(userInfo);
+
       return (
-        <div className="lowercase">{emailAddresses.at(0)?.emailAddress}</div>
+        <div className="flex flex-col">
+          <Link
+            href={phoneNumberAndLinkedin.data?.linkedIn ?? ""}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500"
+          >
+            LinkedIn
+          </Link>
+          <span>{phoneNumberAndLinkedin.data?.phone}</span>
+        </div>
       );
     },
   },
   {
-    accessorKey: "Onboarded",
+    accessorKey: "onBoarded",
     header: ({ column }) => {
       return (
         <Button
