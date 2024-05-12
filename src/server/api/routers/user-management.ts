@@ -3,6 +3,7 @@ import { z } from "zod";
 import { adminProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
+import { eq } from "drizzle-orm";
 
 export const userManagementRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
@@ -63,5 +64,18 @@ export const userManagementRouter = createTRPCRouter({
         },
       });
       return user;
+    }),
+
+  getUserInfoById: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const userInfoData = await ctx.db.query.userInfo.findFirst({
+        where: (table) => eq(table.userId, input.userId),
+      });
+      return userInfoData;
     }),
 });

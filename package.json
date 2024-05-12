@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "db:studio": "drizzle-kit studio  --config=drizzle.config.ts",
+    "db:push": "drizzle-kit pushhhh",
+    "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
     "db:generate": "drizzle-kit generate:sqlite  --config=drizzle.config.ts",
     "dev": "next dev",
     "lint": "next lint",
@@ -101,6 +102,7 @@
   },
   "devDependencies": {
     "@hookform/devtools": "^4.3.1",
+    "@svgr/webpack": "^8.1.0",
     "@types/better-sqlite3": "^7.6.9",
     "@types/eslint": "^8.56.2",
     "@types/node": "^20.11.20",

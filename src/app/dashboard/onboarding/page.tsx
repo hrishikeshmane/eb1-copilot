@@ -21,6 +21,7 @@ import { DevTool } from "@hookform/devtools";
 import UserInfoDetails from "./_components/user-info-details";
 import Loader from "@/components/elements/loader";
 import ScrollToTop from "@/components/elements/scroll-to-top";
+import { useRouter } from "next/navigation";
 
 //TODO: make this server component and move form page to a new client component
 const OnboardingPage = () => {
@@ -136,10 +137,12 @@ const OnboardingPage = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const router = useRouter();
   const addUserMutaion = api.userDetails.addUser.useMutation({
     onSuccess: () => {
       setIsSubmitting(false);
       toast.success("Your Response has been submitted.");
+      router.refresh();
     },
     onError: (error) => {
       setIsSubmitting(false);
