@@ -14,6 +14,7 @@ const UserManagementPage = async () => {
     <ScrollArea className="h-full w-full">
       <UserTable />
       <ScrollBar />
+      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );
 };

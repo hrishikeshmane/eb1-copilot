@@ -17,6 +17,8 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
@@ -65,6 +67,45 @@ import Loader from "@/components/elements/loader";
 import { clerkClient } from "@clerk/nextjs";
 import { toast } from "sonner";
 import Link from "next/link";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Cross2Icon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+} from "@radix-ui/react-icons";
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+
+export const userRolesMap = [
+  {
+    label: "Customer",
+    value: "customer",
+    // icon: ArrowDownIcon,
+  },
+  {
+    label: "Vendor",
+    value: "vendor",
+    // icon: ArrowRightIcon,
+  },
+  {
+    label: "Admin",
+    value: "admin",
+    // icon: ArrowUpIcon,
+  },
+];
+
+export const onBoardedMap = [
+  {
+    label: "Yes",
+    value: "true",
+    // icon: ArrowDownIcon,
+  },
+  {
+    label: "No",
+    value: "false",
+    // icon: ArrowRightIcon,
+  },
+];
 
 export const UserTable = () => {
   const users = api.userManagement.getAllUsers.useQuery();
@@ -98,15 +139,28 @@ const setRole = async (userId: string, role: string) => {
 export const columns: ColumnDef<User>[] = [
   {
     id: "user",
+    filterFn: (row, columnId, filterValue) => {
+      // return // true or false based on your custom logic
+      const searchString = (
+        row.original.firstName +
+        " " +
+        row.original.lastName
+      ).toLowerCase();
+      if (searchString.includes(filterValue.toLowerCase())) {
+        return true;
+      }
+      return false;
+    },
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          User
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <span>User Info</span>
+        // <Button
+        //   variant="ghost"
+        //   onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        // >
+        //   User
+        //   <ArrowUpDown className="ml-2 h-4 w-4" />
+        // </Button>
       );
     },
     cell: ({ row }) => {
@@ -137,13 +191,14 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "contact",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Contact
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <span>Contact</span>
+        // <Button
+        //   variant="ghost"
+        //   onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        // >
+        //   Contact
+        //   <ArrowUpDown className="ml-2 h-4 w-4" />
+        // </Button>
       );
     },
     cell: ({ row }) => {
@@ -185,13 +240,14 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "onBoarded",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          On boarded
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <span>On boarded</span>
+        // <Button
+        //   variant="ghost"
+        //   onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        // >
+        //   On boarded
+        //   <ArrowUpDown className="ml-2 h-4 w-4" />
+        // </Button>
       );
     },
     cell: ({ row }) => {
@@ -199,21 +255,34 @@ export const columns: ColumnDef<User>[] = [
       const userMetadata =
         userData.publicMetadata as CustomJwtSessionClaims["metadata"];
       const onboarded = userMetadata.onBoarded;
-      return <div className="">{onboarded ? "Yes" : "No"}</div>;
+      // return <div className="w-[80px]">{onboarded ? "Yes" : "No"}</div>;
+      return <div className="w-[80px]">{onboarded ? "true" : "false"}</div>;
     },
   },
   {
     accessorKey: "role",
+    filterFn: (row, columnId, filterValue) => {
+      // return // true or false based on your custom logic
+      const userData = row.original;
+      const metadata = userData.publicMetadata as CustomJwtSessionClaims;
+      const searchString = (metadata.role as string) ?? "";
+      console.log("filterValue?", filterValue);
+      // if (searchString.includes(filterValue)) {
+      //   return true;
+      // }
+      return false;
+    },
     header: ({ column }) => {
       return (
-        <Button
-          className=""
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Role
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <span>Role {column.getCanFilter() ? "yes" : "no"}</span>
+        //   <Button
+        //     className=""
+        //     variant="ghost"
+        //     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        //   >
+        //     Role
+        //     <ArrowUpDown className="ml-2 h-4 w-4" />
+        //   </Button>
       );
     },
     cell: ({ row }) => {
@@ -359,6 +428,8 @@ export function DataTableDemo({ users }: { users: User[] }) {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
@@ -369,21 +440,52 @@ export function DataTableDemo({ users }: { users: User[] }) {
     },
   });
 
+  const isFiltered = table.getState().columnFilters.length > 0;
+
+  // console.log(
+  //   "getFacetedUniqueValues?",
+  //   table.getColumn("role")?.getFacetedRowModel(),
+  // );
+
   return (
     <div className="w-full px-6">
-      <div className="flex items-center py-4">
+      <div className="flex items-center gap-2 py-4">
         <Input
           // TODO: filter for name and role
           placeholder="Filter Name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("user")?.getFilterValue() as string) ?? ""}
           onChange={(event) => {
-            return table.getColumn("name")?.setFilterValue(event.target.value);
+            return table.getColumn("user")?.setFilterValue(event.target.value);
           }}
-          className="max-w-sm"
+          className="h-8 w-[150px] lg:w-[250px]"
         />
+        {table.getColumn("onBoarded") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("onBoarded")}
+            title="On boarded"
+            options={onBoardedMap}
+          />
+        )}
+        {table.getColumn("role") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("role")}
+            title="Role"
+            options={userRolesMap}
+          />
+        )}
+        {isFiltered && (
+          <Button
+            variant="ghost"
+            onClick={() => table.resetColumnFilters()}
+            className="h-8 px-2 lg:px-3"
+          >
+            Reset
+            <Cross2Icon className="ml-2 h-4 w-4" />
+          </Button>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="ml-auto" size="sm">
               Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -459,12 +561,11 @@ export function DataTableDemo({ users }: { users: User[] }) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {/* {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected. */}
+        <div className="flex-1 text-sm font-medium">
+          Total users: {table.getRowCount()}
         </div>
-        <div className="space-x-2">
-          <Button
+        <div className="flex space-x-2">
+          {/* <Button
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
@@ -479,9 +580,78 @@ export function DataTableDemo({ users }: { users: User[] }) {
             disabled={!table.getCanNextPage()}
           >
             Next
+          </Button> */}
+          <div className="flex items-center space-x-2">
+            <p className="text-sm font-medium">Rows per page</p>
+            <Select
+              value={`${table.getState().pagination.pageSize}`}
+              onValueChange={(value) => {
+                table.setPageSize(Number(value));
+              }}
+            >
+              <SelectTrigger className="h-8 w-[70px]">
+                <SelectValue
+                  placeholder={table.getState().pagination.pageSize}
+                />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={`${pageSize}`}>
+                    {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className=" hidden w-fit items-center justify-center px-2 text-sm font-medium md:flex">
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </div>
+          <Button
+            variant="outline"
+            className="hidden h-8 w-8 p-0 lg:flex"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <span className="sr-only">Go to first page</span>
+            <DoubleArrowLeftIcon className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            className="h-8 w-8 p-0"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <span className="sr-only">Go to previous page</span>
+            <ChevronLeftIcon className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            className="h-8 w-8 p-0"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <span className="sr-only">Go to next page</span>
+            <ChevronRightIcon className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            className="hidden h-8 w-8 p-0 lg:flex"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <span className="sr-only">Go to last page</span>
+            <DoubleArrowRightIcon className="h-4 w-4" />
           </Button>
         </div>
       </div>
+      {/* <pre>
+        {JSON.stringify(
+          { columnFilters: table.getState().columnFilters },
+          null,
+          2,
+        )}
+      </pre> */}
     </div>
   );
 }
