@@ -35,6 +35,17 @@ export const userManagementRouter = createTRPCRouter({
     return customers;
   }),
 
+  getAllOnBoardedUsers: adminProcedure.query(async ({ ctx }) => {
+    //TODO: Paginated user list
+    const allUsers = await clerkClient.users.getUserList({
+      limit: 500,
+    });
+    const onboardedUsers = allUsers.filter(
+      (user) => user.publicMetadata.onBoarded,
+    );
+    return onboardedUsers;
+  }),
+
   getLatestCustomers: adminProcedure.query(async ({ ctx }) => {
     const allUsers = await clerkClient.users.getUserList({
       limit: 7,

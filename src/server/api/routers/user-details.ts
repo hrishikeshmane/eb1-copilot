@@ -106,6 +106,15 @@ export const userDetailsRouter = createTRPCRouter({
     return userPillarData;
   }),
 
+  getUserPillarsById: adminProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ input }) => {
+      const userPillarData = await db.query.userVisaPillarDetails.findMany({
+        where: (table) => eq(table.userId, input.userId),
+      });
+      return userPillarData;
+    }),
+
   updateUserRole: adminProcedure
     .input(z.object({ userId: z.string(), role: z.string() }))
     .mutation(async ({ input }) => {

@@ -80,7 +80,7 @@ const CustomerSelect = ({
               return 0;
             }}
           >
-            <CommandInput placeholder="Select Vendor..." />
+            <CommandInput placeholder="Select Customer..." />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
 

@@ -7,7 +7,6 @@ import { auth } from "@clerk/nextjs/server";
 const ProfileTrackerPage = async () => {
   const { sessionClaims } = auth();
 
-  const userInfo = await api.userDetails.getUserInfo();
   const userPillars = await api.userDetails.getUserPillars();
   const completedTickets = await api.kanban.getCompletedTickets();
 
@@ -15,7 +14,6 @@ const ProfileTrackerPage = async () => {
     <div className="h-full w-full p-4 pb-0 pr-2">
       {!!sessionClaims?.metadata?.onBoarded && (
         <TrackerBoard
-          userInfo={userInfo}
           userPillars={userPillars}
           completedTickets={completedTickets}
         />
