@@ -256,7 +256,7 @@ export const columns: ColumnDef<User>[] = [
         userData.publicMetadata as CustomJwtSessionClaims["metadata"];
       const onboarded = userMetadata.onBoarded;
       // return <div className="w-[80px]">{onboarded ? "Yes" : "No"}</div>;
-      return <div className="w-[80px]">{onboarded ? "true" : "false"}</div>;
+      return <div className="w-[80px]">{onboarded ? "Yes" : "No"}</div>;
     },
   },
   {
