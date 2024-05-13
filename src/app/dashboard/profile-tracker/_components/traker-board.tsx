@@ -1,14 +1,12 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   type ISelectTickets,
-  type ISelectUserInfo,
   type ISelectUserVisaPillarDetails,
 } from "@/server/db/schema";
 import { VISA_PILLARS_EX_LIST, visaPillars } from "@/lib/constants";
 import React from "react";
 
 type TrackerBoardProps = {
-  userInfo: ISelectUserInfo | undefined;
   userPillars: ISelectUserVisaPillarDetails[];
   completedTickets: ISelectTickets[];
 };

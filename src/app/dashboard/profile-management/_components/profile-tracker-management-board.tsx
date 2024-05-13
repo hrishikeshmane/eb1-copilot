@@ -1,8 +1,6 @@
 "use client";
 
-import { CustomKanban } from "@/components/elements/custom-kanban";
 import React from "react";
-import CustomerSelect from "./customer-select";
 import { type User } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,12 +20,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { api } from "@/trpc/react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { Loader2 } from "lucide-react";
+import UserDetailView from "./user-detail-view";
+import CustomerSelect from "../../ticket-management/_components/customer-select";
 
-type TicketManagementBoard = {
-  initalCustomerData: User[];
-};
-
-const TicketManagementBoard = () => {
+const ProfileTrackerManagementBoard = () => {
   const customersQuery = api.userManagement.getAllOnBoardedUsers.useQuery();
   const [selectedCustomer, setSelectedCustomer] = React.useState<
     User | undefined
@@ -41,7 +37,7 @@ const TicketManagementBoard = () => {
       {!selectedCustomer && (
         <div className="flex flex-col">
           <h2 className="text-lg font-medium">
-            Select customer to manage Tickets
+            Select customer to view profile
           </h2>
           <div>
             <Popover open={openSearchFilter} onOpenChange={setOpenSearchFilter}>
@@ -127,20 +123,18 @@ const TicketManagementBoard = () => {
       )}
       {!!selectedCustomer && (
         // TODO: userid in router so that it becomes easy to share the link
-        <CustomKanban
-          customer={selectedCustomer}
-          isInteractable={true}
-          isAdmin={true}
-        >
-          <CustomerSelect
-            customers={customers}
-            customer={selectedCustomer}
-            setCustomer={setSelectedCustomer}
-          />
-        </CustomKanban>
+        <>
+          <UserDetailView customer={selectedCustomer}>
+            <CustomerSelect
+              customers={customers}
+              customer={selectedCustomer}
+              setCustomer={setSelectedCustomer}
+            />
+          </UserDetailView>
+        </>
       )}
     </div>
   );
 };
 
-export default TicketManagementBoard;
+export default ProfileTrackerManagementBoard;

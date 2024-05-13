@@ -36,6 +36,17 @@ export const kanbanRouter = createTRPCRouter({
     return tickets;
   }),
 
+  getCompletedTicketsByUserId: adminProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const tickets = await ctx.db.query.tickets.findMany({
+        where: (table) =>
+          and(eq(table.column, "done"), eq(table.customerId, input.userId)),
+      });
+
+      return tickets;
+    }),
+
   addTicket: adminProcedure
     .input(
       z.object({
