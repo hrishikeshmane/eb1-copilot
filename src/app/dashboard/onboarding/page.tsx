@@ -137,12 +137,12 @@ const OnboardingPage = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const router = useRouter();
+  // const router = useRouter();
   const addUserMutaion = api.userDetails.addUser.useMutation({
     onSuccess: () => {
       setIsSubmitting(false);
       toast.success("Your Response has been submitted.");
-      router.refresh();
+      // router.refresh();
     },
     onError: (error) => {
       setIsSubmitting(false);
@@ -155,12 +155,12 @@ const OnboardingPage = () => {
   });
 
   const processForm: SubmitHandler<FormType> = (data, errors) => {
-    // console.log("data", data);
-    // console.log("errors", errors);
+    console.log("data", data);
+    console.log("errors", errors);
     // TODO: Add logic to see if everything in each form step is validated
 
     const msg = addUserMutaion.mutate({ formData: data });
-    // console.log("msg", msg);
+    console.log("msg", msg);
 
     // // TODO: remove this
     // setIsSubmitting(false);
