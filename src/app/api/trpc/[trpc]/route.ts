@@ -25,10 +25,14 @@ const handler = (req: NextRequest) =>
       env.NODE_ENV === "development"
         ? ({ path, error }) => {
             console.error(
-              `❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`
+              `❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`,
             );
           }
-        : undefined,
+        : ({ path, error, ctx }) => {
+            console.error(
+              `❌ tRPC failed for userId: ${ctx?.session.userId ?? "<no-userId>"} on ${path ?? "<no-path>"}: ${error.message}`,
+            );
+          },
   });
 
 export { handler as GET, handler as POST };
