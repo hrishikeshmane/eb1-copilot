@@ -225,9 +225,8 @@ export default function Home() {
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
                     <p>
-                      Rest assured, it’s neither of those. If you’re looking to
-                      manipulate or exploit any immigration system, this product
-                      isn’t for you.
+                      If you’re looking to manipulate or exploit any immigration
+                      system, this product isn’t for you.
                     </p>
 
                     <p>
