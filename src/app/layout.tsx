@@ -31,39 +31,39 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <CSPostHogProvider>
-        <body
-          className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
+      <body
+        className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
+          <ClerkProvider
+            appearance={{
+              layout: {
+                socialButtonsPlacement: "bottom",
+                socialButtonsVariant: "blockButton",
+              },
+              variables: {
+                colorPrimary: "#D9F522",
+                colorText: "#000000",
+              },
+            }}
           >
-            <ClerkProvider
-              appearance={{
-                layout: {
-                  socialButtonsPlacement: "bottom",
-                  socialButtonsVariant: "blockButton",
-                },
-                variables: {
-                  colorPrimary: "#D9F522",
-                  colorText: "#000000",
-                },
-              }}
-            >
+            <CSPostHogProvider>
               <TRPCReactProvider>
                 <JotaiProvider>{children}</JotaiProvider>
                 <Toaster richColors closeButton />
               </TRPCReactProvider>
-            </ClerkProvider>
-          </ThemeProvider>
-          <Analytics />
-          <SpeedInsights />
-          <AxiomWebVitals />
-        </body>
-      </CSPostHogProvider>
+            </CSPostHogProvider>
+          </ClerkProvider>
+        </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
+        <AxiomWebVitals />
+      </body>
     </html>
   );
 }
