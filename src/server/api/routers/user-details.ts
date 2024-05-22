@@ -34,6 +34,7 @@ export const userDetailsRouter = createTRPCRouter({
             brithCountry: input.formData.brithCountry,
             nationalityCountry: input.formData.nationalityCountry,
             hearAboutUs: input.formData.hearAboutUs,
+            resumeUrl: input.formData.resumeUrl,
 
             currentlyInUS:
               input.formData.currentlyInUS === "yes" ? true : false,

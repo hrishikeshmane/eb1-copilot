@@ -1,4 +1,8 @@
-import { type VISA_PILLARS } from "@/lib/constants";
+import {
+  ACCEPTED_FILE_TYPES,
+  MAX_UPLOAD_SIZE,
+  type VISA_PILLARS,
+} from "@/lib/constants";
 import { z } from "zod";
 
 export const formSchema = z.object({
@@ -58,15 +62,14 @@ export const formSchema = z.object({
   hearAboutUs: z.enum(["socialMedia", "friend", "onlineSearch", "other"], {
     errorMap: () => ({ message: "Select an option" }),
   }),
-
-  // resume: z
-  //   .instanceof(File)
-  //   .refine((file) => {
-  //     return !file || file?.size <= MAX_UPLOAD_SIZE;
-  //   }, "File size must be less than 6MB")
-  //   .refine((file) => {
-  //     return ACCEPTED_FILE_TYPES.includes(file?.type);
-  //   }, "File must be a PDF"),
+  resumeUrl: z.string().url(),
+  resume: z.instanceof(File),
+  // .refine((file) => {
+  //   return !file || file?.size <= MAX_UPLOAD_SIZE;
+  // }, "File size must be less than 6MB")
+  // .refine((file) => {
+  //   return ACCEPTED_FILE_TYPES.includes(file?.type);
+  // }, "File must be a PDF")
 
   // Current Status
   currentlyInUS: z.enum(["yes", "no"], {
@@ -567,12 +570,13 @@ export const steps: Step[] = [
       "email",
       "phone",
       "linkedIn",
-      // "resume",
       "highestEducation",
       "major",
       "brithCountry",
       "nationalityCountry",
       "hearAboutUs",
+      "resumeUrl",
+      // "resume",
     ],
   },
   {

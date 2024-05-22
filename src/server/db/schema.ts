@@ -64,8 +64,9 @@ export const userInfo = createTable("userInfo", {
   hearAboutUs: text("hearAboutUs", {
     enum: ["socialMedia", "friend", "onlineSearch", "other"],
   }).notNull(),
+  resumeUrl: text("resumeUrl", { length: 256 }),
 
-  // // Current Status
+  // Current Status
   currentlyInUS: integer("currentlyInUS", { mode: "boolean" }).notNull(),
   everBeenToUS: integer("everBeenToUS", { mode: "boolean" }).notNull(),
   everAppliedForGreenCard: integer("everAppliedForGreenCard", {

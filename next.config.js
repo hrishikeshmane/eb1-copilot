@@ -14,6 +14,7 @@ const config = withAxiom({
         protocol: "https",
         hostname: "media.licdn.com",
       },
+      { hostname: "utfs.io" },
     ],
   },
   typescript: {
