@@ -20,14 +20,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Roles } from "@/types/globals";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
   options: {
     label: string;
-    value: string;
+    value: TValue;
     icon?: React.ComponentType<{ className?: string }>;
   }[];
 }
@@ -38,19 +37,10 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();
-  //   const facets = new Map<string, number>();
-  //   column?.getFacetedRowModel().rows.forEach((row) => {
-  //     const value = row.original.publicMetadata?.role as string;
-  //     if (value) {
-  //       facets.set(value, (facets.get(value) ?? 0) + 1);
-  //     }
-  //   });
-
-  const selectedValues = new Set(column?.getFilterValue() as string[]);
+  const selectedValues = new Set(column?.getFilterValue() as TValue[]);
 
   console.log("facets?", facets);
   console.log("selectedValues?", selectedValues);
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -67,7 +57,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                 {selectedValues.size}
               </Badge>
               <div className="hidden space-x-1 lg:flex">
-                {selectedValues.size > 3 ? (
+                {selectedValues.size > 2 ? (
                   <Badge
                     variant="secondary"
                     className="rounded-sm px-1 font-normal"
@@ -80,7 +70,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     .map((option) => (
                       <Badge
                         variant="secondary"
-                        key={option.value}
+                        key={option.label}
                         className="rounded-sm px-1 font-normal"
                       >
                         {option.label}
@@ -102,7 +92,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                 const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
-                    key={option.value}
+                    key={option.label}
                     onSelect={() => {
                       if (isSelected) {
                         // eslint-disable-next-line drizzle/enforce-delete-with-where
