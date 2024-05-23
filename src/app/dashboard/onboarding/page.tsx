@@ -22,6 +22,7 @@ import UserInfoDetails from "./_components/user-info-details";
 import Loader from "@/components/elements/loader";
 import ScrollToTop from "@/components/elements/scroll-to-top";
 import { useRouter } from "next/navigation";
+import { useLogger } from "next-axiom";
 
 //TODO: make this server component and move form page to a new client component
 const OnboardingPage = () => {
@@ -126,6 +127,9 @@ const OnboardingPage = () => {
     },
   });
 
+  const { user, isLoaded } = useUser();
+  const log = useLogger().with({ userId: user?.id });
+
   // useFormPersist("onboarding-form", {
   //   watch: form.watch,
   //   setValue: form.setValue,
@@ -142,12 +146,17 @@ const OnboardingPage = () => {
     onSuccess: () => {
       setIsSubmitting(false);
       toast.success("Your Response has been submitted.");
-      // router.refresh();
+      // router.push("/dashboard/profile");
     },
     onError: (error) => {
       setIsSubmitting(false);
       toast.error("An error occured- " + error.message);
       console.error("Error submitting onboarding form", error);
+      log.error("Error submitting onboarding form", {
+        message: error.message,
+        error: error,
+        data: form.getValues(),
+      });
     },
     onSettled: () => {
       setIsSubmitting(false);
@@ -197,8 +206,6 @@ const OnboardingPage = () => {
       setCurrentStep((step) => step - 1);
     }
   };
-
-  const { user, isLoaded } = useUser();
 
   const userMetadata =
     user?.publicMetadata as CustomJwtSessionClaims["metadata"];
