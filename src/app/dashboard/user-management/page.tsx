@@ -1,8 +1,9 @@
 import React from "react";
-import { UserTable } from "./_components/user-table";
+import { UserTableContainer } from "./_components/user-table";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { columns } from "./_components/columns";
 
 const UserManagementPage = async () => {
   const role = auth().sessionClaims?.metadata.role;
@@ -12,7 +13,7 @@ const UserManagementPage = async () => {
 
   return (
     <ScrollArea className="h-full w-full">
-      <UserTable />
+      <UserTableContainer columns={columns} />
       <ScrollBar />
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
