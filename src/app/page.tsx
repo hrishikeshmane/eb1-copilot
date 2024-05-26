@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import MasonryTestimonials from "@/components/elements/masonry-testimonials";
-import PricingGrid from "./pricing/_components/pricing-grid";
+import PricingGrid from "./_pricing/_components/pricing-grid";
 import GetStartedButton from "@/components/elements/get-started-button";
 import Link from "next/link";
 
