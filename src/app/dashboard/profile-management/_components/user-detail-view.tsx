@@ -7,6 +7,7 @@ import { api } from "@/trpc/react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { type User } from "@clerk/nextjs/server";
 import TrackerBoard from "../../profile-tracker/_components/traker-board";
+import Link from "next/link";
 
 const UserDetailView = ({
   customer,
@@ -98,6 +99,31 @@ const CustomerInfoDetails = ({ userId }: { userId: string }) => {
           label="Nationality Country"
           value={userData.nationalityCountry}
         />
+        <div className="flex flex-col pb-2">
+          <p className="font-medium">LinkedIn</p>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+            href={userData.linkedIn}
+          >
+            {userData.linkedIn.slice(0, 40)}
+          </Link>
+        </div>
+
+        {!!userData.resumeUrl && (
+          <div className="flex flex-col pb-2">
+            <p className="font-medium">Resume/CV</p>
+            <Link
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+              href={userData.resumeUrl}
+            >
+              {userData.resumeUrl.slice(0, 40)}
+            </Link>
+          </div>
+        )}
       </div>
       <Separator className="my-1" />
       <div className="mt-4 grid grid-cols-3">

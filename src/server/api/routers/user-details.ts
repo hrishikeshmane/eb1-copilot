@@ -89,8 +89,6 @@ export const userDetailsRouter = createTRPCRouter({
           message: "Failed to add user",
         });
       }
-
-      await clerkClient.users.updateUser(ctx.session.userId);
     }),
 
   getUserInfo: protectedProcedure.query(async ({ ctx }) => {

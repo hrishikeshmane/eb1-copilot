@@ -256,14 +256,19 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
                         // form.setValue("resume", undefined);
                       }}
                     >
-                      {form.getValues("resume")
-                        ? form.getValues("resume").name.length > 20
-                          ? form.getValues("resume").name.slice(0, 20) + "..."
-                          : form.getValues("resume").name
-                        : ""}{" "}
+                      {
+                        // if form.getValues("resume") is undefined return empty string slice the name to 20 characters and add "..." if it is greater than 20
+                        !!form.getValues("resume")
+                          ? (form.getValues("resume") as File)?.name?.length >
+                            20
+                            ? (form.getValues("resume") as File)?.name?.slice(
+                                0,
+                                20,
+                              ) + "..."
+                            : (form.getValues("resume") as File)?.name
+                          : ""
+                      }{" "}
                       Uploaded
-                      {/* {`${form.getValues("resume").name.length > 20 ? form.getValues("resume").name.slice(0, 20) + "..." : form.getValues("resume").name} 
-                    Uploaded`} */}
                     </Button>
                   ) : (
                     <ResumeUploadButton form={form} />

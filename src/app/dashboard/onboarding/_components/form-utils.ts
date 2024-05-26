@@ -63,7 +63,8 @@ export const formSchema = z.object({
     errorMap: () => ({ message: "Select an option" }),
   }),
   resumeUrl: z.string().url(),
-  resume: z.instanceof(File),
+  // resume: z.instanceof(File).optional(),
+  resume: z.any(),
   // .refine((file) => {
   //   return !file || file?.size <= MAX_UPLOAD_SIZE;
   // }, "File size must be less than 6MB")
