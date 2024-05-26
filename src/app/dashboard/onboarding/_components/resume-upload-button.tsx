@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { ClientUploadedFileData } from "uploadthing/types";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/elements/loader";
+import { useUser } from "@clerk/nextjs";
+import { useLogger } from "next-axiom";
 
 // inferred input off useUploadThing
 type Input = Parameters<typeof useUploadThing>;
@@ -43,6 +45,8 @@ const useUploadThingInputProps = (
 };
 
 const ResumeUploadButton = ({ form }: { form: UseFormReturn<FormType> }) => {
+  const { user, isLoaded } = useUser();
+  const log = useLogger().with({ userId: user?.id });
   const posthog = usePostHog();
   const resumeSetter = (file: File) => {
     form.setValue("resume", file);
@@ -61,6 +65,10 @@ const ResumeUploadButton = ({ form }: { form: UseFormReturn<FormType> }) => {
         posthog.capture("upload_error", { error });
         toast.dismiss("upload-begin");
         toast.error("Upload failed");
+        log.error("Error uploading resume", {
+          message: error.message,
+          error: error,
+        });
       },
       onClientUploadComplete(data) {
         toast.dismiss("upload-begin");
