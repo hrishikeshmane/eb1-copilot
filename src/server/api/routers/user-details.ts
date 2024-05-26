@@ -76,7 +76,6 @@ export const userDetailsRouter = createTRPCRouter({
 
           await clerkClient.users.updateUserMetadata(ctx.session.userId, {
             publicMetadata: {
-              // role: publicMetaData.role,
               ...publicMetaData,
               onBoarded: true,
             },
@@ -87,6 +86,7 @@ export const userDetailsRouter = createTRPCRouter({
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to add user",
+          cause: error,
         });
       }
     }),
