@@ -32,6 +32,13 @@ const MyProfilePDF = ({ userPillars, completedTickets }: MyProfilePDFProps) => {
           const completedTicketsForPillar = completedTickets.filter((t) =>
             t.pillars.includes(pillar),
           );
+          if (
+            (pillarDetails === undefined || pillarDetails.length < 1) &&
+            (completedTicketsForPillar === undefined ||
+              completedTicketsForPillar.length < 1)
+          ) {
+            return null;
+          }
           return (
             <View key={pillar} style={styles.section}>
               <Text style={styles.subtitle}>
@@ -136,7 +143,7 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     marginVertical: 12,
-    fontSize: 8,
+    fontSize: 12,
     textAlign: "justify",
     fontFamily: "Inter",
     fontWeight: 500,
