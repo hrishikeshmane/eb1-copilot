@@ -1,4 +1,5 @@
 import {
+  type ISelectUserInfo,
   type ISelectTickets,
   type ISelectUserVisaPillarDetails,
 } from "@/server/db/schema";
@@ -14,18 +15,23 @@ import {
 import React from "react";
 
 type MyProfilePDFProps = {
+  userInfo: ISelectUserInfo;
   userPillars: ISelectUserVisaPillarDetails[];
   completedTickets: ISelectTickets[];
 };
 
-const MyProfilePDF = ({ userPillars, completedTickets }: MyProfilePDFProps) => {
+const MyProfilePDF = ({
+  userInfo,
+  userPillars,
+  completedTickets,
+}: MyProfilePDFProps) => {
   return (
     <Document>
       <Page size="A4" style={styles.body}>
         <Text style={styles.header} fixed>
           Greencard.inc
         </Text>
-        <Text style={styles.title}>Hrishikesh Mane</Text>
+        <Text style={styles.title}>{userInfo.fullName}</Text>
 
         {VISA_PILLARS_EX_LIST.map((pillar) => {
           const pillarDetails = userPillars.filter((p) => p.pillar === pillar);

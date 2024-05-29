@@ -9,10 +9,18 @@ const ProfileReportPage = async ({ params }: { params: { slug: string } }) => {
   const completedTickets = await api.kanban.getCompletedTicketsByUserId({
     userId: params.slug,
   });
+  const userInfo = await api.userManagement.getUserInfoById({
+    userId: params.slug,
+  });
+
+  if (!userInfo || !userPillars || !completedTickets) {
+    return <div>User not found</div>;
+  }
 
   return (
     <div className="mx-auto h-screen w-full max-w-5xl">
       <PdfViewer
+        userInfo={userInfo}
         userPillars={userPillars}
         completedTickets={completedTickets}
       />

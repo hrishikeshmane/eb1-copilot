@@ -52,6 +52,7 @@ const NavSheet = () => {
     user?.publicMetadata as CustomJwtSessionClaims["metadata"];
   const userRole = userMetadata?.role;
 
+  const userInfo = api.userDetails.getUserInfo.useQuery();
   const userPillars = api.userDetails.getUserPillars.useQuery();
   const completedTickets = api.kanban.getCompletedTickets.useQuery();
 
@@ -183,10 +184,12 @@ const NavSheet = () => {
       <div className="w-full flex-1"></div>
       {pathName.includes("profile-tracker") &&
         userPillars.status === "success" &&
-        completedTickets.status === "success" && (
+        completedTickets.status === "success" &&
+        userInfo.status === "success" && (
           <PDFDownloadLink
             document={
               <MyProfilePDF
+                userInfo={userInfo.data}
                 userPillars={userPillars.data}
                 completedTickets={completedTickets.data}
               />
