@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "14675cae-44b0-42b8-adfb-692251a858ac",
-  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "eb1-copilot_comments": {
       "name": "eb1-copilot_comments",
@@ -49,28 +47,28 @@
         "eb1-copilot_comments_ticketId_eb1-copilot_tickets_ticketId_fk": {
           "name": "eb1-copilot_comments_ticketId_eb1-copilot_tickets_ticketId_fk",
           "tableFrom": "eb1-copilot_comments",
-          "tableTo": "eb1-copilot_tickets",
           "columnsFrom": [
             "ticketId"
           ],
+          "tableTo": "eb1-copilot_tickets",
           "columnsTo": [
             "ticketId"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "eb1-copilot_comments_userId_eb1-copilot_users_userId_fk": {
           "name": "eb1-copilot_comments_userId_eb1-copilot_users_userId_fk",
           "tableFrom": "eb1-copilot_comments",
-          "tableTo": "eb1-copilot_users",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "eb1-copilot_users",
           "columnsTo": [
             "userId"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -173,41 +171,41 @@
         "eb1-copilot_tickets_customerId_eb1-copilot_users_userId_fk": {
           "name": "eb1-copilot_tickets_customerId_eb1-copilot_users_userId_fk",
           "tableFrom": "eb1-copilot_tickets",
-          "tableTo": "eb1-copilot_users",
           "columnsFrom": [
             "customerId"
           ],
+          "tableTo": "eb1-copilot_users",
           "columnsTo": [
             "userId"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "eb1-copilot_tickets_assigneeId_eb1-copilot_users_userId_fk": {
           "name": "eb1-copilot_tickets_assigneeId_eb1-copilot_users_userId_fk",
           "tableFrom": "eb1-copilot_tickets",
-          "tableTo": "eb1-copilot_users",
           "columnsFrom": [
             "assigneeId"
           ],
+          "tableTo": "eb1-copilot_users",
           "columnsTo": [
             "userId"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "eb1-copilot_tickets_createdBy_eb1-copilot_users_userId_fk": {
           "name": "eb1-copilot_tickets_createdBy_eb1-copilot_users_userId_fk",
           "tableFrom": "eb1-copilot_tickets",
-          "tableTo": "eb1-copilot_users",
           "columnsFrom": [
             "createdBy"
           ],
+          "tableTo": "eb1-copilot_users",
           "columnsTo": [
             "userId"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -406,15 +404,15 @@
         "eb1-copilot_userInfo_userId_eb1-copilot_users_userId_fk": {
           "name": "eb1-copilot_userInfo_userId_eb1-copilot_users_userId_fk",
           "tableFrom": "eb1-copilot_userInfo",
-          "tableTo": "eb1-copilot_users",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "eb1-copilot_users",
           "columnsTo": [
             "userId"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -464,15 +462,15 @@
         "eb1-copilot_userVisaPillarDetails_userId_eb1-copilot_users_userId_fk": {
           "name": "eb1-copilot_userVisaPillarDetails_userId_eb1-copilot_users_userId_fk",
           "tableFrom": "eb1-copilot_userVisaPillarDetails",
-          "tableTo": "eb1-copilot_users",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "eb1-copilot_users",
           "columnsTo": [
             "userId"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -558,8 +556,9 @@
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "14675cae-44b0-42b8-adfb-692251a858ac",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }

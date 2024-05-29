@@ -1,4 +1,4 @@
-export const MAX_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
+export const MAX_UPLOAD_SIZE = 1024 * 1024 * 8; // 8MB
 export const ACCEPTED_FILE_TYPES = ["application/pdf"];
 
 export type HearAboutUsOption = {

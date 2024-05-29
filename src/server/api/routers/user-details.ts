@@ -34,6 +34,7 @@ export const userDetailsRouter = createTRPCRouter({
             brithCountry: input.formData.brithCountry,
             nationalityCountry: input.formData.nationalityCountry,
             hearAboutUs: input.formData.hearAboutUs,
+            resumeUrl: input.formData.resumeUrl,
 
             currentlyInUS:
               input.formData.currentlyInUS === "yes" ? true : false,
@@ -88,8 +89,6 @@ export const userDetailsRouter = createTRPCRouter({
           cause: error,
         });
       }
-
-      // await clerkClient.users.updateUser(ctx.session.userId);
     }),
 
   getUserInfo: protectedProcedure.query(async ({ ctx }) => {

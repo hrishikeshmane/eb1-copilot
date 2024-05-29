@@ -14,6 +14,7 @@ const config = withAxiom({
         protocol: "https",
         hostname: "media.licdn.com",
       },
+      { hostname: "utfs.io" },
     ],
   },
   typescript: {
@@ -31,6 +32,18 @@ const config = withAxiom({
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return config;
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/ingest/:path*",
+        destination: "https://us.i.posthog.com/:path*",
+      },
+    ];
   },
 });
 
