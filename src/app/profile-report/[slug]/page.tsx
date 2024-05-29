@@ -11,20 +11,12 @@ const ProfileReportPage = async ({ params }: { params: { slug: string } }) => {
   });
 
   return (
-    <div className="mx-auto h-screen w-full max-w-5xl bg-red-100">
+    <div className="mx-auto h-screen w-full max-w-5xl">
       <PdfViewer
         userPillars={userPillars}
         completedTickets={completedTickets}
       />
     </div>
-    // <div>
-    //   <PDFViewer>
-    //     <MyProfilePDF
-    //       userPillars={userPillars}
-    //       completedTickets={completedTickets}
-    //     />
-    //   </PDFViewer>
-    // </div>
   );
 };
 
