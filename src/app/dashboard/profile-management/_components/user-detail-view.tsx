@@ -8,6 +8,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { type User } from "@clerk/nextjs/server";
 import TrackerBoard from "../../profile-tracker/_components/traker-board";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 
 const UserDetailView = ({
   customer,
@@ -36,13 +38,24 @@ const UserDetailView = ({
 
   return (
     <div>
-      <Tabs defaultValue="personal-info" className="w-[500px] pl-4">
-        <div className="flex items-center">
+      <Tabs defaultValue="personal-info" className="w-full pl-4">
+        <div className="flex w-full items-center">
           {children}
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-[500px] grid-cols-2">
             <TabsTrigger value="personal-info">Personal Info</TabsTrigger>
             <TabsTrigger value="visa-pillars">Visa Pillars</TabsTrigger>
           </TabsList>
+          <Link
+            className="ml-auto mr-6"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`/profile-report/${customer.id}`}
+          >
+            <Button size={"sm"} className="gap-1">
+              View Report
+              <ArrowUpRight className="h-4 w-4" />
+            </Button>
+          </Link>
         </div>
         <div className="h-[calc(100vh-7.8rem)] w-[calc(100vw-20px)] md:w-[calc(100vw-285px)]">
           <TabsContent className="h-full" value="personal-info">

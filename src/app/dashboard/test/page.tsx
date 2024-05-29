@@ -1,18 +1,14 @@
 "use client";
 
 import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
+import { PDFViewer } from "@react-pdf/renderer";
 import React from "react";
+import MyProfilePDF from "@/components/pdf/my-profile";
 
 const TestPage = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <UploadDropzone
-        className="rounded-md bg-primary px-4 py-2 text-black"
-        endpoint="resumeUploader"
-        onClientUploadComplete={(data) => {
-          console.log("Upload complete!", data);
-        }}
-      />
+    <main className="flex min-h-screen flex-col items-center justify-between">
+      <PDFViewer>{/* <MyProfilePDF /> */}</PDFViewer>
     </main>
   );
 };
