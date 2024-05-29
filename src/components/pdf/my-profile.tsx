@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     fontWeight: 600,
   },
   textTitle: {
-    marginVertical: 12,
+    marginVertical: 6,
     fontSize: 12,
     textAlign: "justify",
     fontFamily: "Inter",
