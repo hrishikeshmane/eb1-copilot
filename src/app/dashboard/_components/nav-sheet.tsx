@@ -185,7 +185,8 @@ const NavSheet = () => {
       {pathName.includes("profile-tracker") &&
         userPillars.status === "success" &&
         completedTickets.status === "success" &&
-        userInfo.status === "success" && (
+        userInfo.status === "success" &&
+        !!userInfo.data && (
           <PDFDownloadLink
             document={
               <MyProfilePDF
