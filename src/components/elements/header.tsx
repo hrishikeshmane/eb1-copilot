@@ -60,9 +60,9 @@ const Header = () => {
                 Pricing
               </Link> */}
 
-              <div className="my-2 flex items-center space-x-4">
+              {/* <div className="my-2 flex items-center space-x-4">
                 <GetStartedButton className="w-full" />
-              </div>
+              </div> */}
             </nav>
           </SheetContent>
         </Sheet>

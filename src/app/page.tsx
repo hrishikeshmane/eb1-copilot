@@ -409,7 +409,7 @@ export default function Home() {
                 Start Your Green Card Journey Now!
               </div>
 
-              <div className="flex scale-[115%] gap-4">
+              <div className="flex scale-[115%] flex-col gap-4 md:flex-row">
                 <GetStartedButton />
                 <Link
                   href="https://calendly.com/greencardinc"

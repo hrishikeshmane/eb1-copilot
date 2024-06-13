@@ -34,12 +34,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { api } from "@/trpc/react";
 import Loader from "@/components/elements/loader";
 import Link from "next/link";
-import {type TransformedUser} from "@/types/globals";
+import { type TransformedUser } from "@/types/globals";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   CaretSortIcon,
-} from "@radix-ui/react-icons"
+} from "@radix-ui/react-icons";
 // import {DataTableColumnHeader} from "./data-table-column-header";
 
 export const columns: ColumnDef<TransformedUser>[] = [
@@ -125,23 +125,28 @@ export const columns: ColumnDef<TransformedUser>[] = [
     accessorKey: "onBoarded",
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            On Boarded
-            {column.getIsSorted() === "desc" ? (
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
-            ) : column.getIsSorted() === "asc" ? (
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
-            ) : (
-              <CaretSortIcon className="ml-2 h-4 w-4" />
-            )}
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          On Boarded
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
         // <DataTableColumnHeader column={column} title="On Boarded" />
-    );
+      );
     },
     cell: ({ row }) => {
       const userData = row.original;
       const onboarded = userData.onBoarded;
-      return <div className="w-[80px] text-center">{onboarded ? "Yes" : "No"}</div>;
+      return (
+        <div className="w-[80px] text-center">{onboarded ? "Yes" : "No"}</div>
+      );
     },
     filterFn: (row, id, value) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -156,22 +161,29 @@ export const columns: ColumnDef<TransformedUser>[] = [
     },
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Role
-            {column.getIsSorted() === "desc" ? (
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
-            ) : column.getIsSorted() === "asc" ? (
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
-            ) : (
-              <CaretSortIcon className="ml-2 h-4 w-4" />
-            )}
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Role
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
         // <DataTableColumnHeader column={column} title="Role" />
-    );
+      );
     },
     cell: ({ row }) => {
       const userData = row.original;
-      return <div className="font-medium capitalize text-center w-[80px]">{userData.role}</div>;
+      return (
+        <div className="w-[80px] text-center font-medium capitalize">
+          {userData.role}
+        </div>
+      );
     },
   },
   {
@@ -183,7 +195,7 @@ export const columns: ColumnDef<TransformedUser>[] = [
       const userRole = row.original.role;
 
       const utils = api.useUtils();
-      const updateRoleMutation = api.userDetails.updateUserRole.useMutation({
+      const updateRoleMutation = api.userManagement.updateUserRole.useMutation({
         onSettled: async () => {
           await utils.userManagement.getAllUsers.invalidate();
         },

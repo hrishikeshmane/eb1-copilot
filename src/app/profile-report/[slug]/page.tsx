@@ -3,7 +3,7 @@ import { api } from "@/trpc/server";
 import PdfViewer from "../_component/pdf-viewer";
 
 const ProfileReportPage = async ({ params }: { params: { slug: string } }) => {
-  const userPillars = await api.userDetails.getUserPillarsById({
+  const userPillars = await api.userDetails.getUserPillarsByUserId({
     userId: params.slug,
   });
   const completedTickets = await api.kanban.getCompletedTicketsByUserId({
