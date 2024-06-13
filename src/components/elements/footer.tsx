@@ -42,6 +42,8 @@ const Footer = () => {
               <ul className="font-medium text-gray-500 dark:text-gray-400">
                 <li className="mb-4">
                   <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href="https://www.linkedin.com/company/greencardinc"
                     className="hover:underline "
                   >
@@ -64,12 +66,19 @@ const Footer = () => {
               </h2>
               <ul className="font-medium text-gray-500 dark:text-gray-400">
                 <li className="mb-4">
-                  <Link href="/terms" className="hover:underline ">
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="/terms"
+                    className="hover:underline "
+                  >
                     Terms &amp; Conditions
                   </Link>
                 </li>
                 <li className="mb-4">
                   <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href="https://docs.google.com/document/d/e/2PACX-1vSw3SRmlDvRTKsLwvMnGoJpimqIgqw2wBrkZojnQBDDAr4KiFKpYT6sQtvBGnghqA/pub"
                     className="hover:underline"
                   >
@@ -78,6 +87,8 @@ const Footer = () => {
                 </li>
                 <li className="mb-4">
                   <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href="https://docs.google.com/document/d/e/2PACX-1vSFryh8tuExtEPszK-fSFsIBwxIjWKqovmb0t2EoepZk8lPfYBCw_rFg8d_qdUczlX2TDn_YhMvFokE/pub"
                     className="hover:underline"
                   >
@@ -86,6 +97,8 @@ const Footer = () => {
                 </li>
                 <li className="mb-4">
                   <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href="https://docs.google.com/document/d/e/2PACX-1vQTwm5Dnpkqajoxvuuh2XIXCtXlj6nyFxP5khRiyFaYSWDtJUAaX_wGI1D6H6VGpA/pub"
                     className="hover:underline"
                   >

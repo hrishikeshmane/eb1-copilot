@@ -43,6 +43,21 @@ const config = withAxiom({
         source: "/ingest/:path*",
         destination: "https://us.i.posthog.com/:path*",
       },
+      {
+        source: "/saas",
+        destination:
+          "https://docs.google.com/document/d/e/2PACX-1vQTwm5Dnpkqajoxvuuh2XIXCtXlj6nyFxP5khRiyFaYSWDtJUAaX_wGI1D6H6VGpA/pub",
+      },
+      {
+        source: "/privacy",
+        destination:
+          "https://docs.google.com/document/d/e/2PACX-1vSFryh8tuExtEPszK-fSFsIBwxIjWKqovmb0t2EoepZk8lPfYBCw_rFg8d_qdUczlX2TDn_YhMvFokE/pub",
+      },
+      {
+        source: "/dataprocessing",
+        destination:
+          "https://docs.google.com/document/d/e/2PACX-1vSw3SRmlDvRTKsLwvMnGoJpimqIgqw2wBrkZojnQBDDAr4KiFKpYT6sQtvBGnghqA/pub",
+      },
     ];
   },
 });
