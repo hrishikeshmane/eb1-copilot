@@ -18,7 +18,7 @@ const UserDetailView = ({
   customer: User;
   children: React.ReactNode;
 }) => {
-  const userPillars = api.userDetails.getUserPillarsById.useQuery({
+  const userPillars = api.userDetails.getUserPillarsByUserId.useQuery({
     userId: customer.id,
   });
   const completedTickets = api.kanban.getCompletedTicketsByUserId.useQuery({
