@@ -30,7 +30,7 @@ export default authMiddleware({
     "/terms(.*)",
     "/saas(.*)",
     "/privacy(.*)",
-    "/dataprocessing/(.*)",
+    "/dataprocessing(.*)",
     "/api/webhook(.*)",
     "/api/uploadthing(.*)",
   ],
