@@ -16,6 +16,7 @@ import MasonryTestimonials from "@/components/elements/masonry-testimonials";
 import PricingGrid from "./_pricing/_components/pricing-grid";
 import GetStartedButton from "@/components/elements/get-started-button";
 import Link from "next/link";
+import { FeaturesSectionDemo } from "@/components/elements/feature-grid";
 
 export default function Home() {
   return (
@@ -193,6 +194,11 @@ export default function Home() {
 
         <section className="z-10">
           <LandingBentoGrid />
+        </section>
+
+        <section className="relative mx-4 my-8 flex w-[95%] flex-col items-center justify-start overflow-hidden rounded-3xl bg-[#17332D] bg-gradient-to-b  py-16">
+          <div className="absolute inset-0 bg-noise-pattern opacity-[0.04] brightness-100 contrast-150"></div>
+          <FeaturesSectionDemo />
         </section>
 
         <section className="z-10 my-8 flex w-[99%] flex-col ">
