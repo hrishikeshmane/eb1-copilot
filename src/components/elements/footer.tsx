@@ -9,6 +9,9 @@ const Footer = () => {
         <div className="md:flex md:justify-between">
           <div className="mb-6 flex flex-col gap-2 md:mb-0">
             <Logo />
+            <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
+              6 Stirling Way Hayward, CA 94542
+            </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
               © 2024{" "}
               <Link href="https://greencard.inc/" className="hover:underline">
