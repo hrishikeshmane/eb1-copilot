@@ -36,7 +36,7 @@ const TrackerBoard = ({ userPillars, completedTickets }: TrackerBoardProps) => {
   return (
     <div
       className={cn(
-        "flex h-[calc(98vh-6rem)] w-[calc(100vw-30px)] gap-4 overflow-y-clip overflow-x-scroll pr-11 text-sm md:w-[calc(100vw-261px)]",
+        "flex h-[calc(100vh-6rem)] w-full gap-4 overflow-y-clip overflow-x-scroll pr-11 text-sm md:w-full",
         pathname.includes("profile-tracker") ? " h-[calc(98vh-3.5rem)]" : "",
       )}
     >
