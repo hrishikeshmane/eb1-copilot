@@ -183,7 +183,11 @@ const CustomerInfoDetails = ({ userId }: { userId: string }) => {
         />
         <CustomerInfoFields
           label="Priority Date If Any"
-          value={userData.priorityDateIfAny ?? "None"}
+          value={
+            !!userData.priorityDateIfAny
+              ? userData.priorityDateIfAny.slice(1, 10)
+              : "N/A"
+          }
         />
         <CustomerInfoFields
           label="Field Expert In"

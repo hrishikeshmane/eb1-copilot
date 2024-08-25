@@ -78,7 +78,11 @@ const UserInfoDetails = () => {
         <UserInfoFields label="Industry Type" value={userData.industryType} />
         <UserInfoFields
           label="Priority Date If Any"
-          value={userData.priorityDateIfAny ?? "None"}
+          value={
+            !!userData.priorityDateIfAny
+              ? userData.priorityDateIfAny.slice(1, 10)
+              : "N/A"
+          }
         />
         <UserInfoFields
           label="Field Expert In"

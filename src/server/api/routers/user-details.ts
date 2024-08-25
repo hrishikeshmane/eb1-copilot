@@ -5,8 +5,12 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "@/server/api/trpc";
-import { userInfo, userVisaPillarDetails } from "@/server/db/schema";
-import { clerkClient } from "@clerk/nextjs/server";
+import {
+  ISelectUserInfo,
+  userInfo,
+  userVisaPillarDetails,
+} from "@/server/db/schema";
+import { Email, clerkClient } from "@clerk/nextjs/server";
 import {
   formSchema,
   visaPillarFields,
@@ -14,46 +18,52 @@ import {
 import { db } from "@/server/db";
 import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { sendOnBoardingEmail } from "@/app/_actions/emails";
 
 export const userDetailsRouter = createTRPCRouter({
   addUser: protectedProcedure
     .input(z.object({ formData: formSchema }))
     .mutation(async ({ input, ctx }) => {
-      console.log("addUser mutation", input);
       try {
         await db.transaction(async (tx) => {
-          await tx.insert(userInfo).values({
-            userId: ctx.session.userId,
-            consent: input.formData.consent,
-            fullName: input.formData.fullName,
-            email: input.formData.email,
-            phone: input.formData.phone,
-            linkedIn: input.formData.linkedIn,
-            highestEducation: input.formData.highestEducation,
-            major: input.formData.major,
-            brithCountry: input.formData.brithCountry,
-            nationalityCountry: input.formData.nationalityCountry,
-            hearAboutUs: input.formData.hearAboutUs,
-            resumeUrl: input.formData.resumeUrl,
+          const userPersonalInfo: ISelectUserInfo[] = await tx
+            .insert(userInfo)
+            .values({
+              userId: ctx.session.userId,
+              consent: input.formData.consent,
+              fullName: input.formData.fullName,
+              email: input.formData.email,
+              phone: input.formData.phone,
+              linkedIn: input.formData.linkedIn,
+              highestEducation: input.formData.highestEducation,
+              major: input.formData.major,
+              brithCountry: input.formData.brithCountry,
+              nationalityCountry: input.formData.nationalityCountry,
+              hearAboutUs: input.formData.hearAboutUs,
+              resumeUrl: input.formData.resumeUrl,
 
-            currentlyInUS:
-              input.formData.currentlyInUS === "yes" ? true : false,
-            everBeenToUS: input.formData.everBeenToUS === "yes" ? true : false,
-            everAppliedForGreenCard:
-              input.formData.everAppliedForGreenCard === "yes" ? true : false,
-            addFamilyMembers:
-              input.formData.addFamilyMembers === "yes" ? true : false,
-            currentEmployerInUS:
-              input.formData.currentEmployerInUS === "yes" ? true : false,
-            currentVisa: input.formData.currentVisa,
-            interestedIn: input.formData.interestedIn,
-            isStudent: input.formData.isStudent === "yes" ? true : false,
-            graduationYear: input.formData.graduationYear,
-            currentRole: input.formData.currentRole,
-            industryType: input.formData.industryType,
-            priorityDateIfAny: JSON.stringify(input.formData.priorityDateIfAny),
-            fieldExpertIn: input.formData.fieldExpertIn,
-          });
+              currentlyInUS:
+                input.formData.currentlyInUS === "yes" ? true : false,
+              everBeenToUS:
+                input.formData.everBeenToUS === "yes" ? true : false,
+              everAppliedForGreenCard:
+                input.formData.everAppliedForGreenCard === "yes" ? true : false,
+              addFamilyMembers:
+                input.formData.addFamilyMembers === "yes" ? true : false,
+              currentEmployerInUS:
+                input.formData.currentEmployerInUS === "yes" ? true : false,
+              currentVisa: input.formData.currentVisa,
+              interestedIn: input.formData.interestedIn,
+              isStudent: input.formData.isStudent === "yes" ? true : false,
+              graduationYear: input.formData.graduationYear,
+              currentRole: input.formData.currentRole,
+              industryType: input.formData.industryType,
+              priorityDateIfAny: JSON.stringify(
+                input.formData.priorityDateIfAny,
+              ),
+              fieldExpertIn: input.formData.fieldExpertIn,
+            })
+            .returning();
 
           // convert above foreach to normal for loop
           for (const pillar of visaPillarFields) {
@@ -68,6 +78,15 @@ export const userDetailsRouter = createTRPCRouter({
                   detail: form.detail,
                 });
               }
+            }
+          }
+
+          // send onboarding email
+          if (userPersonalInfo) {
+            try {
+              await sendOnBoardingEmail(userPersonalInfo[0]!);
+            } catch (e) {
+              console.error("Resend Email error: ", e);
             }
           }
 
