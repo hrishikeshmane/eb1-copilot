@@ -56,25 +56,22 @@ export const userManagementRouter = createTRPCRouter({
     return customers;
   }),
 
-  changeUserRole: adminProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-        role: z.enum(["admin", "vendor", "customer"]),
-      }),
-    )
+  updateUserRole: adminProcedure
+    .input(z.object({ userId: z.string(), role: z.string() }))
     .mutation(async ({ input }) => {
-      const user = await clerkClient.users.getUser(input.userId);
-      if (!user) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
+      try {
+        const user = await clerkClient.users.getUser(input.userId);
+        const userMetaData =
+          user.publicMetadata as CustomJwtSessionClaims["metadata"];
+        await clerkClient.users.updateUser(input.userId, {
+          publicMetadata: { ...userMetaData, role: input.role },
+        });
+      } catch (e) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update user role",
+        });
       }
-      await clerkClient.users.updateUser(input.userId, {
-        publicMetadata: {
-          ...user.publicMetadata,
-          role: input.role,
-        },
-      });
-      return user;
     }),
 
   getUserInfoById: adminProcedure

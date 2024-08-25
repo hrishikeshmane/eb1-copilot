@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import MasonryTestimonials from "@/components/elements/masonry-testimonials";
-import PricingGrid from "./pricing/_components/pricing-grid";
+import PricingGrid from "./_pricing/_components/pricing-grid";
 import GetStartedButton from "@/components/elements/get-started-button";
 import Link from "next/link";
+import { FeaturesSectionDemo } from "@/components/elements/feature-grid";
 
 export default function Home() {
   return (
@@ -195,6 +196,11 @@ export default function Home() {
           <LandingBentoGrid />
         </section>
 
+        <section className="relative mx-4 my-8 flex w-[95%] flex-col items-center justify-start overflow-hidden rounded-3xl bg-[#17332D] bg-gradient-to-b  py-16">
+          <div className="absolute inset-0 bg-noise-pattern opacity-[0.04] brightness-100 contrast-150"></div>
+          <FeaturesSectionDemo />
+        </section>
+
         <section className="z-10 my-8 flex w-[99%] flex-col ">
           <h2 className="mx-auto  my-4 mb-4 -skew-x-2 text-center text-3xl font-bold md:text-4xl">
             Success stories
@@ -221,7 +227,7 @@ export default function Home() {
               >
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
-                    This sounds too good to be true. Is this legit?
+                    Is this fraud? Is this a hacking tool?
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
                     <p>
@@ -256,7 +262,7 @@ export default function Home() {
                       Delaying means missing out on opportunities. Moreover, the
                       primary objective of this endeavor is to save time. The
                       earlier you begin, the more time you’ll have to construct
-                      an impressive profile.{" "}
+                      an impressive profile.
                     </p>
 
                     <p>
@@ -288,20 +294,24 @@ export default function Home() {
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
                     <p>
-                      Absolutely! You don’t need a Ph.D., a Nobel Prize, an
-                      Oscar, or any such accolades to qualify for an EB-1A.{" "}
+                      They can, and they have. You don’t need a Ph.D., a Nobel
+                      Prize, an Oscar, or any such accolades to qualify for an
+                      EB-1A.
                     </p>
 
                     <p>
-                      Instead, you’re required to meet at least 3 out of 10
-                      criteria set by the USCIS for EB-1A qualification. Our
-                      product empowers you to meet all 10.{" "}
+                      Instead, you’re required to show extraordinary ability
+                      through contributing to your field and by meeting 3 out of
+                      10 criteria. We’ve seen everyone from top engineers to
+                      product leaders to founders get the EB-1A. There’s a good
+                      chance you already meet a few criteria without knowing
+                      about it.
                     </p>
 
                     <p>
-                      Using AI and with diligent effort, our product can elevate
-                      a seemingly ordinary profile to meet the ‘extraordinary
-                      ability’ criteria for the Green Card.
+                      Using our tool and with your diligent effort, it’s a
+                      matter of time before you’re able to meet the
+                      ‘extraordinary ability’ criteria for the Green Card.
                     </p>
                   </AccordionContent>
                 </AccordionItem>
@@ -311,7 +321,7 @@ export default function Home() {
                     Can this product also help prepare for the O-1A?
                   </AccordionTrigger>
                   <AccordionContent className="space-y-2">
-                    <p>Indeed</p>
+                    <p>Indeed!</p>
                     <p>
                       The criteria for evidence for both EB-1A and O-1A are
                       alike, but securing an O-1A doesn’t assure an EB-1A. It’s
@@ -410,10 +420,10 @@ export default function Home() {
                 Start Your Green Card Journey Now!
               </div>
 
-              <div className="flex scale-[115%] gap-4">
+              <div className="flex scale-[115%] flex-col gap-4 md:flex-row">
                 <GetStartedButton />
                 <Link
-                  href="https://calendly.com/greencardinc"
+                  href="https://go.greencard.inc/evaluation"
                   target={"_blank"}
                   rel={"noreferrer"}
                 >

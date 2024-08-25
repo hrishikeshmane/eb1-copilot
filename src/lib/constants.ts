@@ -1,4 +1,4 @@
-export const MAX_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
+export const MAX_UPLOAD_SIZE = 1024 * 1024 * 8; // 8MB
 export const ACCEPTED_FILE_TYPES = ["application/pdf"];
 
 export type HearAboutUsOption = {
@@ -49,6 +49,7 @@ export type currentVisaOptions = {
   label: string;
   value: string;
 };
+
 export const CURRENT_VISA_OPTIONS: currentVisaOptions[] = [
   { label: "B1/B2", value: "b1/b2" },
   { label: "F1", value: "f1" },
@@ -197,3 +198,47 @@ export const visaPillars: IPillars[] = [
     label: "Commercial Success",
   },
 ];
+
+// write type defination for userRolesMap
+export type UserRolesMap = {
+  label: string;
+  value: string;
+};
+
+// write type defination for onBoardedMap
+export type OnBoardedMap = {
+  label: string;
+  value: boolean;
+};
+
+export const userRolesMap: UserRolesMap[] = [
+  {
+    label: "Customer",
+    value: "customer",
+    // icon: ArrowDownIcon,
+  },
+  {
+    label: "Vendor",
+    value: "vendor",
+    // icon: ArrowRightIcon,
+  },
+  {
+    label: "Admin",
+    value: "admin",
+    // icon: ArrowUpIcon,
+  },
+];
+
+export const onBoardedMap: OnBoardedMap[] = [
+  {
+    label: "Yes",
+    value: true,
+    // icon: ArrowDownIcon,
+  },
+  {
+    label: "No",
+    value: false,
+    // icon: ArrowRightIcon,
+  },
+];
+

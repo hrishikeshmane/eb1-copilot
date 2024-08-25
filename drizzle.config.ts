@@ -3,8 +3,8 @@ import { type Config } from "drizzle-kit";
 import { env } from "@/env";
 
 export default {
-  dialect: "sqlite",
   schema: "./src/server/db/schema.ts",
+  dialect: "sqlite",
   driver: "turso",
   dbCredentials: {
     url: env.DATABASE_URL,
@@ -12,4 +12,6 @@ export default {
   },
   tablesFilter: ["eb1-copilot_*"],
   out: "./src/server/db/migrate",
+  verbose: true,
+  strict: true,
 } satisfies Config;

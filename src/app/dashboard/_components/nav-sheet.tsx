@@ -29,12 +29,32 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useUser } from "@clerk/nextjs";
 
+import dynamic from "next/dynamic";
+import { DownloadIcon } from "@radix-ui/react-icons";
+import MyProfilePDF from "@/components/pdf/my-profile";
+import { api } from "@/trpc/react";
+const PDFDownloadLink = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  {
+    ssr: false,
+    loading: () => (
+      <Button className="flex" disabled={true}>
+        Download Resume <DownloadIcon className="ml-2" />
+      </Button>
+    ),
+  },
+);
+
 const NavSheet = () => {
   const pathName = usePathname();
   const { user } = useUser();
   const userMetadata =
     user?.publicMetadata as CustomJwtSessionClaims["metadata"];
   const userRole = userMetadata?.role;
+
+  const userInfo = api.userDetails.getUserInfo.useQuery();
+  const userPillars = api.userDetails.getUserPillars.useQuery();
+  const completedTickets = api.kanban.getCompletedTickets.useQuery();
 
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -161,18 +181,35 @@ const NavSheet = () => {
           </div>
         </SheetContent>
       </Sheet>
-      <div className="w-full flex-1">
-        {/* <form>
-      <div className="relative">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Search products..."
-          className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-        />
-      </div>
-    </form> */}
-      </div>
+      <div className="w-full flex-1"></div>
+      {pathName.includes("profile-tracker") &&
+        userPillars.status === "success" &&
+        completedTickets.status === "success" &&
+        userInfo.status === "success" &&
+        !!userInfo.data && (
+          <PDFDownloadLink
+            document={
+              <MyProfilePDF
+                userInfo={userInfo.data}
+                userPillars={userPillars.data}
+                completedTickets={completedTickets.data}
+              />
+            }
+            fileName="profile-report-greencardinc.pdf"
+          >
+            {({ loading }) =>
+              loading ? (
+                <Button className="flex" disabled={true}>
+                  Download Profile Report <DownloadIcon className="ml-2" />
+                </Button>
+              ) : (
+                <Button className="flex">
+                  Download Profile Report <DownloadIcon className="ml-2" />
+                </Button>
+              )
+            }
+          </PDFDownloadLink>
+        )}
       <UserAuthButton />
       <ModeToggle />
     </header>

@@ -22,7 +22,7 @@ export function LandingBentoGrid() {
 }
 
 const Skeleton = () => (
-  <div className="dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex h-full min-h-[6rem] w-full flex-1 rounded-xl border  border-transparent bg-neutral-100 [mask-image:radial-gradient(ellipse_at_center,white,transparent)] dark:border-white/[0.2] dark:bg-black"></div>
+  <div className="flex h-full min-h-[6rem] w-full flex-1 rounded-xl border border-transparent bg-neutral-100  bg-dot-black/[0.2] [mask-image:radial-gradient(ellipse_at_center,white,transparent)] dark:border-white/[0.2] dark:bg-black dark:bg-dot-white/[0.2]"></div>
 );
 
 const SkeletonOne = () => {
@@ -55,7 +55,7 @@ const SkeletonOne = () => {
     <motion.div
       initial="initial"
       whileHover="animate"
-      className="dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2"
+      className="flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2 bg-dot-black/[0.2] dark:bg-dot-white/[0.2]"
     >
       <motion.div
         variants={variants}
@@ -105,7 +105,7 @@ const SkeletonTwo = () => {
       initial="initial"
       animate="animate"
       whileHover="hover"
-      className="dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2"
+      className="flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2 bg-dot-black/[0.2] dark:bg-dot-white/[0.2]"
     >
       {arr.map((_, i) => (
         <motion.div
@@ -139,7 +139,7 @@ const SkeletonThree = () => {
         repeat: Infinity,
         repeatType: "reverse",
       }}
-      className="dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2 rounded-lg"
+      className="flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2 rounded-lg bg-dot-black/[0.2] dark:bg-dot-white/[0.2]"
       style={{
         background: "linear-gradient(-45deg,#D9F522,  #23d5ab,  #0c2521  )",
         backgroundSize: "400% 400%",
@@ -175,7 +175,7 @@ const SkeletonFour = () => {
       initial="initial"
       animate="animate"
       whileHover="hover"
-      className="dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex h-full min-h-[6rem] w-full flex-1 flex-row space-x-2"
+      className="flex h-full min-h-[6rem] w-full flex-1 flex-row space-x-2 bg-dot-black/[0.2] dark:bg-dot-white/[0.2]"
     >
       <motion.div
         variants={first}
@@ -242,7 +242,7 @@ const SkeletonFive = () => {
     <motion.div
       initial="initial"
       whileHover="animate"
-      className="dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2"
+      className="flex h-full min-h-[6rem] w-full flex-1 flex-col space-y-2 bg-dot-black/[0.2] dark:bg-dot-white/[0.2]"
     >
       <motion.div
         variants={variants}
@@ -267,11 +267,11 @@ const SkeletonFive = () => {
 };
 const items = [
   {
-    title: "AI Content Generation",
+    title: "Generative AI Tailored Guidance",
     description: (
       <span className="text-sm">
-        Experience the power of AI in generating unique content for writing your
-        scholary articles
+        Our AI crafts personalized narratives, magnifying your achievements for
+        an irresistible application that captivates immigration officials.
       </span>
     ),
     header: <SkeletonOne />,
@@ -304,8 +304,8 @@ const items = [
     description: (
       <span className="text-sm">
         Kiss paperwork woes goodbye! Our AI tirelessly handles the grunt work,
-        from evidence gathering to petition preparation, leaving you free to
-        focus on showcasing your talents
+        from evidence gathering to form completion, leaving you free to focus on
+        showcasing your talents.
       </span>
     ),
     header: <SkeletonFour />,
@@ -313,11 +313,11 @@ const items = [
   },
 
   {
-    title: "Expert Human Review",
+    title: "Expert Legal Review",
     description: (
       <span className="text-sm">
-        Trust our experienced immigration team to ensure perfection and boost
-        your approval
+        Our team of seasoned immigration specialists meticulously oversees every
+        detail, ensuring perfection and maximizing your approval chances.
       </span>
     ),
     header: <SkeletonFive />,
