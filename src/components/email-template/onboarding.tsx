@@ -26,7 +26,9 @@ const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "https://www.greencard.inc";
 
-export const WelcomeEmail = ({ userPersonalInfo }: WelcomeEmailProps) => (
+export const OnboardingEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
+  userPersonalInfo,
+}) => (
   <Html>
     <Head />
     <Preview>Greencard Inc- Your Journey to freedom begins here!</Preview>
