@@ -184,7 +184,7 @@ export const OnboardingEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
   </Html>
 );
 
-export default WelcomeEmail;
+export default OnboardingEmail;
 
 const main = {
   backgroundColor: "#ffffff",

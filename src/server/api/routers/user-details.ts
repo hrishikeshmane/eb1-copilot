@@ -18,13 +18,12 @@ import {
 import { db } from "@/server/db";
 import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { sendOnBoardingEmail } from "@/app/_actions/emails";
 
 export const userDetailsRouter = createTRPCRouter({
   addUser: protectedProcedure
     .input(z.object({ formData: formSchema }))
     .mutation(async ({ input, ctx }) => {
-      console.log("addUser mutation", input);
-
       try {
         await db.transaction(async (tx) => {
           const userPersonalInfo: ISelectUserInfo[] = await tx
