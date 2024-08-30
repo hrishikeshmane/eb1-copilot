@@ -34,15 +34,17 @@ export default function HeroSection() {
           <div className="mx-2 max-w-3xl py-4 text-center dark:text-neutral-200 md:text-xl">
             {/* Start your EB-1A journey with a team that’s trusted by 300+
             immigrants and endorsed by top US immigration attorneys. */}
-            Revolutionize Your Immigration Journey and Secure Your EB1A Green
+            {/* Revolutionize Your Immigration Journey and Secure Your EB1A Green
             Card
-            <br /> with AI-Powered Expertise
+            <br /> with AI-Powered Expertise */}
+            Self-sponsor Your EB-1A Extraordinary Ability Green Card With
+            AI-Powered Expertise
           </div>
 
           <div className="flex scale-[115%] flex-col gap-4 md:flex-row">
             <GetStartedButton />
             <Link
-              href="https://calendly.com/greencardinc"
+              href="https://go.greencard.inc/evaluation"
               target={"_blank"}
               rel={"noreferrer"}
             >

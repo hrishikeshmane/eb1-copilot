@@ -7,6 +7,9 @@ import { api } from "@/trpc/react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { type User } from "@clerk/nextjs/server";
 import TrackerBoard from "../../profile-tracker/_components/traker-board";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 
 const UserDetailView = ({
   customer,
@@ -15,7 +18,7 @@ const UserDetailView = ({
   customer: User;
   children: React.ReactNode;
 }) => {
-  const userPillars = api.userDetails.getUserPillarsById.useQuery({
+  const userPillars = api.userDetails.getUserPillarsByUserId.useQuery({
     userId: customer.id,
   });
   const completedTickets = api.kanban.getCompletedTicketsByUserId.useQuery({
@@ -35,13 +38,24 @@ const UserDetailView = ({
 
   return (
     <div>
-      <Tabs defaultValue="personal-info" className="w-[500px] pl-4">
-        <div className="flex items-center">
+      <Tabs defaultValue="personal-info" className="w-full pl-4">
+        <div className="flex w-full items-center">
           {children}
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-[500px] grid-cols-2">
             <TabsTrigger value="personal-info">Personal Info</TabsTrigger>
             <TabsTrigger value="visa-pillars">Visa Pillars</TabsTrigger>
           </TabsList>
+          <Link
+            className="ml-auto mr-6"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`/profile-report/${customer.id}`}
+          >
+            <Button size={"sm"} className="gap-1">
+              View Report
+              <ArrowUpRight className="h-4 w-4" />
+            </Button>
+          </Link>
         </div>
         <div className="h-[calc(100vh-7.8rem)] w-[calc(100vw-20px)] md:w-[calc(100vw-285px)]">
           <TabsContent className="h-full" value="personal-info">
@@ -98,6 +112,31 @@ const CustomerInfoDetails = ({ userId }: { userId: string }) => {
           label="Nationality Country"
           value={userData.nationalityCountry}
         />
+        <div className="flex flex-col pb-2">
+          <p className="font-medium">LinkedIn</p>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+            href={userData.linkedIn}
+          >
+            {userData.linkedIn.slice(0, 40)}
+          </Link>
+        </div>
+
+        {!!userData.resumeUrl && (
+          <div className="flex flex-col pb-2">
+            <p className="font-medium">Resume/CV</p>
+            <Link
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+              href={userData.resumeUrl}
+            >
+              {userData.resumeUrl.slice(0, 40)}
+            </Link>
+          </div>
+        )}
       </div>
       <Separator className="my-1" />
       <div className="mt-4 grid grid-cols-3">

@@ -49,6 +49,7 @@ const OnboardingPage = () => {
       brithCountry: "" as FormType["brithCountry"],
       nationalityCountry: "" as FormType["nationalityCountry"],
       hearAboutUs: "" as FormType["hearAboutUs"],
+      resumeUrl: undefined,
 
       // Current Status
       currentlyInUS: "" as FormType["currentlyInUS"],
@@ -150,7 +151,7 @@ const OnboardingPage = () => {
     },
     onError: (error) => {
       setIsSubmitting(false);
-      toast.error("An error occured- " + error.message);
+      toast.error("An error occured- " + error.message, { duration: 30000 });
       console.error("Error submitting onboarding form", error);
       log.error("Error submitting onboarding form", {
         message: error.message,
@@ -170,9 +171,6 @@ const OnboardingPage = () => {
 
     const msg = addUserMutaion.mutate({ formData: data });
     console.log("msg", msg);
-
-    // // TODO: remove this
-    // setIsSubmitting(false);
   };
 
   const next = async () => {
@@ -327,7 +325,7 @@ const OnboardingPage = () => {
               </Button>
             </div>
           </form>
-          {/* <DevTool control={form.control} /> */}
+          <DevTool control={form.control} />
         </Form>
       </div>
     </ScrollArea>

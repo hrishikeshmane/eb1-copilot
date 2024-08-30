@@ -1,0 +1,12 @@
+BEGIN TRANSACTION;
+
+INSERT INTO "eb1-copilot_users" VALUES('user_2gLQcJnreTcmrkrY4tNrI3dx5Te','admin',0,1715474456,1715474456);
+INSERT INTO "eb1-copilot_users" VALUES('user_2gLRGmLAKOTsz7143BA66MEXSME','customer',1,1715474778,1715474778);
+INSERT INTO "eb1-copilot_users" VALUES('user_2gLRyZT5THxYDDd2Q1YOJz4B0KO','customer',0,1715475130,1715475130);
+INSERT INTO "eb1-copilot_users" VALUES('user_2gLSC9LDKgkcOOh57Vw6n5mzOoo','customer',0,1715475239,1715475239);
+INSERT INTO "eb1-copilot_users" VALUES('user_2gLSKtKrfsQNVQZKw1YO0TZ39WO','vendor',0,1715475307,1715475307);
+INSERT INTO "eb1-copilot_users" VALUES('user_2gLSocwlA66k6CjtZDcfzTK3uUl','vendor',0,1715475542,1715475542);
+
+INSERT INTO "eb1-copilot_userInfo" VALUES('user_2gLRGmLAKOTsz7143BA66MEXSME',1,'Hrishi','hrishi.mane26@gmail.com','16073138819','https://www.linkedin.com/in/hrishi-mane/','phd','cs','United States','United States','socialMedia',1,1,1,1,1,'b1/b2','o1A',1,'1920','swe','Manufacturing','"2024-08-14T04:00:00.000Z"','SWE in cloud',1715476407,1715476407);
+
+COMMIT;

@@ -34,6 +34,7 @@ export const userDetailsRouter = createTRPCRouter({
             brithCountry: input.formData.brithCountry,
             nationalityCountry: input.formData.nationalityCountry,
             hearAboutUs: input.formData.hearAboutUs,
+            resumeUrl: input.formData.resumeUrl,
 
             currentlyInUS:
               input.formData.currentlyInUS === "yes" ? true : false,
@@ -88,8 +89,6 @@ export const userDetailsRouter = createTRPCRouter({
           cause: error,
         });
       }
-
-      // await clerkClient.users.updateUser(ctx.session.userId);
     }),
 
   getUserInfo: protectedProcedure.query(async ({ ctx }) => {
@@ -106,7 +105,7 @@ export const userDetailsRouter = createTRPCRouter({
     return userPillarData;
   }),
 
-  getUserPillarsById: adminProcedure
+  getUserPillarsByUserId: adminProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ input }) => {
       const userPillarData = await db.query.userVisaPillarDetails.findMany({
@@ -115,21 +114,43 @@ export const userDetailsRouter = createTRPCRouter({
       return userPillarData;
     }),
 
-  updateUserRole: adminProcedure
-    .input(z.object({ userId: z.string(), role: z.string() }))
+  updateUserPillarDetailsById: protectedProcedure
+    .input(
+      z.object({ pillarId: z.string(), title: z.string(), detail: z.string() }),
+    )
     .mutation(async ({ input }) => {
       try {
-        const user = await clerkClient.users.getUser(input.userId);
-        const userMetaData =
-          user.publicMetadata as CustomJwtSessionClaims["metadata"];
-        await clerkClient.users.updateUser(input.userId, {
-          publicMetadata: { ...userMetaData, role: input.role },
-        });
+        await db
+          .update(userVisaPillarDetails)
+          .set({
+            title: input.title,
+            detail: input.detail,
+          })
+          .where(eq(userVisaPillarDetails.id, input.pillarId));
       } catch (e) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to update user role",
+          message: "Failed to update user pillar",
         });
       }
     }),
+
+  // Moved to userManagement Router
+  // updateUserRole: adminProcedure
+  //   .input(z.object({ userId: z.string(), role: z.string() }))
+  //   .mutation(async ({ input }) => {
+  //     try {
+  //       const user = await clerkClient.users.getUser(input.userId);
+  //       const userMetaData =
+  //         user.publicMetadata as CustomJwtSessionClaims["metadata"];
+  //       await clerkClient.users.updateUser(input.userId, {
+  //         publicMetadata: { ...userMetaData, role: input.role },
+  //       });
+  //     } catch (e) {
+  //       throw new TRPCError({
+  //         code: "INTERNAL_SERVER_ERROR",
+  //         message: "Failed to update user role",
+  //       });
+  //     }
+  //   }),
 });

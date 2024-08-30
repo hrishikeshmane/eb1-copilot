@@ -7,7 +7,7 @@ const UserAuthButton = () => {
   return (
     <div>
       <SignedIn>
-        <UserButton afterSignOutUrl="/dashboard" />
+        <UserButton afterSignOutUrl="/" />
       </SignedIn>
       <SignedOut>
         <SignInButton mode="modal">

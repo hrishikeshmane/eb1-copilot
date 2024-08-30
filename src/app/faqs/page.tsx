@@ -24,12 +24,13 @@ const FAQsPage = () => {
             <Accordion type="multiple" className="w-full text-left">
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-left text-xl font-bold">
-                  This sounds too good to be true. Is this legit?
+                  Is this fraud? Is this a hacking tool?
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
                   <p>
-                    If you’re looking to manipulate or exploit any immigration
-                    system, this product isn’t for you.
+                    Rest assured, it’s neither of those. If you’re looking to
+                    manipulate or exploit any immigration system, this product
+                    isn’t for you.
                   </p>
 
                   <p>
@@ -58,7 +59,7 @@ const FAQsPage = () => {
                     Delaying means missing out on opportunities. Moreover, the
                     primary objective of this endeavor is to save time. The
                     earlier you begin, the more time you’ll have to construct an
-                    impressive profile.{" "}
+                    impressive profile.
                   </p>
 
                   <p>
@@ -89,19 +90,23 @@ const FAQsPage = () => {
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
                   <p>
-                    Absolutely! You don’t need a Ph.D., a Nobel Prize, an Oscar,
-                    or any such accolades to qualify for an EB-1A.{" "}
+                    They can, and they have. You don’t need a Ph.D., a Nobel
+                    Prize, an Oscar, or any such accolades to qualify for an
+                    EB-1A.
                   </p>
 
                   <p>
-                    Instead, you’re required to meet at least 3 out of 10
-                    criteria set by the USCIS for EB-1A qualification. Our
-                    product empowers you to meet all 10.{" "}
+                    Instead, you’re required to show extraordinary ability
+                    through contributing to your field and by meeting 3 out of
+                    10 criteria. We’ve seen everyone from top engineers to
+                    product leaders to founders get the EB-1A. There’s a good
+                    chance you already meet a few criteria without knowing about
+                    it.
                   </p>
 
                   <p>
-                    Using AI and with diligent effort, our product can elevate a
-                    seemingly ordinary profile to meet the ‘extraordinary
+                    Using our tool and with your diligent effort, it’s a matter
+                    of time before you’re able to meet the ‘extraordinary
                     ability’ criteria for the Green Card.
                   </p>
                 </AccordionContent>
@@ -112,7 +117,7 @@ const FAQsPage = () => {
                   Can this product also help prepare for the O-1A?
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
-                  <p>Indeed</p>
+                  <p>Indeed!</p>
                   <p>
                     The criteria for evidence for both EB-1A and O-1A are alike,
                     but securing an O-1A doesn’t assure an EB-1A. It’s generally

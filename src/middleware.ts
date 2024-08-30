@@ -27,8 +27,12 @@ export default authMiddleware({
     "/pricing(.*)",
     "/sign-in(.*)",
     "/sign-up(.*)",
-    "/api/webhook(.*)",
     "/terms(.*)",
+    "/saas(.*)",
+    "/privacy(.*)",
+    "/dataprocessing(.*)",
+    "/api/webhook(.*)",
+    "/api/uploadthing(.*)",
   ],
   // debug: true,
 });
