@@ -14,6 +14,7 @@ import {
 import { db } from "@/server/db";
 import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { sendOnBoardingEmail } from "@/app/_actions/emails/send-onboarding-email";
 
 export const userDetailsRouter = createTRPCRouter({
   addUser: protectedProcedure
