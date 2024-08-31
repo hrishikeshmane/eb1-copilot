@@ -95,7 +95,7 @@ export const Navbar2 = () => {
                 <span className="sr-only">Profile Builder</span>
               </Link>
                 </TooltipTrigger>
-                <TooltipContent side="right">Profile Tracker</TooltipContent>
+                <TooltipContent side="right">Profile Builder</TooltipContent>
         </Tooltip>
             )}
 

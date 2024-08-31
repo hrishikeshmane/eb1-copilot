@@ -5,7 +5,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "@/server/api/trpc";
-import { userInfo, userVisaPillarDetails } from "@/server/db/schema";
+import { ISelectUserInfo, userInfo, userVisaPillarDetails } from "@/server/db/schema";
 import { clerkClient } from "@clerk/nextjs/server";
 import {
   formSchema,
@@ -22,7 +22,7 @@ export const userDetailsRouter = createTRPCRouter({
       console.log("addUser mutation", input);
       try {
         await db.transaction(async (tx) => {
-          await tx.insert(userInfo).values({
+          const userPersonalInfo: ISelectUserInfo[] = await tx.insert(userInfo).values({
             userId: ctx.session.userId,
             consent: input.formData.consent,
             fullName: input.formData.fullName,
@@ -53,7 +53,7 @@ export const userDetailsRouter = createTRPCRouter({
             industryType: input.formData.industryType,
             priorityDateIfAny: JSON.stringify(input.formData.priorityDateIfAny),
             fieldExpertIn: input.formData.fieldExpertIn,
-          });
+          }).returning();
 
           // convert above foreach to normal for loop
           for (const pillar of visaPillarFields) {
@@ -68,6 +68,15 @@ export const userDetailsRouter = createTRPCRouter({
                   detail: form.detail,
                 });
               }
+            }
+          }
+
+          // send onboarding email
+          if (userPersonalInfo) {
+            try {
+              await sendOnBoardingEmail(userPersonalInfo[0]!);
+            } catch (e) {
+              console.error("Resend Email error: ", e);
             }
           }
 
