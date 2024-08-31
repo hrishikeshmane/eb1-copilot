@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 
 const UserAuthButton = () => {
   return (
-    <div>
+    <>
       <SignedIn>
         <UserButton afterSignOutUrl="/" />
       </SignedIn>
@@ -14,7 +14,7 @@ const UserAuthButton = () => {
           <Button variant={"secondary"}>Sign in</Button>
         </SignInButton>
       </SignedOut>
-    </div>
+    </>
   );
 };
 
