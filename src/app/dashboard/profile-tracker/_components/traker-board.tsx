@@ -119,7 +119,7 @@ const TrackerBoardColumn = ({
               <div key={card.id}>
                 <Dialog onOpenChange={() => setEditMode(false)}>
                   <DialogTrigger>
-                    <Card className="w-[20rem] cursor-pointer rounded-sm p-4 text-left transition delay-75 duration-200 hover:bg-lime-100/45 dark:bg-neutral-950 dark:hover:bg-neutral-900/20">
+                    <Card className="w-[20rem] cursor-pointer rounded-sm p-4 text-left transition delay-75 duration-200 hover:bg-lime-100/25 dark:bg-neutral-950 dark:hover:bg-neutral-900/20">
                       <p className="pb-2 font-medium ">{card.title}</p>
                       <p className="">{card.detail}</p>
                     </Card>

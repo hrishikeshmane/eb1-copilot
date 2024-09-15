@@ -2,7 +2,7 @@
 
 import React, { useState, type DragEvent } from "react";
 import { motion } from "framer-motion";
-import { Trash } from "lucide-react";
+import { ImportIcon, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { DragHandleDots2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
@@ -62,10 +62,12 @@ import { usePathname } from "next/navigation";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
+import Link from "next/link";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
   customer?: User;
+  customerString?: string;
   isInteractable: boolean;
   isAdmin: boolean;
 };
@@ -73,14 +75,21 @@ type CustomKanbanProps = {
 export const CustomKanban = ({
   children,
   customer,
+  customerString,
   isInteractable,
   isAdmin,
 }: CustomKanbanProps) => {
   const setIsInteractable = useSetAtom(isInteractableAtom);
   setIsInteractable(isInteractable);
 
+  // if customer is josn string, convert to User
   const setCustomer = useSetAtom(customerAtom);
-  setCustomer(customer);
+  if (!!customerString) {
+    const userObj = JSON.parse(customerString) as User;
+    setCustomer(userObj);
+  } else {
+    setCustomer(customer);
+  }
 
   let ticketQuery: ReturnType<typeof api.kanban.getAllUsersTickets.useQuery>;
   if (customer) {
@@ -92,8 +101,8 @@ export const CustomKanban = ({
   }
 
   return (
-    <>
-      <ScrollArea className="h-full w-[calc(100vw-30px)] md:w-[calc(100vw-261px)]">
+    <div className="h-full overflow-y-hidden">
+      <div className="h-full w-full">
         {ticketQuery.status === "pending" && (
           <div className="h-full w-full items-center justify-center">
             <Loader2 className="animate-spin text-muted-foreground" />
@@ -109,12 +118,12 @@ export const CustomKanban = ({
               tickets={ticketQuery.data as ISelectTickets[]}
               isAdmin={isAdmin}
             />
-            <ScrollBar orientation="vertical" />
-            <ScrollBar orientation="horizontal" />
+            {/* <ScrollBar orientation="vertical" /> */}
+            {/* <ScrollBar orientation="horizontal" /> */}
           </div>
         )}
-      </ScrollArea>
-    </>
+      </div>
+    </div>
   );
 };
 
@@ -137,7 +146,7 @@ const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
   );
 
   return (
-    <div className="sticky left-1 mb-4 flex w-[calc(100vw-30px)] gap-3 border-b p-2 pt-0 text-sm md:w-[calc(100vw-290px)]">
+    <div className="sticky left-1 mb-4 flex w-[98%] gap-3 border-b p-2 pt-0 text-sm">
       <div className="flex items-center gap-2">
         {customerSelect}
         <Popover open={openVisaFilter} onOpenChange={setOpenVisaFilter}>
@@ -227,50 +236,16 @@ const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
       </div>
 
       <div className="ml-auto flex gap-2">
-        {userRole === "admin" && pathName.includes("/ticket-management") && (
+        {(userRole === "customer" || userRole === "admin") && (
+          <Link href="/dashboard/builder/import">
+            <Button className="flex gap-2">
+              <ImportIcon className="h-4 w-4" /> Import Tickets from Master List
+            </Button>
+          </Link>
+        )}
+        {(userRole === "customer" || userRole === "admin") && (
           <NewTicketButton tickets={tickets} />
         )}
-        {/* <Popover>
-          <PopoverTrigger asChild>
-            <div>
-              <Button size={"sm"} variant={"outline"} className="px-2">
-                <MixerHorizontalIcon />
-              </Button>
-            </div>
-          </PopoverTrigger>
-          <PopoverContent className="mr-6 p-0" side="bottom" align="start">
-            <Command>
-              <CommandList>
-                <CommandGroup>
-                  <CommandItem
-                    className="flex cursor-pointer gap-1"
-                    onSelect={() =>
-                      setKanbanVisibileOptions({
-                        ...kanbanVisibileOptions,
-                        showVisaPillars: !kanbanVisibileOptions.showVisaPillars,
-                      })
-                    }
-                  >
-                    <Checkbox checked={kanbanVisibileOptions.showVisaPillars} />
-                    Show Visa Pillars
-                  </CommandItem>
-                  <CommandItem
-                    className="flex cursor-pointer gap-1"
-                    onSelect={() =>
-                      setKanbanVisibileOptions({
-                        ...kanbanVisibileOptions,
-                        showAssignee: !kanbanVisibileOptions.showAssignee,
-                      })
-                    }
-                  >
-                    <Checkbox checked={kanbanVisibileOptions.showAssignee} />
-                    Show Assignee
-                  </CommandItem>
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover> */}
       </div>
     </div>
   );
@@ -286,6 +261,7 @@ const Board = ({
   const { user } = useUser();
   const userRole = user?.publicMetadata.role;
   const isVendor = userRole === "vendor";
+  const isCustomer = userRole === "customer";
 
   return (
     <div className="flex h-full gap-3">
@@ -321,7 +297,7 @@ const Board = ({
           cards={tickets}
         />
       )}
-      {!!isAdmin && <BurnBarrel />}
+      {(!!isAdmin || !!isCustomer) && <BurnBarrel />}
     </div>
   );
 };
@@ -377,6 +353,7 @@ const Column = ({ title, headingColor, cards, column }: ColumProps) => {
     onSettled: async () => {
       // Sync with server once mutation has settled
       await utils.kanban.getTicketsByUserId.invalidate();
+      utils.kanban.getAllUsersTickets.invalidate();
     },
   });
 
@@ -509,7 +486,7 @@ const Column = ({ title, headingColor, cards, column }: ColumProps) => {
           {filteredCards.length}
         </span>
       </div>
-      <div
+      <ScrollArea
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -519,17 +496,20 @@ const Column = ({ title, headingColor, cards, column }: ColumProps) => {
             : "bg-neutral-800/0"
         }`}
       >
-        {filteredCards.map((c) => {
-          return (
-            <KanbanCard
-              key={c.ticketId}
-              card={c}
-              handleDragStart={handleDragStart}
-            />
-          );
-        })}
-        <DropIndicator beforeId={null} column={column} />
-      </div>
+        <div>
+          {filteredCards.map((c) => {
+            return (
+              <KanbanCard
+                key={c.ticketId}
+                card={c}
+                handleDragStart={handleDragStart}
+              />
+            );
+          })}
+          <DropIndicator beforeId={null} column={column} />
+        </div>
+        <ScrollBar orientation="vertical" />
+      </ScrollArea>
     </div>
   );
 };
@@ -602,6 +582,7 @@ const KanbanCard = ({
     },
     onSettled: async () => {
       await utils.kanban.getTicketsByUserId.invalidate();
+      utils.kanban.getAllUsersTickets.invalidate();
     },
   });
 
@@ -681,7 +662,7 @@ const KanbanCard = ({
             <SheetHeader>
               <>
                 <SheetTitle>
-                  {isAdmin ? (
+                  {isAdmin || isCustomer ? (
                     <input
                       className="inline-block w-full border-none bg-transparent p-0 outline-none ring-0"
                       value={ticketTitle}
@@ -695,7 +676,8 @@ const KanbanCard = ({
                   <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                     <p className="">Status:</p>
                     <StatusButton
-                      disabled={isCustomer}
+                      // disabled={isCustomer}
+                      disabled={false}
                       status={ticketStatus}
                       setStatus={setTicketStatus}
                     />
@@ -704,7 +686,8 @@ const KanbanCard = ({
                   <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                     <p className="">Visa Pillars:</p>
                     <PillarButton
-                      disabled={!isAdmin}
+                      // disabled={!isAdmin}
+                      disabled={false}
                       selectedPillars={ticketPillars}
                       setSelectedPillars={setTicketPillars}
                     />
@@ -720,10 +703,9 @@ const KanbanCard = ({
                       />
                     </div>
                   )}
-                  {isAdmin ? (
+                  {isAdmin || isCustomer ? (
                     <Textarea
                       className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0"
-                      // disabled={isCustomer}
                       value={ticketDescription ?? ""}
                       placeholder="Ticket Description..."
                       onChange={(e) => {
@@ -738,17 +720,7 @@ const KanbanCard = ({
                 </SheetDescription>
               </>
             </SheetHeader>
-            {/* <h3>Ticket Logs</h3> */}
-            <ScrollArea className="h-full w-full">
-              {
-                // enter comments here
-                // Array.from({ length: 50 }, (_, i) => (
-                //   <div key={i} className="h-8 w-full">
-                //     {i}
-                //   </div>
-                // ))
-              }
-            </ScrollArea>
+            <ScrollArea className="h-full w-full"></ScrollArea>
             <SheetFooter>
               <div className="mt-auto flex gap-2">
                 <SheetClose asChild>
@@ -800,13 +772,7 @@ const DropIndicator = ({
   );
 };
 
-const BurnBarrel = (
-  {
-    // setCards,
-  }: {
-    // setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
-  },
-) => {
+const BurnBarrel = ({}: {}) => {
   const [active, setActive] = useState(false);
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -830,6 +796,7 @@ const BurnBarrel = (
     },
     onSettled: async () => {
       await utils.kanban.getTicketsByUserId.invalidate();
+      utils.kanban.getAllUsersTickets.invalidate();
     },
   });
 
@@ -845,7 +812,7 @@ const BurnBarrel = (
       onDrop={handleDragEnd}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
-      className={`mt-10 grid h-56 w-56 shrink-0 place-content-center rounded border text-3xl ${
+      className={`sticky top-5 mt-10 grid h-[80vh] w-56 shrink-0 place-content-center rounded border text-3xl ${
         active
           ? "border-red-500 bg-red-800/20 text-red-500"
           : "bg-card text-muted-foreground/20"

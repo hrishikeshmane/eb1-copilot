@@ -8,6 +8,7 @@ import {
   Copy,
   CreditCard,
   File,
+  GraduationCap,
   Home,
   KanbanSquareDashedIcon,
   LayoutDashboard,
@@ -46,7 +47,7 @@ export const Navbar2 = () => {
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
       <TooltipProvider>
-        <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+        <nav className="flex flex-col items-center gap-4 px-2 sm:py-3">
           <Link
             href="/"
             className="group flex h-9 w-9 md:w-11 md:h-11 shrink-0 items-center justify-center gap-2 rounded-full  text-lg font-semibold text-primary-foreground md:text-base"
@@ -59,7 +60,7 @@ export const Navbar2 = () => {
             <TooltipTrigger asChild>
               <Link
                 href="/dashboard"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard" && "bg-accent")}
+                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard" && "bg-accent text-foreground")}
                 >
                 <Home className="h-5 w-5" />
                 <span className="sr-only">Dashboard</span>
@@ -72,7 +73,7 @@ export const Navbar2 = () => {
               <TooltipTrigger asChild>
                 <Link
                   href="/dashboard/onboarding"
-                  className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/onboarding" && "bg-accent")}
+                  className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/onboarding" && "bg-accent text-foreground")}
                 >
                   <Package className="h-5 w-5" />
                   <span className="sr-only">Onboaring</span>
@@ -88,7 +89,7 @@ export const Navbar2 = () => {
 
               <Link
                 href="/dashboard/builder"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/builder" && "bg-accent")}
+                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/builder" && "bg-accent text-foreground")}
                 >
                 <SquareKanbanIcon className="h-5 w-5" />
                 
@@ -104,7 +105,7 @@ export const Navbar2 = () => {
               <TooltipTrigger asChild>
               <Link
                 href="/dashboard/profile-tracker"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/profile-tracker" && "bg-accent")}
+                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/profile-tracker" && "bg-accent text-foreground")}
               >
                 <LayoutDashboard className="h-5 w-5" />
                 <span className="sr-only">Profile Tracker</span>
@@ -120,7 +121,7 @@ export const Navbar2 = () => {
 
               <Link
                 href="/dashboard/ticket-management"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/ticket-management" && "bg-accent")}
+                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/ticket-management" && "bg-accent text-foreground")}
                 
                 >
                 <KanbanSquareDashedIcon className="h-5 w-5" />
@@ -138,7 +139,7 @@ export const Navbar2 = () => {
 
               <Link
                 href="/dashboard/profile-management"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/profile-management" && "bg-accent")}
+                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/profile-management" && "bg-accent text-foreground")}
                   >
                 <LayoutDashboard className="h-5 w-5" />
                 <span className="sr-only">Profile Management</span>
@@ -153,13 +154,28 @@ export const Navbar2 = () => {
               <TooltipTrigger asChild>
               <Link
                 href="/dashboard/user-management"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/user-management" && "bg-accent")}
+                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/user-management" && "bg-accent text-foreground")}
               >
                 <UserCog className="h-5 w-5" />
-                <span className="sr-only">User Managementt</span>
+                <span className="sr-only">User Management</span>
               </Link>
               </TooltipTrigger>
             <TooltipContent side="right">User Management</TooltipContent>
+          </Tooltip>
+            )}
+
+{userRole === "admin" && (
+              <Tooltip>
+              <TooltipTrigger asChild>
+              <Link
+                href="/dashboard/master-list"
+                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/master-list" && "bg-accent")}
+              >
+                <GraduationCap className="h-5 w-5" />
+                <span className="sr-only">Master List</span>
+              </Link>
+              </TooltipTrigger>
+            <TooltipContent side="right">Master List</TooltipContent>
           </Tooltip>
             )}
         </nav>

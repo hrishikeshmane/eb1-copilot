@@ -32,4 +32,3 @@ export async function sendOnBoardingEmail(userPersonalInfo: ISelectUserInfo) {
 
   return data;
 }
-  

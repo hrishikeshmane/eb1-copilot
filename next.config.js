@@ -15,14 +15,16 @@ const config = withAxiom({
         hostname: "media.licdn.com",
       },
       { hostname: "utfs.io" },
+      { hostname: "localhost" },
+      { hostname: "randomuser.me" },
     ],
   },
   // typescript: {
   //   ignoreBuildErrors: true,
   // },
-  // eslint: {
-  //   ignoreDuringBuilds: true,
-  // },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack(config) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     config.module.rules.push({

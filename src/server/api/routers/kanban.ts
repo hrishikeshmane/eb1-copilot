@@ -5,6 +5,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
   adminOrVendorProcedure,
+  adminOrCustomerProcedure,
 } from "@/server/api/trpc";
 import { and, eq } from "drizzle-orm";
 import { tickets } from "@/server/db/schema";
@@ -47,7 +48,7 @@ export const kanbanRouter = createTRPCRouter({
       return tickets;
     }),
 
-  addTicket: adminProcedure
+  addTicket: adminOrCustomerProcedure
     .input(
       z.object({
         title: z.string(),
@@ -90,7 +91,7 @@ export const kanbanRouter = createTRPCRouter({
       return ticket;
     }),
 
-  updateTicketColumn: adminOrVendorProcedure
+  updateTicketColumn: protectedProcedure
     .input(
       z.object({
         ticketId: z.string(),
@@ -105,7 +106,7 @@ export const kanbanRouter = createTRPCRouter({
         .where(eq(tickets.ticketId, input.ticketId));
     }),
 
-  updateTicket: adminOrVendorProcedure
+  updateTicket: adminOrCustomerProcedure
     .input(
       z.object({
         ticketId: z.string(),
@@ -150,7 +151,7 @@ export const kanbanRouter = createTRPCRouter({
         .where(eq(tickets.ticketId, input.ticketId));
     }),
 
-  deleteTicketById: adminProcedure
+  deleteTicketById: adminOrCustomerProcedure
     .input(z.object({ ticketId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.delete(tickets).where(eq(tickets.ticketId, input.ticketId));

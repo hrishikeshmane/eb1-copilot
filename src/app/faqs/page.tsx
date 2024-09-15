@@ -11,7 +11,7 @@ const FAQsPage = () => {
   return (
     <main className="flex flex-col items-center justify-center">
       <Header />
-      <section className="flex w-full max-w-7xl flex-col  p-10">
+      <section className="flex w-full max-w-7xl flex-col p-10">
         <div className="flex items-start">
           <h1 className=" text-4xl font-semibold">FAQs</h1>
         </div>

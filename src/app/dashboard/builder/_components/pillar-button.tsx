@@ -31,7 +31,7 @@ const PillarButton = ({
   const [openPillarsPopover, setOpenPillarsPopover] = React.useState(false);
 
   return (
-    <div>
+    <div className="w-full">
       <Popover open={openPillarsPopover} onOpenChange={setOpenPillarsPopover}>
         <PopoverTrigger asChild>
           <Button

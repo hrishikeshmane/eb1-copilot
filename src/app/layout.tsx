@@ -24,7 +24,7 @@ const inter = Inter({
 export const metadata = {
   title: "Greencard Inc.",
   description:
-    "Your one-stop shop to Secure your Green Cardb with AI-Powered Expertise",
+    "Your one-stop shop to Secure your Green Card with AI-Powered Expertise",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

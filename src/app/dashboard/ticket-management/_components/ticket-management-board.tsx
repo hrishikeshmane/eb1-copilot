@@ -37,7 +37,7 @@ const TicketManagementBoard = () => {
   const customers = customersQuery.data ?? [];
 
   return (
-    <div className="h-full">
+    <div className="h-full overflow-y-hidden">
       {!selectedCustomer && (
         <div className="flex flex-col">
           <h2 className="text-lg font-medium">
