@@ -10,7 +10,7 @@ export default async function Page() {
   const isCustomer = sessionClaims?.metadata.role === "customer";
 
   return (
-    <div className="h-full w-full p-4">
+    <div className="h-full w-full px-2">
       <div className="flex items-center">
         <h1 className="text-lg font-bold md:text-3xl">
           Hello, {user?.firstName ?? "there"}

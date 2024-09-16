@@ -15,6 +15,8 @@ const config = withAxiom({
         hostname: "media.licdn.com",
       },
       { hostname: "utfs.io" },
+      { hostname: "localhost" },
+      { hostname: "randomuser.me" },
     ],
   },
   typescript: {

@@ -57,7 +57,7 @@ const NavSheet = () => {
   const completedTickets = api.kanban.getCompletedTickets.useQuery();
 
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[50px] lg:px-6">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
@@ -199,18 +199,18 @@ const NavSheet = () => {
           >
             {({ loading }) =>
               loading ? (
-                <Button className="flex" disabled={true}>
+                <Button className="flex" disabled={true} size="md">
                   Download Profile Report <DownloadIcon className="ml-2" />
                 </Button>
               ) : (
-                <Button className="flex">
+                <Button className="flex" size="md">
                   Download Profile Report <DownloadIcon className="ml-2" />
                 </Button>
               )
             }
           </PDFDownloadLink>
         )}
-      <UserAuthButton />
+      {/* <UserAuthButton /> */}
       <ModeToggle />
     </header>
   );

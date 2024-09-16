@@ -31,12 +31,12 @@ const PillarButton = ({
   const [openPillarsPopover, setOpenPillarsPopover] = React.useState(false);
 
   return (
-    <div>
+    <div className="w-full">
       <Popover open={openPillarsPopover} onOpenChange={setOpenPillarsPopover}>
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}
-            className="flex h-full w-full flex-wrap items-center justify-start gap-1 text-primary-foreground"
+            className="flex h-full w-full flex-wrap items-center justify-start gap-1"
             size={"sm"}
             variant="ghost"
           >

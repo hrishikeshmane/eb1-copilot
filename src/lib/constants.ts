@@ -199,6 +199,24 @@ export const visaPillars: IPillars[] = [
   },
 ];
 
+export const VISA_PILLARS_EX_Converter_to_IPillars = (
+  pillarList: VISA_PILLARS_EX[],
+): IPillars[] => {
+  return pillarList.map((pillar) => {
+    const foundPillar = visaPillars.find((item) => item.value === pillar);
+    return foundPillar!;
+  });
+};
+
+// export const VISA_PILLARS_EX_Converter_to_IPillars = (pillarList : VISA_PILLARS_EX[]): IPillars[] => {
+//   return pillarList.map(p => {
+//     if(p !== "misc"){
+//       return { value: p, label: visaPillars.find(vp => vp.value === p)!.label}
+//     }
+//   }
+//   )!
+// }
+
 // write type defination for userRolesMap
 export type UserRolesMap = {
   label: string;
@@ -241,4 +259,3 @@ export const onBoardedMap: OnBoardedMap[] = [
     // icon: ArrowRightIcon,
   },
 ];
-

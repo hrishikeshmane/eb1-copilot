@@ -70,7 +70,7 @@ const StatusButton = ({ status, setStatus, disabled }: StatusButtonProps) => {
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}
-            className="flex h-full w-full flex-wrap items-center justify-start gap-1 text-sm text-primary-foreground"
+            className="flex h-full w-full flex-wrap items-center justify-start gap-1 text-sm"
             size={"sm"}
             variant="ghost"
           >

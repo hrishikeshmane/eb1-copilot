@@ -36,7 +36,7 @@ const TrackerBoard = ({ userPillars, completedTickets }: TrackerBoardProps) => {
   return (
     <div
       className={cn(
-        "flex h-[calc(98vh-6rem)] w-[calc(100vw-30px)] gap-4 overflow-y-clip overflow-x-scroll pr-11 text-sm md:w-[calc(100vw-261px)]",
+        "flex h-[calc(100vh-6rem)] w-full gap-4 overflow-y-clip overflow-x-scroll pr-11 text-sm md:w-full",
         pathname.includes("profile-tracker") ? " h-[calc(98vh-3.5rem)]" : "",
       )}
     >
@@ -119,7 +119,7 @@ const TrackerBoardColumn = ({
               <div key={card.id}>
                 <Dialog onOpenChange={() => setEditMode(false)}>
                   <DialogTrigger>
-                    <Card className="w-[20rem] cursor-pointer rounded-sm p-4 text-left transition delay-75 duration-200 hover:bg-lime-100/45 dark:bg-neutral-950 dark:hover:bg-neutral-900/20">
+                    <Card className="w-[20rem] cursor-pointer rounded-sm p-4 text-left transition delay-75 duration-200 hover:bg-lime-100/25 dark:bg-neutral-950 dark:hover:bg-neutral-900/20">
                       <p className="pb-2 font-medium ">{card.title}</p>
                       <p className="">{card.detail}</p>
                     </Card>
@@ -134,7 +134,7 @@ const TrackerBoardColumn = ({
                               onChange={editTitleHandler}
                             />
                           </DialogTitle>
-                          <DialogDescription className="py-4 text-primary-foreground dark:text-secondary-foreground">
+                          <DialogDescription className="py-4  dark:text-secondary-foreground">
                             <Textarea
                               className="h-72 max-h-[40rem]"
                               value={editedDetail}
@@ -145,7 +145,7 @@ const TrackerBoardColumn = ({
                       ) : (
                         <>
                           <DialogTitle>{card.title}</DialogTitle>
-                          <DialogDescription className="py-4 text-primary-foreground dark:text-secondary-foreground">
+                          <DialogDescription className="py-4 dark:text-secondary-foreground">
                             {card.detail}
                           </DialogDescription>
                         </>
@@ -203,7 +203,7 @@ const TrackerBoardColumn = ({
                   <DialogContent className="w-2xl max-w-2xl">
                     <DialogHeader>
                       <DialogTitle>{ticket.title}</DialogTitle>
-                      <DialogDescription className="py-4 text-primary-foreground">
+                      <DialogDescription className="py-4">
                         {ticket.description}
                       </DialogDescription>
                     </DialogHeader>
