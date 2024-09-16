@@ -3,6 +3,7 @@ import Section from "@/components/section";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { HeroCTA } from "./hero";
 
 export default function CtaSection() {
   return (
@@ -10,9 +11,10 @@ export default function CtaSection() {
       id="cta"
       title="Ready to get started?"
       subtitle="Start Your Green Card Journey Now!"
-      className="bg-primary/10 rounded-xl py-16"
+      className="rounded-xl bg-primary/10 py-16"
+      // className="bg-liberty t rounded-xl bg-primary/10 bg-[length:1300px_850px] bg-center bg-no-repeat py-24 bg-blend-multiply "
     >
-      <div className="flex flex-col w-full sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
+      {/* <div className="flex w-full flex-col items-center justify-center space-y-4 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0">
         <Link
           href="/signup"
           className={cn(
@@ -23,7 +25,8 @@ export default function CtaSection() {
           <Icons.logo className="h-6 w-6" />
           Get started for free
         </Link>
-      </div>
+      </div> */}
+      <HeroCTA />
     </Section>
   );
 }

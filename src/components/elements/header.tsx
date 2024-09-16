@@ -21,9 +21,9 @@ const Header = () => {
         <Link className="transition-all hover:underline" href="/blog">
           Blog
         </Link>
-        <Link className="transition-all hover:underline" href="/faqs">
+        {/* <Link className="transition-all hover:underline" href="/faqs">
           FAQs
-        </Link>
+        </Link> */}
         {/* <Link className="transition-all hover:underline" href="/pricing">
           Pricing
         </Link> */}
@@ -53,9 +53,9 @@ const Header = () => {
               <Link className="transition-all hover:underline" href="/blog">
                 Blog
               </Link>
-              <Link className="transition-all hover:underline" href="/faqs">
+              {/* <Link className="transition-all hover:underline" href="/faqs">
                 FAQs
-              </Link>
+              </Link> */}
               {/* <Link className="transition-all hover:underline" href="/pricing">
                 Pricing
               </Link> */}

@@ -8,14 +8,15 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { Phone } from "lucide-react";
+import { ArrowUpRightIcon, Phone } from "lucide-react";
+import GetStartedButton from "../elements/get-started-button";
 
 const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
   return (
     <motion.a
-      href="/blog/introducing-acme-ai"
+      href="/eb1-copilot"
       className="flex w-auto items-center space-x-2 whitespace-pre rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -25,7 +26,8 @@ function HeroPill() {
         📣 Announcement
       </div>
       <p className="text-xs font-medium sm:text-sm">Introducing EB1 Copilot</p>
-      <svg
+      <ArrowRightIcon className="mr-1 h-3 w-3" />
+      {/* <svg
         width="12"
         height="12"
         className="ml-1"
@@ -37,7 +39,7 @@ function HeroPill() {
           d="M8.78141 5.33312L5.20541 1.75712L6.14808 0.814453L11.3334 5.99979L6.14808 11.1851L5.20541 10.2425L8.78141 6.66645H0.666748V5.33312H8.78141Z"
           fill="hsl(var(--text-forground))"
         />
-      </svg>
+      </svg> */}
     </motion.a>
   );
 }
@@ -90,7 +92,7 @@ function HeroTitles() {
   );
 }
 
-function HeroCTA() {
+export function HeroCTA() {
   return (
     <>
       <motion.div
@@ -99,19 +101,19 @@ function HeroCTA() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.8, ease }}
       >
-        <Link
+        {/* <Link
           href="/signup"
           className={cn(
             buttonVariants({ variant: "default" }),
             "group flex w-full gap-2 sm:w-auto",
           )}
         >
-          {/* <Icons.logo className="h-6 w-6" /> */}
           Dashboard
           <ArrowRightIcon className="transform transition-transform duration-200 ease-in-out group-hover:translate-x-1" />
-        </Link>
+        </Link> */}
+        <GetStartedButton />
         <Link
-          href="/signup"
+          href="https://go.greencard.inc/evaluation"
           className={cn(
             buttonVariants({ variant: "secondary" }),
             "group flex w-full gap-2 sm:w-auto",

@@ -43,6 +43,7 @@ const config = {
       },
       backgroundImage: {
         "noise-pattern": "url('/noise.png')",
+        liberty: "url('/liberty-bg.webp')",
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],

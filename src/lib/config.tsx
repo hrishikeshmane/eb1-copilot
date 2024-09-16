@@ -107,8 +107,8 @@ export const siteConfig = {
       period: "One Time",
       // yearlyPrice: "$40",
       features: [
-        "5 Users",
-        "50GB Storage",
+        "Everything from EB-1A Copilot",
+        "Attorney fees included",
         "Priority Support",
         "Full API Access",
         "Advanced Analytics",
