@@ -3,6 +3,8 @@ import { userDetailsRouter } from "./routers/user-details";
 import { waitlistRouter } from "./routers/waitlist";
 import { kanbanRouter } from "./routers/kanban";
 import { userManagementRouter } from "./routers/user-management";
+import { masterList } from "../db/schema";
+import { masterListRouter } from "./routers/master-list";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +16,7 @@ export const appRouter = createTRPCRouter({
   userDetails: userDetailsRouter,
   kanban: kanbanRouter,
   userManagement: userManagementRouter,
+  masterList: masterListRouter,
 });
 
 // export type definition of API

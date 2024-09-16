@@ -59,6 +59,7 @@ export async function POST(req: Request) {
 
   if (eventType === "user.created") {
     const { id } = evt.data;
+    console.log("$$$$$$$$$ user created", id);
 
     await clerkClient.users.updateUserMetadata(id, {
       publicMetadata: {

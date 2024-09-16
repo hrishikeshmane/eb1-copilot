@@ -128,6 +128,36 @@ const isAdminOrVendor = t.middleware(({ next, ctx }) => {
   });
 });
 
+const isCustomer = t.middleware(({ next, ctx }) => {
+  if (!ctx.session.userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  const role = ctx.session.sessionClaims?.metadata?.role;
+  if (role !== "customer") {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+  return next({
+    ctx: {
+      session: ctx.session,
+    },
+  });
+});
+
+const isAdminOrCustomer = t.middleware(({ next, ctx }) => {
+  if (!ctx.session.userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  const role = ctx.session.sessionClaims?.metadata?.role;
+  if (role !== "admin" && role !== "customer") {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+  return next({
+    ctx: {
+      session: ctx.session,
+    },
+  });
+});
+
 /**
  * Create a server-side caller.
  *
@@ -166,3 +196,7 @@ export const adminProcedure = t.procedure.use(isAdmin);
 export const vendorProcedure = t.procedure.use(isVendor);
 
 export const adminOrVendorProcedure = t.procedure.use(isAdminOrVendor);
+
+export const customerProcedure = t.procedure.use(isCustomer);
+
+export const adminOrCustomerProcedure = t.procedure.use(isAdminOrCustomer);

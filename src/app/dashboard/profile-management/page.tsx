@@ -3,7 +3,7 @@ import ProfileTrackerManagementBoard from "./_components/profile-tracker-managem
 
 const UserProfileTrackerPage = () => {
   return (
-    <div className="h-full w-full p-4 pb-1 pr-0">
+    <div className="h-full w-full p-4 pb-0 pr-2">
       <ProfileTrackerManagementBoard />
     </div>
   );

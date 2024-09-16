@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { adminProcedure, createTRPCRouter } from "@/server/api/trpc";
+import {
+  adminProcedure,
+  createTRPCRouter,
+  protectedProcedure,
+} from "@/server/api/trpc";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
@@ -55,6 +59,13 @@ export const userManagementRouter = createTRPCRouter({
     );
     return customers;
   }),
+
+  getUser: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = await clerkClient.users.getUser(input.userId);
+      return user;
+    }),
 
   updateUserRole: adminProcedure
     .input(z.object({ userId: z.string(), role: z.string() }))

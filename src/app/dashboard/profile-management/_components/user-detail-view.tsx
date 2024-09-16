@@ -57,7 +57,7 @@ const UserDetailView = ({
             </Button>
           </Link>
         </div>
-        <div className="h-[calc(100vh-7.8rem)] w-[calc(100vw-20px)] md:w-[calc(100vw-285px)]">
+        <div className="h-[calc(100vh-7.8rem)]">
           <TabsContent className="h-full" value="personal-info">
             <CustomerInfoDetails userId={customer.id} />
           </TabsContent>

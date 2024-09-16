@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,6 +18,7 @@ import { api } from "@/trpc/react";
 import { type User } from "@clerk/nextjs/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Loader from "@/components/elements/loader";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type AssigneeButtonProps = {
   assigneeId: string | null;
@@ -25,17 +26,26 @@ type AssigneeButtonProps = {
   disabled: boolean;
 };
 
+function extractUserId(pathname: string) {
+  const regex = /\/dashboard\/ticket-management\/(user_[\w]+)(?:\/|$)/;
+  const match = pathname.match(regex);
+  return match ? match[1] : null;
+}
+
 const AssigneeButton = ({
   assigneeId,
   setAssigneeId,
   disabled,
 }: AssigneeButtonProps) => {
   // TODO: move this call to in the custom kanban component
-  // TODO: Find a away to do this on Server and send initial data to the client
+  const pathname = usePathname();
+  const userPathId = extractUserId(pathname);
+  const customerUser = api.userManagement.getUser.useQuery({
+    userId: userPathId!,
+  });
   const vendors = api.userManagement.getAllVendors.useQuery();
-
-  const assignee = vendors.data?.find((v) => v.id === assigneeId);
-
+  const assignableUsers = vendors.data?.concat(customerUser.data ?? []);
+  const assignee = assignableUsers?.find((v) => v.id === assigneeId);
   const [openAssigneePopover, setOpenAssigneePopover] = React.useState(false);
 
   return (
@@ -44,7 +54,7 @@ const AssigneeButton = ({
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}
-            className="flex h-full w-full flex-wrap items-center justify-start gap-1 text-primary-foreground"
+            className="flex h-full w-full flex-wrap items-center justify-start gap-1 "
             size={"sm"}
             variant="ghost"
           >
@@ -105,7 +115,25 @@ const AssigneeButton = ({
               {vendors.status === "success" && (
                 <CommandEmpty>No results found.</CommandEmpty>
               )}
-              <CommandGroup>
+              <CommandGroup heading="Customer">
+                <CommandItem
+                  value={customerUser.data?.id}
+                  className="flex items-center gap-2"
+                  onSelect={(value) => {
+                    setAssigneeId(value);
+                    setOpenAssigneePopover(false);
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-7 w-7">
+                      <AvatarImage src={customerUser.data?.imageUrl} />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <span>{`${customerUser.data?.firstName} ${customerUser.data?.lastName}`}</span>
+                  </div>
+                </CommandItem>
+              </CommandGroup>
+              <CommandGroup heading="Vendors">
                 {vendors.status === "success" &&
                   vendors.data.map((vendor) => (
                     <CommandItem

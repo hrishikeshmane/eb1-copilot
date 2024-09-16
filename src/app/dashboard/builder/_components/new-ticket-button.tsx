@@ -27,9 +27,13 @@ import {
 } from "@/app/_store/kanban-store";
 import { type ISelectTickets } from "@/server/db/schema";
 import { Textarea } from "@/components/ui/textarea";
+import { useUser } from "@clerk/nextjs";
 
 const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const customer = useAtomValue(customerAtom);
+  const { user } = useUser();
+  const userRole = user?.publicMetadata.role;
+  const isCustomer = userRole === "customer";
 
   const [ticketTitle, setTicketTitle] = useAtom(ticketTitleAtom);
   const [ticketStatus, setTicketStatus] = useAtom(ticketStatusAtom);
@@ -61,6 +65,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
     onSuccess: async () => {
       toast.success("New Ticket Added");
       await utils.kanban.getTicketsByUserId.refetch();
+      utils.kanban.getAllUsersTickets.invalidate();
     },
   });
 
@@ -73,7 +78,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       toast.error("Select atleast one pillar");
       return;
     }
-    if (!ticketAssigneeId) {
+    if (!ticketAssigneeId && !isCustomer) {
       toast.error("Select an assignee");
       return;
     }
@@ -88,7 +93,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       pillars: ticketPillars.map((pillar) => pillar.value),
       column: ticketStatus,
       order: ticketLenghtByColumn,
-      assigneeId: ticketAssigneeId,
+      assigneeId: isCustomer ? customer.id : ticketAssigneeId!,
       description: ticketDescription ?? undefined,
     });
     resetTicketStates();
@@ -98,7 +103,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   return (
     <Sheet open={openSheet} onOpenChange={sheetOpenHandler}>
       <SheetTrigger asChild>
-        <Button className="gap-1" size={"sm"}>
+        <Button className="gap-1">
           <PlusIcon /> New Ticket
         </Button>
       </SheetTrigger>
@@ -132,17 +137,19 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
                 />
               </div>
 
-              <div className="grid grid-cols-[78px_1fr] items-center gap-3">
-                <p className="">Assign:</p>
-                <AssigneeButton
-                  disabled={false}
-                  assigneeId={ticketAssigneeId}
-                  setAssigneeId={setTicketAssigneeId}
-                />
-              </div>
+              {!isCustomer && (
+                <div className="grid grid-cols-[78px_1fr] items-center gap-3">
+                  <p className="">Assign:</p>
+                  <AssigneeButton
+                    disabled={false}
+                    assigneeId={ticketAssigneeId}
+                    setAssigneeId={setTicketAssigneeId}
+                  />
+                </div>
+              )}
 
               <Textarea
-                className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0"
+                className="border-y-1 inline-block max-h-[50vh] w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"
                 value={ticketDescription ?? ""}
                 placeholder="Ticket Description..."
                 onChange={(e) => {

@@ -167,6 +167,7 @@ export const tickets = createTable(
       .primaryKey()
       .notNull()
       .$defaultFn(createId),
+    masterTickedId: text("masterTickedId", { length: 256 }).default(sql`null`),
     title: text("title", { length: 256 }).notNull(),
     description: text("description", { length: 2000 }),
     customerId: text("customerId", { length: 256 })
@@ -204,6 +205,41 @@ export const tickets = createTable(
   },
 );
 
+export const masterList = createTable("masterList", {
+  id: text("id").primaryKey().notNull().$defaultFn(createId),
+  title: text("title", { length: 256 }).notNull(),
+  description: text("description", { length: 2000 }).notNull(),
+});
+
+export const masterListTickets = createTable(
+  "masterListTickets",
+  {
+    ticketId: text("ticketId", { length: 256 })
+      .primaryKey()
+      .notNull()
+      .$defaultFn(createId),
+    masterListId: text("masterListId", { length: 256 })
+      .notNull()
+      .references(() => masterList.id, { onDelete: "cascade" }),
+    title: text("title", { length: 256 }).notNull(),
+    description: text("description", { length: 2000 }),
+    pillars: blob("pillars", { mode: "json" })
+      .$type<VISA_PILLARS_EX[]>()
+      .notNull(),
+    createdAt: int("createdAt", { mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: int("updatedAt", { mode: "timestamp" }).default(
+      sql`(unixepoch())`,
+    ),
+  },
+  (table) => {
+    return {
+      masterListIdIdx: index("masterListId_idx").on(table.masterListId),
+    };
+  },
+);
+
 export const comments = createTable("comments", {
   commentId: text("commentId", { length: 256 })
     .primaryKey()
@@ -221,6 +257,7 @@ export const comments = createTable("comments", {
     .notNull(),
 });
 
+export type ISelectMasterTicket = typeof masterListTickets.$inferSelect;
 export type ISelectTickets = typeof tickets.$inferSelect;
 export type ISelectUserInfo = typeof userInfo.$inferSelect;
 export type ISelectUserVisaPillarDetails =
