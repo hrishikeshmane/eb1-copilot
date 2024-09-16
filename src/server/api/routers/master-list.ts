@@ -26,14 +26,16 @@ export const masterListRouter = createTRPCRouter({
     }),
 
   getAllTicketsByMasterListId: protectedProcedure
-    .input(z.object({ masterListId: z.string() }))
+    .input(
+      z.object({ masterListId: z.string(), customerId: z.string().optional() }),
+    )
     .query(async ({ ctx, input }) => {
       const masterTickets = await ctx.db.query.masterListTickets.findMany({
         where: eq(masterListTickets.masterListId, input.masterListId),
       });
 
       const customerTickets = await ctx.db.query.tickets.findMany({
-        where: eq(tickets.customerId, ctx.session.userId),
+        where: eq(tickets.customerId, input.customerId ?? ctx.session.userId),
       });
 
       // filter masterTickets where masterTickets.ticketId is not in customerTickets
@@ -121,7 +123,12 @@ export const masterListRouter = createTRPCRouter({
     }),
 
   importTicketsToProfileBuilder: adminOrCustomerProcedure
-    .input(z.object({ ticketIds: z.array(z.string()) }))
+    .input(
+      z.object({
+        ticketIds: z.array(z.string()),
+        customerId: z.string().optional(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       // get all tickets with ticketIds from master list
       await ctx.db.transaction(async (tx) => {
@@ -144,7 +151,7 @@ export const masterListRouter = createTRPCRouter({
             order: 0,
             assigneeId: ctx.session.userId,
             createdBy: ctx.session.userId,
-            customerId: ctx.session.userId,
+            customerId: input.customerId ?? ctx.session.userId,
           });
         }
       });

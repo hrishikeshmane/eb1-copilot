@@ -134,7 +134,7 @@ const TrackerBoardColumn = ({
                               onChange={editTitleHandler}
                             />
                           </DialogTitle>
-                          <DialogDescription className="py-4 text-primary-foreground dark:text-secondary-foreground">
+                          <DialogDescription className="py-4  dark:text-secondary-foreground">
                             <Textarea
                               className="h-72 max-h-[40rem]"
                               value={editedDetail}
@@ -145,7 +145,7 @@ const TrackerBoardColumn = ({
                       ) : (
                         <>
                           <DialogTitle>{card.title}</DialogTitle>
-                          <DialogDescription className="py-4 text-primary-foreground dark:text-secondary-foreground">
+                          <DialogDescription className="py-4 dark:text-secondary-foreground">
                             {card.detail}
                           </DialogDescription>
                         </>
@@ -203,7 +203,7 @@ const TrackerBoardColumn = ({
                   <DialogContent className="w-2xl max-w-2xl">
                     <DialogHeader>
                       <DialogTitle>{ticket.title}</DialogTitle>
-                      <DialogDescription className="py-4 text-primary-foreground">
+                      <DialogDescription className="py-4">
                         {ticket.description}
                       </DialogDescription>
                     </DialogHeader>

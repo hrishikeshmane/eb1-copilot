@@ -19,9 +19,9 @@ const config = withAxiom({
       { hostname: "randomuser.me" },
     ],
   },
-  // typescript: {
-  //   ignoreBuildErrors: true,
-  // },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

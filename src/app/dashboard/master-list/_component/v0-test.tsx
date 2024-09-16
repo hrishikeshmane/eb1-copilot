@@ -58,7 +58,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/trpc/react";
 import { ISelectMasterTicket, ISelectTickets } from "@/server/db/schema";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 export default function TestComponent({
   masterListId,
@@ -66,12 +67,23 @@ export default function TestComponent({
   masterListId: string;
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const customerSpId = searchParams.get("customer");
+
   const router = useRouter();
-  const isCustomer = pathname.includes("/builder");
+  const { user } = useUser();
+  const userRole = user?.publicMetadata.role;
+  const isCustomer = userRole === "customer";
+  const isAdmin = userRole === "admin";
+
+  const isImportPage = pathname.includes("/builder");
 
   const utils = api.useUtils();
   const { data, isLoading, isError } =
-    api.masterList.getAllTicketsByMasterListId.useQuery({ masterListId });
+    api.masterList.getAllTicketsByMasterListId.useQuery({
+      masterListId,
+      customerId: customerSpId ?? undefined,
+    });
   const importTicketsToProfileBuilderMutation =
     api.masterList.importTicketsToProfileBuilder.useMutation({
       onSuccess: () => {
@@ -97,10 +109,18 @@ export default function TestComponent({
     if (selectedTickets.length < 1) {
       toast.error("Please select at least one ticket");
     }
-    importTicketsToProfileBuilderMutation.mutate({
-      ticketIds: selectedTickets,
-    });
-    router.push("/dashboard/builder");
+    if (isAdmin) {
+      importTicketsToProfileBuilderMutation.mutate({
+        ticketIds: selectedTickets,
+        customerId: customerSpId ?? undefined, // FIXME: get customer Id from search params
+      });
+      router.push("/dashboard/ticket-management");
+    } else {
+      importTicketsToProfileBuilderMutation.mutate({
+        ticketIds: selectedTickets,
+      });
+      router.push("/dashboard/builder");
+    }
   };
 
   const closeEditDialog = () => {
@@ -175,7 +195,7 @@ export default function TestComponent({
     <div className="p-4 pl-0 pt-0">
       <div className="mb-4 flex justify-between">
         <div></div>
-        {selectedTickets.length > 0 && !isCustomer && (
+        {selectedTickets.length > 0 && !isImportPage && (
           <div className="">
             <Button onClick={assignTicketsToUsers} variant={"secondary"}>
               <Check className="mr-2 h-4 w-4" /> Assign {selectedTickets.length}{" "}
@@ -184,7 +204,7 @@ export default function TestComponent({
           </div>
         )}
         <div className="flex gap-2">
-          {isCustomer ? (
+          {isImportPage ? (
             <>
               <Button
                 className="flex gap-2"
@@ -230,7 +250,7 @@ export default function TestComponent({
                               {ticket.title}
                             </span>
                           </div>
-                          {isCustomer ? (
+                          {isImportPage ? (
                             <Checkbox
                               checked={selectedTickets.includes(
                                 ticket.ticketId,
@@ -448,7 +468,7 @@ export function EditTicketPopover({ ticket }: { ticket: ISelectMasterTicket }) {
                 </div>
 
                 <Textarea
-                  className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0"
+                  className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"
                   value={ticketDescription ?? ""}
                   placeholder="Ticket Description..."
                   onChange={(e) => {
@@ -564,7 +584,7 @@ const NewTicketButtonMasterBoard = ({
               </div>
 
               <Textarea
-                className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0"
+                className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"
                 value={ticketDescription ?? ""}
                 placeholder="Ticket Description..."
                 onChange={(e) => {

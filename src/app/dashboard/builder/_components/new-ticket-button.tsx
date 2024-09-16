@@ -149,7 +149,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
               )}
 
               <Textarea
-                className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0"
+                className="border-y-1 inline-block max-h-[50vh] w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"
                 value={ticketDescription ?? ""}
                 placeholder="Ticket Description..."
                 onChange={(e) => {

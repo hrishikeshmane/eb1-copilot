@@ -93,26 +93,15 @@ export const siteConfig = {
       label: "Blog",
     },
   ],
+  banner: {
+    visible: true,
+    title: "Launching our EB-1A Copilot Program – Get 33% off today!",
+    buttonText: "Claim Your Seat Now!",
+  },
   pricing: [
     {
-      name: "EB1 Copilot",
-      href: "#",
-      price: "$15,000",
-      period: "One Time",
-      // yearlyPrice: "$16",
-      features: [
-        "1 User",
-        "5GB Storage",
-        "Basic Support",
-        "Limited API Access",
-        "Standard Analytics",
-      ],
-      description: "Perfect for individuals and small projects",
-      buttonText: "Enroll Now",
       isPopular: false,
-    },
-    {
-      name: "EB1 Autopilot",
+      name: "EB-1A Autopilot",
       href: "#",
       price: "$30,000",
       period: "One Time",
@@ -126,6 +115,22 @@ export const siteConfig = {
       ],
       description: "Ideal for growing businesses and teams",
       buttonText: "Enroll Now",
+    },
+    {
+      name: "EB-1A Copilot",
+      href: "#",
+      price: "$15,000",
+      period: "One Time",
+      // yearlyPrice: "$16",
+      features: [
+        "1 User",
+        "5GB Storage",
+        "Basic Support",
+        "Limited API Access",
+        "Standard Analytics",
+      ],
+      description: "Perfect for individuals and small projects",
+      buttonText: "Enroll Now",
       isPopular: true,
     },
     {
@@ -133,7 +138,7 @@ export const siteConfig = {
       href: "#",
       price: "Custom",
       period: "month",
-      yearlyPrice: "$82",
+      // yearlyPrice: "$82",
       features: [
         "Unlimited Users",
         "500GB Storage",
@@ -141,173 +146,109 @@ export const siteConfig = {
         "Custom Integrations",
         "AI-Powered Insights",
       ],
-      description: "For large-scale operations and high-volume users",
+      description: "For large-scale operations and companies",
       buttonText: "Contact Us",
       isPopular: false,
     },
   ],
   faqs: [
     {
-      question: "Is this fraud? Is this a hacking tool?",
+      question: "What is the EB-1A Visa?",
       answer: (
         <>
           <p>
-            Rest assured, it’s neither of those. If you’re looking to manipulate
-            or exploit any immigration system, this product isn’t for you.
-          </p>
-          <p>
-            Our product is designed to systematically assist you in enhancing
-            your profile by recognizing, amplifying, and utilizing all your past
-            and present work, along with the opportunities available to you.
+            The EB-1A visa is for individuals who demonstrate extraordinary
+            ability in their field, enabling them to fast-track their U.S. green
+            card application without needing employer sponsorship.
           </p>
         </>
       ),
     },
     {
-      question: "When should I start?",
+      question: "Who qualifies for the EB-1A Copilot Program?",
       answer: (
         <>
-          <p>The best time is right now, and here’s why… </p>
-
           <p>
-            We empower you to identify, cultivate, and utilize every opportunity
-            around you to strengthen your case and enhance your eligibility,
-            irrespective of whether you’re a professional or a student.
-          </p>
-
-          <p>
-            Delaying means missing out on opportunities. Moreover, the primary
-            objective of this endeavor is to save time. The earlier you begin,
-            the more time you’ll have to construct an impressive profile.
-          </p>
-
-          <p>
-            If you’re worried about the H-1B lottery, a robust profile like this
-            can also aid in qualifying for the O-1A, which is merit-based and
-            doesn’t rely on lottery luck.
-          </p>
-
-          <p>
-            If you’re already in the EB-2 or EB-3 process, this won’t interfere
-            at all. In fact, you’ll be able to use the same priority date for
-            the EB-1A, accelerating your green card acquisition.
-          </p>
-
-          <p>
-            Regarding location, you can be anywhere globally. Your significant
-            work and the recognition you earn are what truly count. Many people
-            apply for the EB-1A and O-1A from outside the US each year and
-            relocate to the US under this status.
+            We focus on individuals in tech and STEM fields with a strong track
+            record of achievements. If you have awards, published work, or other
+            professional recognition, you’re likely a good fit.
           </p>
         </>
       ),
     },
     {
-      question:
-        "Can individuals without advanced degrees or extraordinary awards qualify for EB-1A?",
+      question: "What is the cost of the EB-1A Copilot Program?",
       answer: (
         <>
           <p>
-            They can, and they have. You don’t need a Ph.D., a Nobel Prize, an
-            Oscar, or any such accolades to qualify for an EB-1A.
+            The program price is $15,000, but for the first 30 members, we’re
+            offering a 33% discount, bringing it down to $10,000.
           </p>
-
           <p>
-            Instead, you’re required to show extraordinary ability through
-            contributing to your field and by meeting 3 out of 10 criteria.
-            We’ve seen everyone from top engineers to product leaders to
-            founders get the EB-1A. There’s a good chance you already meet a few
-            criteria without knowing about it.
-          </p>
-
-          <p>
-            Using our tool and with your diligent effort, it’s a matter of time
-            before you’re able to meet the ‘extraordinary ability’ criteria for
-            the Green Card.
+            In addition, if you choose to file with us, the filing fee is
+            $10,000, with a 20% discount ($8,000) for the first 30 members.
           </p>
         </>
       ),
     },
     {
-      question: "Can this product also help prepare for the O-1A?",
+      question: "Is the filing fee included in the program price?",
       answer: (
         <>
-          <p>Indeed!</p>
           <p>
-            The criteria for evidence for both EB-1A and O-1A are alike, but
-            securing an O-1A doesn’t assure an EB-1A. It’s generally understood
-            that the EB-1A demands a higher standard of proof compared to the
-            O-1A.
-          </p>
-          <p>
-            In essence, if you met the qualifications for the EB-1A, you would
-            likely also qualify for the O-1A. This means you would have an
-            alternative to the unpredictable H-1B lottery and wouldn’t be solely
-            reliant on it.
-          </p>
-          <p>
-            Moreover, the O-1 is a temporary visa, and you would eventually need
-            to apply for the EB-1A Green Card. So, why not aim for the final
-            goal, considering the O-1 as a stepping stone in the journey.
+            No, the filing fee is separate from the program cost. However, for
+            the first 30 members, the filing fee is discounted from $10,000 to
+            $8,000.
           </p>
         </>
       ),
     },
     {
-      question: "Why should I not directly approach a lawyer?",
+      question: "Which law firm will handle my case?",
       answer: (
         <>
           <p>
-            Lawyers are excellent at assembling your evidence once you have it,
-            formulating compelling legal arguments, and submitting your case to
-            the authorities.
-          </p>
-          <p>
-            However, a lawyer is not a specialist in your specific field of work
-            and may not be able to provide you with the minute tactical advice
-            you need in your daily life to build an EB-1A eligible profile.
-          </p>
-          <p>
-            That’s where our product comes in. We guide you through this process
-            using AI and our own experience of constructing our cases.
-          </p>
-          <p>
-            You can use our product to build your profile from scratch, collect
-            all the evidence, and then present that to a lawyer.
+            We’ve partnered with Lodestone Legal, led by expert attorney Allison
+            Kranz, who has extensive experience in filing EB-1A cases,
+            especially for individuals in the tech and STEM fields.
           </p>
         </>
       ),
     },
     {
-      question:
-        "I’m in a unique/different field. How can this product benefit me?",
+      question: "Will I get a refund if my application is denied?",
       answer: (
         <>
           <p>
-            Our product is designed in a way that allows you to apply the
-            foundational principles taught to any field you’re in.
-          </p>
-          <p>
-            In fact, there are users of our product from a wide range of career
-            fields such as Mechanical, Electrical, Computer Science, Data
-            Science, Risk Analysis, Supply Chain, Public Policy, Design, and
-            many more. They come from various industries including Automotive,
-            Enterprise Computing, Data Analytics, Healthcare, Finance, and
-            others. This diversity demonstrates the versatility and
-            applicability of our product.
+            We don’t offer refunds based on the outcome of the application.
+            However, once you’ve paid for the program, you’ll have lifetime
+            access to all resources, mentorship, and support at no extra cost.
+            Additionally, if you need to refile your petition, we’ll offer a
+            discount on the filing fee to ensure continued support on your path
+            to approval.
           </p>
         </>
       ),
     },
     {
-      question: "Do you provide payment plans and discounts for groups?",
+      question: "Can I get a refund if I change my mind?",
       answer: (
         <>
           <p>
-            Yes, we do provide discounts for groups if you and one or more of
-            your friends sign up together.
+            We offer a refund window within the first 30 days of the program. If
+            you decide it’s not for you, no problem!
           </p>
-          <p>We also have a 4-month installment plan available.</p>
+        </>
+      ),
+    },
+    {
+      question: "How long does it take to complete the program?",
+      answer: (
+        <>
+          <p>
+            Most applicants take 6-12 months to complete the program, depending
+            on their profile and readiness.
+          </p>
         </>
       ),
     },

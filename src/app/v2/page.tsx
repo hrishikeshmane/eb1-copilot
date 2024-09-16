@@ -1,4 +1,5 @@
 // import Blog from "@/components/sections/blog";
+import Banner from "@/components/elements/banner";
 import Footer from "@/components/elements/footer";
 import Header from "@/components/elements/header";
 import CTA from "@/components/sections/cta";
@@ -18,6 +19,7 @@ export default function Home() {
   return (
     <main>
       <Header />
+      <Banner />
       <Hero />
       <Logos />
       <Problem />

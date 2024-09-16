@@ -36,7 +36,7 @@ const PillarButton = ({
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}
-            className="flex h-full w-full flex-wrap items-center justify-start gap-1 text-primary-foreground"
+            className="flex h-full w-full flex-wrap items-center justify-start gap-1"
             size={"sm"}
             variant="ghost"
           >

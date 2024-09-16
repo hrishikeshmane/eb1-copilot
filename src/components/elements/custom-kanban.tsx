@@ -140,6 +140,7 @@ const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
   const userRole = user?.publicMetadata.role;
 
   const pathName = usePathname();
+  const customer = useAtomValue(customerAtom);
 
   const [kanbanVisibileOptions, setKanbanVisibileOptions] = useAtom(
     kanbanVisibileOptionsAtom,
@@ -237,7 +238,7 @@ const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
 
       <div className="ml-auto flex gap-2">
         {(userRole === "customer" || userRole === "admin") && (
-          <Link href="/dashboard/builder/import">
+          <Link href={`/dashboard/builder/import?customer=${customer?.id}`}>
             <Button className="flex gap-2">
               <ImportIcon className="h-4 w-4" /> Import Tickets from Master List
             </Button>
@@ -705,7 +706,7 @@ const KanbanCard = ({
                   )}
                   {isAdmin || isCustomer ? (
                     <Textarea
-                      className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0"
+                      className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"
                       value={ticketDescription ?? ""}
                       placeholder="Ticket Description..."
                       onChange={(e) => {
@@ -713,7 +714,7 @@ const KanbanCard = ({
                       }}
                     />
                   ) : (
-                    <p className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 text-primary-foreground shadow-none outline-none focus-visible:ring-0">
+                    <p className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1  shadow-none outline-none focus-visible:ring-0">
                       {ticketDescription}
                     </p>
                   )}

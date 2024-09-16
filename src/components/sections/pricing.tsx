@@ -1,7 +1,7 @@
 "use client";
 
 import Section from "@/components/section";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { siteConfig } from "@/lib/config";
@@ -139,6 +139,20 @@ export default function PricingSection() {
           </motion.div>
         ))}
       </div>
+      {siteConfig.banner.visible && (
+        <div className="mt-[4rem] flex flex-col items-center gap-4 rounded-2xl bg-primary p-8 font-semibold text-primary-foreground md:m-12 md:flex-row">
+          <h3 className="text-center text-xl md:text-left">
+            {siteConfig.banner.title}
+          </h3>
+          <Button
+            className="text-lg font-semibold md:ml-auto"
+            size={"lg"}
+            variant={"secondary"}
+          >
+            {siteConfig.banner.buttonText}
+          </Button>
+        </div>
+      )}
     </Section>
   );
 }
