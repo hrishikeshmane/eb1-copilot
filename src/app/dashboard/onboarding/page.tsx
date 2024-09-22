@@ -21,7 +21,6 @@ import { DevTool } from "@hookform/devtools";
 import UserInfoDetails from "./_components/user-info-details";
 import Loader from "@/components/elements/loader";
 import ScrollToTop from "@/components/elements/scroll-to-top";
-import { useRouter } from "next/navigation";
 import { useLogger } from "next-axiom";
 
 //TODO: make this server component and move form page to a new client component
@@ -225,7 +224,7 @@ const OnboardingPage = () => {
       {/* steps */}
       <nav
         aria-label="Progress"
-        className="top-0 z-10 mb-6 border-b bg-background pb-6 pt-4 md:sticky"
+        className="top-0 z-10 mb-6 border-b pb-6 pt-4 md:sticky"
       >
         <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
           {steps.map((step, index) => (

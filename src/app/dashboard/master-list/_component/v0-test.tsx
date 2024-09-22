@@ -86,9 +86,9 @@ export default function TestComponent({
     });
   const importTicketsToProfileBuilderMutation =
     api.masterList.importTicketsToProfileBuilder.useMutation({
-      onSuccess: () => {
+      onSuccess: async () => {
         toast.success("Tickets imported successfully");
-        utils.kanban.getAllUsersTickets.invalidate();
+        await utils.kanban.getAllUsersTickets.invalidate();
       },
     });
 

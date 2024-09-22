@@ -199,6 +199,19 @@ export const visaPillars: IPillars[] = [
   },
 ];
 
+export type IPillarsEx = {
+  value: VISA_PILLARS_EX;
+  label: string;
+};
+
+export const visaPillarsEx: IPillarsEx[] = [
+  ...visaPillars,
+  {
+    value: "misc",
+    label: "Miscellaneous",
+  },
+];
+
 export const VISA_PILLARS_EX_Converter_to_IPillars = (
   pillarList: VISA_PILLARS_EX[],
 ): IPillars[] => {
