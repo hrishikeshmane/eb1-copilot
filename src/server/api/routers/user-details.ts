@@ -5,7 +5,11 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "@/server/api/trpc";
-import { ISelectUserInfo, userInfo, userVisaPillarDetails } from "@/server/db/schema";
+import {
+  ISelectUserInfo,
+  userInfo,
+  userVisaPillarDetails,
+} from "@/server/db/schema";
 import { clerkClient } from "@clerk/nextjs/server";
 import {
   formSchema,
@@ -15,6 +19,8 @@ import { db } from "@/server/db";
 import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { sendOnBoardingEmail } from "@/app/_actions/emails/send-onboarding-email";
+import { VISA_PILLARS_EX_LIST } from "@/lib/constants";
+import { nanoid } from "nanoid";
 
 export const userDetailsRouter = createTRPCRouter({
   addUser: protectedProcedure
@@ -23,38 +29,44 @@ export const userDetailsRouter = createTRPCRouter({
       console.log("addUser mutation", input);
       try {
         await db.transaction(async (tx) => {
-          const userPersonalInfo: ISelectUserInfo[] = await tx.insert(userInfo).values({
-            userId: ctx.session.userId,
-            consent: input.formData.consent,
-            fullName: input.formData.fullName,
-            email: input.formData.email,
-            phone: input.formData.phone,
-            linkedIn: input.formData.linkedIn,
-            highestEducation: input.formData.highestEducation,
-            major: input.formData.major,
-            brithCountry: input.formData.brithCountry,
-            nationalityCountry: input.formData.nationalityCountry,
-            hearAboutUs: input.formData.hearAboutUs,
-            resumeUrl: input.formData.resumeUrl,
+          const userPersonalInfo: ISelectUserInfo[] = await tx
+            .insert(userInfo)
+            .values({
+              userId: ctx.session.userId,
+              consent: input.formData.consent,
+              fullName: input.formData.fullName,
+              email: input.formData.email,
+              phone: input.formData.phone,
+              linkedIn: input.formData.linkedIn,
+              highestEducation: input.formData.highestEducation,
+              major: input.formData.major,
+              brithCountry: input.formData.brithCountry,
+              nationalityCountry: input.formData.nationalityCountry,
+              hearAboutUs: input.formData.hearAboutUs,
+              resumeUrl: input.formData.resumeUrl,
 
-            currentlyInUS:
-              input.formData.currentlyInUS === "yes" ? true : false,
-            everBeenToUS: input.formData.everBeenToUS === "yes" ? true : false,
-            everAppliedForGreenCard:
-              input.formData.everAppliedForGreenCard === "yes" ? true : false,
-            addFamilyMembers:
-              input.formData.addFamilyMembers === "yes" ? true : false,
-            currentEmployerInUS:
-              input.formData.currentEmployerInUS === "yes" ? true : false,
-            currentVisa: input.formData.currentVisa,
-            interestedIn: input.formData.interestedIn,
-            isStudent: input.formData.isStudent === "yes" ? true : false,
-            graduationYear: input.formData.graduationYear,
-            currentRole: input.formData.currentRole,
-            industryType: input.formData.industryType,
-            priorityDateIfAny: JSON.stringify(input.formData.priorityDateIfAny),
-            fieldExpertIn: input.formData.fieldExpertIn,
-          }).returning();
+              currentlyInUS:
+                input.formData.currentlyInUS === "yes" ? true : false,
+              everBeenToUS:
+                input.formData.everBeenToUS === "yes" ? true : false,
+              everAppliedForGreenCard:
+                input.formData.everAppliedForGreenCard === "yes" ? true : false,
+              addFamilyMembers:
+                input.formData.addFamilyMembers === "yes" ? true : false,
+              currentEmployerInUS:
+                input.formData.currentEmployerInUS === "yes" ? true : false,
+              currentVisa: input.formData.currentVisa,
+              interestedIn: input.formData.interestedIn,
+              isStudent: input.formData.isStudent === "yes" ? true : false,
+              graduationYear: input.formData.graduationYear,
+              currentRole: input.formData.currentRole,
+              industryType: input.formData.industryType,
+              priorityDateIfAny: JSON.stringify(
+                input.formData.priorityDateIfAny,
+              ),
+              fieldExpertIn: input.formData.fieldExpertIn,
+            })
+            .returning();
 
           // convert above foreach to normal for loop
           for (const pillar of visaPillarFields) {
@@ -97,6 +109,85 @@ export const userDetailsRouter = createTRPCRouter({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to add user",
           cause: error,
+        });
+      }
+    }),
+
+  addSingularPillarDetails: protectedProcedure
+    .input(
+      z.object({
+        pillar: z.enum([
+          "awards",
+          "original-contributions",
+          "authorship",
+          "judging",
+          "press",
+          "memberships",
+          "critical-role",
+          "exhibitions",
+          "high-remuneration",
+          "commercial-success",
+          "misc",
+        ]),
+        title: z.string(),
+        detail: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        await db.insert(userVisaPillarDetails).values({
+          id: nanoid(),
+          userId: ctx.session.userId,
+          pillar: input.pillar,
+          title: input.title,
+          detail: input.detail,
+        });
+      } catch (e) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to add user pillar details",
+        });
+      }
+    }),
+
+  addMultiplePillarDetails: protectedProcedure
+    .input(
+      z.array(
+        z.object({
+          pillar: z.enum([
+            "awards",
+            "original-contributions",
+            "authorship",
+            "judging",
+            "press",
+            "memberships",
+            "critical-role",
+            "exhibitions",
+            "high-remuneration",
+            "commercial-success",
+            "misc",
+          ]),
+          title: z.string(),
+          detail: z.string(),
+        }),
+      ),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const values = input.map((pillar) => {
+        return {
+          id: nanoid(),
+          userId: ctx.session.userId,
+          pillar: pillar.pillar,
+          title: pillar.title,
+          detail: pillar.detail,
+        };
+      });
+      try {
+        await db.insert(userVisaPillarDetails).values(values);
+      } catch (e) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to add user pillar details",
         });
       }
     }),
@@ -144,23 +235,4 @@ export const userDetailsRouter = createTRPCRouter({
         });
       }
     }),
-
-  // Moved to userManagement Router
-  // updateUserRole: adminProcedure
-  //   .input(z.object({ userId: z.string(), role: z.string() }))
-  //   .mutation(async ({ input }) => {
-  //     try {
-  //       const user = await clerkClient.users.getUser(input.userId);
-  //       const userMetaData =
-  //         user.publicMetadata as CustomJwtSessionClaims["metadata"];
-  //       await clerkClient.users.updateUser(input.userId, {
-  //         publicMetadata: { ...userMetaData, role: input.role },
-  //       });
-  //     } catch (e) {
-  //       throw new TRPCError({
-  //         code: "INTERNAL_SERVER_ERROR",
-  //         message: "Failed to update user role",
-  //       });
-  //     }
-  //   }),
 });
