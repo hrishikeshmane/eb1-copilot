@@ -233,7 +233,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* <Blog /> */}
       <CTA />
       <Footer />
     </main>
