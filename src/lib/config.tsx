@@ -94,55 +94,54 @@ export const siteConfig = {
     },
   ],
   banner: {
-    visible: true,
-    title: "Launching our EB-1A Copilot Program – Get 33% off today!",
+    visible: false,
+    title: "Launching our EB1 Copilot Program – Get 33% off today!",
     buttonText: "Claim Your Seat Now!",
   },
   pricing: [
     {
       isPopular: false,
-      name: "EB-1A Autopilot",
-      href: "#",
+      name: "EB1 Autopilot",
+      href: "https://go.greencard.inc/evaluation",
       price: "$30,000",
       period: "One Time",
       // yearlyPrice: "$40",
       features: [
-        "Everything from EB-1A Copilot",
+        "Everything from EB1 Copilot",
         "Attorney fees included",
         "Priority Support",
-        "Full API Access",
-        "Advanced Analytics",
+        "AI-Powered Insights",
       ],
-      description: "Ideal for growing businesses and teams",
+      description:
+        "Ideal for busy professionals who want a stress-free experience",
       buttonText: "Enroll Now",
     },
     {
-      name: "EB-1A Copilot",
-      href: "#",
+      name: "EB1 Copilot",
+      href: "https://go.greencard.inc/evaluation",
       price: "$15,000",
       period: "One Time",
       // yearlyPrice: "$16",
       features: [
-        "1 User",
-        "5GB Storage",
+        "Dashboard Access",
+        "Professional Mentorship",
         "Basic Support",
-        "Limited API Access",
-        "Standard Analytics",
+        "Accountability Manager",
+        "AI-Powered Insights",
       ],
-      description: "Perfect for individuals and small projects",
+      description: "For hands-on achievers who want expert guidance.",
       buttonText: "Enroll Now",
       isPopular: true,
     },
     {
       name: "ENTERPRISE",
-      href: "#",
+      href: "https://go.greencard.inc/evaluation",
       price: "Custom",
       period: "month",
       // yearlyPrice: "$82",
       features: [
         "Unlimited Users",
-        "500GB Storage",
-        "24/7 Premium Support",
+        "Premium Support",
         "Custom Integrations",
         "AI-Powered Insights",
       ],
@@ -165,7 +164,7 @@ export const siteConfig = {
       ),
     },
     {
-      question: "Who qualifies for the EB-1A Copilot Program?",
+      question: "Who qualifies for the EB1 Copilot Program?",
       answer: (
         <>
           <p>
@@ -177,7 +176,7 @@ export const siteConfig = {
       ),
     },
     {
-      question: "What is the cost of the EB-1A Copilot Program?",
+      question: "What is the cost of the EB1 Copilot Program?",
       answer: (
         <>
           <p>

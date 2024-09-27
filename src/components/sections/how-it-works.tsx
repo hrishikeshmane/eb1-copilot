@@ -16,7 +16,7 @@ const data = [
     title: "2. Setup a free consulation",
     content:
       "Schedule a free consultation call with our experts. During the call, we'll walk you through the process, discuss your qualifications, and guide you on how to best prepare for your EB-1A application.",
-    image: "/dashboard.png",
+    image: "/builder-page.png",
     icon: <Phone className="h-5 w-6 text-primary" />,
   },
   {
@@ -24,7 +24,7 @@ const data = [
     title: "3. Build your EB-1A profile",
     content:
       "Use our platform’s intuitive tools to create a compelling EB-1A profile. Our professnial expert recommendations will guide you in organizing your achievements, helping you stay on track throughout the process.",
-    image: "/dashboard.png",
+    image: "/tracker.png",
     icon: <Zap className="h-5 w-5 text-primary" />,
   },
 ];
