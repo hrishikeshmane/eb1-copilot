@@ -232,8 +232,8 @@ export default function Home() {
             </Accordion>
           </div>
         </div>
+        {/* fr */}
       </section>
-      {/* <Blog /> */}
       <CTA />
       <Footer />
     </main>
