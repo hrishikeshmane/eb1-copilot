@@ -6,8 +6,7 @@ import {
   type ISelectUserVisaPillarDetails,
 } from "@/server/db/schema";
 import {
-  IPillars,
-  IPillarsEx,
+  type IPillarsEx,
   VISA_PILLARS_EX_LIST,
   visaPillars,
 } from "@/lib/constants";
@@ -29,18 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { PlusCircledIcon, PlusIcon } from "@radix-ui/react-icons";
-import PillarButton from "../../builder/_components/pillar-button";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 
 type TrackerBoardProps = {

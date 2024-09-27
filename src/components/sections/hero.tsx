@@ -10,13 +10,14 @@ import Link from "next/link";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { ArrowUpRightIcon, Phone } from "lucide-react";
 import GetStartedButton from "../elements/get-started-button";
+import Image from "next/image";
 
 const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
   return (
     <motion.a
-      href="/eb1-copilot"
+      href="/copilot"
       className="flex w-auto items-center space-x-2 whitespace-pre rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -44,9 +45,15 @@ function HeroPill() {
   );
 }
 
-function HeroTitles() {
+function HeroTitles({
+  heading,
+  subHeading,
+}: {
+  heading: string[];
+  subHeading: string;
+}) {
   return (
-    <div className="flex w-full max-w-2xl flex-col space-y-4 overflow-hidden pt-8">
+    <div className="flex w-full max-w-3xl flex-col space-y-4 overflow-hidden pt-8">
       <motion.h1
         className="text-center text-4xl font-medium leading-tight text-foreground sm:text-5xl md:text-6xl"
         initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
@@ -57,23 +64,21 @@ function HeroTitles() {
           staggerChildren: 0.2,
         }}
       >
-        {["Your", "Green Card", "Dream,", "Now", "Within", "Reach"].map(
-          (text, index) => (
-            <motion.span
-              key={index}
-              className="inline-block px-1 md:px-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: index * 0.2,
-                ease,
-              }}
-            >
-              {text}
-            </motion.span>
-          ),
-        )}
+        {heading.map((text, index) => (
+          <motion.span
+            key={index}
+            className="inline-block px-1 md:px-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              delay: index * 0.2,
+              ease,
+            }}
+          >
+            {text}
+          </motion.span>
+        ))}
       </motion.h1>
       <motion.p
         className="mx-auto max-w-xl text-center text-lg leading-7 text-muted-foreground sm:text-xl sm:leading-9"
@@ -85,8 +90,7 @@ function HeroTitles() {
           ease,
         }}
       >
-        Self-sponsor Your EB-1A Extraordinary Ability Green Card With AI-Powered
-        Expertise
+        {subHeading}
       </motion.p>
     </div>
   );
@@ -116,7 +120,7 @@ export function HeroCTA() {
           href="https://go.greencard.inc/evaluation"
           className={cn(
             buttonVariants({ variant: "secondary" }),
-            "group flex w-full gap-2 sm:w-auto",
+            "group flex gap-2 sm:w-auto",
           )}
         >
           {/* <Icons.logo className="h-6 w-6" /> */}
@@ -157,12 +161,49 @@ function HeroImage() {
 
 export default function Hero() {
   return (
-    <section id="hero">
-      <div className="relative flex w-full flex-col items-center justify-start px-4 pt-32 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
+    <section className="relative overflow-hidden pb-20 pt-16" id="hero">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Image
+          priority={true}
+          src="/liberty-bg.webp"
+          alt="liberty"
+          width={900}
+          height={900}
+          className="h-full w-full object-contain opacity-15 dark:opacity-10 dark:invert"
+        />
+      </div>
+      <div className="relative z-10 flex w-full flex-col items-center justify-start px-4 pt-20 sm:px-6 sm:pt-24 md:pt-20 lg:px-8">
         <HeroPill />
-        <HeroTitles />
+        <HeroTitles
+          heading={["Your", "Green Card", "Dream,", "Now", "Within", "Reach"]}
+          subHeading="Self-sponsor Your EB-1A Extraordinary Ability Green Card With AI-Powered
+        Expertise"
+        />
         <HeroCTA />
-        <HeroImage />
+        {/* <HeroImage /> */}
+        {/* <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div> */}
+        <div className="pointer-events-none absolute inset-x-0 -bottom-24 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
+      </div>
+    </section>
+  );
+}
+
+export function HeroCopilot() {
+  return (
+    <section>
+      <div className="relative flex w-full flex-col items-center justify-start px-4 pb-20 pt-32 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
+        <HeroTitles
+          heading={[
+            "You're",
+            "extraordinary.",
+            "Let's make",
+            "sure the world",
+            "knows it.",
+          ]}
+          subHeading="Unlock expert guidance to build your EB-1A profile and secure your green card in the U.S."
+        />
+        <HeroCTA />
+        {/* <HeroImage /> */}
         <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
       </div>
     </section>
