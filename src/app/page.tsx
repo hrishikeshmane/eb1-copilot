@@ -232,6 +232,7 @@ export default function Home() {
             </Accordion>
           </div>
         </div>
+        {/* fr */}
       </section>
       <CTA />
       <Footer />
