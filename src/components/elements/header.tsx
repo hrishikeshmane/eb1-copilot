@@ -29,10 +29,8 @@ const Header = () => {
         </Link> */}
       </div>
       <div className="ml-auto hidden items-center space-x-4 sm:flex">
-        <>
-          <GetStartedButton />
-          <UserAuthButton />
-        </>
+        <GetStartedButton />
+        <UserAuthButton />
 
         <ModeToggle />
       </div>

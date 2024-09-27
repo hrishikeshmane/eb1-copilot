@@ -17,6 +17,10 @@ const config = withAxiom({
       { hostname: "utfs.io" },
       { hostname: "localhost" },
       { hostname: "randomuser.me" },
+      { hostname: "assets.aceternity.com" },
+      { hostname: "lh6.googleusercontent.com" },
+      { hostname: "github.com" },
+      { hostname: "raw.githubusercontent.com" },
     ],
   },
   typescript: {

@@ -23,6 +23,7 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/v2",
+    "/copilot",
     "/blog(.*)",
     "/faqs(.*)",
     "/pricing(.*)",

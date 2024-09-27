@@ -7,6 +7,7 @@ import FAQ from "@/components/sections/faq";
 import Features from "@/components/sections/features";
 // import Header from "@/components/sections/header";
 import Hero from "@/components/sections/hero";
+import Introducing from "@/components/sections/introducing";
 import HowItWorks from "@/components/sections/how-it-works";
 import Logos from "@/components/sections/logos";
 import Pricing from "@/components/sections/pricing";
@@ -22,6 +23,7 @@ export default function Home() {
       <Banner />
       <Hero />
       <Logos />
+      <Introducing />
       <Problem />
       <Solution />
       <HowItWorks />
