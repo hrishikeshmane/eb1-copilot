@@ -229,7 +229,6 @@ export default function Home() {
                   <p>We also have a 4-month installment plan available.</p>
                 </AccordionContent>
               </AccordionItem>
-              {/* fc */}
             </Accordion>
           </div>
         </div>
