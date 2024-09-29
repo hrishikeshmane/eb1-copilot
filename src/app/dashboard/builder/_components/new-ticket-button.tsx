@@ -24,10 +24,12 @@ import {
   ticketPillarsAtom,
   ticketAssigneeIdAtom,
   ticketDescriptionAtom,
+  ticketDueDateAtom,
 } from "@/app/_store/kanban-store";
 import { type ISelectTickets } from "@/server/db/schema";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@clerk/nextjs";
+import { TicektDatePicker } from "./ticket-date-picker-button";
 
 const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const customer = useAtomValue(customerAtom);
@@ -42,6 +44,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const [ticketDescription, setTicketDescription] = useAtom(
     ticketDescriptionAtom,
   );
+  const [ticketDueDate, setTicketDueDate] = useAtom(ticketDueDateAtom);
 
   const resetTicketStates = () => {
     setTicketTitle("");
@@ -93,6 +96,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       pillars: ticketPillars.map((pillar) => pillar.value),
       column: ticketStatus,
       order: ticketLenghtByColumn,
+      dueDate: ticketDueDate,
       assigneeId: isCustomer ? customer.id : ticketAssigneeId!,
       description: ticketDescription ?? undefined,
     });
@@ -147,6 +151,14 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
                   />
                 </div>
               )}
+
+              <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                <p className="">Due Date:</p>
+                <TicektDatePicker
+                  ticketDueDate={ticketDueDate}
+                  setTicketDueDate={setTicketDueDate}
+                />
+              </div>
 
               <Textarea
                 className="border-y-1 inline-block max-h-[50vh] w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"

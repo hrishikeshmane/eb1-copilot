@@ -53,6 +53,7 @@ import {
   kanbanVisibileOptionsAtom,
   isInteractableAtom,
   ticketDescriptionAtom,
+  ticketDueDateAtom,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
@@ -63,6 +64,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
 import Link from "next/link";
+import { TicektDatePicker } from "@/app/dashboard/builder/_components/ticket-date-picker-button";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
@@ -535,6 +537,7 @@ const KanbanCard = ({
   const [ticketDescription, setTicketDescription] = useAtom(
     ticketDescriptionAtom,
   );
+  const [ticketDueDate, setTicketDueDate] = useAtom(ticketDueDateAtom);
 
   const kanbanVisibileOptions = useAtomValue(kanbanVisibileOptionsAtom);
 
@@ -548,6 +551,7 @@ const KanbanCard = ({
     setTicketPillars(filteredCardPillars);
     setTicketAssigneeId(card.assigneeId);
     setTicketDescription(card.description);
+    setTicketDueDate(card.dueDate ?? undefined);
   };
   const onUnMount = () => {
     setTicketTitle("");
@@ -555,6 +559,7 @@ const KanbanCard = ({
     setTicketPillars([]);
     setTicketAssigneeId(null);
     setTicketDescription(null);
+    setTicketDueDate(undefined);
   };
 
   const [openSheet, setOpenSheet] = React.useState(false);
@@ -704,6 +709,15 @@ const KanbanCard = ({
                       />
                     </div>
                   )}
+
+                  <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                    <p className="">Status:</p>
+                    <TicektDatePicker
+                      ticketDueDate={ticketDueDate}
+                      setTicketDueDate={setTicketDueDate}
+                    />
+                  </div>
+
                   {isAdmin || isCustomer ? (
                     <Textarea
                       className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"
