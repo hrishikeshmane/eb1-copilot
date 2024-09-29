@@ -49,25 +49,6 @@ export default function Home() {
               collapsible={true}
               className="w-full text-left"
             >
-              <AccordionItem value="item-1">
-                <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
-                  Is this fraud? Is this a hacking tool?
-                </AccordionTrigger>
-                <AccordionContent className="space-y-2">
-                  <p>
-                    Rest assured, it’s neither of those. If you’re looking to
-                    manipulate or exploit any immigration system, this product
-                    isn’t for you.
-                  </p>
-
-                  <p>
-                    Our product is designed to systematically assist you in
-                    enhancing your profile by recognizing, amplifying, and
-                    utilizing all your past and present work, along with the
-                    opportunities available to you.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
               <AccordionItem value="item-2">
                 <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                   When should I start?
