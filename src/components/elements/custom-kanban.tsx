@@ -4,7 +4,11 @@ import React, { useState, type DragEvent } from "react";
 import { motion } from "framer-motion";
 import { ImportIcon, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { DragHandleDots2Icon, PlusIcon } from "@radix-ui/react-icons";
+import {
+  CalendarIcon,
+  DragHandleDots2Icon,
+  PlusIcon,
+} from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import {
   Command,
@@ -65,6 +69,7 @@ import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
 import Link from "next/link";
 import { TicektDatePicker } from "@/app/dashboard/builder/_components/ticket-date-picker-button";
+import { format } from "date-fns";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
@@ -661,6 +666,14 @@ const KanbanCard = ({
                       {getLableForPillars(pillar)}
                     </Badge>
                   ))}
+              </div>
+              <div className="mt-1 flex items-center gap-2 text-xs text-neutral-500">
+                <CalendarIcon className="h-3 w-3" />
+                {card.dueDate ? (
+                  <p>{format(card.dueDate, "PPP")}</p>
+                ) : (
+                  <p>Not set</p>
+                )}
               </div>
             </div>
           </SheetTrigger>
