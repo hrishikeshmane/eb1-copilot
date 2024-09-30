@@ -36,6 +36,8 @@ import { usePathname } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import UserAuthButton from "@/components/elements/user-auth-button";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
 export const Navbar2 = () => {
   const pathName = usePathname();
@@ -50,7 +52,7 @@ export const Navbar2 = () => {
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-3">
           <Link
             href="/"
-            className="group flex h-9 w-9 md:w-11 md:h-11 shrink-0 items-center justify-center gap-2 rounded-full  text-lg font-semibold text-primary-foreground md:text-base"
+            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold  text-primary-foreground md:h-11 md:w-11 md:text-base"
           >
             {/* <Package2 className="h-4 w-4 transition-all group-hover:scale-110" /> */}
             <Image src="/logo-512.png" alt="logo" width={45} height={45} />
@@ -60,8 +62,11 @@ export const Navbar2 = () => {
             <TooltipTrigger asChild>
               <Link
                 href="/dashboard"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard" && "bg-accent text-foreground")}
-                >
+                className={cn(
+                  "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                  pathName === "/dashboard" && "bg-accent text-foreground",
+                )}
+              >
                 <Home className="h-5 w-5" />
                 <span className="sr-only">Dashboard</span>
               </Link>
@@ -73,7 +78,11 @@ export const Navbar2 = () => {
               <TooltipTrigger asChild>
                 <Link
                   href="/dashboard/onboarding"
-                  className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/onboarding" && "bg-accent text-foreground")}
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/onboarding" &&
+                      "bg-accent text-foreground",
+                  )}
                 >
                   <Package className="h-5 w-5" />
                   <span className="sr-only">Onboaring</span>
@@ -83,104 +92,131 @@ export const Navbar2 = () => {
             </Tooltip>
           )}
 
-{userRole === "customer" && (
-   <Tooltip>
+          {userRole === "customer" && (
+            <Tooltip>
               <TooltipTrigger asChild>
-
-              <Link
-                href="/dashboard/builder"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/builder" && "bg-accent text-foreground")}
+                <Link
+                  href="/dashboard/builder"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/builder" &&
+                      "bg-accent text-foreground",
+                  )}
                 >
-                <SquareKanbanIcon className="h-5 w-5" />
-                
-                <span className="sr-only">Profile Builder</span>
-              </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Profile Builder</TooltipContent>
-        </Tooltip>
-            )}
+                  <SquareKanbanIcon className="h-5 w-5" />
 
-{userRole === "customer" && (
-    <Tooltip>
+                  <span className="sr-only">Profile Builder</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Profile Builder</TooltipContent>
+            </Tooltip>
+          )}
+
+          {userRole === "customer" && (
+            <Tooltip>
               <TooltipTrigger asChild>
-              <Link
-                href="/dashboard/profile-tracker"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/profile-tracker" && "bg-accent text-foreground")}
-              >
-                <LayoutDashboard className="h-5 w-5" />
-                <span className="sr-only">Profile Tracker</span>
-              </Link>
+                <Link
+                  href="/dashboard/profile-tracker"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/profile-tracker" &&
+                      "bg-accent text-foreground",
+                  )}
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  <span className="sr-only">Profile Tracker</span>
+                </Link>
               </TooltipTrigger>
               <TooltipContent side="right">Profile Tracker</TooltipContent>
-        </Tooltip>
-            )}
+            </Tooltip>
+          )}
 
-{userRole === "admin" && (
-  <Tooltip>
+          {userRole === "admin" && (
+            <Tooltip>
               <TooltipTrigger asChild>
-
-              <Link
-                href="/dashboard/ticket-management"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/ticket-management" && "bg-accent text-foreground")}
-                
+                <Link
+                  href="/dashboard/ticket-management"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/ticket-management" &&
+                      "bg-accent text-foreground",
+                  )}
                 >
-                <KanbanSquareDashedIcon className="h-5 w-5" />
-                <span className="sr-only">Ticket Management</span>
-              </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Ticket Management</TooltipContent>
-          </Tooltip>
-            )}
-
-            {/* profile-management */}
-            {userRole === "admin" && (
-              <Tooltip>
-              <TooltipTrigger asChild>
-
-              <Link
-                href="/dashboard/profile-management"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/profile-management" && "bg-accent text-foreground")}
-                  >
-                <LayoutDashboard className="h-5 w-5" />
-                <span className="sr-only">Profile Management</span>
-              </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Profile Management</TooltipContent>
-          </Tooltip>
-            )}
-
-            {userRole === "admin" && (
-              <Tooltip>
-              <TooltipTrigger asChild>
-              <Link
-                href="/dashboard/user-management"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/user-management" && "bg-accent text-foreground")}
-              >
-                <UserCog className="h-5 w-5" />
-                <span className="sr-only">User Management</span>
-              </Link>
+                  <KanbanSquareDashedIcon className="h-5 w-5" />
+                  <span className="sr-only">Ticket Management</span>
+                </Link>
               </TooltipTrigger>
-            <TooltipContent side="right">User Management</TooltipContent>
-          </Tooltip>
-            )}
+              <TooltipContent side="right">Ticket Management</TooltipContent>
+            </Tooltip>
+          )}
 
-{userRole === "admin" && (
-              <Tooltip>
+          {/* profile-management */}
+          {userRole === "admin" && (
+            <Tooltip>
               <TooltipTrigger asChild>
-              <Link
-                href="/dashboard/master-list"
-                className={cn("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", pathName === "/dashboard/master-list" && "bg-accent")}
-              >
-                <GraduationCap className="h-5 w-5" />
-                <span className="sr-only">Master List</span>
-              </Link>
+                <Link
+                  href="/dashboard/profile-management"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/profile-management" &&
+                      "bg-accent text-foreground",
+                  )}
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  <span className="sr-only">Profile Management</span>
+                </Link>
               </TooltipTrigger>
-            <TooltipContent side="right">Master List</TooltipContent>
-          </Tooltip>
-            )}
+              <TooltipContent side="right">Profile Management</TooltipContent>
+            </Tooltip>
+          )}
+
+          {userRole === "admin" && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/dashboard/user-management"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/user-management" &&
+                      "bg-accent text-foreground",
+                  )}
+                >
+                  <UserCog className="h-5 w-5" />
+                  <span className="sr-only">User Management</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">User Management</TooltipContent>
+            </Tooltip>
+          )}
+
+          {userRole === "admin" && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/dashboard/master-list"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/master-list" && "bg-accent",
+                  )}
+                >
+                  <GraduationCap className="h-5 w-5" />
+                  <span className="sr-only">Master List</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Master List</TooltipContent>
+            </Tooltip>
+          )}
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          <UserAuthButton/>
+          {/* <UserAuthButton/> */}
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <Button variant={"secondary"}>Sign in</Button>
+            </SignInButton>
+          </SignedOut>
           {/* <Tooltip>
             <TooltipTrigger asChild>
               <Link
@@ -198,4 +234,3 @@ export const Navbar2 = () => {
     </aside>
   );
 };
-
