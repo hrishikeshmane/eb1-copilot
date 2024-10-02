@@ -36,7 +36,7 @@ export default function Home() {
       <TestimonialsCarousel />
       <Features />
       <Testimonials />
-      {/* <Pricing /> */}
+      <Pricing />
       {/* <FAQ /> */}
       <section className="z-10 mx-auto my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
         <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-3xl font-bold  md:text-4xl">

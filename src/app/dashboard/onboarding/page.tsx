@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,11 @@ import PersonalInfoForm from "./_components/personal-info-form";
 import FormWrapper from "./_components/from-wrapper";
 import CurrentStatusForm from "./_components/current-status-form";
 import VisaPillarForm from "./_components/visa-pillars-form";
-import { useCalendlyEventListener } from "react-calendly";
+import {
+  InlineWidget,
+  PopupButton,
+  useCalendlyEventListener,
+} from "react-calendly";
 import GettingStartedForm from "./_components/getting-started-form";
 import useFormPersist from "react-hook-form-persist";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -25,12 +29,46 @@ import { useLogger } from "next-axiom";
 
 //TODO: make this server component and move form page to a new client component
 const OnboardingPage = () => {
+  //For calendly
   useCalendlyEventListener({
-    onProfilePageViewed: () => console.log("onProfilePageViewed"),
-    onDateAndTimeSelected: () => console.log("onDateAndTimeSelected"),
-    onEventTypeViewed: () => console.log("onEventTypeViewed"),
-    onEventScheduled: (e) => console.log(e.data.payload),
+    onEventScheduled: (e) => {
+      if (e.data.event === "calendly.event_scheduled") {
+        fetchEventDetails(e.data.payload.event.uri);
+      }
+    },
   });
+  const [scheduledDateTime, setScheduledDateTime] =
+    useState<ScheduledDateTime | null>(null);
+  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
+  const fetchEventDetails = async (eventUri: string): Promise<void> => {
+    try {
+      // You need to replace 'YOUR_CALENDLY_API_TOKEN' with your actual Calendly API token
+      const response = await fetch(eventUri, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer YOUR_CALENDLY_API_TOKEN",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const { start_time, end_time } = data.resource;
+      setScheduledDateTime({ start_time, end_time });
+    } catch (error) {
+      console.error("Error fetching event details:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Wait for the component to be mounted before setting the rootElement
+    if (typeof window !== "undefined") {
+      setRootElement(document.getElementById("__next"));
+    }
+  }, []);
 
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
@@ -136,7 +174,7 @@ const OnboardingPage = () => {
   // });
 
   const [previousStep, setPreviousStep] = useState(0);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(4);
   const delta = currentStep - previousStep;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -301,11 +339,25 @@ const OnboardingPage = () => {
                 /> */}
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-lg font-bold">
-                    You have completed the onboarding steps.
+                    You have completed the onboarding form.
                   </h3>
                   <p className="text-sm">
-                    Click Submit and we will reach out to you within 48hrs
+                    Schedule a call with our team and click Submit.
                   </p>
+                  <div className="h-full scale-90 overflow-hidden">
+                    <PopupButton
+                      className="rounded-md bg-primary px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80"
+                      url="https://calendly.com/ihrishi/ama-w-hrishi"
+                      rootElement={rootElement || document.body}
+                      text="Schedule Appointment"
+                    />
+                    {/* <InlineWidget
+                      styles={{
+                        height: "660px",
+                      }}
+                      url="https://calendly.com/ihrishi/ama-w-hrishi"
+                    /> */}
+                  </div>
                 </div>
               </FormWrapper>
             )}

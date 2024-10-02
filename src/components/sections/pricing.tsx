@@ -91,16 +91,26 @@ export default function PricingSection() {
                 {plan.name}
               </p>
               <p className="mt-6 flex items-center justify-center gap-x-2">
-                <span className="text-5xl font-bold tracking-tight text-foreground">
+                <span className="mb-2 text-4xl font-bold tracking-tight text-foreground">
                   {/* {isMonthly ? plan.price : plan.yearlyPrice} */}
-                  {plan.price}
+                  {plan.slashPrice ? (
+                    <>
+                      <del className="text-muted-foreground">
+                        {plan.slashPrice}
+                      </del>{" "}
+                      {plan.price}
+                    </>
+                  ) : (
+                    <>{plan.price}</>
+                  )}
                 </span>
                 {/* {plan.period !== "Next 3 months" && (
                   <span className="text-sm font-semibold leading-6 tracking-wide text-muted-foreground">
-                    / {plan.period}
+                  / {plan.period}
                   </span>
-                )} */}
+                  )} */}
               </p>
+              <span className="text-primary">{plan.offer}</span>
 
               {/* <p className="text-xs leading-5 text-muted-foreground">
                 {isMonthly ? "billed monthly" : "billed annually"}
@@ -108,7 +118,7 @@ export default function PricingSection() {
 
               <ul className="mt-5 flex flex-col gap-2">
                 {plan.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center">
+                  <li key={idx} className="flex items-center text-left">
                     <Check className="mr-2 h-4 w-4 text-primary" />
                     <span>{feature}</span>
                   </li>

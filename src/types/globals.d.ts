@@ -20,4 +20,17 @@ declare global {
       onBoarded: boolean;
     };
   }
+
+  interface ScheduledDateTime {
+    start_time: string;
+    end_time: string;
+  }
+
+  interface CalendlyEvent {
+    uri: string;
+  }
+
+  interface CalendlyEventScheduledData {
+    event: CalendlyEvent;
+  }
 }
