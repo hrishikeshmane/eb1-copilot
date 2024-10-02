@@ -4,7 +4,11 @@ import React, { useState, type DragEvent } from "react";
 import { motion } from "framer-motion";
 import { ImportIcon, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { DragHandleDots2Icon, PlusIcon } from "@radix-ui/react-icons";
+import {
+  CalendarIcon,
+  DragHandleDots2Icon,
+  PlusIcon,
+} from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import {
   Command,
@@ -53,6 +57,7 @@ import {
   kanbanVisibileOptionsAtom,
   isInteractableAtom,
   ticketDescriptionAtom,
+  ticketDueDateAtom,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
@@ -63,6 +68,8 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
 import Link from "next/link";
+import { TicektDatePicker } from "@/app/dashboard/builder/_components/ticket-date-picker-button";
+import { format } from "date-fns";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
@@ -535,6 +542,7 @@ const KanbanCard = ({
   const [ticketDescription, setTicketDescription] = useAtom(
     ticketDescriptionAtom,
   );
+  const [ticketDueDate, setTicketDueDate] = useAtom(ticketDueDateAtom);
 
   const kanbanVisibileOptions = useAtomValue(kanbanVisibileOptionsAtom);
 
@@ -548,6 +556,7 @@ const KanbanCard = ({
     setTicketPillars(filteredCardPillars);
     setTicketAssigneeId(card.assigneeId);
     setTicketDescription(card.description);
+    setTicketDueDate(card.dueDate ?? undefined);
   };
   const onUnMount = () => {
     setTicketTitle("");
@@ -555,6 +564,7 @@ const KanbanCard = ({
     setTicketPillars([]);
     setTicketAssigneeId(null);
     setTicketDescription(null);
+    setTicketDueDate(undefined);
   };
 
   const [openSheet, setOpenSheet] = React.useState(false);
@@ -657,6 +667,14 @@ const KanbanCard = ({
                     </Badge>
                   ))}
               </div>
+              <div className="mt-1 flex items-center gap-2 text-xs text-neutral-500">
+                <CalendarIcon className="h-3 w-3" />
+                {card.dueDate ? (
+                  <p>{format(card.dueDate, "PPP")}</p>
+                ) : (
+                  <p>Not set</p>
+                )}
+              </div>
             </div>
           </SheetTrigger>
           <SheetContent className="flex h-full flex-col sm:w-[750px] sm:max-w-[750px]">
@@ -704,6 +722,15 @@ const KanbanCard = ({
                       />
                     </div>
                   )}
+
+                  <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                    <p className="">Status:</p>
+                    <TicektDatePicker
+                      ticketDueDate={ticketDueDate}
+                      setTicketDueDate={setTicketDueDate}
+                    />
+                  </div>
+
                   {isAdmin || isCustomer ? (
                     <Textarea
                       className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"

@@ -12,6 +12,7 @@ export const ticketStatusAtom = atom<
 export const ticketPillarsAtom = atom<IPillars[]>([]);
 export const ticketAssigneeIdAtom = atom<string | null>(null);
 export const ticketDescriptionAtom = atom<string | null>(null);
+export const ticketDueDateAtom = atom<Date | undefined>(undefined);
 
 export type KanbanVisibileOptionsAtom = {
   showVisaPillars: boolean;

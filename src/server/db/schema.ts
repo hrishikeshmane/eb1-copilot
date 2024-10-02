@@ -182,6 +182,9 @@ export const tickets = createTable(
       .notNull()
       .default("backlog"),
     order: integer("order").notNull(),
+    dueDate: blob("dueDate")
+      .$type<Date>()
+      .default(sql`null`),
     assigneeId: text("assigneeId", { length: 256 }).references(
       () => users.userId,
       {

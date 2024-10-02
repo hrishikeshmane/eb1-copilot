@@ -73,11 +73,12 @@ export const kanbanRouter = createTRPCRouter({
           .enum(["backlog", "todo", "doing", "review", "done"])
           .optional(),
         order: z.number(),
+        dueDate: z.date().optional(),
         assigneeId: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const ticket = await ctx.db.insert(tickets).values({
+      let records = {
         title: input.title,
         description: input.description,
         customerId: input.customerId,
@@ -86,8 +87,13 @@ export const kanbanRouter = createTRPCRouter({
         order: input.order,
         assigneeId: input.assigneeId,
         createdBy: ctx.session.userId,
-      });
+      };
+      if (input.dueDate) {
+        // @ts-ignore
+        records.dueDate = input.dueDate;
+      }
 
+      const ticket = await ctx.db.insert(tickets).values(records);
       return ticket;
     }),
 
