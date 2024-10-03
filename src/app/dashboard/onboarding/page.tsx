@@ -341,15 +341,15 @@ const OnboardingPage = () => {
                   <h3 className="text-lg font-bold">
                     You have completed the onboarding form.
                   </h3>
-                  <p className="text-sm">
+                  {/* <p className="text-sm">
                     Schedule a call with our team and click Submit.
-                  </p>
+                  </p> */}
                   <div className="h-full scale-90 overflow-hidden">
-                    <PopupButton
+                    {/* <PopupButton
                       className="rounded-md bg-primary px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80"
                       url="https://calendly.com/ihrishi/ama-w-hrishi"
                       rootElement={rootElement || document.body}
-                      text="Schedule Appointment"
+                      text="Schedule Appointment" */}
                     />
                     {/* <InlineWidget
                       styles={{
