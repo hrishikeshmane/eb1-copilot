@@ -41,19 +41,18 @@ export default function Component() {
             </h2>
             <div className="grid gap-6 lg:grid-cols-3">
               {[
-                "Attorney Discount",
-                "Profile Evaluation & Strategy Call ($499 value)",
-                "Press Coverage in 5 outlets ($3,999 value)",
                 "Dedicated Accountability Manager",
                 "Progress Management Dashboard",
+                "Sample Letters & Petitions",
+                "30 days return policy",
+                "Bi-weekly Q&A Sessions",
+                "Connect w/ 70+ EB-1A Recepients",
+                "Unlimited Access until EB-1A approval",
+                "Attorney Discount ($2,999)",
+                "EB-1A Roadmapping with Attorney ($499 value)",
+                "Press Coverage in 5 outlets ($3,999 value)",
                 "Lifetime Community Membership ($999 value)",
                 "Access to Course Videos ($799 value)",
-                "Sample Letters & Petitions",
-                "Priority Support on Slack",
-                "Bi-weekly Q&A Sessions",
-
-                "Extraordinary Checklist",
-                "Unlimited Access until EB-1A approval",
               ].map((feature, index) => (
                 <Card key={index}>
                   <CardHeader>
@@ -288,6 +287,13 @@ export function ProgramTimeline() {
                 className="h-40 w-40 rounded-full border-2  object-contain dark:border-gray-800"
                 src="https://lh6.googleusercontent.com/_iRIMt1wdzrCUndh8gGCqrNd8munYbsY0YyeYtL85M7Sh1-38AdTbTXYZPvsAOf_rHhP63_0jfx8aEe6wmLaVRmnjcAxO0ZiTNF7nBOHNdFwaGi3vWWeRgGxDtIbpw9EcQ=w1280"
                 alt="Lodestone Legal"
+              />
+              <Image
+                width={100}
+                height={100}
+                className="h-40 w-40 rounded-full border-2 object-cover dark:border-gray-800"
+                src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/lawyers/joel.png?raw=true"
+                alt="Joel A. Wisniewski"
               />
               <Image
                 width={100}
