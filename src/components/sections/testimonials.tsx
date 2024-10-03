@@ -89,7 +89,7 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/women/44.jpg",
     description: (
       <p>
-        Joining the EB-1A Copilot Program was the best decision for my
+        Joining the EB-1A Autopilot Program was the best decision for my
         immigration journey.
         <Highlight>
           The personalized guidance and mentorship helped me build a strong
@@ -118,7 +118,7 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/women/85.jpg",
     description: (
       <p>
-        The press coverage and attorney support through the EB-1A Copilot were
+        The press coverage and attorney support through the EB-1A Autopilot were
         game-changers.
         <Highlight>
           My petition stood out, and I received approvals in record time!
@@ -133,7 +133,7 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/men/24.jpg",
     description: (
       <p>
-        Thanks to the EB-1A Copilot Program, my entire profile was built
+        Thanks to the EB-1A Autopilot Program, my entire profile was built
         strategically.
         <Highlight>
           The resources and expert calls gave me the confidence to move forward.
@@ -148,8 +148,8 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/women/55.jpg",
     description: (
       <p>
-        The EB-1A Copilot Program provided the legal expertise and mentorship I
-        needed.
+        The EB-1A Autopilot Program provided the legal expertise and mentorship
+        I needed.
         <Highlight>
           Their comprehensive support helped me showcase my extraordinary
           ability.

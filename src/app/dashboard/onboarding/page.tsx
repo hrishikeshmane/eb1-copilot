@@ -174,7 +174,7 @@ const OnboardingPage = () => {
   // });
 
   const [previousStep, setPreviousStep] = useState(0);
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(0);
   const delta = currentStep - previousStep;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -342,15 +342,18 @@ const OnboardingPage = () => {
                     You have completed the onboarding form.
                   </h3>
                   <p className="text-sm">
-                    Schedule a call with our team and click Submit.
+                    Click submt to submit your responses
                   </p>
+                  {/* <p className="text-sm">
+                    Schedule a call with our team and click Submit.
+                  </p> */}
                   <div className="h-full scale-90 overflow-hidden">
-                    <PopupButton
+                    {/* <PopupButton
                       className="rounded-md bg-primary px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80"
                       url="https://calendly.com/ihrishi/ama-w-hrishi"
                       rootElement={rootElement || document.body}
-                      text="Schedule Appointment"
-                    />
+                      text="Schedule Appointment" 
+                    />*/}
                     {/* <InlineWidget
                       styles={{
                         height: "660px",

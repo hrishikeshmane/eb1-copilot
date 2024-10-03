@@ -18,9 +18,26 @@ const Header = () => {
         <Link className="transition-all hover:underline" href="/">
           Home
         </Link>
-        <Link className="transition-all hover:underline" href="/blog">
-          Blog
+        <Link
+          className="transition-all hover:underline"
+          href="https://www.unshackled.club/community"
+          target="_blank"
+        >
+          Community
         </Link>
+        <Link
+          className="transition-all hover:underline"
+          href="https://www.unshackled.club/find-lawyers"
+          target="_blank"
+        >
+          Find Lawyers
+        </Link>
+        <Link className="transition-all hover:underline" href="/copilot">
+          EB1 Copilot
+        </Link>
+        {/* <Link className="transition-all hover:underline" href="/blog">
+          Blog
+        </Link> */}
         {/* <Link className="transition-all hover:underline" href="/faqs">
           FAQs
         </Link> */}
@@ -48,9 +65,26 @@ const Header = () => {
               <Link className="transition-all hover:underline" href="/">
                 Home
               </Link>
-              <Link className="transition-all hover:underline" href="/blog">
-                Blog
+              <Link
+                className="transition-all hover:underline"
+                href="https://www.unshackled.club/community"
+                target="_blank"
+              >
+                Community
               </Link>
+              <Link
+                className="transition-all hover:underline"
+                href="https://www.unshackled.club/find-lawyers"
+                target="_blank"
+              >
+                Find Lawyers
+              </Link>
+              <Link className="transition-all hover:underline" href="/copilot">
+                EB1 Copilot
+              </Link>
+              {/* <Link className="transition-all hover:underline" href="/blog">
+                Blog
+              </Link> */}
               {/* <Link className="transition-all hover:underline" href="/faqs">
                 FAQs
               </Link> */}
