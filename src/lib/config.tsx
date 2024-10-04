@@ -102,7 +102,8 @@ export const siteConfig = {
     {
       isPopular: false,
       name: "EB1 Autopilot",
-      href: "https://go.greencard.inc/evaluation",
+      // href: "https://go.greencard.inc/evaluation",
+      href: "/copilot#get-started",
       price: "Starts from $25,000",
       period: "One Time",
       // yearlyPrice: "$40",
@@ -123,7 +124,8 @@ export const siteConfig = {
     },
     {
       name: "EB1 Copilot",
-      href: "https://go.greencard.inc/evaluation",
+      // href: "https://go.greencard.inc/evaluation",
+      href: "/copilot#get-started",
       slashPrice: "$15,000",
       offer: "First 30 people will get 33% off on the program.",
       price: "$9,999",

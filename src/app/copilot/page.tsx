@@ -31,6 +31,33 @@ export default function Component() {
       <Header />
       <main className="flex-1">
         <HeroCopilot />
+        <section id="get-started" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <h2 className="mb-8 text-center text-3xl tracking-tighter sm:text-4xl md:text-5xl">
+              How to get started
+            </h2>
+            <div className="mx-auto flex w-full max-w-4xl items-center justify-center gap-8 text-center">
+              <div className="flex w-full flex-row items-start gap-6">
+                <span className="mt-2 h-4 w-4 text-2xl text-primary">1.</span>
+                <div className="flex flex-col gap-1">
+                  <p>Click the link above to get started</p>
+                </div>
+              </div>
+              <div className="flex w-full flex-row items-start gap-6">
+                <span className="mt-2 h-4 w-4 text-2xl text-primary">2.</span>
+                <div className="flex flex-col gap-1">
+                  <p>Login through your LinkedIn on Greencard Inc</p>
+                </div>
+              </div>
+              <div className="flex w-full flex-row items-start gap-6">
+                <span className="mt-2 h-4 w-4 text-2xl text-primary">3.</span>
+                <div className="flex flex-col gap-1">
+                  <p>Fill out a questionnaire & wait for next steps</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         <ProgramOverview />
         <ProgramTimeline />
 
