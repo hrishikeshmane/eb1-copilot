@@ -96,7 +96,7 @@ function HeroTitles({
   );
 }
 
-export function HeroCTA() {
+export function HeroCTA({ showBookCall }: { showBookCall?: boolean }) {
   return (
     <>
       <motion.div
@@ -116,17 +116,19 @@ export function HeroCTA() {
           <ArrowRightIcon className="transform transition-transform duration-200 ease-in-out group-hover:translate-x-1" />
         </Link> */}
         <GetStartedButton />
-        <Link
-          href="https://go.greencard.inc/evaluation"
-          className={cn(
-            buttonVariants({ variant: "secondary" }),
-            "group flex gap-2 sm:w-auto",
-          )}
-        >
-          {/* <Icons.logo className="h-6 w-6" /> */}
-          <Phone className="h-4 w-4" />
-          Book a Free Consultation
-        </Link>
+        {!!showBookCall && (
+          <Link
+            href="https://go.greencard.inc/evaluation"
+            className={cn(
+              buttonVariants({ variant: "secondary" }),
+              "group flex gap-2 sm:w-auto",
+            )}
+          >
+            {/* <Icons.logo className="h-6 w-6" /> */}
+            <Phone className="h-4 w-4" />
+            Book a Free Consultation
+          </Link>
+        )}
       </motion.div>
       {/* <motion.p
         className="mt-5 text-sm text-muted-foreground"
@@ -179,7 +181,7 @@ export default function Hero() {
           subHeading="Self-sponsor Your EB-1A Extraordinary Ability Green Card With AI-Powered
         Expertise"
         />
-        <HeroCTA />
+        <HeroCTA showBookCall={true} />
         {/* <HeroImage /> */}
         {/* <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div> */}
         <div className="pointer-events-none absolute inset-x-0 -bottom-24 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
@@ -202,7 +204,7 @@ export function HeroCopilot() {
           ]}
           subHeading="Unlock expert guidance to build your EB-1A profile and secure your green card in the U.S."
         />
-        <HeroCTA />
+        <HeroCTA showBookCall={false} />
         {/* <HeroImage /> */}
         <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
       </div>

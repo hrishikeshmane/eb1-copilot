@@ -52,7 +52,7 @@ export default function Component() {
               <div className="flex w-full flex-row items-start gap-6">
                 <span className="mt-2 h-4 w-4 text-2xl text-primary">3.</span>
                 <div className="flex flex-col gap-1">
-                  <p>Fill out a questionnaire & wait for next steps</p>
+                  <p>Fill out a questionnaire & book a priority call with us</p>
                 </div>
               </div>
             </div>
@@ -152,31 +152,53 @@ export default function Component() {
             </h2>
             <div className="grid gap-6 lg:grid-cols-2">
               <Card>
-                <CardHeader>
-                  <CardTitle>Sunku Ranganath</CardTitle>
-                  <CardDescription>Tech Entrepreneur</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  A tech entrepreneur with a background in engineering and
-                  product development. He's led innovation at companies like
-                  Oracle and Kinetica and knows firsthand how to navigate the
-                  EB-1A process. Sunku will guide you in building a compelling
-                  case for your visa.
-                </CardContent>
+                <div className="mt-4 flex flex-col items-center md:mt-0 md:flex-row">
+                  <Image
+                    src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/community/Sunku.png?raw=true"
+                    alt="Ankit Sirmoya"
+                    width={150}
+                    height={150}
+                    className="ml-4 h-40 w-40 rounded-full object-cover"
+                  />
+                  <div>
+                    <CardHeader>
+                      <CardTitle>Sunku Ranganath</CardTitle>
+                      <CardDescription>Tech Entrepreneur</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      A tech entrepreneur with a background in engineering and
+                      product development. He's led innovation at companies like
+                      Oracle and Kinetica and knows firsthand how to navigate
+                      the EB-1A process. Sunku will guide you in building a
+                      compelling case for your visa.
+                    </CardContent>
+                  </div>
+                </div>
               </Card>
               <Card>
-                <CardHeader>
-                  <CardTitle>Ankit Sirmoya</CardTitle>
-                  <CardDescription>
-                    AI Researcher & Senior Solutions Architect at AWS
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  A leading AI researcher and Senior Solutions Architect at AWS.
-                  With deep expertise in machine learning and cloud
-                  infrastructure, he's an EB-1A recipient who will help you
-                  craft a strong profile for your visa application.
-                </CardContent>
+                <div className="mt-4 flex flex-col items-center md:mt-0 md:flex-row">
+                  <Image
+                    src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/community/Ankit.png?raw=true"
+                    alt="Ankit Sirmoya"
+                    width={150}
+                    height={150}
+                    className="ml-4 h-40 w-40 rounded-full object-cover"
+                  />
+                  <div>
+                    <CardHeader>
+                      <CardTitle>Ankit Sirmoya</CardTitle>
+                      <CardDescription>
+                        AI Researcher & Senior Solutions Architect at AWS
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      A leading AI researcher and Senior Solutions Architect at
+                      AWS. With deep expertise in machine learning and cloud
+                      infrastructure, he's an EB-1A recipient who will help you
+                      craft a strong profile for your visa application.
+                    </CardContent>
+                  </div>
+                </div>
               </Card>
             </div>
           </div>
