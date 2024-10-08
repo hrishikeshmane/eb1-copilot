@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Pricing from "@/components/sections/pricing";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -203,6 +204,7 @@ export default function Component() {
             </div>
           </div>
         </section>
+        <Pricing />
       </main>
       <FAQ />
       <CTA />
