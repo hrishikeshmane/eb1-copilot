@@ -9,6 +9,7 @@ import {
   ISelectUserInfo,
   userInfo,
   userVisaPillarDetails,
+  users,
 } from "@/server/db/schema";
 import { clerkClient } from "@clerk/nextjs/server";
 import {
@@ -235,4 +236,32 @@ export const userDetailsRouter = createTRPCRouter({
         });
       }
     }),
+
+  getUser: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const user = await db.query.users.findFirst({
+        where: (table) => eq(table.userId, ctx.session.userId),
+      });
+      return user;
+    } catch (e) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to get user",
+      });
+    }
+  }),
+
+  markUserPriorityCallSheduled: protectedProcedure.mutation(async ({ ctx }) => {
+    try {
+      await db
+        .update(users)
+        .set({ priorityCallSheduled: true })
+        .where(eq(users.userId, ctx.session.userId));
+    } catch (e) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to Mark User with Priority Call Sheduled",
+      });
+    }
+  }),
 });

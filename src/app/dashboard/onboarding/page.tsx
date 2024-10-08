@@ -26,50 +26,11 @@ import UserInfoDetails from "./_components/user-info-details";
 import Loader from "@/components/elements/loader";
 import ScrollToTop from "@/components/elements/scroll-to-top";
 import { useLogger } from "next-axiom";
+import { Info } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 //TODO: make this server component and move form page to a new client component
 const OnboardingPage = () => {
-  //For calendly
-  useCalendlyEventListener({
-    onEventScheduled: (e) => {
-      if (e.data.event === "calendly.event_scheduled") {
-        fetchEventDetails(e.data.payload.event.uri);
-      }
-    },
-  });
-  const [scheduledDateTime, setScheduledDateTime] =
-    useState<ScheduledDateTime | null>(null);
-  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
-  const fetchEventDetails = async (eventUri: string): Promise<void> => {
-    try {
-      // You need to replace 'YOUR_CALENDLY_API_TOKEN' with your actual Calendly API token
-      const response = await fetch(eventUri, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer YOUR_CALENDLY_API_TOKEN",
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const { start_time, end_time } = data.resource;
-      setScheduledDateTime({ start_time, end_time });
-    } catch (error) {
-      console.error("Error fetching event details:", error);
-    }
-  };
-
-  useEffect(() => {
-    // Wait for the component to be mounted before setting the rootElement
-    if (typeof window !== "undefined") {
-      setRootElement(document.getElementById("__next"));
-    }
-  }, []);
-
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -338,12 +299,18 @@ const OnboardingPage = () => {
                   url="https://calendly.com/ihrishi/ama-w-hrishi"
                 /> */}
                 <div className="flex flex-col space-y-2">
+                  <Alert>
+                    <Info className="h-4 w-4" />
+                    <AlertTitle>Heads up!</AlertTitle>
+                    <AlertDescription>
+                      Vist this page after few minutes after you submit the form
+                      and refresh to schedule a priority call with us.
+                    </AlertDescription>
+                  </Alert>
                   <h3 className="text-lg font-bold">
                     You have completed the onboarding form.
                   </h3>
-                  <p className="text-sm">
-                    Click submt to submit your responses
-                  </p>
+                  <p className="text-sm">Click submt to submit your response</p>
                   {/* <p className="text-sm">
                     Schedule a call with our team and click Submit.
                   </p> */}

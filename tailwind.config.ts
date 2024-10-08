@@ -139,6 +139,7 @@ const config = {
   plugins: [
     typography,
     require("tailwindcss-animate"),
+    require("@assistant-ui/react/tailwindcss")({ shadcn: true }),
     addVariablesForColors,
     function ({ matchUtilities, theme }: any) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
