@@ -39,6 +39,16 @@ export const users = createTable("users", {
   updatedAt: int("updatedAt", { mode: "timestamp" }).default(
     sql`(unixepoch())`,
   ),
+  priorityCallSheduled: integer("priorityCallSheduled", {
+    mode: "boolean",
+  }).default(false),
+  // .notNull()
+  customerPaid: integer("customerPaid", { mode: "boolean" }).default(false),
+  // .notNull()
+  customerType: text("customerType", {
+    enum: ["unpaid", "copilot", "autopilot"],
+  }).default("unpaid"),
+  // .notNull()
 });
 
 export const userInfo = createTable("userInfo", {
@@ -260,6 +270,7 @@ export const comments = createTable("comments", {
     .notNull(),
 });
 
+export type IUser = typeof users.$inferSelect;
 export type ISelectMasterTicket = typeof masterListTickets.$inferSelect;
 export type ISelectTickets = typeof tickets.$inferSelect;
 export type ISelectUserInfo = typeof userInfo.$inferSelect;

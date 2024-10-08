@@ -21,6 +21,9 @@ export const siteConfig = {
     Linkedin: "https://discord.gg/87p2vpsat5",
     instagram: "https://instagram.com/magicuidesign/",
   },
+  call: {
+    priorityScheduleCallLink: "https://calendly.com/greencardinc-rk/eb-1a",
+  },
   header: [
     {
       trigger: "Features",

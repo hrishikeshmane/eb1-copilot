@@ -15,6 +15,8 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import { nanoid } from "nanoid";
 import { cn } from "@/lib/utils";
 import ScrollToTop from "@/components/elements/scroll-to-top";
+import { Info, Terminal } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type WatchFiledName =
   | "haveAwards"
@@ -169,6 +171,18 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
       <ScrollToTop />
       <li>
         <div className="mb-4 flex flex-col gap-3 text-sm">
+          <h2 className="text-xl font-bold"></h2>
+          <Alert>
+            <Info className="h-4 w-4" />
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+              Take your time answering the questionnaire. These question will
+              help us understand your profile and help draft a plan for you.
+              <br />
+              You can also add/update your evidence later once you have submited
+              the form.
+            </AlertDescription>
+          </Alert>
           <h3 className="text-lg font-bold">Awards for excellence</h3>
           <p>
             List all the awards you have won so far, and what you have to prove
