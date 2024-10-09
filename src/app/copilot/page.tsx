@@ -288,7 +288,7 @@ export function ProgramTimeline() {
           </p>
           <div className="">
             <Image
-              src="/GCI-Onboarding.gif"
+              src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/GCI/GCI-Onboarding.gif?raw=true"
               alt="startup template"
               width={500}
               height={500}
@@ -312,7 +312,7 @@ export function ProgramTimeline() {
           </p>
           <div className="">
             <Image
-              src="/GCI-dashboard.gif"
+              src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/GCI/GCI-dashboard.gif?raw=true"
               alt="startup template"
               width={500}
               height={500}
@@ -336,7 +336,7 @@ export function ProgramTimeline() {
                 width={100}
                 height={100}
                 className="h-40 w-40 rounded-full border-2  object-contain dark:border-gray-800"
-                src="https://lh6.googleusercontent.com/_iRIMt1wdzrCUndh8gGCqrNd8munYbsY0YyeYtL85M7Sh1-38AdTbTXYZPvsAOf_rHhP63_0jfx8aEe6wmLaVRmnjcAxO0ZiTNF7nBOHNdFwaGi3vWWeRgGxDtIbpw9EcQ=w1280"
+                src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/loadstone.jpg?raw=true"
                 alt="Lodestone Legal"
               />
               <Image
@@ -368,7 +368,7 @@ export function ProgramTimeline() {
           </p>
           <div className="">
             <Image
-              src="/GCI-Builder.gif"
+              src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/GCI/GCI-Builder.gif?raw=true"
               alt="startup template"
               width={500}
               height={500}
@@ -388,7 +388,7 @@ export function ProgramTimeline() {
           </p>
           <div className="">
             <Image
-              src="/GCI-PDF.gif"
+              src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/GCI/GCI-PDF.gif?raw=true"
               alt="startup template"
               width={500}
               height={500}
