@@ -66,7 +66,11 @@ const StatusButton = ({ status, setStatus, disabled }: StatusButtonProps) => {
 
   return (
     <div>
-      <Popover open={openStatusPopover} onOpenChange={setOpenStatusPopover}>
+      <Popover
+        modal={true}
+        open={openStatusPopover}
+        onOpenChange={setOpenStatusPopover}
+      >
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}

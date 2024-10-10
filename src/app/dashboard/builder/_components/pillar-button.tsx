@@ -32,7 +32,11 @@ const PillarButton = ({
 
   return (
     <div className="w-full">
-      <Popover open={openPillarsPopover} onOpenChange={setOpenPillarsPopover}>
+      <Popover
+        modal={true}
+        open={openPillarsPopover}
+        onOpenChange={setOpenPillarsPopover}
+      >
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}

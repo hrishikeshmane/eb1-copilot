@@ -30,7 +30,7 @@ export function TicektDatePicker({
   setTicketDueDate,
 }: TicektDatePickerProps) {
   return (
-    <Popover>
+    <Popover modal={true}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
