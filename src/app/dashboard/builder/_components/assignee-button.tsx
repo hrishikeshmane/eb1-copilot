@@ -50,7 +50,11 @@ const AssigneeButton = ({
 
   return (
     <div>
-      <Popover open={openAssigneePopover} onOpenChange={setOpenAssigneePopover}>
+      <Popover
+        modal={true}
+        open={openAssigneePopover}
+        onOpenChange={setOpenAssigneePopover}
+      >
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}

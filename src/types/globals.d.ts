@@ -11,6 +11,11 @@ export type TransformedUser = {
   onBoarded: boolean;
   role: string;
   id: string | null;
+  priorityCallSheduled?: boolean;
+  phone?: string;
+  linkedin?: string;
+  customerPaid?: boolean;
+  customerType?: string;
 };
 
 declare global {

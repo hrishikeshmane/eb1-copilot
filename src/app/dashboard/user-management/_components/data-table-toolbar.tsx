@@ -23,7 +23,7 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-        // TODO: filter for name and role
+          // TODO: filter for name and role
           placeholder="Filter Name..."
           value={(table.getColumn("user")?.getFilterValue() as string) ?? ""}
           onChange={(event) => {
@@ -40,6 +40,18 @@ export function DataTableToolbar<TData>({
             <DataTableFacetedFilter
               column={table.getColumn("onBoarded")}
               title="On boarded"
+              options={onBoardedMap}
+            />
+          ))}
+        {table.getColumn("priorityCallSheduled") &&
+          (console.log(
+            "table.getColumn('priorityCallSheduled')",
+            table.getColumn("priorityCallSheduled"),
+          ),
+          (
+            <DataTableFacetedFilter
+              column={table.getColumn("priorityCallSheduled")}
+              title="Priority Call Scheduled"
               options={onBoardedMap}
             />
           ))}
