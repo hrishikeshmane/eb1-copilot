@@ -5,6 +5,7 @@ import { visaPillars } from "./constants";
 import { type User } from "@clerk/nextjs/server";
 import { type TransformedUser } from "@/types/globals";
 import { Metadata } from "next";
+import { AppRouter } from "@/server/api/root";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,9 +16,19 @@ export function getLableForPillars(value: string) {
   if (pillar) return pillar.label;
 }
 
-export const transformUserData = (userData: (User | null)[]): TransformedUser[] => {
+type UserInfoType = {
+  priorityCallSheduled?: boolean;
+  phone?: string;
+  linkedIn?: string;
+  customerPaid?: boolean;
+  customerType?: boolean;
+};
+
+export const transformUserData = (
+  userData: ((User & UserInfoType) | null)[],
+): TransformedUser[] => {
   return userData
-    .filter((user): user is User => user !== null)
+    .filter((user): user is User & UserInfoType => user !== null)
     .map((user) => ({
       firstName: user.firstName,
       lastName: user.lastName,
@@ -30,6 +41,9 @@ export const transformUserData = (userData: (User | null)[]): TransformedUser[] 
       onBoarded: user.publicMetadata.onBoarded as boolean,
       role: user.publicMetadata.role as string,
       id: user.id,
+      priorityCallSheduled: user.priorityCallSheduled,
+      phone: user.phone,
+      linkedin: user.linkedIn,
     }));
 };
 

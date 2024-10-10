@@ -94,29 +94,45 @@ export const columns: ColumnDef<TransformedUser>[] = [
       const userId = userData.id;
       // const emailAddresses = userData.emailAddresses;
 
-      const phoneNumberAndLinkedin =
-        api.userManagement.getUserInfoById.useQuery({
-          userId: String(userId),
-        });
+      // const phoneNumberAndLinkedin =
+      //   api.userManagement.getUserInfoById.useQuery({
+      //     userId: String(userId),
+      //   });
 
-      if (phoneNumberAndLinkedin.status === "pending") {
-        return <Loader className="p-0" />;
-      }
-      if (phoneNumberAndLinkedin.status === "error") {
-        return <p>---</p>;
-      }
+      // if (phoneNumberAndLinkedin.status === "pending") {
+      //   return <Loader className="p-0" />;
+      // }
+      // if (phoneNumberAndLinkedin.status === "error") {
+      //   return <p>---</p>;
+      // }
+
+      // return (
+      //   <div className="flex flex-col">
+      //     <Link
+      //       href={phoneNumberAndLinkedin.data?.linkedIn ?? ""}
+      //       target="_blank"
+      //       rel="noopener noreferrer"
+      //       className="text-blue-500"
+      //     >
+      //       LinkedIn
+      //     </Link>
+      //     <span>{phoneNumberAndLinkedin.data?.phone}</span>
+      //   </div>
+      // );
 
       return (
         <div className="flex flex-col">
-          <Link
-            href={phoneNumberAndLinkedin.data?.linkedIn ?? ""}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500"
-          >
-            LinkedIn
-          </Link>
-          <span>{phoneNumberAndLinkedin.data?.phone}</span>
+          {userData.linkedin && (
+            <Link
+              href={userData.linkedin ?? ""}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500"
+            >
+              LinkedIn
+            </Link>
+          )}
+          <span>{userData.phone}</span>
         </div>
       );
     },
@@ -146,6 +162,40 @@ export const columns: ColumnDef<TransformedUser>[] = [
       const onboarded = userData.onBoarded;
       return (
         <div className="w-[80px] text-center">{onboarded ? "Yes" : "No"}</div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "priorityCallSheduled",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Priority Call Scheduled
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+        // <DataTableColumnHeader column={column} title="On Boarded" />
+      );
+    },
+    cell: ({ row }) => {
+      const userData = row.original;
+      const priorityCallSheduled = userData.priorityCallSheduled;
+      return (
+        <div className="w-[80px] text-center">
+          {priorityCallSheduled ? "Yes" : "No"}
+        </div>
       );
     },
     filterFn: (row, id, value) => {

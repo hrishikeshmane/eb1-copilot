@@ -75,7 +75,7 @@ const UserTable = <TData extends TransformedUser, TValue>({
   });
 
   return (
-    <div className="space-y-4 px-6 py-4 gap-2">
+    <div className="gap-2 space-y-4 px-6 py-4">
       <DataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
@@ -147,7 +147,7 @@ export function UserTableContainer<TData extends TransformedUser, TValue>({
     return <p>Error Loading users</p>;
   }
 
-  const data = transformUserData(users.data || []) as TData[];
+  const data = transformUserData(users.data ?? []) as TData[];
 
   return <UserTable<TData, TValue> columns={columns} data={data} />;
 }

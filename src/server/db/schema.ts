@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
 import {
   int,
   sqliteTableCreator,
@@ -169,6 +169,13 @@ export const userVisaPillarDetails = createTable("userVisaPillarDetails", {
   detail: text("detail", { length: 2000 }).notNull(),
 });
 
+export const usersRelations = relations(users, ({ one }) => ({
+  userInfo: one(userInfo, {
+    fields: [users.userId],
+    references: [userInfo.userId],
+  }),
+}));
+
 // Kanban board
 export const tickets = createTable(
   "tickets",
@@ -271,8 +278,11 @@ export const comments = createTable("comments", {
 });
 
 export type IUser = typeof users.$inferSelect;
+export type ISelectUserInfo = typeof userInfo.$inferSelect;
+export type IUsersWithInfo = InferSelectModel<typeof users> & {
+  userInfo: InferSelectModel<typeof userInfo> | null;
+};
 export type ISelectMasterTicket = typeof masterListTickets.$inferSelect;
 export type ISelectTickets = typeof tickets.$inferSelect;
-export type ISelectUserInfo = typeof userInfo.$inferSelect;
 export type ISelectUserVisaPillarDetails =
   typeof userVisaPillarDetails.$inferSelect;
