@@ -9,7 +9,6 @@ import Loader from "@/components/elements/loader";
 
 const Page = ({ params }: { params: { slug: string } }) => {
   const userId = params.slug;
-  // const customersQuery = api.userManagement.getAllOnBoardedUsers.useQuery();
   const customerUser = api.userManagement.getUser.useQuery({ userId });
   const [selectedCustomer, setSelectedCustomer] = React.useState<
     User | undefined

@@ -1,7 +1,7 @@
 "use client";
 
 import { CustomKanban } from "@/components/elements/custom-kanban";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import CustomerSelect from "./customer-select";
 import { type User } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
@@ -27,9 +27,25 @@ import { Search, UserPlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  format,
+  isToday,
+  isYesterday,
+  isThisWeek,
+  isThisMonth,
+  parseISO,
+} from "date-fns";
 
 type TicketManagementBoard = {
   initalCustomerData: User[];
+};
+
+type GroupedUsers = {
+  Today: User[];
+  Yesterday: User[];
+  "This Week": User[];
+  "This Month": User[];
+  Rest: User[];
 };
 
 // flag to move back to select customer
@@ -162,15 +178,59 @@ const TicketManagementBoard = () => {
 function CustomerList({ customers }: { customers: User[] }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredCustomers = customers.filter(
-    (customer) =>
-      customer!.firstName!.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer!.lastName!.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer?.emailAddresses
-        ?.at(0)
-        ?.emailAddress.toLowerCase()
-        .includes(searchTerm.toLowerCase()),
-  );
+  // const filteredCustomers = customers.filter(
+  //   (customer) =>
+  //     customer!.firstName!.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     customer!.lastName!.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     customer?.emailAddresses
+  //       ?.at(0)
+  //       ?.emailAddress.toLowerCase()
+  //       .includes(searchTerm.toLowerCase()),
+  // );
+  const groupAndSortUsers = (users: User[]): GroupedUsers => {
+    const grouped: GroupedUsers = {
+      Today: [],
+      Yesterday: [],
+      "This Week": [],
+      "This Month": [],
+      Rest: [],
+    };
+
+    users.forEach((user) => {
+      if (isToday(user.updatedAt)) {
+        grouped.Today.push(user);
+      } else if (isYesterday(user.updatedAt)) {
+        grouped.Yesterday.push(user);
+      } else if (isThisWeek(user.updatedAt)) {
+        grouped["This Week"].push(user);
+      } else if (isThisMonth(user.updatedAt)) {
+        grouped["This Month"].push(user);
+      } else {
+        grouped.Rest.push(user);
+      }
+    });
+
+    // Sort each group by updatedAt in descending order
+    Object.keys(grouped).forEach((key) => {
+      grouped[key as keyof GroupedUsers].sort(
+        (a, b) => b.updatedAt - a.updatedAt,
+      );
+    });
+
+    return grouped;
+  };
+
+  const filteredAndGroupedCustomers = useMemo(() => {
+    const filteredCustomers = customers.filter(
+      (customer) =>
+        customer.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        customer.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        customer.emailAddresses[0]?.emailAddress
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()),
+    );
+    return groupAndSortUsers(filteredCustomers);
+  }, [customers, searchTerm]);
 
   return (
     <div className="mx-auto mr-4">
@@ -186,41 +246,54 @@ function CustomerList({ customers }: { customers: User[] }) {
           />
         </div>
       </div>
-      <ScrollArea className="h-[calc(100vh-200px)] rounded-md ">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredCustomers.map((customer) => (
-            <Link
-              href={`/dashboard/ticket-management/${customer.id}`}
-              key={customer.id}
-            >
-              <Card className="group relative transition-colors hover:bg-muted/50">
-                <ArrowUpRightIcon className="absolute right-3 top-3 h-4 w-4 transform text-muted-foreground transition-transform duration-200 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-1" />
-                <CardContent className="flex items-center p-4">
-                  <Avatar className="mr-4 h-12 w-12">
-                    <AvatarImage
-                      src={customer.imageUrl}
-                      alt={customer?.firstName ?? ""}
-                    />
-                    <AvatarFallback>
-                      {customer?.firstName?.slice(0, 2)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h2 className="font-semibold">
-                      {customer?.firstName} {customer?.lastName}
-                    </h2>
-                    <p className="text-sm text-muted-foreground">
-                      {customer?.emailAddresses?.at(0)?.emailAddress}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
+      <ScrollArea className="flex-grow rounded-md">
+        {(
+          Object.keys(filteredAndGroupedCustomers) as Array<keyof GroupedUsers>
+        ).map(
+          (group) =>
+            filteredAndGroupedCustomers[group].length > 0 && (
+              <div key={group} className="mb-8">
+                <h2 className="mb-4 border-b font-bold">{group}</h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {filteredAndGroupedCustomers[group].map(renderCustomerCard)}
+                </div>
+              </div>
+            ),
+        )}
       </ScrollArea>
     </div>
   );
 }
+
+const renderCustomerCard = (customer: User) => (
+  <Link href={`/dashboard/ticket-management/${customer.id}`} key={customer.id}>
+    <Card className="group relative transition-colors hover:bg-muted/50">
+      <ArrowUpRight className="absolute right-3 top-3 h-4 w-4 transform text-muted-foreground transition-transform duration-200 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-1" />
+      <CardContent className="flex items-center p-4">
+        <Avatar className="mr-4 h-12 w-12">
+          <AvatarImage
+            src={customer.imageUrl}
+            alt={`${customer.firstName} ${customer.lastName}`}
+          />
+          <AvatarFallback>
+            {customer.firstName?.charAt(0)}
+            {customer.lastName?.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
+        <div>
+          <h2 className="text-clip font-semibold">
+            {customer.firstName} {customer.lastName}
+          </h2>
+          <p className="text-clip text-sm text-muted-foreground">
+            {customer.emailAddresses[0]?.emailAddress}
+          </p>
+          {/* <p className="text-xs text-muted-foreground">
+            Updated: {customer.updatedAt}
+          </p> */}
+        </div>
+      </CardContent>
+    </Card>
+  </Link>
+);
 
 export default TicketManagementBoard;
