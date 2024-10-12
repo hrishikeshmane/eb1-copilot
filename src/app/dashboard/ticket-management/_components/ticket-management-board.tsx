@@ -280,16 +280,16 @@ const renderCustomerCard = (customer: User) => (
             {customer.lastName?.charAt(0)}
           </AvatarFallback>
         </Avatar>
-        <div>
-          <h2 className="text-clip font-semibold">
-            {customer.firstName} {customer.lastName}
+        <div className="min-w-0 flex-1">
+          <h2 className="truncate font-semibold">
+            {customer.firstName} {customer.lastName} dfghjk asdfghjk
           </h2>
-          <p className="text-clip text-sm text-muted-foreground">
+          <p className="truncate text-sm text-muted-foreground">
             {customer.emailAddresses[0]?.emailAddress}
           </p>
           {/* <p className="text-xs text-muted-foreground">
-            Updated: {customer.updatedAt}
-          </p> */}
+              Updated: {format(customer.updatedAt, 'MMM d, yyyy HH:mm')}
+            </p> */}
         </div>
       </CardContent>
     </Card>
