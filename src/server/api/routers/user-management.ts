@@ -35,6 +35,8 @@ export const userManagementRouter = createTRPCRouter({
         linkedIn: userInfo?.userInfo?.linkedIn,
         customerPaid: userInfo?.customerPaid,
         customerType: userInfo?.customerType,
+        createdAt: userInfo?.createdAt,
+        updatedAt: userInfo?.updatedAt,
       };
     });
     return usersWithAdditionalInfo;
@@ -65,6 +67,7 @@ export const userManagementRouter = createTRPCRouter({
   getAllOnBoardedUsers: adminProcedure.query(async ({ ctx }) => {
     //TODO: Paginated user list
     const allUsers = await clerkClient.users.getUserList({
+      orderBy: "-updated_at",
       limit: 500,
     });
     const onboardedUsers = allUsers.filter(
