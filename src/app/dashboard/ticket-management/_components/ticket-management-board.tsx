@@ -62,7 +62,7 @@ const TicketManagementBoard = () => {
 
   if (DYNAMIC_CUSTOMER_ROUTE_FLAG) {
     return (
-      <div className="h-full overflow-y-hidden">
+      <div className="h-full">
         <CustomerList customers={customers} />
       </div>
     );
