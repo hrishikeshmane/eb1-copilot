@@ -70,13 +70,11 @@ export async function sendEmail() {
         linkText: string,
       ): Promise<void> => {
 
-
-        const usersLength = users.length;
-        const emailBatches = []; 
-      
         while (users.length) {
           const batch = users.splice(0, BATCH_SIZE);
           
+          const emailBatches = []; 
+          const usersLength = users.length;
           const bcc = batch.map(user => user.email || "default@example.com");
       
           const email = {
@@ -94,13 +92,13 @@ export async function sendEmail() {
           };
       
           emailBatches.push(email);
-        }
-      
-        try {
-          await resend.batch.send(emailBatches);
-          console.log(`Sent ${emailBatches.length} emails in batch to ${usersLength} users.`);
-        } catch (error) {
-          console.error("Error sending batch emails:", error);
+
+          try {
+            await resend.batch.send(emailBatches);
+            console.log(`Sent ${emailBatches.length} emails in batch to ${usersLength} users.`);
+          } catch (error) {
+            console.error("Error sending batch emails:", error);
+          }
         }
       };
       
