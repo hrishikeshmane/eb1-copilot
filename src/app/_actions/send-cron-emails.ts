@@ -8,7 +8,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 const FROM_EMAIL = "Greencard Inc <hello@greencard.inc>";
 const RESEND_KEY = process.env.RESEND_KEY;
-const BATCH_SIZE = 50;
+const BATCH_SIZE = 40;
 
 interface UserWithInfo {
   id: string;
@@ -74,7 +74,7 @@ export async function sendEmail() {
           const batch = users.splice(0, BATCH_SIZE);
           
           const emailBatches = []; 
-          const usersLength = users.length;
+          const usersLength = batch.length;
           const bcc = batch.map(user => user.email || "default@example.com");
       
           const email = {
