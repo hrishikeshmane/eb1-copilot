@@ -106,13 +106,13 @@ export async function sendEmail() {
       
 
     // Sending priority call reminder emails
-    await sendEmailsInBatches(
-      usersWithoutPriorityCall,
-      "Reminder: Schedule Your Priority Call",
-      "Please schedule your priority call to get started with your application!",
-      "https://www.greencard.inc/dashboard/onboarding",
-      "Schedule Your Call",
-    );
+    // await sendEmailsInBatches(
+    //   usersWithoutPriorityCall,
+    //   "Reminder: Schedule Your Priority Call",
+    //   "Please schedule your priority call to get started with your application!",
+    //   "https://www.greencard.inc/dashboard/onboarding",
+    //   "Schedule Your Call",
+    // );
 
     // Sending onboarding reminder emails
     await sendEmailsInBatches(
