@@ -4,18 +4,18 @@ import ReminderEmail from "@/components/email-templates/reminder";
 import { Resend } from "resend";
 import { clerkClient } from "@clerk/nextjs/server";
 import { db } from "@/server/db";
-import { renderToStaticMarkup } from 'react-dom/server'; 
+import { renderToStaticMarkup } from "react-dom/server";
 
 const FROM_EMAIL = "Greencard Inc <hello@greencard.inc>";
 const RESEND_KEY = process.env.RESEND_KEY;
-const BATCH_SIZE = 50; 
+const BATCH_SIZE = 50;
 
 interface UserWithInfo {
   id: string;
   email: string | undefined;
   name: string;
   priorityCallSheduled: boolean | null;
-  onBoarded: boolean | null; 
+  onBoarded: boolean | null;
 }
 
 export async function sendEmail() {
@@ -34,27 +34,29 @@ export async function sendEmail() {
     });
 
     const usersWithAdditionalInfo: UserWithInfo[] = allUsers
-      .filter(user => user.publicMetadata.role === "customer")
+      .filter((user) => user.publicMetadata.role === "customer")
       .map((user) => {
         const userInfo = usersWithInfo.find((info) => info.userId === user.id);
         return {
           id: user.id,
           email: user.emailAddresses[0]?.emailAddress,
-          name: user.firstName || user.lastName || user.username || "User", 
+          name: user.firstName || user.lastName || user.username || "User",
           priorityCallSheduled: userInfo?.priorityCallSheduled ?? null,
           onBoarded: userInfo?.onBoarded ?? null,
         };
       });
 
     const usersWithoutPriorityCall = usersWithAdditionalInfo.filter(
-      (user) => user.priorityCallSheduled === false
+      (user) => user.priorityCallSheduled === false,
     );
 
     const usersNotOnboarded = usersWithAdditionalInfo.filter(
-      (user) => user.onBoarded === false
+      (user) => user.onBoarded === false,
     );
 
-    console.log(`Found ${usersWithoutPriorityCall.length} users without a priority call not scheduled:`);
+    console.log(
+      `Found ${usersWithoutPriorityCall.length} users without a priority call not scheduled:`,
+    );
     // console.log(usersWithoutPriorityCall);
 
     console.log(`Found ${usersNotOnboarded.length} users not onboarded:`);
@@ -65,31 +67,31 @@ export async function sendEmail() {
       subject: string,
       message: string,
       link: string,
-      linkText: string
+      linkText: string,
     ): Promise<void> => {
       while (users.length) {
         const batch = users.splice(0, BATCH_SIZE);
 
-        const emailBatch = batch.map(user => {
-          const email = user.email || "default@example.com"; 
-        //   const htmlContent = renderToStaticMarkup(
-        //     <ReminderEmail
-        //       message={message}
-        //       link={link}
-        //       linkText={linkText}
-        //       name={user.name}
-        //     />
-        //   );
+        const emailBatch = batch.map((user) => {
+          const email = user.email || "default@example.com";
+          //   const htmlContent = renderToStaticMarkup(
+          //     <ReminderEmail
+          //       message={message}
+          //       link={link}
+          //       linkText={linkText}
+          //       name={user.name}
+          //     />
+          //   );
           return {
             from: FROM_EMAIL,
             to: [email],
             subject: subject,
             react: ReminderEmail({
-                message: message,
-                link: link,
-                linkText: linkText,
-                name: user.name,
-              }) as React.ReactElement,
+              message: message,
+              link: link,
+              linkText: linkText,
+              name: user.name,
+            }) as React.ReactElement,
             // html: htmlContent,
           };
         });
@@ -109,8 +111,8 @@ export async function sendEmail() {
       usersWithoutPriorityCall,
       "Reminder: Schedule Your Priority Call",
       "Please schedule your priority call to get started with your application!",
-      "https://www.greencard.inc/schedule-call",
-      "Schedule Your Call"
+      "https://www.greencard.inc/dashboard/onboarding",
+      "Schedule Your Call",
     );
 
     // Sending onboarding reminder emails
@@ -118,10 +120,9 @@ export async function sendEmail() {
       usersNotOnboarded,
       "Welcome! Complete Your Onboarding",
       "Welcome to Greencard Inc! Please complete your onboarding process.",
-      "https://www.greencard.inc/onboarding-form",
-      "Complete Your Onboarding"
+      "https://www.greencard.inc/dashboard/onboarding",
+      "Complete Your Onboarding",
     );
-
   } catch (error) {
     console.error("Error fetching users or sending emails:", error);
     throw new Error("Error occurred while processing sendEmail function");
