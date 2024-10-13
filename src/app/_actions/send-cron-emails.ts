@@ -47,7 +47,7 @@ export async function sendEmail() {
       });
 
     const usersWithoutPriorityCall = usersWithAdditionalInfo.filter(
-      (user) => user.priorityCallSheduled === false,
+      (user) => user.onBoarded === true && user.priorityCallSheduled === false,
     );
 
     const usersNotOnboarded = usersWithAdditionalInfo.filter(
@@ -98,7 +98,7 @@ export async function sendEmail() {
 
         // Send batch emails
         try {
-        //   await resend.batch.send(emailBatch);
+          //   await resend.batch.send(emailBatch);
           console.log(`Sent batch of ${batch.length} emails.`);
         } catch (error) {
           console.error("Error sending batch emails:", error);
@@ -203,7 +203,7 @@ export async function sendEmail() {
 //         linkText: string,
 //       ): Promise<void> => {
 //         const testEmail = "akashbm08@gmail.com";
-        
+
 //         const emailBatch = [{
 //           from: FROM_EMAIL,
 //           to: [testEmail],
@@ -212,17 +212,17 @@ export async function sendEmail() {
 //             message: message,
 //             link: link,
 //             linkText: linkText,
-//             name: "Akash", 
+//             name: "Akash",
 //           }) as React.ReactElement,
 //         }];
-      
+
 //         try {
 //           await resend.batch.send(emailBatch);
 //           console.log(`Test email sent to ${testEmail}.`);
 //         } catch (error) {
 //           console.error("Error sending test email:", error);
 //         }
-//       };      
+//       };
 
 //     // Sending priority call reminder emails
 //     await sendEmailsInBatches(
