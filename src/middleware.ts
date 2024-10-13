@@ -35,6 +35,7 @@ export default authMiddleware({
     "/dataprocessing(.*)",
     "/api/webhook(.*)",
     "/api/uploadthing(.*)",
+    "/api/cron(.*)",
   ],
   // debug: true,
 });
