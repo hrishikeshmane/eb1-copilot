@@ -8,7 +8,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 const FROM_EMAIL = "Greencard Inc <hello@greencard.inc>";
 const RESEND_KEY = process.env.RESEND_KEY;
-const BATCH_SIZE = 250;
+const BATCH_SIZE = 50;
 
 interface UserWithInfo {
   id: string;
