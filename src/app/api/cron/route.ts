@@ -1,5 +1,7 @@
 import { sendEmail } from "@/app/_actions/send-cron-emails";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     await sendEmail();
