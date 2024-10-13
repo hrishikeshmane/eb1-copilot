@@ -1,8 +1,18 @@
 import { sendEmail } from "@/app/_actions/send-cron-emails";
+import type { NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+ 
+export async function GET(request: NextRequest) {
+  
+//   const authHeader = request.headers.get('authorization');
+//   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+//     return new Response('Unauthorized', {
+//       status: 401,
+//     });
+//   }
+
   try {
     await sendEmail();
     console.log("Cron for Not-Onboarded/PriorityCall emails Done!");

@@ -8,7 +8,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 const FROM_EMAIL = "Greencard Inc <hello@greencard.inc>";
 const RESEND_KEY = process.env.RESEND_KEY;
-const BATCH_SIZE = 50;
+const BATCH_SIZE = 250;
 
 interface UserWithInfo {
   id: string;
@@ -47,7 +47,7 @@ export async function sendEmail() {
       });
 
     const usersWithoutPriorityCall = usersWithAdditionalInfo.filter(
-      (user) => user.priorityCallSheduled === false,
+      (user) => user.onBoarded === true && user.priorityCallSheduled === false,
     );
 
     const usersNotOnboarded = usersWithAdditionalInfo.filter(
@@ -63,48 +63,47 @@ export async function sendEmail() {
     // console.log(usersNotOnboarded);
 
     const sendEmailsInBatches = async (
-      users: UserWithInfo[],
-      subject: string,
-      message: string,
-      link: string,
-      linkText: string,
-    ): Promise<void> => {
-      while (users.length) {
-        const batch = users.splice(0, BATCH_SIZE);
+        users: UserWithInfo[],
+        subject: string,
+        message: string,
+        link: string,
+        linkText: string,
+      ): Promise<void> => {
 
-        // const emailBatch = batch.map((user) => {
-        //   const email = user.email || "default@example.com";
-        //   //   const htmlContent = renderToStaticMarkup(
-        //   //     <ReminderEmail
-        //   //       message={message}
-        //   //       link={link}
-        //   //       linkText={linkText}
-        //   //       name={user.name}
-        //   //     />
-        //   //   );
-        //   return {
-        //     from: FROM_EMAIL,
-        //     to: [email],
-        //     subject: subject,
-        //     react: ReminderEmail({
-        //       message: message,
-        //       link: link,
-        //       linkText: linkText,
-        //       name: user.name,
-        //     }) as React.ReactElement,
-        //     // html: htmlContent,
-        //   };
-        // });
 
-        // Send batch emails
+        const usersLength = users.length;
+        const emailBatches = []; 
+      
+        while (users.length) {
+          const batch = users.splice(0, BATCH_SIZE);
+          
+          const bcc = batch.map(user => user.email || "default@example.com");
+      
+          const email = {
+            from: FROM_EMAIL,
+            to: ["hello@greencard.inc"], 
+            subject: subject,
+            bcc: bcc, 
+            react: ReminderEmail({
+              message: message,
+              link: link,
+              linkText: linkText,
+              name: "", 
+            }) as React.ReactElement,
+            // html: htmlContent, 
+          };
+      
+          emailBatches.push(email);
+        }
+      
         try {
-        //   await resend.batch.send(emailBatch);
-          console.log(`Sent batch of ${batch.length} emails.`);
+          await resend.batch.send(emailBatches);
+          console.log(`Sent ${emailBatches.length} emails in batch to ${usersLength} users.`);
         } catch (error) {
           console.error("Error sending batch emails:", error);
         }
-      }
-    };
+      };
+      
 
     // Sending priority call reminder emails
     await sendEmailsInBatches(
@@ -203,7 +202,7 @@ export async function sendEmail() {
 //         linkText: string,
 //       ): Promise<void> => {
 //         const testEmail = "akashbm08@gmail.com";
-        
+
 //         const emailBatch = [{
 //           from: FROM_EMAIL,
 //           to: [testEmail],
@@ -212,17 +211,17 @@ export async function sendEmail() {
 //             message: message,
 //             link: link,
 //             linkText: linkText,
-//             name: "Akash", 
+//             name: "Akash",
 //           }) as React.ReactElement,
 //         }];
-      
+
 //         try {
 //           await resend.batch.send(emailBatch);
 //           console.log(`Test email sent to ${testEmail}.`);
 //         } catch (error) {
 //           console.error("Error sending test email:", error);
 //         }
-//       };      
+//       };
 
 //     // Sending priority call reminder emails
 //     await sendEmailsInBatches(
