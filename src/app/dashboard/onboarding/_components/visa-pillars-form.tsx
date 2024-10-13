@@ -736,7 +736,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               <FormItem className="flex h-full flex-col justify-between">
                 <FormLabel>
                   Have you ever been employed in a critical or essential
-                  capacity?
+                  capacity? <span className="text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -746,19 +746,21 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="yes" />
+                        {/* <MemoRadioGroupItem value="yes" /> */}
+                        <MemoRadioGroupItem value="yes" checked disabled />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    {/* <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <MemoRadioGroupItem
                           value="no"
+                          disabled
                           onClick={() => onNoResponse("criticalCapacity")}
                         />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
-                    </FormItem>
+                    </FormItem> */}
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
@@ -864,7 +866,8 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
               <FormItem className="flex h-full flex-col justify-between">
                 <FormLabel>
                   Have you earned a high compensation in the last five years,
-                  that could be evidenced?
+                  that could be evidenced?{" "}
+                  <span className="text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -874,11 +877,12 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <MemoRadioGroupItem value="yes" />
+                        {/* <MemoRadioGroupItem value="yes" /> */}
+                        <MemoRadioGroupItem value="yes" checked disabled />
                       </FormControl>
                       <FormLabel className="font-normal">Yes</FormLabel>
                     </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    {/* <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <MemoRadioGroupItem
                           value="no"
@@ -886,7 +890,7 @@ const VisaPillarForm = ({ form }: SubFormProps) => {
                         />
                       </FormControl>
                       <FormLabel className="font-normal">No</FormLabel>
-                    </FormItem>
+                    </FormItem> */}
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />

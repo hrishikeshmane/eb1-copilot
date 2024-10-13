@@ -323,8 +323,11 @@ export const formSchema = z.object({
     .optional(),
   membershipDetails: z.string().optional(),
 
-  haveCriticalCapacity: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
+  // haveCriticalCapacity: z.enum(["yes", "no"], {
+  //   errorMap: () => ({ message: "Select an option" }),
+  // }),
+  haveCriticalCapacity: z.literal("yes", {
+    errorMap: () => ({ message: "This is a mandatory response" }),
   }),
   criticalCapacity: z
     .array(
@@ -379,8 +382,8 @@ export const formSchema = z.object({
     .optional(),
   exhibitedDetails: z.string().optional(),
 
-  haveHighCompensation: z.enum(["yes", "no"], {
-    errorMap: () => ({ message: "Select an option" }),
+  haveHighCompensation: z.literal("yes", {
+    errorMap: () => ({ message: "This is a mandatory response" }),
   }),
   highCompensation: z
     .array(

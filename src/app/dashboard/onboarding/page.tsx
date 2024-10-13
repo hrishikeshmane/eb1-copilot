@@ -28,6 +28,7 @@ import ScrollToTop from "@/components/elements/scroll-to-top";
 import { useLogger } from "next-axiom";
 import { Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { nanoid } from "nanoid";
 
 //TODO: make this server component and move form page to a new client component
 const OnboardingPage = () => {
@@ -90,16 +91,16 @@ const OnboardingPage = () => {
       membership: undefined,
       // membershipDetails: "" as FormType["membershipDetails"],
 
-      haveCriticalCapacity: "" as FormType["haveCriticalCapacity"],
-      criticalCapacity: undefined,
+      haveCriticalCapacity: "yes" as FormType["haveCriticalCapacity"],
+      criticalCapacity: [{ id: nanoid(), title: "", detail: "" }],
       // criticalCapacityDetails: "" as FormType["criticalCapacityDetails"],
 
       haveExhibited: "" as FormType["haveExhibited"],
       exhibited: undefined,
       // exhibitedDetails: "" as FormType["exhibitedDetails"],
 
-      haveHighCompensation: "" as FormType["haveHighCompensation"],
-      highCompensation: undefined,
+      haveHighCompensation: "yes" as FormType["haveHighCompensation"],
+      highCompensation: [{ id: nanoid(), title: "", detail: "" }],
       // highCompensationDetails: "" as FormType["highCompensationDetails"],
 
       haveCommercialSuccess: "" as FormType["haveCommercialSuccess"],
@@ -135,7 +136,7 @@ const OnboardingPage = () => {
   // });
 
   const [previousStep, setPreviousStep] = useState(0);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(3);
   const delta = currentStep - previousStep;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
