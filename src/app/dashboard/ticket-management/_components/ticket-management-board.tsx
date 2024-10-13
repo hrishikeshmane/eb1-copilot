@@ -282,7 +282,7 @@ const renderCustomerCard = (customer: User) => (
         </Avatar>
         <div className="min-w-0 flex-1">
           <h2 className="truncate font-semibold">
-            {customer.firstName} {customer.lastName} dfghjk asdfghjk
+            {customer.firstName} {customer.lastName}
           </h2>
           <p className="truncate text-sm text-muted-foreground">
             {customer.emailAddresses[0]?.emailAddress}
