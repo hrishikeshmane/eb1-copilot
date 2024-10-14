@@ -28,6 +28,8 @@ import ScrollToTop from "@/components/elements/scroll-to-top";
 import { useLogger } from "next-axiom";
 import { Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { nanoid } from "nanoid";
+import { useRouter } from "next/navigation";
 
 //TODO: make this server component and move form page to a new client component
 const OnboardingPage = () => {
@@ -90,16 +92,16 @@ const OnboardingPage = () => {
       membership: undefined,
       // membershipDetails: "" as FormType["membershipDetails"],
 
-      haveCriticalCapacity: "" as FormType["haveCriticalCapacity"],
-      criticalCapacity: undefined,
+      haveCriticalCapacity: "yes" as FormType["haveCriticalCapacity"],
+      criticalCapacity: [{ id: nanoid(), title: "", detail: "" }],
       // criticalCapacityDetails: "" as FormType["criticalCapacityDetails"],
 
       haveExhibited: "" as FormType["haveExhibited"],
       exhibited: undefined,
       // exhibitedDetails: "" as FormType["exhibitedDetails"],
 
-      haveHighCompensation: "" as FormType["haveHighCompensation"],
-      highCompensation: undefined,
+      haveHighCompensation: "yes" as FormType["haveHighCompensation"],
+      highCompensation: [{ id: nanoid(), title: "", detail: "" }],
       // highCompensationDetails: "" as FormType["highCompensationDetails"],
 
       haveCommercialSuccess: "" as FormType["haveCommercialSuccess"],
@@ -126,7 +128,11 @@ const OnboardingPage = () => {
     },
   });
 
+  const router = useRouter();
   const { user, isLoaded } = useUser();
+  const userMetadata =
+    user?.publicMetadata as CustomJwtSessionClaims["metadata"];
+  const onBoarded = userMetadata?.onBoarded;
   const log = useLogger().with({ userId: user?.id });
 
   // useFormPersist("onboarding-form", {
@@ -137,14 +143,13 @@ const OnboardingPage = () => {
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const delta = currentStep - previousStep;
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // const router = useRouter();
   const addUserMutaion = api.userDetails.addUser.useMutation({
     onSuccess: () => {
       setIsSubmitting(false);
       toast.success("Your Response has been submitted.");
+      router.refresh();
       // router.push("/dashboard/profile");
     },
     onError: (error) => {
@@ -202,10 +207,6 @@ const OnboardingPage = () => {
       setCurrentStep((step) => step - 1);
     }
   };
-
-  const userMetadata =
-    user?.publicMetadata as CustomJwtSessionClaims["metadata"];
-  const onBoarded = userMetadata?.onBoarded;
 
   if (!isLoaded) {
     return <Loader className="p-4" />;
