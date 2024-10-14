@@ -22,6 +22,10 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { Loader2 } from "lucide-react";
 import UserDetailView from "./user-detail-view";
 import CustomerSelect from "../../ticket-management/_components/customer-select";
+import { CustomerList } from "../../ticket-management/_components/ticket-management-board";
+
+// flag to move back to select customer
+const DYNAMIC_CUSTOMER_ROUTE_FLAG = true;
 
 const ProfileTrackerManagementBoard = () => {
   const customersQuery = api.userManagement.getAllOnBoardedUsers.useQuery();
@@ -31,6 +35,14 @@ const ProfileTrackerManagementBoard = () => {
   const [openSearchFilter, setOpenSearchFilter] = React.useState(false);
 
   const customers = customersQuery.data ?? [];
+
+  if (DYNAMIC_CUSTOMER_ROUTE_FLAG) {
+    return (
+      <div className="h-full">
+        <CustomerList customers={customers} subroute="profile-management" />
+      </div>
+    );
+  }
 
   return (
     <div className="h-full">
