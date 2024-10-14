@@ -45,7 +45,9 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="fullName"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>
+                Full Name <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Dev Patel" {...field} />
               </FormControl>
@@ -61,7 +63,9 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="email"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Email</FormLabel>
+              <FormLabel>
+                Email <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input type="email" placeholder="dev@gmail.com" {...field} />
               </FormControl>
@@ -77,7 +81,9 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="phone"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Phone</FormLabel>
+              <FormLabel>
+                Phone <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input type="tel" placeholder="8888888888" {...field} />
               </FormControl>
@@ -93,7 +99,9 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="linkedIn"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>LinkedIn</FormLabel>
+              <FormLabel>
+                LinkedIn <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   type="url"
@@ -113,7 +121,10 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="highestEducation"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>What is your highest level of education?</FormLabel>
+              <FormLabel>
+                What is your highest level of education?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -140,7 +151,9 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="major"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>What was your Major?</FormLabel>
+              <FormLabel>
+                What was your Major? <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Computer Science" {...field} />
               </FormControl>
@@ -156,7 +169,9 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="brithCountry"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Country of Birth</FormLabel>
+              <FormLabel>
+                Country of Birth <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="India" {...field} />
               </FormControl>
@@ -172,7 +187,10 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="nationalityCountry"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Country of Nationality</FormLabel>
+              <FormLabel>
+                Country of Nationality{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="India" {...field} />
               </FormControl>
@@ -188,7 +206,10 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
           name="hearAboutUs"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>How did you hear about us?</FormLabel>
+              <FormLabel>
+                How did you hear about us?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -218,7 +239,8 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
             return (
               <FormItem className="flex h-full flex-col justify-between">
                 <FormLabel>
-                  Upload your CV{" "}
+                  Upload your CV/Resume{" "}
+                  <span className="text-destructive">*</span>
                   {form.watch("resumeUrl") && (
                     <span className="text-muted-foreground">
                       (Click to change)

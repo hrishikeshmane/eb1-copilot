@@ -53,7 +53,10 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           name="currentlyInUS"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Are you currently in the United States?</FormLabel>
+              <FormLabel>
+                Are you currently in the United States?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -85,7 +88,10 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           name="everBeenToUS"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Have you ever been to the U.S?</FormLabel>
+              <FormLabel>
+                Have you ever been to the U.S?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -117,7 +123,10 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           name="everAppliedForGreenCard"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Have you ever applied for a Green Card?</FormLabel>
+              <FormLabel>
+                Have you ever applied for a Green Card?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -216,7 +225,8 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>
-                Would you like to add any family members to your petition?
+                Would you like to add any family members to your petition?{" "}
+                <span className="text-destructive">*</span>
               </FormLabel>
               <FormControl>
                 <Select
@@ -250,7 +260,8 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>
-                Do you have a current employer in the United States?
+                Do you have a current employer in the United States?{" "}
+                <span className="text-destructive">*</span>
               </FormLabel>
               <FormControl>
                 <Select
@@ -283,7 +294,10 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           name="currentVisa"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>What is your current US Visa?</FormLabel>
+              <FormLabel>
+                What is your current US Visa?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -315,7 +329,9 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           name="isStudent"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Are you a Student?</FormLabel>
+              <FormLabel>
+                Are you a Student? <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -347,7 +363,10 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           name="graduationYear"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>What year did/will you graduate?</FormLabel>
+              <FormLabel>
+                What year did/will you graduate?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -379,7 +398,10 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           name="currentRole"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>What is your current role?</FormLabel>
+              <FormLabel>
+                What is your current role?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Software Engineer" {...field} />
               </FormControl>
@@ -395,7 +417,10 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
           name="industryType"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>What Industry do you work in?</FormLabel>
+              <FormLabel>
+                What Industry do you work in?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -414,6 +439,60 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
                     ))}
                   </SelectContent>
                 </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </li>
+
+      <li className="col-span-1">
+        <FormField
+          control={form.control}
+          name="interestedIn"
+          render={({ field }) => (
+            <FormItem className="flex h-full flex-col justify-between">
+              <FormLabel>
+                What type of Visa or Green Card are you interested in?{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Response" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {INTRESTED_IN.map((option: intrestedInOptions) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </li>
+
+      <li className="col-span-1">
+        <FormField
+          control={form.control}
+          name="fieldExpertIn"
+          render={({ field }) => (
+            <FormItem className="flex h-full flex-col justify-between">
+              <FormLabel>
+                Your field of expertise{" "}
+                <span className="text-destructive">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="Software Engineering" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -460,56 +539,6 @@ const CurrentStatusForm = ({ form }: SubFormProps) => {
                     />
                   </PopoverContent>
                 </Popover>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </li>
-
-      <li className="col-span-1">
-        <FormField
-          control={form.control}
-          name="interestedIn"
-          render={({ field }) => (
-            <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>
-                What type of Visa or Green Card are you interested in?
-              </FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Response" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {INTRESTED_IN.map((option: intrestedInOptions) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </li>
-
-      <li className="col-span-1">
-        <FormField
-          control={form.control}
-          name="fieldExpertIn"
-          render={({ field }) => (
-            <FormItem className="flex h-full flex-col justify-between">
-              <FormLabel>Your field of expertise</FormLabel>
-              <FormControl>
-                <Input placeholder="Software Engineering" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
