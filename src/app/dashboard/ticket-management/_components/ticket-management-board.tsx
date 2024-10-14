@@ -63,7 +63,7 @@ const TicketManagementBoard = () => {
   if (DYNAMIC_CUSTOMER_ROUTE_FLAG) {
     return (
       <div className="h-full">
-        <CustomerList customers={customers} />
+        <CustomerList customers={customers} subroute="ticket-management" />
       </div>
     );
   }
@@ -175,7 +175,13 @@ const TicketManagementBoard = () => {
   );
 };
 
-function CustomerList({ customers }: { customers: User[] }) {
+export function CustomerList({
+  customers,
+  subroute,
+}: {
+  customers: User[];
+  subroute: string;
+}) {
   const [searchTerm, setSearchTerm] = useState("");
 
   // const filteredCustomers = customers.filter(
@@ -255,7 +261,9 @@ function CustomerList({ customers }: { customers: User[] }) {
               <div key={group} className="mb-8">
                 <h2 className="mb-4 border-b font-bold">{group}</h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {filteredAndGroupedCustomers[group].map(renderCustomerCard)}
+                  {filteredAndGroupedCustomers[group].map((c) => (
+                    <CustomerCard customer={c} subroute={subroute} />
+                  ))}
                 </div>
               </div>
             ),
@@ -265,8 +273,14 @@ function CustomerList({ customers }: { customers: User[] }) {
   );
 }
 
-const renderCustomerCard = (customer: User) => (
-  <Link href={`/dashboard/ticket-management/${customer.id}`} key={customer.id}>
+const CustomerCard = ({
+  customer,
+  subroute,
+}: {
+  customer: User;
+  subroute: string;
+}) => (
+  <Link href={`/dashboard/${subroute}/${customer.id}`} key={customer.id}>
     <Card className="group relative transition-colors hover:bg-muted/50">
       <ArrowUpRight className="absolute right-3 top-3 h-4 w-4 transform text-muted-foreground transition-transform duration-200 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-1" />
       <CardContent className="flex items-center p-4">
