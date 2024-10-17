@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import Image from "next/image";
+import CommunityTestimonials from "../community-testimonials";
 
 export const Highlight = ({
   children,
@@ -423,7 +424,8 @@ export default function Testimonials() {
       subtitle="What our customers are saying"
       className="max-w-8xl"
     >
-      <div className="relative mt-6 max-h-screen overflow-hidden">
+      <CommunityTestimonials />
+      {/* <div className="relative mt-6 max-h-screen overflow-hidden">
         <div className="gap-4 md:columns-2 xl:columns-3">
           {Array(Math.ceil(testimonials.length / 3))
             .fill(0)
@@ -456,7 +458,7 @@ export default function Testimonials() {
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 w-full bg-gradient-to-t from-background from-20%"></div>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 w-full bg-gradient-to-b from-background from-20%"></div>
-      </div>
+      </div> */}
     </Section>
   );
 }
