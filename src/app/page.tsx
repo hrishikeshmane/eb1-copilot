@@ -21,6 +21,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import CommunityTestimonials from "@/components/community-testimonials";
 
 export default function Home() {
   return (
@@ -33,9 +34,10 @@ export default function Home() {
       <Problem />
       <Solution />
       <HowItWorks />
-      <TestimonialsCarousel />
+      {/* <TestimonialsCarousel /> */}
       <Features />
       <Testimonials />
+      {/* <CommunityTestimonials /> */}
       <Pricing />
       {/* <FAQ /> */}
       <section className="z-10 mx-auto my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">

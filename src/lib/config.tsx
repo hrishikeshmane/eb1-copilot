@@ -103,29 +103,6 @@ export const siteConfig = {
   },
   pricing: [
     {
-      isPopular: false,
-      name: "EB1 Autopilot",
-      // href: "https://go.greencard.inc/evaluation",
-      href: "/copilot#get-started",
-      price: "Starts from $25,000",
-      period: "One Time",
-      // yearlyPrice: "$40",
-      features: [
-        "Includes attorney filing fee of $12,000",
-        "Unlimited attorney consults",
-        "Press coverage across 5 outlets",
-        "Filing patents for your work",
-        "Publish 10+ research papers and books",
-        "Securing 15+ peer-reviews",
-        "End-to-end case management",
-        "Dedicated program manager",
-        // "Priority support on Slack",
-      ],
-      description:
-        "Best for highly experienced professionals who want a done-for-you solution until they get green card on hand. Requires an evaluation process.",
-      buttonText: "Enroll Now",
-    },
-    {
       name: "EB1 Copilot",
       // href: "https://go.greencard.inc/evaluation",
       href: "/copilot#get-started",
@@ -147,8 +124,32 @@ export const siteConfig = {
       description:
         "Best for highly experienced professionals who want 1:1 support from past recipients & a roadmap to get your talent visa within the next 6-12 months.",
       buttonText: "Enroll Now",
-      isPopular: true,
+      isPopular: false,
     },
+    {
+      isPopular: true,
+      name: "EB1 Autopilot",
+      // href: "https://go.greencard.inc/evaluation",
+      href: "/copilot#get-started",
+      price: "Starts from $25,000",
+      period: "One Time",
+      // yearlyPrice: "$40",
+      features: [
+        "Includes attorney filing fee of $12,000",
+        "Unlimited attorney consults",
+        "Press coverage across 5 outlets",
+        "Filing patents for your work",
+        "Publish 10+ research papers and books",
+        "Securing 15+ peer-reviews",
+        "End-to-end case management",
+        "Dedicated program manager",
+        // "Priority support on Slack",
+      ],
+      description:
+        "Best for highly experienced professionals who want a done-for-you solution until they get green card on hand. Requires an evaluation process.",
+      buttonText: "Enroll Now",
+    },
+
     {
       name: "Enterprise",
       href: "mailto::rk@greencard.inc",
