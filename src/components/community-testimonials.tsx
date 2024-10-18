@@ -9,13 +9,13 @@ const reviews = [
     body: "The most underrated benefit I got from the Unshackled community was the emotional support. I got an RFE during my O-1A journey and it was extremely painful, emotionally. I can't recommend joining the community enough.",
     name: "Hitesh K.",
     img: "https://github.com/hrishikeshmane/unshackled-asstets/blob/main/community/review-avatar/Hitesh%20Kenjale.png?raw=true",
-    position: "Co-Founder of DesiHangover",
+    position: "Co-Founder",
   },
   {
     body: "I got everything I needed to create a solid O-1A case. The knowledge base introduced me to the websites I needed to build my evidence. I had access to people who were doing exactly what I was doing - as well as people who've reached the finish line of the process! I could speak to vetted lawyers who evaluated my case. There is always new information being shared and discussed. Overall, I got more out of the community than I paid for!",
     name: "Dominic D.",
     img: "https://github.com/hrishikeshmane/unshackled-asstets/blob/main/community/review-avatar/Dominic%20Damoah.jpeg?raw=true",
-    position: "CTO of Vie, Inc.",
+    position: "CTO",
   },
   {
     body: "The biggest thing I got from the community was the belief that I could actually qualify for the O-1A. It wasn’t this giant, monolithic thing meant only for a select few. As long as I was doing good and strategically building my case, it was possible for me to get the visa. Since getting it, I’ve had the peace of mind I needed to get back to what actually mattered: building my company.",
@@ -25,7 +25,7 @@ const reviews = [
   },
   {
     body: "I wish I had found the community earlier in my EB-1A journey. It could have saved me a lot of time and research. And, it would've given me a chance to meet others like me from my field, get their feedback, and made my petition better.",
-    name: "Aswarth Abhilash Dara",
+    name: "Aswarth D.",
     img: "https://github.com/hrishikeshmane/unshackled-asstets/blob/main/community/review-avatar/Aswarth%20Abhilash%20Dara.png?raw=true",
     position: "Staff Software Engineer AI/ML.",
   },
@@ -39,7 +39,7 @@ const reviews = [
     body: "To me, Unshackled was the starting point of discovering a wealth of community, experiences, and resources that have been a friend through a pretty complex process. From simple tips to accessing others who were in similar boats to always having someone willing to help, the community has been unmatched.",
     name: "Zoya B.",
     img: "https://github.com/hrishikeshmane/unshackled-asstets/blob/main/community/review-avatar/Zoya%20Brar.jpeg?raw=true",
-    position: "Founder, CORE Diagnostics. EB-1A and 2x O-1A Recipient.",
+    position: "Founder",
   },
   {
     body: "Thanks to support from the community, I was successfully able to transition from an H-1B to a B-2 following a challenging period of company layoffs.",
