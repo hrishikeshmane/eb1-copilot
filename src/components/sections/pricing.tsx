@@ -25,7 +25,7 @@ export default function PricingSection() {
     <Section
       title="Pricing"
       subtitle="Choose the plan that's right for you"
-      description="Simple one-time pricing"
+      description="Flexible payment plans"
     >
       {/* <div className="mb-10 flex justify-center">
         <span className="mr-2 font-semibold">Monthly</span>
