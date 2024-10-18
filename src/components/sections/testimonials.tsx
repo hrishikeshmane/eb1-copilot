@@ -422,6 +422,7 @@ export default function Testimonials() {
     <Section
       title="Testimonials"
       subtitle="What our customers are saying"
+      description="Across our Community, EB1 Copilot, and EB1 Autopilot"
       className="max-w-8xl"
     >
       <CommunityTestimonials />
