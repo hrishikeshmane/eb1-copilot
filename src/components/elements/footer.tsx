@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="mb-6 flex flex-col gap-2 md:mb-0">
             <Logo />
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
-              6 Stirling Way Hayward, CA 94542
+              2261 Market StSan Francisco, CA 94114
             </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
               © 2024{" "}
