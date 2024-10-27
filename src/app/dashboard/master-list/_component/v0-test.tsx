@@ -397,11 +397,35 @@ export function EditTicketPopover({ ticket }: { ticket: ISelectMasterTicket }) {
   };
 
   const saveTicketHanlder = () => {
-    // TODO: save ticket
+    if (!ticketTitle) {
+      toast.error("Please enter a title");
+      return;
+    }
+    if (!ticketDescription) {
+      toast.error("Please enter a description");
+      return;
+    }
+    if (ticketPillars.length < 1) {
+      toast.error("Please select at least 1 visa pillar");
+      return;
+    }
+
+    editTicketMutation.mutate({
+      ticketId: ticket.ticketId,
+      title: ticketTitle,
+      description: ticketDescription,
+      pillars: ticketPillars.map((p) => p.value),
+    });
     setOpenEditSheet(false);
   };
 
   const utils = api.useUtils();
+  const editTicketMutation = api.masterList.editTicket.useMutation({
+    onSuccess: async () => {
+      toast.success("Ticket edited successfully");
+      await utils.masterList.getAllTicketsByMasterListId.invalidate();
+    },
+  });
   const deleteTicketMutation = api.masterList.deleteTicket.useMutation({
     onSuccess: async () => {
       toast.success("Ticket deleted successfully");
