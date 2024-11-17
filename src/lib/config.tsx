@@ -135,18 +135,18 @@ export const siteConfig = {
       period: "One Time",
       // yearlyPrice: "$40",
       features: [
-        "Includes attorney filing fee of $12,000",
+        "Includes attorney filing fee",
         "Unlimited attorney consults",
-        "Press coverage across 5 outlets",
+        "Press coverage across outlets",
         "Filing patents for your work",
-        "Publish 10+ research papers and books",
-        "Securing 15+ peer-reviews",
+        "Publish research papers and books",
+        "Securing peer-reviews",
         "End-to-end case management",
         "Dedicated program manager",
         // "Priority support on Slack",
       ],
       description:
-        "Best for highly experienced professionals who want a done-for-you solution until they get green card on hand. Requires an evaluation process.",
+        "Best for experienced professionals who want an end to end solution until they get their Green Card. Includes a thorough evaluation process to assess profiles and provide a final quote estimate.",
       buttonText: "Enroll Now",
     },
 
