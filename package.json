@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",
-    "@assistant-ui/react": "^0.5.72",
+    "@assistant-ui/react": "^0.5.98",
+    "@assistant-ui/react-markdown": "^0.2.26",
     "@clerk/nextjs": "^4.29.10",
     "@clerk/themes": "^1.7.11",
     "@hookform/resolvers": "^3.3.4",
