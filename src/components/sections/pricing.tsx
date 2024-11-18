@@ -91,11 +91,11 @@ export default function PricingSection() {
                 {plan.name}
               </p>
               <p className="mt-6 flex items-center justify-center gap-x-2">
-                <span className="mb-2 text-4xl font-bold tracking-tight text-foreground">
+                <span className=" mb-2 text-4xl font-bold tracking-tight text-foreground">
                   {/* {isMonthly ? plan.price : plan.yearlyPrice} */}
                   {plan.slashPrice ? (
                     <>
-                      <del className="text-muted-foreground">
+                      <del className="relative text-muted-foreground">
                         {plan.slashPrice}
                       </del>{" "}
                       {plan.price}
@@ -103,6 +103,9 @@ export default function PricingSection() {
                   ) : (
                     <>{plan.price}</>
                   )}
+                  {/* {plan.addConditionToPrice && (
+                    <span className="absolute top-0 text-sm">*</span>
+                  )} */}
                 </span>
                 {/* {plan.period !== "Next 3 months" && (
                   <span className="text-sm font-semibold leading-6 tracking-wide text-muted-foreground">
@@ -144,6 +147,9 @@ export default function PricingSection() {
               </Link>
               <p className="mt-6 text-xs leading-5 text-muted-foreground">
                 {plan.description}
+              </p>
+              <p className="mt-6 text-xs leading-5 text-muted-foreground">
+                {plan.subDescription}
               </p>
             </div>
           </motion.div>

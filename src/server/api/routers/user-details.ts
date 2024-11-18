@@ -264,4 +264,11 @@ export const userDetailsRouter = createTRPCRouter({
       });
     }
   }),
+
+  getUnsafeUserInfo: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ input }) => {
+      const user = await clerkClient.users.getUser(input.userId);
+      return user;
+    }),
 });
