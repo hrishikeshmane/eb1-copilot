@@ -131,23 +131,24 @@ export const siteConfig = {
       name: "EB1 Autopilot",
       // href: "https://go.greencard.inc/evaluation",
       href: "/copilot#get-started",
-      price: "Starts from $25,000",
+      price: "Custom quote starts from $25,000",
+      addConditionToPrice: true,
       period: "One Time",
       // yearlyPrice: "$40",
       features: [
-        "Includes attorney filing fee",
+        "Includes attorney filing fee worth $12,000",
         "Unlimited attorney consults",
-        "Press coverage across outlets",
+        "Press coverage across outlets worth $7,000",
         "Filing patents for your work",
         "Publish research papers and books",
         "Securing peer-reviews",
         "End-to-end case management",
         "Dedicated program manager",
-        // "Priority support on Slack",
       ],
       description:
         "Best for experienced professionals who want an end to end solution until they get their Green Card. Includes a thorough evaluation process to assess profiles and provide a final quote estimate.",
       buttonText: "Enroll Now",
+      subDescription: "Payment plans available",
     },
 
     {
