@@ -10,7 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import React from "react";
+import React, { useState } from "react";
 import StatusButton from "./status-button";
 import PillarButton from "./pillar-button";
 import AssigneeButton from "./assignee-button";
@@ -26,10 +26,13 @@ import {
   ticketDescriptionAtom,
   ticketDueDateAtom,
 } from "@/app/_store/kanban-store";
-import { type ISelectTickets } from "@/server/db/schema";
+import { ISelectComment, type ISelectTickets } from "@/server/db/schema";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@clerk/nextjs";
 import { TicektDatePicker } from "./ticket-date-picker-button";
+import { Input } from "@/components/ui/input";
+import { Send, SendHorizonal } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const customer = useAtomValue(customerAtom);
@@ -68,7 +71,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
     onSuccess: async () => {
       toast.success("New Ticket Added");
       await utils.kanban.getTicketsByUserId.refetch();
-      utils.kanban.getAllUsersTickets.invalidate();
+      await utils.kanban.getAllUsersTickets.invalidate();
     },
   });
 
@@ -171,6 +174,8 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
             </SheetDescription>
           </>
         </SheetHeader>
+        {/* <CommentSection /> */}
+
         <SheetFooter>
           <div className="mt-auto flex gap-2">
             <SheetClose asChild>
@@ -187,6 +192,90 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
         </SheetFooter>
       </SheetContent>
     </Sheet>
+  );
+};
+
+export const CommentSection = ({ ticketId }: { ticketId: string }) => {
+  const [comment, setComment] = useState("");
+
+  const commentsData = api.comment.getCommentsForTicket.useQuery({
+    ticketId: ticketId,
+  });
+
+  const utils = api.useUtils();
+  const addCommentMutation = api.comment.addCommentToTicket.useMutation({
+    onSuccess: async () => {
+      setComment("");
+      await utils.comment.getCommentsForTicket.invalidate();
+    },
+    onError: () => {
+      toast.error("Failed to add comment");
+    },
+  });
+
+  const addCommentHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    addCommentMutation.mutate({
+      ticketId: ticketId,
+      content: comment,
+    });
+  };
+
+  return (
+    <div>
+      <form className="flex w-full gap-2" onSubmit={addCommentHandler}>
+        <Input
+          placeholder="Add Comment"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <Button type="submit" size={"icon"}>
+          <SendHorizonal className="size-4" />
+        </Button>
+      </form>
+      <div className="mt-2 flex flex-col gap-2 overflow-y-auto">
+        {commentsData.data?.map((comment) => (
+          <Comment
+            key={comment.createdAt.toLocaleString()}
+            author={comment.userId}
+            content={comment.content}
+            timestamp={comment.createdAt.toLocaleString()}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+type CommentProps = { author: string; content: string; timestamp: string };
+
+const Comment = ({ author, content, timestamp }: CommentProps) => {
+  const userInfo = api.userDetails.getUnsafeUserInfo.useQuery({
+    userId: author,
+  });
+
+  const firstName = userInfo.data?.firstName ?? "User FirstName";
+  const lastName = userInfo.data?.lastName ?? "User LastName";
+  const userFullName = `${firstName} ${lastName}`;
+  const useImg = userInfo.data?.imageUrl;
+
+  return (
+    <div className="flex items-center">
+      <Avatar className="scale-90">
+        <AvatarImage src={useImg} alt={userFullName} />
+        <AvatarFallback>
+          {firstName.charAt(0) + lastName.charAt(0)}
+        </AvatarFallback>
+      </Avatar>
+      <div className="mb-1 flex w-full flex-col gap-2 px-2">
+        <div className="flex items-center gap-1">
+          <span className="text-xs text-muted-foreground">{userFullName}</span>
+          <span className="scale-75 text-xs text-muted-foreground">|</span>
+          <span className="text-xs text-muted-foreground">{timestamp}</span>
+        </div>
+        <p className="-mt-1 text-sm">{content}</p>
+      </div>
+    </div>
   );
 };
 

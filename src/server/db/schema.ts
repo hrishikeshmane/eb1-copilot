@@ -286,3 +286,4 @@ export type ISelectMasterTicket = typeof masterListTickets.$inferSelect;
 export type ISelectTickets = typeof tickets.$inferSelect;
 export type ISelectUserVisaPillarDetails =
   typeof userVisaPillarDetails.$inferSelect;
+export type ISelectComment = typeof comments.$inferSelect;

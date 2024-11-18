@@ -46,7 +46,9 @@ import { api } from "@/trpc/react";
 import PillarButton from "@/app/dashboard/builder/_components/pillar-button";
 import AssigneeButton from "@/app/dashboard/builder/_components/assignee-button";
 import StatusButton from "@/app/dashboard/builder/_components/status-button";
-import NewTicketButton from "@/app/dashboard/builder/_components/new-ticket-button";
+import NewTicketButton, {
+  CommentSection,
+} from "@/app/dashboard/builder/_components/new-ticket-button";
 import {
   customerAtom,
   FilterPillarsAtom,
@@ -70,6 +72,7 @@ import { Textarea } from "../ui/textarea";
 import Link from "next/link";
 import { TicektDatePicker } from "@/app/dashboard/builder/_components/ticket-date-picker-button";
 import { format } from "date-fns";
+import Loader from "./loader";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
@@ -593,7 +596,7 @@ const KanbanCard = ({
     },
     onSettled: async () => {
       await utils.kanban.getTicketsByUserId.invalidate();
-      utils.kanban.getAllUsersTickets.invalidate();
+      await utils.kanban.getAllUsersTickets.invalidate();
     },
   });
 
@@ -748,7 +751,9 @@ const KanbanCard = ({
                 </SheetDescription>
               </>
             </SheetHeader>
-            <ScrollArea className="h-full w-full"></ScrollArea>
+            <ScrollArea className="h-full w-full">
+              <CommentSection ticketId={card.ticketId} />
+            </ScrollArea>
             <SheetFooter>
               <div className="mt-auto flex gap-2">
                 <SheetClose asChild>
@@ -800,7 +805,7 @@ const DropIndicator = ({
   );
 };
 
-const BurnBarrel = ({}: {}) => {
+const BurnBarrel = () => {
   const [active, setActive] = useState(false);
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -850,76 +855,3 @@ const BurnBarrel = ({}: {}) => {
     </div>
   );
 };
-
-// const AddCard = ({
-//   column,
-//   setCards,
-// }: {
-//   column: string;
-//   setCards: React.Dispatch<React.SetStateAction<IKanbanCard[]>>;
-// }) => {
-//   const [text, setText] = useState("");
-//   const [adding, setAdding] = useState(false);
-
-//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-
-//     if (!text.trim().length) return;
-
-//     const newCard = {
-//       column,
-//       title: text.trim(),
-//       id: Math.random().toString(),
-//       pillars: [],
-//     };
-
-//     setCards((pv) => [...pv, newCard]);
-
-//     setAdding(false);
-//   };
-
-//   return (
-//     <>
-//       {adding ? (
-//         <motion.form layout onSubmit={handleSubmit}>
-//           <textarea
-//             onChange={(e) => setText(e.target.value)}
-//             autoFocus
-//             placeholder="Add new task..."
-//             className="w-full rounded border border-primary bg-primary/20 p-3 text-sm placeholder-muted-foreground focus:outline-0 dark:placeholder-primary/80"
-//           />
-
-//           <div className="mt-1 flex items-center justify-end gap-1.5">
-//             <Button
-//               size={"sm"}
-//               variant={"ghost"}
-//               onClick={() => setAdding(false)}
-//               className="flex  items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
-//             >
-//               Close
-//             </Button>
-//             <Button
-//               size={"sm"}
-//               type="submit"
-//               variant={"ghost"}
-//               className="gap-1.5 text-xs "
-//               //   className="flex items-center gap-1.5 rounded bg-neutral-50 px-3 py-1.5 text-xs text-neutral-950 transition-colors hover:bg-neutral-300"
-//             >
-//               <span>Add</span>
-//               <PlusIcon />
-//             </Button>
-//           </div>
-//         </motion.form>
-//       ) : (
-//         <motion.button
-//           layout
-//           onClick={() => setAdding(true)}
-//           className="flex w-full items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
-//         >
-//           <span>Add card</span>
-//           <PlusIcon />
-//         </motion.button>
-//       )}
-//     </>
-//   );
-// };
