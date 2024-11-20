@@ -106,25 +106,25 @@ export async function sendEmail() {
         await new Promise(resolve => setTimeout(resolve, 500));
       }
     };
-    
       
     // Sending priority call reminder emails
-    await sendEmailsInBatches(
-      usersWithoutPriorityCall,
-      "Reminder: Schedule Your Priority Call",
-      "Please schedule your priority call to get started with your application!",
-      "https://www.greencard.inc/dashboard/onboarding",
-      "Schedule Your Call",
-    );
+    // await sendEmailsInBatches(
+    //   usersWithoutPriorityCall,
+    //   "Reminder: Schedule Your Priority Call",
+    //   "Please schedule your priority call to get started with your application!",
+    //   "https://www.greencard.inc/dashboard/onboarding",
+    //   "Schedule Your Call",
+    // );
 
-    // Sending onboarding reminder emails
-    await sendEmailsInBatches(
-      usersNotOnboarded,
-      "Welcome! Complete Your Onboarding",
-      "Welcome to Greencard Inc! Please complete your onboarding process.",
-      "https://www.greencard.inc/dashboard/onboarding",
-      "Complete Your Onboarding",
-    );
+    // // Sending onboarding reminder emails
+    // await sendEmailsInBatches(
+    //   usersNotOnboarded,
+    //   "Welcome! Complete Your Onboarding",
+    //   "Welcome to Greencard Inc! Please complete your onboarding process.",
+    //   "https://www.greencard.inc/dashboard/onboarding",
+    //   "Complete Your Onboarding",
+    // );
+
   } catch (error) {
     console.error("Error fetching users or sending emails:", error);
     throw new Error("Error occurred while processing sendEmail function");
