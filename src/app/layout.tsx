@@ -15,6 +15,7 @@ import { CSPostHogProvider } from "@/components/elements/CSPostHogProvider";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +27,12 @@ export const metadata = {
   description:
     "Your one-stop shop to Secure your Green Card with AI-Powered Expertise",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  verification: {
+    google: "Ax1JTyzFVFsJ48SAd0JZwzSY20npItA57VvupdUe1qY",
+    other: {
+      "msvalidate.01": ["39CC291841558A0EC3039A7C6B54B83F"],
+    },
+  },
 };
 
 export default function RootLayout({
@@ -35,6 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <GoogleTagManager gtmId="GTM-WW2M6M6C" />
       <body
         className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
       >
