@@ -24,6 +24,7 @@
     "@clerk/themes": "^1.7.11",
     "@hookform/resolvers": "^3.3.4",
     "@libsql/client": "^0.6.0",
+    "@next/third-parties": "^15.1.2",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
