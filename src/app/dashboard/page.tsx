@@ -1,10 +1,10 @@
-import { auth, currentUser } from "@clerk/nextjs";
 import OnboardingPlaceholder from "./_components/onboarding-placeholder";
 import { AdminDashboard } from "./_components/admin-dashboard";
 import CustomerDashboard from "./_components/customer-dashboard";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 export default async function Page() {
-  const { sessionClaims } = auth();
+  const { sessionClaims } = await auth();
   const user = await currentUser();
   const isAdmin = sessionClaims?.metadata.role === "admin";
   const isCustomer = sessionClaims?.metadata.role === "customer";

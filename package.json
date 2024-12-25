@@ -19,10 +19,10 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",
-    "@assistant-ui/react": "^0.7.17",
+    "@assistant-ui/react": "^0.7.19",
     "@assistant-ui/react-ai-sdk": "^0.7.4",
     "@assistant-ui/react-markdown": "^0.7.5",
-    "@clerk/nextjs": "^4.31.6",
+    "@clerk/nextjs": "^6.9.6",
     "@clerk/themes": "^1.7.11",
     "@hookform/resolvers": "^3.3.4",
     "@libsql/client": "^0.6.0",
@@ -119,7 +119,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@hookform/devtools": "^4.3.1",
+    "@hookform/devtools": "^4.3.3",
     "@svgr/webpack": "^8.1.0",
     "@types/better-sqlite3": "^7.6.9",
     "@types/eslint": "^8.56.2",

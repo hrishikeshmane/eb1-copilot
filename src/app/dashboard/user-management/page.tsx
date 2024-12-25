@@ -6,7 +6,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { columns } from "./_components/columns";
 
 const UserManagementPage = async () => {
-  const role = auth().sessionClaims?.metadata.role;
+  const role = (await auth()).sessionClaims?.metadata.role;
   if (role !== "admin") {
     redirect("/dashboard");
   }

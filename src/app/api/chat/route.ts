@@ -7,7 +7,7 @@ export const maxDuration = 30;
 export const MODEL = "gpt-4o-mini";
 
 export async function POST(req: Request) {
-  const session = auth();
+  const session = await auth();
 
   if (!session.userId) {
     return new Response("Invalid request", { status: 400 });

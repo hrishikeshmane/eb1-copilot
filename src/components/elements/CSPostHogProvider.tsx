@@ -22,19 +22,31 @@ export function CSPostHogProvider({ children }: { children: React.ReactNode }) {
 }
 
 function PostHogAuthWrapper({ children }: { children: React.ReactNode }) {
-  const auth = useAuth();
-  const userInfo = useUser();
+  const { user } = useUser();
+
+  // const auth = useAuth();
+  // useEffect(() => {
+  //   if (userInfo.user) {
+  //     posthog.identify(userInfo.user.id, {
+  //       email: userInfo.user.emailAddresses[0]?.emailAddress,
+  //       name: userInfo.user.fullName,
+  //     });
+  //   } else if (!auth.isSignedIn) {
+  //     posthog.reset();
+  //   }
+  // }, [auth, userInfo]);
 
   useEffect(() => {
-    if (userInfo.user) {
-      posthog.identify(userInfo.user.id, {
-        email: userInfo.user.emailAddresses[0]?.emailAddress,
-        name: userInfo.user.fullName,
+    if (user) {
+      posthog.identify(user.id, {
+        // email: user.primaryEmailAddress?.emailAddress,
+        email: user.emailAddresses[0]?.emailAddress,
+        name: user.fullName,
       });
-    } else if (!auth.isSignedIn) {
+    } else {
       posthog.reset();
     }
-  }, [auth, userInfo]);
+  }, [user]);
 
   return children;
 }

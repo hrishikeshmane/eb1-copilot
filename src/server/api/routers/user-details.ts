@@ -96,7 +96,8 @@ export const userDetailsRouter = createTRPCRouter({
           // update the user onboarding status
           const publicMetaData = ctx.session.sessionClaims.metadata;
 
-          await clerkClient.users.updateUserMetadata(ctx.session.userId, {
+          const client = await clerkClient();
+          await client.users.updateUserMetadata(ctx.session.userId, {
             publicMetadata: {
               ...publicMetaData,
               onBoarded: true,
@@ -267,7 +268,8 @@ export const userDetailsRouter = createTRPCRouter({
   getUnsafeUserInfo: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ input }) => {
-      const user = await clerkClient.users.getUser(input.userId);
+      const client = await clerkClient();
+      const user = client.users.getUser(input.userId);
       return user;
     }),
 });

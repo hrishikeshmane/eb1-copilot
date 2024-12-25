@@ -5,7 +5,7 @@ import OnboardingPlaceholder from "../_components/onboarding-placeholder";
 import { auth } from "@clerk/nextjs/server";
 
 const ProfileTrackerPage = async () => {
-  const { sessionClaims } = auth();
+  const { sessionClaims } = await auth();
 
   const userPillars = await api.userDetails.getUserPillars();
   const completedTickets = await api.kanban.getCompletedTickets();

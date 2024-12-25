@@ -23,7 +23,7 @@ const GetStartedButton = ({ className }: { className?: string }) => {
         </Link>
       </SignedIn>
       <SignedOut>
-        <SignInButton mode="modal" redirectUrl="/dashboard">
+        <SignInButton mode="modal">
           <Button className="group gap-1">
             Get Started
             <ArrowRightIcon className="transform transition-transform duration-200 ease-in-out group-hover:translate-x-1" />

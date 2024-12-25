@@ -40,7 +40,7 @@ export const createInnerTRPCContext = async ({ auth }: AuthContext) => {
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const session = auth();
+  const session = await auth();
   return {
     db,
     session,

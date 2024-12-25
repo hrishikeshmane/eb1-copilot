@@ -23,9 +23,9 @@ const config = withAxiom({
       { hostname: "lh6.googleusercontent.com" },
     ],
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // typescript: {
+  //   ignoreBuildErrors: true,
+  // },
   eslint: {
     ignoreDuringBuilds: true,
   },

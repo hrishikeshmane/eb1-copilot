@@ -6,7 +6,7 @@ import { currentUser } from "@clerk/nextjs/server";
 // export const dynamic = 'force-dynamic';
 
 const ProfileBuilderPage = async () => {
-  const { sessionClaims } = auth();
+  const { sessionClaims } = await auth();
   const onBoarded = sessionClaims?.metadata?.onBoarded ?? false;
   const role = sessionClaims?.metadata?.role ?? "customer";
   const customer = await currentUser();
@@ -16,19 +16,19 @@ const ProfileBuilderPage = async () => {
   const isAdmin = role === "admin" ? true : false;
 
   return (
-    <div className="h-full w-full p-4 pb-1 pr-0">
+    (<div className="h-full w-full p-4 pb-1 pr-0">
       {!!onBoarded && (
-        <CustomKanban
+        (<CustomKanban
           isInteractable={true}
           isAdmin={isAdmin}
           customerString={customerString}
-        />
+        />)
         // <CustomKanban isInteractable={isInteractable} isAdmin={isAdmin} />
       )}
       {!onBoarded && (
         <OnboardingPlaceholder className="my-2 flex h-[calc(100vh-6rem)] w-[98%]" />
       )}
-    </div>
+    </div>)
   );
 };
 

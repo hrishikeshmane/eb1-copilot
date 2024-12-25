@@ -13,7 +13,8 @@ import { IUsersWithInfo } from "@/server/db/schema";
 export const userManagementRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
     //TODO: Paginated user list
-    const allUsers = await clerkClient.users.getUserList({
+    const client = await clerkClient();
+    const allUsers = await client.users.getUserList({
       orderBy: "-created_at",
       limit: 500,
     });
@@ -24,7 +25,7 @@ export const userManagementRouter = createTRPCRouter({
     });
 
     // add fields- phone, linkedIn, priorityCallSheduled in allUsers
-    const usersWithAdditionalInfo = allUsers.map((user) => {
+    const usersWithAdditionalInfo = allUsers.data.map((user) => {
       const userInfo = usersWithInfo.find(
         (userInfo) => userInfo.userId === user.id,
       );
@@ -44,10 +45,11 @@ export const userManagementRouter = createTRPCRouter({
   }),
 
   getAllVendors: adminProcedure.query(async ({ ctx }) => {
-    const allUsers = await clerkClient.users.getUserList({
+    const client = await clerkClient();
+    const allUsers = await client.users.getUserList({
       limit: 500,
     });
-    const vendors = allUsers.filter(
+    const vendors = allUsers.data.filter(
       (user) => user.publicMetadata.role === "vendor",
     );
     return vendors;
@@ -55,10 +57,11 @@ export const userManagementRouter = createTRPCRouter({
 
   getAllCustomers: adminProcedure.query(async ({ ctx }) => {
     //TODO: Paginated user list
-    const allUsers = await clerkClient.users.getUserList({
+    const client = await clerkClient();
+    const allUsers = await client.users.getUserList({
       limit: 500,
     });
-    const customers = allUsers.filter(
+    const customers = allUsers.data.filter(
       (user) => user.publicMetadata.role === "customer",
     );
     return customers;
@@ -66,21 +69,23 @@ export const userManagementRouter = createTRPCRouter({
 
   getAllOnBoardedUsers: adminProcedure.query(async ({ ctx }) => {
     //TODO: Paginated user list
-    const allUsers = await clerkClient.users.getUserList({
+    const client = await clerkClient();
+    const allUsers = await client.users.getUserList({
       orderBy: "-updated_at",
       limit: 500,
     });
-    const onboardedUsers = allUsers.filter(
+    const onboardedUsers = allUsers.data.filter(
       (user) => user.publicMetadata.onBoarded,
     );
     return onboardedUsers;
   }),
 
   getLatestCustomers: adminProcedure.query(async ({ ctx }) => {
-    const allUsers = await clerkClient.users.getUserList({
+    const client = await clerkClient();
+    const allUsers = await client.users.getUserList({
       limit: 7,
     });
-    const customers = allUsers.filter(
+    const customers = allUsers.data.filter(
       (user) => user.publicMetadata.role === "customer",
     );
     return customers;
@@ -89,7 +94,8 @@ export const userManagementRouter = createTRPCRouter({
   getUser: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
-      const user = await clerkClient.users.getUser(input.userId);
+      const client = await clerkClient();
+      const user = await client.users.getUser(input.userId);
       return user;
     }),
 
@@ -97,10 +103,11 @@ export const userManagementRouter = createTRPCRouter({
     .input(z.object({ userId: z.string(), role: z.string() }))
     .mutation(async ({ input }) => {
       try {
-        const user = await clerkClient.users.getUser(input.userId);
+        const client = await clerkClient();
+        const user = await client.users.getUser(input.userId);
         const userMetaData =
           user.publicMetadata as CustomJwtSessionClaims["metadata"];
-        await clerkClient.users.updateUser(input.userId, {
+        await client.users.updateUser(input.userId, {
           publicMetadata: { ...userMetaData, role: input.role },
         });
       } catch (e) {

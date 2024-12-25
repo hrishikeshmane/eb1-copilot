@@ -55,13 +55,13 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   console.log(`Webhook with and ID of ${evt.data.id} and type of ${eventType}`);
-  //   console.log("Webhook body:", body);
 
+  const client = await clerkClient();
   if (eventType === "user.created") {
     const { id } = evt.data;
     console.log("$$$$$$$$$ user created", id);
 
-    await clerkClient.users.updateUserMetadata(id, {
+    await client.users.updateUserMetadata(id, {
       publicMetadata: {
         role: "customer",
         onBoarded: false,
@@ -86,7 +86,7 @@ export async function POST(req: Request) {
       where: eq(users.userId, id),
     });
     if (!user) {
-      await clerkClient.users.updateUserMetadata(id, {
+      await client.users.updateUserMetadata(id, {
         publicMetadata: {
           role: "customer",
           onBoarded: false,

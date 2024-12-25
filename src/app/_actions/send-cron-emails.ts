@@ -22,7 +22,8 @@ export async function sendEmail() {
   const resend = new Resend(RESEND_KEY);
 
   try {
-    const allUsers = await clerkClient.users.getUserList({
+    const client = await clerkClient();
+    const allUsers = await client.users.getUserList({
       orderBy: "-created_at",
       limit: 500,
     });
@@ -33,7 +34,7 @@ export async function sendEmail() {
       },
     });
 
-    const usersWithAdditionalInfo: UserWithInfo[] = allUsers
+    const usersWithAdditionalInfo: UserWithInfo[] = allUsers.data
       .filter((user) => user.publicMetadata.role === "customer")
       .map((user) => {
         const userInfo = usersWithInfo.find((info) => info.userId === user.id);
@@ -63,47 +64,46 @@ export async function sendEmail() {
     // console.log(usersNotOnboarded);
 
     const sendEmailsInBatches = async (
-        users: UserWithInfo[],
-        subject: string,
-        message: string,
-        link: string,
-        linkText: string,
-      ): Promise<void> => {
+      users: UserWithInfo[],
+      subject: string,
+      message: string,
+      link: string,
+      linkText: string,
+    ): Promise<void> => {
+      const usersLength = users.length;
+      const emailBatches = [];
 
+      while (users.length) {
+        const batch = users.splice(0, BATCH_SIZE);
 
-        const usersLength = users.length;
-        const emailBatches = []; 
-      
-        while (users.length) {
-          const batch = users.splice(0, BATCH_SIZE);
-          
-          const bcc = batch.map(user => user.email || "default@example.com");
-      
-          const email = {
-            from: FROM_EMAIL,
-            to: ["hello@greencard.inc"], 
-            subject: subject,
-            bcc: bcc, 
-            react: ReminderEmail({
-              message: message,
-              link: link,
-              linkText: linkText,
-              name: "", 
-            }) as React.ReactElement<any>,
-            // html: htmlContent, 
-          };
-      
-          emailBatches.push(email);
-        }
-      
-        try {
-          await resend.batch.send(emailBatches);
-          console.log(`Sent ${emailBatches.length} emails in batch to ${usersLength} users.`);
-        } catch (error) {
-          console.error("Error sending batch emails:", error);
-        }
-      };
-      
+        const bcc = batch.map((user) => user.email || "default@example.com");
+
+        const email = {
+          from: FROM_EMAIL,
+          to: ["hello@greencard.inc"],
+          subject: subject,
+          bcc: bcc,
+          react: ReminderEmail({
+            message: message,
+            link: link,
+            linkText: linkText,
+            name: "",
+          }) as React.ReactElement<any>,
+          // html: htmlContent,
+        };
+
+        emailBatches.push(email);
+      }
+
+      try {
+        await resend.batch.send(emailBatches);
+        console.log(
+          `Sent ${emailBatches.length} emails in batch to ${usersLength} users.`,
+        );
+      } catch (error) {
+        console.error("Error sending batch emails:", error);
+      }
+    };
 
     // Sending priority call reminder emails
     await sendEmailsInBatches(
