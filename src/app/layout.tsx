@@ -41,14 +41,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <GoogleTagManager gtmId="GTM-WW2M6M6C" />
       <body
         className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >

@@ -49,9 +49,8 @@ function formatDate(date: string) {
   }
 }
 
-export async function generateMetadata({
-  params,
-}: any): Promise<Metadata | undefined> {
+export async function generateMetadata(props: any): Promise<Metadata | undefined> {
+  const params = await props.params;
   let post = getBlogPosts().find((post) => post.slug === params.slug);
   if (!post) {
     return;
@@ -91,7 +90,8 @@ export async function generateMetadata({
   };
 }
 
-const BlogPage = ({ params }: any) => {
+const BlogPage = async (props: any) => {
+  const params = await props.params;
   let post = getBlogPosts().find((post) => post.slug === params.slug);
 
   if (!post) {

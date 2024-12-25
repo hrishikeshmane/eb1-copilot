@@ -89,7 +89,7 @@ export async function sendEmail() {
               link: link,
               linkText: linkText,
               name: "", 
-            }) as React.ReactElement,
+            }) as React.ReactElement<any>,
             // html: htmlContent, 
           };
       

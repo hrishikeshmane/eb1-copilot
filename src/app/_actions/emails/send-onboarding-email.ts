@@ -22,7 +22,7 @@ export async function sendOnBoardingEmail(userPersonalInfo: ISelectUserInfo) {
     subject: "Congratz on onboarding to Greencard Inc!",
     react: WelcomeEmail({
       userPersonalInfo: userPersonalInfo,
-    }) as React.ReactElement,
+    }) as React.ReactElement<any>,
   });
 
   if (error) {

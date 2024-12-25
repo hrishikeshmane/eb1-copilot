@@ -29,6 +29,16 @@ const config = withAxiom({
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    turbo: {
+      rules: {
+        "*.svg": {
+          loaders: ["@svgr/webpack"],
+          as: "*.js",
+        },
+      },
+    },
+  },
   webpack(config) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     config.module.rules.push({

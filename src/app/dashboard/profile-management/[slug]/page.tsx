@@ -1,13 +1,14 @@
 "use client";
 
 import Loader from "@/components/elements/loader";
-import React from "react";
+import React, { use } from "react";
 import { api } from "@/trpc/react";
 import { User } from "@clerk/nextjs/server";
 import UserDetailView from "../_components/user-detail-view";
 import CustomerSelect from "../../ticket-management/_components/customer-select";
 
-const page = ({ params }: { params: { slug: string } }) => {
+const page = (props: { params: Promise<{ slug: string }> }) => {
+  const params = use(props.params);
   const userId = params.slug;
   const customerUser = api.userManagement.getUser.useQuery({ userId });
   const [selectedCustomer, setSelectedCustomer] = React.useState<

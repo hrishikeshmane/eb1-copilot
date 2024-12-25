@@ -2,7 +2,8 @@ import React from "react";
 import { api } from "@/trpc/server";
 import PdfViewer from "../_component/pdf-viewer";
 
-const ProfileReportPage = async ({ params }: { params: { slug: string } }) => {
+const ProfileReportPage = async (props: { params: Promise<{ slug: string }> }) => {
+  const params = await props.params;
   const userPillars = await api.userDetails.getUserPillarsByUserId({
     userId: params.slug,
   });
