@@ -6,6 +6,10 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
-  stega: { studioUrl: "http://localhost:3000/studio" },
+  useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
+  // stega: { studioUrl: "http://localhost:3000/studio" },
+  stega: {
+    enabled: process.env.NEXT_PUBLIC_VERCEL_ENV === "preview",
+    studioUrl: "/studio",
+  },
 })
