@@ -1,6 +1,6 @@
-import { createClient } from 'next-sanity'
+import { createClient } from "next-sanity";
 
-import { apiVersion, dataset, projectId } from '../env'
+import { apiVersion, dataset, projectId } from "../env";
 
 export const client = createClient({
   projectId,
@@ -9,7 +9,8 @@ export const client = createClient({
   useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
   // stega: { studioUrl: "http://localhost:3000/studio" },
   stega: {
-    enabled: process.env.NEXT_PUBLIC_VERCEL_ENV === "preview",
+    // enabled: process.env.NEXT_PUBLIC_VERCEL_ENV === "preview",
+    enabled: true,
     studioUrl: "/studio",
   },
-})
+});
