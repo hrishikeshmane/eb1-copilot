@@ -9,7 +9,7 @@ import { client } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/live";
 import { Post } from "@/components/sanity/post";
 
-export const revalidate = 7200 // revalidate every 2 hour
+export const revalidate = 3600 // revalidate every hour
 
 export async function generateStaticParams() {
   const posts = await client.fetch(POSTS_QUERY);
