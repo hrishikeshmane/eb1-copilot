@@ -21,6 +21,10 @@ const config = withAxiom({
       { hostname: "github.com" },
       { hostname: "raw.githubusercontent.com" },
       { hostname: "lh6.googleusercontent.com" },
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+      },
     ],
   },
   typescript: {
