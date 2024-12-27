@@ -27,7 +27,6 @@ export const userDetailsRouter = createTRPCRouter({
   addUser: protectedProcedure
     .input(z.object({ formData: formSchema }))
     .mutation(async ({ input, ctx }) => {
-      console.log("addUser mutation", input);
       try {
         await db.transaction(async (tx) => {
           const userPersonalInfo: ISelectUserInfo[] = await tx
