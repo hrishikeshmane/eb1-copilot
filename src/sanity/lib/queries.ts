@@ -26,4 +26,5 @@ export const POST_QUERY =
     featured,
     "categories": categories[]->title, 
     author->{name},
+    seo,
 }`);

@@ -76,6 +76,7 @@ export type Post = {
   _rev: string;
   title?: string;
   slug?: Slug;
+  seo?: Seo;
   author?: {
     _ref: string;
     _type: "reference";
@@ -174,6 +175,12 @@ export type Author = {
     _type: "block";
     _key: string;
   }>;
+};
+
+export type Seo = {
+  _type: "seo";
+  metaDescription?: string;
+  keywords?: Array<string>;
 };
 
 export type Category = {
@@ -292,6 +299,7 @@ export type AllSanitySchemaTypes =
   | Geopoint
   | Post
   | Author
+  | Seo
   | Category
   | Slug
   | BlockContent
@@ -329,7 +337,7 @@ export type POSTS_QUERYResult = Array<{
   } | null;
 }>;
 // Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{    _id,    title,    body,    mainImage,    publishedAt,    _updatedAt,    featured,    "categories": categories[]->title,     author->{name},}
+// Query: *[_type == "post" && slug.current == $slug][0]{    _id,    title,    body,    mainImage,    publishedAt,    _updatedAt,    featured,    "categories": categories[]->title,     author->{name},    seo,}
 export type POST_QUERYResult = {
   _id: string;
   title: string | null;
@@ -385,6 +393,7 @@ export type POST_QUERYResult = {
   author: {
     name: string | null;
   } | null;
+  seo: Seo | null;
 } | null;
 
 // Query TypeMap
@@ -392,6 +401,6 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "post" && defined(slug.current)][0...50]{\n    _id,\n    title,\n    slug,\n    mainImage,\n    publishedAt,\n    _updatedAt,\n    featured,\n    "categories": categories[]->title, \n    author->{name},\n}': POSTS_QUERYResult;
-    '*[_type == "post" && slug.current == $slug][0]{\n    _id,\n    title,\n    body,\n    mainImage,\n    publishedAt,\n    _updatedAt,\n    featured,\n    "categories": categories[]->title, \n    author->{name},\n}': POST_QUERYResult;
+    '*[_type == "post" && slug.current == $slug][0]{\n    _id,\n    title,\n    body,\n    mainImage,\n    publishedAt,\n    _updatedAt,\n    featured,\n    "categories": categories[]->title, \n    author->{name},\n    seo,\n}': POST_QUERYResult;
   }
 }
