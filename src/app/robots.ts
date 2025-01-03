@@ -4,7 +4,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: ["/", "/faq", "/blog"],
+      allow: ["/", "/blog", "copilot"],
       disallow: ["/dashboard", "/terms"],
     },
     sitemap: " https://www.greencard.inc/sitemap.xml",

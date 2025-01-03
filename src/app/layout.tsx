@@ -16,17 +16,30 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { type Metadata } from "next";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Greencard Inc.",
   description:
-    "Your one-stop shop to Secure your Green Card with AI-Powered Expertise",
+    "Achieve your U.S. green card with our AI-driven EB-1A self-sponsorship solutions. Get expert guidance on U.S. immigration pathways, including EB-1A, EB-2 NIW, and O-1 visas.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  keywords: [
+    "EB-1A Green Card",
+    "Self-sponsorship",
+    "AI immigration solutions",
+    "u.s. permanent residency",
+    "Greencard inc",
+    "leading U.S. immigration attorneys",
+    "u.s. green card",
+  ],
+  alternates: {
+    canonical: "/",
+  },
   verification: {
     google: "Ax1JTyzFVFsJ48SAd0JZwzSY20npItA57VvupdUe1qY",
     other: {
