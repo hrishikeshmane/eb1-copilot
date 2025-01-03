@@ -26,6 +26,29 @@ import { MoveRight, PhoneCall } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Timeline } from "@/components/elements/timeline";
 
+export const metadata = {
+  title: "EB-1A Copilot Program | Guided Support for Your EB-1A Application",
+  description:
+    "Partner with experts using AI-powered workflows to build your EB-1A profile. Get seamless EB-1A application process with our full-service solution.",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  keywords: [
+    "eb-1a guided support",
+    "ai immigration assistance",
+    "green card application help",
+    "eb1 autopilot",
+    "eb-1a copilot",
+    "full-service eb-1a application",
+    "ai-powered immigration services",
+    "green card assistance",
+    "greencard inc. blog",
+    "eb-1a insights",
+    "u.s. immigration articles",
+    "green card application tips",
+    "ai immigration solutions",
+    "eb-1a application experts",
+  ],
+};
+
 export default function Component() {
   return (
     <div className="flex min-h-screen flex-col">

@@ -10,10 +10,10 @@ const Footer = () => {
           <div className="mb-6 flex flex-col gap-2 md:mb-0">
             <Logo />
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
-              2261 Market StSan Francisco, CA 94114
+              2261 Market St. San Francisco, CA 94114
             </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
-              © 2024{" "}
+              © {`${new Date().getUTCFullYear()} `}
               <Link href="https://greencard.inc/" className="hover:underline">
                 Greencard Inc
               </Link>
@@ -29,11 +29,6 @@ const Footer = () => {
                 <li className="mb-4">
                   <Link href="/blog" className="hover:underline">
                     Blog
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link href="/faqs" className="hover:underline">
-                    FAQs
                   </Link>
                 </li>
               </ul>

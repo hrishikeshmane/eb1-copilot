@@ -1,5 +1,23 @@
 import React from "react";
 
+export const metadata = {
+  title: "Terms of Service | Greencard Inc.",
+  description:
+    "By using our Services, you expressly agree to these Terms. Please carefully review these Terms before using our Services.",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  keywords: [
+    "Terms of Service",
+    "Terms & Conditions",
+    "EB-1A Green Card",
+    "Self-sponsorship",
+    "AI immigration solutions",
+    "u.s. permanent residency",
+    "Greencard inc",
+    "leading U.S. immigration attorneys",
+    "u.s. green card",
+  ],
+};
+
 const TermsPage = () => {
   return (
     <article className="prose prose-neutral prose-quoteless mx-auto max-w-5xl  py-6 dark:prose-invert">

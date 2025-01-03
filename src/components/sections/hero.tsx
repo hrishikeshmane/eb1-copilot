@@ -204,7 +204,7 @@ export function HeroCopilot() {
           ]}
           subHeading="Unlock expert guidance to build your EB-1A profile and secure your green card in the U.S."
         />
-        <HeroCTA showBookCall={false} />
+        <HeroCTA showBookCall={true} />
         {/* <HeroImage /> */}
         <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
       </div>

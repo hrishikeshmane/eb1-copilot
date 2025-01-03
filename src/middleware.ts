@@ -7,7 +7,7 @@ import { type NextRequest, NextResponse } from "next/server";
 export default authMiddleware({
   afterAuth: (auth, req) => {
     const pathname = req.nextUrl.pathname;
-    if (auth.isPublicRoute || pathname.startsWith('/studio')) {
+    if (auth.isPublicRoute || pathname.startsWith("/studio")) {
       //  For public routes, we don't need to do anything
       return NextResponse.next();
     }
@@ -46,7 +46,9 @@ export default authMiddleware({
     "/studio(.*)",
     "/studio/presentation(.*)",
     "/api/draft-mode(.*)",
-    '/sanity-studio(.*)',
+    "/sanity-studio(.*)",
+    "/sitemap.xml",
+    "robots.txt",
   ],
   // debug: true,
 });
@@ -58,8 +60,8 @@ export default authMiddleware({
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
-    '/(api|trpc)(.*)',
+    "/(api|trpc)(.*)",
   ],
-}
+};
