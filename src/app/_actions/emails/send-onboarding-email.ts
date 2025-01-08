@@ -7,6 +7,7 @@ import { Resend } from "resend";
 const FROM_EMAIL = "Greencard Inc <hello@greencard.inc>";
 const RESEND_KEY = process.env.RESEND_KEY;
 const GCI_ADMIN_EMAIL = [
+  "sasi@greencard.inc",
   "hi+onboarding@readunshackled.com",
   "hello+onboarding@greencard.inc",
 ];
