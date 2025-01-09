@@ -94,7 +94,7 @@ export default function PricingSection() {
               <p className="mt-2 flex items-center justify-center gap-x-2">
                 <span className="relative mb-2 text-4xl font-bold tracking-tight text-foreground">
                   {/* {isMonthly ? plan.price : plan.yearlyPrice} */}
-                  {plan.slashPrice ? (
+                  {/* {plan.slashPrice ? (
                     <>
                       <del className="relative text-muted-foreground">
                         {plan.slashPrice}
@@ -106,7 +106,7 @@ export default function PricingSection() {
                   )}
                   {plan.addConditionToPrice && (
                     <span className="absolute top-0 text-sm">*</span>
-                  )}
+                  )} */}
                 </span>
                 {/* {plan.period !== "Next 3 months" && (
                   <span className="text-sm font-semibold leading-6 tracking-wide text-muted-foreground">
@@ -131,7 +131,7 @@ export default function PricingSection() {
 
               <hr className="my-4 w-full" />
 
-              <Link
+              {/* <Link
                 href={plan.href}
                 className={cn(
                   buttonVariants({
@@ -145,6 +145,21 @@ export default function PricingSection() {
                 )}
               >
                 {plan.buttonText}
+              </Link> */}
+              <Link
+                href="https://go.greencard.inc/evaluation"
+                className={cn(
+                  buttonVariants({
+                    variant: "outline",
+                  }),
+                  "group relative w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter",
+                  "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:bg-primary hover:text-white hover:ring-2 hover:ring-primary hover:ring-offset-1",
+                  plan.isPopular
+                    ? "bg-primary text-white"
+                    : "bg-white text-black",
+                )}
+              >
+                Contact Us
               </Link>
               <p className="mt-6 text-xs leading-5 text-muted-foreground">
                 {plan.description}
