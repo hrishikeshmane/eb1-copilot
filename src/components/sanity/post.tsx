@@ -8,9 +8,9 @@ export function Post({ post }: { post: POST_QUERYResult }) {
   const { title, mainImage, body, author, publishedAt } = post || {};
 
   return (
-    <main className="container prose prose-lg mx-auto flex max-w-6xl flex-col p-4">
+    <main className="container prose prose-p:my-1 prose-a:text-green-700 mx-auto flex max-w-6xl flex-col p-4">
       {title ? <h1>{title}</h1> : null}
-      {author?.name} •{" "}
+      {author?.name} •{" "} 
       {publishedAt && new Date(publishedAt).toLocaleDateString()}
       {mainImage?.asset?._ref ? (
         <Image
