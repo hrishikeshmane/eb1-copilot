@@ -4,6 +4,9 @@ import { clerkClient } from "@clerk/nextjs/server";
 import type { EmailAddress } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 function convertEmailAddressesToJSON(emailAddresses: EmailAddress[]) {
   return emailAddresses.map((emailAddress) => ({
     id: emailAddress.id,
