@@ -275,7 +275,21 @@ export const onBoardedMap: OnBoardedMap[] = [
 
 // Master Admin View Profile Status Options
 // NOTE: make sure to add these options in the database schema as well and user-management.editCustomerDetails input schema
-export const profileStatusOptions = [
+export type ProfileStatusOptionsValue =
+  | "onboarding"
+  | "onboarded"
+  | "profile-building"
+  | "filing"
+  | "i-140-approved"
+  | "i-485-approved"
+  | "rfe-issued"
+  | "drafting-i-485"
+  | "dropped";
+
+export const profileStatusOptions: {
+  label: string;
+  value: ProfileStatusOptionsValue;
+}[] = [
   {
     label: "Onboarding",
     value: "onboarding",

@@ -41,7 +41,10 @@ import {
   CaretSortIcon,
 } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/ui/checkbox";
-import { profileStatusOptions } from "@/lib/constants";
+import {
+  profileStatusOptions,
+  ProfileStatusOptionsValue,
+} from "@/lib/constants";
 
 type User = any;
 
@@ -179,8 +182,23 @@ export const columns: ColumnDef<User>[] = [
         api.userManagement.getAccountManagerAndResearchAssistants.useQuery();
       const RAs = adminUsers.data?.researchAssistants;
 
+      const editCustomerDetailsMutation =
+        api.userManagement.editCustomerDetails.useMutation();
+
+      const userId = row.getValue("userId") as string;
+
+      const handleResearchAssistantChange = async (RAId: string) => {
+        await editCustomerDetailsMutation.mutateAsync({
+          userId,
+          researchAssistant: RAId,
+        });
+      };
+
       return (
-        <Select defaultValue={row.getValue("researchAssistant")}>
+        <Select
+          onValueChange={(value) => handleResearchAssistantChange(value)}
+          defaultValue={row.getValue("researchAssistant")}
+        >
           <SelectTrigger className="h-8 w-[180px] px-1 py-0">
             <SelectValue placeholder="Select Research Assistant" />
           </SelectTrigger>
@@ -208,20 +226,40 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <Select defaultValue={row.getValue("profileStatus")}>
-        <SelectTrigger className="h-8 w-[150px] px-1 py-0">
-          <SelectValue placeholder="Select Status" />
-        </SelectTrigger>
-        <SelectContent>
-          {profileStatusOptions.map((status) => (
-            <SelectItem key={status.value} value={status.value}>
-              {status.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    ),
+    cell: ({ row }) => {
+      const editCustomerDetailsMutation =
+        api.userManagement.editCustomerDetails.useMutation();
+
+      const userId = row.getValue("userId") as string;
+
+      // value is the selected value from the dropdown
+      const handleProfileStatusChange = async (
+        value: ProfileStatusOptionsValue,
+      ) => {
+        await editCustomerDetailsMutation.mutateAsync({
+          userId,
+          profileStatus: value,
+        });
+      };
+
+      return (
+        <Select
+          onValueChange={handleProfileStatusChange}
+          defaultValue={row.getValue("profileStatus")}
+        >
+          <SelectTrigger className="h-8 w-[150px] px-1 py-0">
+            <SelectValue placeholder="Select Status" />
+          </SelectTrigger>
+          <SelectContent>
+            {profileStatusOptions.map((status) => (
+              <SelectItem key={status.value} value={status.value}>
+                {status.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      );
+    },
   },
   {
     accessorKey: "startDate",
@@ -243,32 +281,66 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "raIntroCallDone",
     header: "RA Intro Call Done",
-    cell: ({ row }) => (
-      <Select defaultValue={row.getValue("raIntroCallDone") ? "Yes" : "No"}>
-        <SelectTrigger className="h-8 w-[80px] px-1 py-0">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Yes">Yes</SelectItem>
-          <SelectItem value="No">No</SelectItem>
-        </SelectContent>
-      </Select>
-    ),
+    cell: ({ row }) => {
+      const editCustomerDetailsMutation =
+        api.userManagement.editCustomerDetails.useMutation();
+
+      const userId = row.getValue("userId") as string;
+
+      const handleSelectChange = async (value: string) => {
+        await editCustomerDetailsMutation.mutateAsync({
+          userId,
+          raIntroCallDone: value === "Yes" ? true : false,
+        });
+      };
+
+      return (
+        <Select
+          onValueChange={(value) => handleSelectChange(value)}
+          defaultValue={row.getValue("raIntroCallDone") ? "Yes" : "No"}
+        >
+          <SelectTrigger className="h-8 w-[80px] px-1 py-0">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Yes">Yes</SelectItem>
+            <SelectItem value="No">No</SelectItem>
+          </SelectContent>
+        </Select>
+      );
+    },
   },
   {
     accessorKey: "attorneyCall",
     header: "Attorney Call",
-    cell: ({ row }) => (
-      <Select defaultValue={row.getValue("attorneyCall") ? "Yes" : "No"}>
-        <SelectTrigger className="h-8 w-[80px] px-1 py-0">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Yes">Yes</SelectItem>
-          <SelectItem value="No">No</SelectItem>
-        </SelectContent>
-      </Select>
-    ),
+    cell: ({ row }) => {
+      const editCustomerDetailsMutation =
+        api.userManagement.editCustomerDetails.useMutation();
+
+      const userId = row.getValue("userId") as string;
+
+      const handleSelectChange = async (value: string) => {
+        await editCustomerDetailsMutation.mutateAsync({
+          userId,
+          attorneyCall: value === "Yes" ? true : false,
+        });
+      };
+
+      return (
+        <Select
+          onValueChange={(value) => handleSelectChange(value)}
+          defaultValue={row.getValue("attorneyCall") ? "Yes" : "No"}
+        >
+          <SelectTrigger className="h-8 w-[80px] px-1 py-0">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Yes">Yes</SelectItem>
+            <SelectItem value="No">No</SelectItem>
+          </SelectContent>
+        </Select>
+      );
+    },
   },
   {
     accessorKey: "user.customerType",
