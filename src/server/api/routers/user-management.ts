@@ -8,7 +8,9 @@ import {
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
-import { IUsersWithInfo } from "@/server/db/schema";
+import { customerDetails, IUsersWithInfo, users } from "@/server/db/schema";
+import { profile } from "console";
+import { profileStatusOptions } from "@/lib/constants";
 
 export const userManagementRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
@@ -122,5 +124,102 @@ export const userManagementRouter = createTRPCRouter({
         where: (table) => eq(table.userId, input.userId),
       });
       return userInfoData;
+    }),
+
+  getAccountManagerAndResearchAssistants: adminProcedure.query(
+    async ({ ctx }) => {
+      let emailAddress = [
+        "aksakansha9@gmail.com",
+        "soumanti2@gmail.com",
+        "bswati19@gmail.com",
+        "hrishi.mane26@gmail.com",
+      ];
+
+      const accountManagers = await clerkClient.users.getUserList({
+        emailAddress,
+      });
+
+      emailAddress = ["hrishi.mane26@gmail.com"];
+
+      const researchAssistants = await clerkClient.users.getUserList({
+        emailAddress,
+      });
+      return { accountManagers, researchAssistants };
+    },
+  ),
+
+  addUserToProgram: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        accountMangerId: z.string(),
+        researchAssistantId: z.string(),
+        customerType: z.enum(["copilot", "autopilot"]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(customerDetails).values({
+        userId: input.userId,
+        accountManager: input.accountMangerId,
+        researchAssistant: input.researchAssistantId,
+        customerType: input.customerType,
+      });
+    }),
+
+  getAllCustomerDetails: adminProcedure
+    .input(
+      z.object({
+        page: z.number().default(1),
+        pageSize: z.number().default(100),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const customerDetails = await ctx.db.query.customerDetails.findMany({
+        limit: input.pageSize,
+        offset: (input.page - 1) * input.pageSize,
+        with: {
+          user: true,
+        },
+      });
+      return customerDetails;
+    }),
+
+  editCustomerDetails: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        accountManager: z.optional(z.string()),
+        researchAssistant: z.optional(z.string()),
+        profileStatus: z.optional(
+          z.enum([
+            "onboarding",
+            "onboarded",
+            "profile-building",
+            "filing",
+            "i-140-approved",
+            "i-485-approved",
+            "rfe-issued",
+            "drafting-i-485",
+            "dropped",
+          ]),
+        ),
+        raIntroCallDone: z.optional(z.boolean()),
+        attorneyCall: z.optional(z.boolean()),
+        customerType: z.optional(z.enum(["copilot", "autopilot"])),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(customerDetails)
+        .set({
+          accountManager: input.accountManager,
+          researchAssistant: input.researchAssistant,
+          profileStatus: input.profileStatus,
+          raIntroCallDone: input.raIntroCallDone,
+          attorneyCall: input.attorneyCall,
+          customerType: input.customerType,
+        })
+        .where(eq(customerDetails.userId, input.userId))
+        .execute();
     }),
 });
