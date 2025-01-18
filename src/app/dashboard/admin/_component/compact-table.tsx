@@ -37,6 +37,7 @@ import Link from "next/link";
 import { type TransformedUser } from "@/types/globals";
 import {
   ArrowDownIcon,
+  ArrowTopRightIcon,
   ArrowUpIcon,
   CaretSortIcon,
 } from "@radix-ui/react-icons";
@@ -372,18 +373,39 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="w-[100px]">
-        <div className="h-2 w-full rounded-full bg-gray-200">
-          <div
-            className="h-full rounded-full bg-blue-500"
-            style={{ width: `${row.getValue("profileProgress")}%` }}
-          ></div>
-        </div>
-        <div className="mt-1 text-center text-xs">
-          {row.getValue("profileProgress")}%
-        </div>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const userId = row.getValue("userId") as string;
+      return (
+        <Link
+          href={`/dashboard/ticket-management/${userId}`}
+          className="items-center justify-center"
+        >
+          <div className="mt-1 text-center text-xs">
+            {row.getValue("profileProgress")}%
+          </div>
+          <div className="h-2 w-full rounded-full bg-gray-200">
+            <div
+              className="h-full rounded-full bg-blue-500"
+              style={{ width: `${row.getValue("profileProgress")}%` }}
+            ></div>
+          </div>
+        </Link>
+      );
+    },
   },
+  // {
+  //   // accessorKey: "Tickets",
+  //   header: "Tickets",
+  //   cell: ({ row }) => {
+  //     const userId = row.getValue("userId") as string;
+  //     return (
+  //       <Link
+  //         className="flex cursor-pointer items-center gap-1 underline"
+  //         href={`/dashboard/ticket-management/${userId}`}
+  //       >
+  //         Tickets <ArrowTopRightIcon />
+  //       </Link>
+  //     );
+  //   },
+  // },
 ];
