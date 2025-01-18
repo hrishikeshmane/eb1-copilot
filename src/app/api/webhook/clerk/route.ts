@@ -1,11 +1,27 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { type WebhookEvent } from "@clerk/nextjs/server";
+import {
+  EmailAddress,
+  EmailAddressJSON,
+  type WebhookEvent,
+} from "@clerk/nextjs/server";
 import { clerkClient } from "@clerk/nextjs";
 import { db } from "@/server/db";
 import { env } from "@/env";
 import { users } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
+
+const coverClerkEmailAddresses = (emailAddresses: EmailAddressJSON[]) => {
+  return emailAddresses.map((emailAddress) => ({
+    id: emailAddress.id,
+    emailAddress: emailAddress.email_address,
+    verification: emailAddress.verification,
+    linkedTo: emailAddress.linked_to.map((linkedTo) => ({
+      id: linkedTo.id,
+      type: linkedTo.type,
+    })),
+  }));
+};
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = env.WEBHOOK_SECRET;
@@ -72,6 +88,20 @@ export async function POST(req: Request) {
       .insert(users)
       .values({
         userId: id,
+        firstName: evt.data.first_name,
+        lastName: evt.data.last_name,
+        username: evt.data.username,
+        hasImage: evt.data.has_image,
+        imageUrl: evt.data.image_url,
+        primaryEmailAddressId: evt.data.primary_email_address_id,
+        emailAddresses: JSON.parse(
+          JSON.stringify(coverClerkEmailAddresses(evt.data.email_addresses)),
+        ),
+        publicMetadata: {
+          role: "customer",
+          onBoarded: false,
+        },
+
         role: "customer",
         onBoarded: false,
       })
@@ -97,6 +127,19 @@ export async function POST(req: Request) {
         .insert(users)
         .values({
           userId: id,
+          firstName: evt.data.first_name,
+          lastName: evt.data.last_name,
+          username: evt.data.username,
+          hasImage: evt.data.has_image,
+          imageUrl: evt.data.image_url,
+          primaryEmailAddressId: evt.data.primary_email_address_id,
+          emailAddresses: JSON.parse(
+            JSON.stringify(coverClerkEmailAddresses(evt.data.email_addresses)),
+          ),
+          publicMetadata: {
+            role: "customer",
+            onBoarded: false,
+          },
           role: "customer",
           onBoarded: false,
         })
@@ -112,6 +155,19 @@ export async function POST(req: Request) {
     await db
       .update(users)
       .set({
+        firstName: evt.data.first_name,
+        lastName: evt.data.last_name,
+        username: evt.data.username,
+        hasImage: evt.data.has_image,
+        imageUrl: evt.data.image_url,
+        primaryEmailAddressId: evt.data.primary_email_address_id,
+        emailAddresses: JSON.parse(
+          JSON.stringify(coverClerkEmailAddresses(evt.data.email_addresses)),
+        ),
+        publicMetadata: {
+          role: publicMetadata.role,
+          onBoarded: publicMetadata.onBoarded,
+        },
         role: publicMetadata.role,
         onBoarded: publicMetadata.onBoarded,
       })

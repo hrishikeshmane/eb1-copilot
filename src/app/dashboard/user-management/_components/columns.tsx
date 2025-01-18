@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
@@ -29,6 +29,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { api } from "@/trpc/react";
@@ -40,6 +41,8 @@ import {
   ArrowUpIcon,
   CaretSortIcon,
 } from "@radix-ui/react-icons";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 // import {DataTableColumnHeader} from "./data-table-column-header";
 
 export const columns: ColumnDef<TransformedUser>[] = [
@@ -251,6 +254,47 @@ export const columns: ColumnDef<TransformedUser>[] = [
         },
       });
 
+      // ESlint fails to understand that cell is also a react component
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [userProgramForm, setUserProgramForm] = useState({
+        accountManager: "",
+        researchAssistant: "",
+        customerType: "",
+      });
+      const addUserToProgramMutation =
+        api.userManagement.addUserToProgram.useMutation({
+          onSuccess: () => {
+            toast.success("User added to program successfully");
+          },
+          onError: () => {
+            toast.error("Failed to add user to program");
+          },
+        });
+      const handleAddUserToProgram = async () => {
+        console.log("Selected values:", userProgramForm);
+        // validate form
+        if (
+          !userProgramForm.accountManager ||
+          !userProgramForm.researchAssistant ||
+          !userProgramForm.customerType
+        ) {
+          toast.error("Please fill all fields");
+          return;
+        }
+
+        addUserToProgramMutation.mutate({
+          userId: userId!,
+          accountMangerId: userProgramForm.accountManager,
+          researchAssistantId: userProgramForm.researchAssistant,
+          customerType: userProgramForm.customerType as "copilot" | "autopilot",
+        });
+      };
+
+      const adminUsers =
+        api.userManagement.getAccountManagerAndResearchAssistants.useQuery();
+      const AMs = adminUsers.data?.accountManagers;
+      const RAs = adminUsers.data?.researchAssistants;
+
       return (
         <Dialog>
           <DropdownMenu>
@@ -298,9 +342,11 @@ export const columns: ColumnDef<TransformedUser>[] = [
                   Change Role to Customer
                 </DropdownMenuItem>
               )}
-              {/* <DropdownMenuItem>
-                    <DialogTrigger>Change Role</DialogTrigger>
-                  </DropdownMenuItem> */}
+              <DropdownMenuItem className="border-primary">
+                <DialogTrigger className="font-semibold text-primary">
+                  Add User to Program
+                </DialogTrigger>
+              </DropdownMenuItem>
 
               {/* <DropdownMenuItem
                   onClick={() => navigator.clipboard.writeText(payment.id)}
@@ -313,39 +359,100 @@ export const columns: ColumnDef<TransformedUser>[] = [
             </DropdownMenuContent>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Change Role</DialogTitle>
+                <DialogTitle>Add User to Program</DialogTitle>
                 <DialogDescription>
-                  {`User role will be changed for ${userFullName ?? "a user"}`}
+                  {`This action will mark ${userFullName ?? "user"} as a paid customer`}
                 </DialogDescription>
               </DialogHeader>
               <div className="flex items-center space-x-2">
                 <div className="grid flex-1 gap-2">
-                  <Select defaultValue={userRole}>
+                  <Label>Select Account Manger</Label>
+                  <Select
+                    onValueChange={(value) =>
+                      setUserProgramForm((prev) => ({
+                        ...prev,
+                        accountManager: value,
+                      }))
+                    }
+                  >
                     <SelectTrigger className="">
-                      <SelectValue placeholder="Select a Role" />
+                      <SelectValue placeholder="Select Account Manger" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Roles</SelectLabel>
-                        <SelectItem value="customer">Cutomer</SelectItem>
-                        <SelectItem value="vendor">Vendor</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
+                        <SelectLabel>Account Mangers</SelectLabel>
+                        {AMs?.map((user) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.firstName + " " + user.lastName}
+                          </SelectItem>
+                        ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
-              <DialogFooter className="sm:justify-start">
+              <div className="flex items-center space-x-2">
+                <div className="grid flex-1 gap-2">
+                  <Label>Select Research Assistant</Label>
+                  <Select
+                    onValueChange={(value) =>
+                      setUserProgramForm((prev) => ({
+                        ...prev,
+                        researchAssistant: value,
+                      }))
+                    }
+                  >
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Select Research Assistant" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Research Assistants</SelectLabel>
+                        {RAs?.map((user) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.firstName + " " + user.lastName}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="grid flex-1 gap-2">
+                  <Label>Select Customer Type</Label>
+                  <Select
+                    onValueChange={(value) =>
+                      setUserProgramForm((prev) => ({
+                        ...prev,
+                        customerType: value,
+                      }))
+                    }
+                  >
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Customer Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Customer Types</SelectLabel>
+                        <SelectItem value="copilot">EB1 Copilot</SelectItem>
+                        <SelectItem value="autopilot">EB1 Autopilot</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter className="sm:justify-end">
                 <DialogClose asChild>
                   <Button type="button" variant="secondary">
-                    Close
+                    Discard
                   </Button>
                 </DialogClose>
-                {/* <DialogClose asChild>
-                      <Button type="button" >
-                        Save
-                      </Button>
-                    </DialogClose> */}
+                <DialogClose asChild>
+                  <Button type="submit" onClick={handleAddUserToProgram}>
+                    Save
+                  </Button>
+                </DialogClose>
               </DialogFooter>
             </DialogContent>
           </DropdownMenu>

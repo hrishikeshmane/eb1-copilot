@@ -12,7 +12,6 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 import { type VISA_PILLARS_EX } from "@/lib/constants";
-
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
  * database instance for multiple projects.
@@ -28,6 +27,17 @@ export const waitlist = createTable("waitlist", {
 
 export const users = createTable("users", {
   userId: text("userId", { length: 256 }).primaryKey().notNull(),
+  // clerk fields
+  firstName: text("firstName", { length: 256 }),
+  lastName: text("lastName", { length: 256 }),
+  // fullName: text("fullName", { length: 256 }),
+  username: text("username", { length: 256 }),
+  hasImage: integer("hasImage", { mode: "boolean" }).default(false),
+  imageUrl: text("imageUrl", { length: 256 }),
+  primaryEmailAddressId: text("primaryEmailAddressId", { length: 256 }),
+  emailAddresses: text("emailAddresses", { mode: "json" }),
+  publicMetadata: text("publicMetadata", { mode: "json" }),
+
   role: text("role", {
     enum: ["admin", "moderator", "customer", "vendor"],
   }).notNull(),
@@ -43,6 +53,7 @@ export const users = createTable("users", {
     mode: "boolean",
   }).default(false),
   // .notNull()
+  // TODO: remove customerPaid and customerType from this table
   customerPaid: integer("customerPaid", { mode: "boolean" }).default(false),
   // .notNull()
   customerType: text("customerType", {
@@ -50,6 +61,55 @@ export const users = createTable("users", {
   }).default("unpaid"),
   // .notNull()
 });
+
+export const customerDetails = createTable("customerDetails", {
+  userId: text("userId")
+    .notNull()
+    .primaryKey()
+    .references(() => users.userId, { onDelete: "cascade" }),
+  accountManager: text("accountManager", { length: 256 }).references(
+    () => users.userId,
+    { onDelete: "restrict" },
+  ),
+  researchAssistant: text("researchAssistant", { length: 256 }).references(
+    () => users.userId,
+    { onDelete: "restrict" },
+  ),
+  customerType: text("customerType", {
+    enum: ["copilot", "autopilot"],
+  }),
+  // default date is now
+  startDate: blob("dueDate")
+    .$type<Date>()
+    .default(sql`(date('now'))`),
+  raIntroCallDone: integer("raIntroCallDone", { mode: "boolean" }).default(
+    false,
+  ),
+  attorneyCall: integer("attorneyCall", { mode: "boolean" }).default(false),
+  profileStatus: text("profileStatus", {
+    enum: [
+      "onboarding",
+      "onboarded",
+      "profile-building",
+      "filing",
+      "i-140-approved",
+      "i-485-approved",
+      "rfe-issued",
+      "drafting-i-485",
+      "dropped",
+    ],
+  }).default("onboarding"),
+});
+
+export const customerDetailsRelations = relations(
+  customerDetails,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [customerDetails.userId],
+      references: [users.userId],
+    }),
+  }),
+);
 
 export const userInfo = createTable("userInfo", {
   userId: text("userId")
