@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -189,7 +190,7 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
   const batchUpdateCustomerDetailsMutation =
     api.userManagement.batchUpdateCustomerDetails.useMutation({
       onMutate: () => {
-        toast.loading(
+        toast.info(
           `Updating ${table.getSelectedRowModel().rows.length} Records`,
         );
       },
@@ -198,9 +199,9 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
           `Updated ${table.getSelectedRowModel().rows.length} Records`,
         );
       },
-      // onSettled(data, error, variables, context) {
-      //   revalidatePath('/dashboard/admin', 'page')
-      // },
+      onSettled(data, error, variables, context) {
+        revalidatePath("/dashboard/admin", "page");
+      },
     });
 
   const onSaveHandler = async () => {
@@ -208,18 +209,12 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
     const userIds = selectedRows.map(
       (row) => (row.original as { userId: string }).userId,
     );
-    console.log("userIds", userIds);
-    console.log("accountManager", accountManager);
-    console.log("researchAssistant", researchAssistant);
-    console.log("profileStatus", profileStatus);
-    console.log("raIntroCallDone", raIntroCallDone);
-    console.log("attorneyCall", attorneyCall);
-
     const input = {
       userIds: userIds,
       accountManager: accountManager ?? undefined,
       researchAssistant: researchAssistant ?? undefined,
       raIntroCallDone: raIntroCallDone ?? undefined,
+      attorneyCall: attorneyCall ?? undefined,
     };
 
     if (profileStatus === null || profileStatus === undefined) {
@@ -317,9 +312,11 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
             })}
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={onSaveHandler}>
-              Save changes
-            </Button>
+            <DialogClose>
+              <Button type="submit" onClick={onSaveHandler}>
+                Save changes
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
