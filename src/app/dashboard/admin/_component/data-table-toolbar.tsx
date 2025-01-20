@@ -26,13 +26,15 @@ import {
 import { Label } from "@/components/ui/label";
 import {
   profileStatusOptions,
-  ProfileStatusOptionsValue,
+  type ProfileStatusOptionsValue,
 } from "@/lib/constants";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dispatch, SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { api } from "@/trpc/react";
 import { columns } from "./compact-table";
+import { toast } from "sonner";
+import { revalidatePath } from "next/cache";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -145,27 +147,22 @@ const userFields = [
   {
     id: "accountManager",
     name: "Account Manager",
-    options: ["User", "Admin", "Manager"],
   },
   {
     id: "researchAssistant",
     name: "Research Assistant",
-    options: ["Active", "Inactive", "Pending"],
   },
   {
     id: "profileStatus",
     name: "Profile Status",
-    options: ["Sales", "Marketing", "Engineering", "HR"],
   },
   {
     id: "raIntroCallDone",
     name: "RA Intro Call Done",
-    options: ["Yes", "No"],
   },
   {
     id: "attorneyCall",
     name: "Attorney Call Done",
-    options: ["Yes", "No"],
   },
 ];
 
@@ -190,7 +187,21 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
   };
 
   const batchUpdateCustomerDetailsMutation =
-    api.userManagement.batchUpdateCustomerDetails.useMutation();
+    api.userManagement.batchUpdateCustomerDetails.useMutation({
+      onMutate: () => {
+        toast.loading(
+          `Updating ${table.getSelectedRowModel().rows.length} Records`,
+        );
+      },
+      onSuccess: () => {
+        toast.success(
+          `Updated ${table.getSelectedRowModel().rows.length} Records`,
+        );
+      },
+      // onSettled(data, error, variables, context) {
+      //   revalidatePath('/dashboard/admin', 'page')
+      // },
+    });
 
   const onSaveHandler = async () => {
     const selectedRows = table.getSelectedRowModel().rows;
@@ -230,7 +241,7 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
                 This action will affect{" "}
                 {table.getSelectedRowModel().rows.length} selected rows.
                 <br />
-                Make changes to your profile here. Click save when you're done.
+                Make changes to your profile here. Click save when you are done.
               </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-2 gap-4">
