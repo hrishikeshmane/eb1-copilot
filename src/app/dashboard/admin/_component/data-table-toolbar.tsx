@@ -227,215 +227,211 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
     } else {
       batchUpdateCustomerDetailsMutation.mutate({ ...input, profileStatus });
     }
-
-    return (
-      <>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button size={"sm"}>Bulk Edit</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Bulk Edit</DialogTitle>
-              <DialogDescription>
-                This action will affect{" "}
-                {table.getSelectedRowModel().rows.length} selected rows.
-                <br />
-                Make changes to your profile here. Click save when you are done.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid grid-cols-2 gap-4">
-              {userFields.map((field) => (
-                <div key={field.id} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={field.id}
-                    checked={selectedFields.includes(field.id)}
-                    onCheckedChange={() => handleFieldToggle(field.id)}
-                  />
-                  <Label htmlFor={field.id}>{field.name}</Label>
-                </div>
-              ))}
-            </div>
-            <Separator />
-            <div className="grid gap-4 py-4">
-              {selectedFields.map((fieldId) => {
-                if (fieldId === "accountManager") {
-                  return (
-                    <div key={fieldId} className="flex flex-col gap-1">
-                      <Label htmlFor="accountManager">Account Manager</Label>
-                      <AccountManagerSelectOptions
-                        setAccountManager={setAccountManager}
-                      />
-                    </div>
-                  );
-                }
-                if (fieldId === "researchAssistant") {
-                  return (
-                    <div key={fieldId} className="flex flex-col gap-1">
-                      <Label htmlFor="researchAssistant">
-                        Research Assistant
-                      </Label>
-                      <ResearchAssistantSelectOptions
-                        setResearchAssistant={setResearchAssistant}
-                      />
-                    </div>
-                  );
-                }
-                if (fieldId === "profileStatus") {
-                  return (
-                    <div key={fieldId} className="flex flex-col gap-1">
-                      <Label htmlFor="profileStatus">Profile Status</Label>
-                      <ProfileStatusSelectOptions
-                        setProfileStatus={setProfileStatus}
-                      />
-                    </div>
-                  );
-                }
-                if (fieldId === "raIntroCallDone") {
-                  return (
-                    <div key={fieldId} className="flex flex-col gap-1">
-                      <Label htmlFor="raIntroCallDone">
-                        RA Intro Call Done
-                      </Label>
-                      <YesNoSelectOptions
-                        key={fieldId}
-                        setYesNo={setRaIntroCallDone}
-                      />
-                    </div>
-                  );
-                }
-                if (fieldId === "attorneyCall") {
-                  return (
-                    <div key={fieldId} className="flex flex-col gap-1">
-                      <Label htmlFor="attorneyCall">Attorney Call Done</Label>
-                      <YesNoSelectOptions
-                        key={fieldId}
-                        setYesNo={setAttorneyCall}
-                      />
-                    </div>
-                  );
-                }
-              })}
-            </div>
-            <DialogFooter>
-              <Button type="submit" onClick={onSaveHandler}>
-                Save changes
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </>
-    );
   };
 
-  const AccountManagerSelectOptions = ({
-    setAccountManager,
-  }: {
-    setAccountManager: Dispatch<SetStateAction<string | null>>;
-  }) => {
-    const adminUsers =
-      api.userManagement.getAccountManagerAndResearchAssistants.useQuery();
-    const AMs = adminUsers.data?.accountManagers;
-
-    const handleSelectChange = async (AMId: string) => {
-      setAccountManager(AMId);
-    };
-
-    return (
-      <Select onValueChange={(value) => handleSelectChange(value)}>
-        <SelectTrigger className="h-8 px-1 py-0">
-          <SelectValue placeholder="Select Account Manager" />
-        </SelectTrigger>
-        <SelectContent>
-          {AMs?.map((user) => (
-            <SelectItem key={user.id} value={user.id}>
-              {user.firstName + " " + user.lastName}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    );
-  };
-
-  const ResearchAssistantSelectOptions = ({
-    setResearchAssistant,
-  }: {
-    setResearchAssistant: Dispatch<SetStateAction<string | null>>;
-  }) => {
-    const adminUsers =
-      api.userManagement.getAccountManagerAndResearchAssistants.useQuery();
-    const RAs = adminUsers.data?.researchAssistants;
-
-    const handleSelectChange = async (RAId: string) => {
-      setResearchAssistant(RAId);
-    };
-
-    return (
-      <Select onValueChange={(value) => handleSelectChange(value)}>
-        <SelectTrigger className="h-8 px-1 py-0">
-          <SelectValue placeholder="Select Research Assistant" />
-        </SelectTrigger>
-        <SelectContent>
-          {RAs?.map((user) => (
-            <SelectItem key={user.id} value={user.id}>
-              {user.firstName + " " + user.lastName}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    );
-  };
-
-  const ProfileStatusSelectOptions = ({
-    setProfileStatus,
-  }: {
-    setProfileStatus: Dispatch<
-      SetStateAction<ProfileStatusOptionsValue | null>
-    >;
-  }) => {
-    const handleSelectChange = (value: ProfileStatusOptionsValue) => {
-      setProfileStatus(value);
-    };
-
-    return (
-      <Select
-        onValueChange={(value) =>
-          handleSelectChange(value as ProfileStatusOptionsValue)
-        }
-      >
-        <SelectTrigger className="h-8 px-1 py-0">
-          <SelectValue placeholder="Select Profile Status" />
-        </SelectTrigger>
-        <SelectContent>
-          {profileStatusOptions.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    );
-  };
-
-  const YesNoSelectOptions = ({
-    setYesNo,
-  }: {
-    setYesNo: Dispatch<SetStateAction<boolean | null>>;
-  }) => {
-    const handleSelectChange = async (value: string) => {
-      setYesNo(value === "Yes" ? true : false);
-    };
-
-    return (
-      <Select onValueChange={(value) => handleSelectChange(value)}>
-        <SelectTrigger className="h-8 px-1 py-0">
-          <SelectValue placeholder="Select Yes/No" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={"Yes"}>Yes</SelectItem>
-          <SelectItem value={"No"}>No</SelectItem>
-        </SelectContent>
-      </Select>
-    );
-  };
+  return (
+    <>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button size={"sm"}>Bulk Edit</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Bulk Edit</DialogTitle>
+            <DialogDescription>
+              This action will affect {table.getSelectedRowModel().rows.length}{" "}
+              selected rows.
+              <br />
+              Make changes to your profile here. Click save when you are done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-4">
+            {userFields.map((field) => (
+              <div key={field.id} className="flex items-center space-x-2">
+                <Checkbox
+                  id={field.id}
+                  checked={selectedFields.includes(field.id)}
+                  onCheckedChange={() => handleFieldToggle(field.id)}
+                />
+                <Label htmlFor={field.id}>{field.name}</Label>
+              </div>
+            ))}
+          </div>
+          <Separator />
+          <div className="grid gap-4 py-4">
+            {selectedFields.map((fieldId) => {
+              if (fieldId === "accountManager") {
+                return (
+                  <div key={fieldId} className="flex flex-col gap-1">
+                    <Label htmlFor="accountManager">Account Manager</Label>
+                    <AccountManagerSelectOptions
+                      setAccountManager={setAccountManager}
+                    />
+                  </div>
+                );
+              }
+              if (fieldId === "researchAssistant") {
+                return (
+                  <div key={fieldId} className="flex flex-col gap-1">
+                    <Label htmlFor="researchAssistant">
+                      Research Assistant
+                    </Label>
+                    <ResearchAssistantSelectOptions
+                      setResearchAssistant={setResearchAssistant}
+                    />
+                  </div>
+                );
+              }
+              if (fieldId === "profileStatus") {
+                return (
+                  <div key={fieldId} className="flex flex-col gap-1">
+                    <Label htmlFor="profileStatus">Profile Status</Label>
+                    <ProfileStatusSelectOptions
+                      setProfileStatus={setProfileStatus}
+                    />
+                  </div>
+                );
+              }
+              if (fieldId === "raIntroCallDone") {
+                return (
+                  <div key={fieldId} className="flex flex-col gap-1">
+                    <Label htmlFor="raIntroCallDone">RA Intro Call Done</Label>
+                    <YesNoSelectOptions
+                      key={fieldId}
+                      setYesNo={setRaIntroCallDone}
+                    />
+                  </div>
+                );
+              }
+              if (fieldId === "attorneyCall") {
+                return (
+                  <div key={fieldId} className="flex flex-col gap-1">
+                    <Label htmlFor="attorneyCall">Attorney Call Done</Label>
+                    <YesNoSelectOptions
+                      key={fieldId}
+                      setYesNo={setAttorneyCall}
+                    />
+                  </div>
+                );
+              }
+            })}
+          </div>
+          <DialogFooter>
+            <Button type="submit" onClick={onSaveHandler}>
+              Save changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }
+
+const AccountManagerSelectOptions = ({
+  setAccountManager,
+}: {
+  setAccountManager: Dispatch<SetStateAction<string | null>>;
+}) => {
+  const adminUsers =
+    api.userManagement.getAccountManagerAndResearchAssistants.useQuery();
+  const AMs = adminUsers.data?.accountManagers;
+
+  const handleSelectChange = async (AMId: string) => {
+    setAccountManager(AMId);
+  };
+
+  return (
+    <Select onValueChange={(value) => handleSelectChange(value)}>
+      <SelectTrigger className="h-8 px-1 py-0">
+        <SelectValue placeholder="Select Account Manager" />
+      </SelectTrigger>
+      <SelectContent>
+        {AMs?.map((user) => (
+          <SelectItem key={user.id} value={user.id}>
+            {user.firstName + " " + user.lastName}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+};
+
+const ResearchAssistantSelectOptions = ({
+  setResearchAssistant,
+}: {
+  setResearchAssistant: Dispatch<SetStateAction<string | null>>;
+}) => {
+  const adminUsers =
+    api.userManagement.getAccountManagerAndResearchAssistants.useQuery();
+  const RAs = adminUsers.data?.researchAssistants;
+
+  const handleSelectChange = async (RAId: string) => {
+    setResearchAssistant(RAId);
+  };
+
+  return (
+    <Select onValueChange={(value) => handleSelectChange(value)}>
+      <SelectTrigger className="h-8 px-1 py-0">
+        <SelectValue placeholder="Select Research Assistant" />
+      </SelectTrigger>
+      <SelectContent>
+        {RAs?.map((user) => (
+          <SelectItem key={user.id} value={user.id}>
+            {user.firstName + " " + user.lastName}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+};
+
+const ProfileStatusSelectOptions = ({
+  setProfileStatus,
+}: {
+  setProfileStatus: Dispatch<SetStateAction<ProfileStatusOptionsValue | null>>;
+}) => {
+  const handleSelectChange = (value: ProfileStatusOptionsValue) => {
+    setProfileStatus(value);
+  };
+
+  return (
+    <Select
+      onValueChange={(value) =>
+        handleSelectChange(value as ProfileStatusOptionsValue)
+      }
+    >
+      <SelectTrigger className="h-8 px-1 py-0">
+        <SelectValue placeholder="Select Profile Status" />
+      </SelectTrigger>
+      <SelectContent>
+        {profileStatusOptions.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+};
+
+const YesNoSelectOptions = ({
+  setYesNo,
+}: {
+  setYesNo: Dispatch<SetStateAction<boolean | null>>;
+}) => {
+  const handleSelectChange = async (value: string) => {
+    setYesNo(value === "Yes" ? true : false);
+  };
+
+  return (
+    <Select onValueChange={(value) => handleSelectChange(value)}>
+      <SelectTrigger className="h-8 px-1 py-0">
+        <SelectValue placeholder="Select Yes/No" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value={"Yes"}>Yes</SelectItem>
+        <SelectItem value={"No"}>No</SelectItem>
+      </SelectContent>
+    </Select>
+  );
+};
