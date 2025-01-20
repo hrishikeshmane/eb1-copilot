@@ -135,7 +135,7 @@ export const columns: ColumnDef<User>[] = [
       const AMs = adminUsers.data?.accountManagers;
 
       const editCustomerDetailsMutation =
-        api.userManagement.editCustomerDetails.useMutation();
+        api.userManagement.updateCustomerDetails.useMutation();
 
       const userId = row.getValue("userId") as string;
 
@@ -184,7 +184,7 @@ export const columns: ColumnDef<User>[] = [
       const RAs = adminUsers.data?.researchAssistants;
 
       const editCustomerDetailsMutation =
-        api.userManagement.editCustomerDetails.useMutation();
+        api.userManagement.updateCustomerDetails.useMutation();
 
       const userId = row.getValue("userId") as string;
 
@@ -229,7 +229,7 @@ export const columns: ColumnDef<User>[] = [
     },
     cell: ({ row }) => {
       const editCustomerDetailsMutation =
-        api.userManagement.editCustomerDetails.useMutation();
+        api.userManagement.updateCustomerDetails.useMutation();
 
       const userId = row.getValue("userId") as string;
 
@@ -284,7 +284,7 @@ export const columns: ColumnDef<User>[] = [
     header: "RA Intro Call Done",
     cell: ({ row }) => {
       const editCustomerDetailsMutation =
-        api.userManagement.editCustomerDetails.useMutation();
+        api.userManagement.updateCustomerDetails.useMutation();
 
       const userId = row.getValue("userId") as string;
 
@@ -313,10 +313,10 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "attorneyCall",
-    header: "Attorney Call",
+    header: "Attorney Call Done",
     cell: ({ row }) => {
       const editCustomerDetailsMutation =
-        api.userManagement.editCustomerDetails.useMutation();
+        api.userManagement.updateCustomerDetails.useMutation();
 
       const userId = row.getValue("userId") as string;
 

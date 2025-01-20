@@ -184,7 +184,7 @@ export const userManagementRouter = createTRPCRouter({
       return customerDetails;
     }),
 
-  editCustomerDetails: adminProcedure
+  updateCustomerDetails: adminProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -221,5 +221,49 @@ export const userManagementRouter = createTRPCRouter({
         })
         .where(eq(customerDetails.userId, input.userId))
         .execute();
+    }),
+
+  batchUpdateCustomerDetails: adminProcedure
+    .input(
+      z.object({
+        userIds: z.array(z.string()),
+        accountManager: z.optional(z.string()),
+        researchAssistant: z.optional(z.string()),
+        profileStatus: z.optional(
+          z.enum([
+            "onboarding",
+            "onboarded",
+            "profile-building",
+            "filing",
+            "i-140-approved",
+            "i-485-approved",
+            "rfe-issued",
+            "drafting-i-485",
+            "dropped",
+          ]),
+        ),
+        raIntroCallDone: z.optional(z.boolean()),
+        attorneyCall: z.optional(z.boolean()),
+        customerType: z.optional(z.enum(["copilot", "autopilot"])),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      // loop through userIds and update customer details in a single transaction
+      await ctx.db.transaction(async (db) => {
+        for (const userId of input.userIds) {
+          await db
+            .update(customerDetails)
+            .set({
+              accountManager: input.accountManager,
+              researchAssistant: input.researchAssistant,
+              profileStatus: input.profileStatus,
+              raIntroCallDone: input.raIntroCallDone,
+              attorneyCall: input.attorneyCall,
+              customerType: input.customerType,
+            })
+            .where(eq(customerDetails.userId, userId))
+            .execute();
+        }
+      });
     }),
 });
