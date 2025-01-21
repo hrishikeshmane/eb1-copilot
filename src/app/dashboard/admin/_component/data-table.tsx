@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-  ColumnFiltersState,
+  type ColumnFiltersState,
 } from "@tanstack/react-table";
 
 import {
@@ -51,14 +51,6 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-    // initialState: {
-    //   columnVisibility: {
-    //     userId: false,
-    //   },
-    //   sorting,
-    //   columnFilters,
-    //   rowSelection,
-    // },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),

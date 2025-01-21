@@ -49,9 +49,6 @@ import {
 
 type User = any;
 
-// Sample status list for dropdown
-const statusOptions = ["Not Started", "In Progress", "Completed"];
-
 export const columns: ColumnDef<User>[] = [
   {
     id: "select",
@@ -198,7 +195,7 @@ export const columns: ColumnDef<User>[] = [
       return (
         <Select
           onValueChange={(value) => handleResearchAssistantChange(value)}
-          defaultValue={row.getValue("researchAssistant")}
+          value={row.getValue("researchAssistant")}
         >
           <SelectTrigger className="h-8 w-[180px] px-1 py-0">
             <SelectValue placeholder="Select Research Assistant" />
@@ -246,7 +243,7 @@ export const columns: ColumnDef<User>[] = [
       return (
         <Select
           onValueChange={handleProfileStatusChange}
-          defaultValue={row.getValue("profileStatus")}
+          value={row.getValue("profileStatus")}
         >
           <SelectTrigger className="h-8 w-[150px] px-1 py-0">
             <SelectValue placeholder="Select Status" />
@@ -298,7 +295,7 @@ export const columns: ColumnDef<User>[] = [
       return (
         <Select
           onValueChange={(value) => handleSelectChange(value)}
-          defaultValue={row.getValue("raIntroCallDone") ? "Yes" : "No"}
+          value={row.getValue("raIntroCallDone") ? "Yes" : "No"}
         >
           <SelectTrigger className="h-8 w-[80px] px-1 py-0">
             <SelectValue />
@@ -330,7 +327,7 @@ export const columns: ColumnDef<User>[] = [
       return (
         <Select
           onValueChange={(value) => handleSelectChange(value)}
-          defaultValue={row.getValue("attorneyCall") ? "Yes" : "No"}
+          value={row.getValue("attorneyCall") ? "Yes" : "No"}
         >
           <SelectTrigger className="h-8 w-[80px] px-1 py-0">
             <SelectValue />

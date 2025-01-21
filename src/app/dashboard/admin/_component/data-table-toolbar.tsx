@@ -33,9 +33,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { api } from "@/trpc/react";
-import { columns } from "./compact-table";
 import { toast } from "sonner";
 import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -179,6 +179,8 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
 
   const [selectedFields, setSelectedFields] = useState<string[]>([]);
 
+  const router = useRouter();
+
   const handleFieldToggle = (fieldId: string) => {
     setSelectedFields((prev) =>
       prev.includes(fieldId)
@@ -187,6 +189,7 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
     );
   };
 
+  const utils = api.useUtils();
   const batchUpdateCustomerDetailsMutation =
     api.userManagement.batchUpdateCustomerDetails.useMutation({
       onMutate: () => {
@@ -194,13 +197,18 @@ function BulkEditDialog<TData>({ table }: DataTableToolbarProps<TData>) {
           `Updating ${table.getSelectedRowModel().rows.length} Records`,
         );
       },
-      onSuccess: () => {
+      onSuccess: async () => {
         toast.success(
           `Updated ${table.getSelectedRowModel().rows.length} Records`,
         );
       },
-      onSettled(data, error, variables, context) {
-        revalidatePath("/dashboard/admin", "page");
+      onError: (error) => {
+        toast.error(
+          `Error while updating ${table.getSelectedRowModel().rows.length} Records. Error: ${error.message}`,
+        );
+      },
+      onSettled: async () => {
+        await utils.userManagement.getAllCustomerDetails.invalidate();
       },
     });
 
