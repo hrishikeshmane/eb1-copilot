@@ -208,15 +208,13 @@ export const Navbar2 = () => {
           )}
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          {/* <UserAuthButton/> */}
-          <SignedIn>
+          {user ? (
             <UserButton afterSignOutUrl="/" />
-          </SignedIn>
-          <SignedOut>
+          ) : (
             <SignInButton mode="modal">
               <Button variant={"secondary"}>Sign in</Button>
             </SignInButton>
-          </SignedOut>
+          )}
           {/* <Tooltip>
             <TooltipTrigger asChild>
               <Link
