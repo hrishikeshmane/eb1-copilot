@@ -28,7 +28,7 @@ export default function Home() {
       <Banner />
       <Hero />
       <Logos />
-      <Introducing />
+      {/* <Introducing /> */}
       <Problem />
       <Solution />
       <HowItWorks />

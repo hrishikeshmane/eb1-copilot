@@ -38,4 +38,16 @@ declare global {
   interface CalendlyEventScheduledData {
     event: CalendlyEvent;
   }
+
+  // custom-kanban.tsx
+  type SaveTicketHandlerParameters = {
+    ticketId: string;
+    title: string;
+    description: string | null;
+    customerId: string;
+    pillars: VISA_PILLARS_EX[];
+    column: "backlog" | "todo" | "doing" | "review" | "done";
+    order: number;
+    assigneeId: string | null;
+  };
 }

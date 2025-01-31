@@ -169,4 +169,14 @@ export const kanbanRouter = createTRPCRouter({
     // get all done ticket counts in this month and last month
     // get all customer counts in this month and last month
   }),
+
+  getVendorTickets: adminOrVendorProcedure
+    .input(z.object({ vendorId: z.string().optional() }))
+    .query(async ({ ctx, input }) => {
+      const assigneeId = input.vendorId ?? ctx.session.userId;
+      const tickets = await ctx.db.query.tickets.findMany({
+        where: (table) => eq(table.assigneeId, assigneeId),
+      });
+      return tickets;
+    }),
 });
