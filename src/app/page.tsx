@@ -28,12 +28,12 @@ export default function Home() {
       <Banner />
       <Hero />
       <Logos />
-      <Introducing />
+      {/* <Introducing /> */}
       <Problem />
       <Solution />
       <HowItWorks />
       {/* <TestimonialsCarousel /> */}
-      <Features />
+      {/* <Features /> */}
       <Testimonials />
       {/* <CommunityTestimonials /> */}
       <Pricing />

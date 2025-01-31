@@ -2,7 +2,7 @@
 
 import React, { useState, type DragEvent } from "react";
 import { motion } from "framer-motion";
-import { ImportIcon, Trash } from "lucide-react";
+import { ImportIcon, SquareKanbanIcon, Table2Icon, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import {
   CalendarIcon,
@@ -60,6 +60,7 @@ import {
   isInteractableAtom,
   ticketDescriptionAtom,
   ticketDueDateAtom,
+  isKanbanViewAtom,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
@@ -73,6 +74,15 @@ import Link from "next/link";
 import { TicektDatePicker } from "@/app/dashboard/builder/_components/ticket-date-picker-button";
 import { format } from "date-fns";
 import Loader from "./loader";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
@@ -89,6 +99,7 @@ export const CustomKanban = ({
   isInteractable,
   isAdmin,
 }: CustomKanbanProps) => {
+  const [isKanbanView, setIsKanbanView] = useAtom(isKanbanViewAtom);
   const setIsInteractable = useSetAtom(isInteractableAtom);
   setIsInteractable(isInteractable);
 
@@ -124,10 +135,16 @@ export const CustomKanban = ({
               customerSelect={children}
               tickets={ticketQuery.data as ISelectTickets[]}
             />
-            <Board
-              tickets={ticketQuery.data as ISelectTickets[]}
-              isAdmin={isAdmin}
-            />
+            {isKanbanView ? (
+              <Board
+                tickets={ticketQuery.data as ISelectTickets[]}
+                isAdmin={isAdmin}
+              />
+            ) : (
+              <div>
+                <TicketTable tickets={ticketQuery.data as ISelectTickets[]} />
+              </div>
+            )}
             {/* <ScrollBar orientation="vertical" /> */}
             {/* <ScrollBar orientation="horizontal" /> */}
           </div>
@@ -140,11 +157,17 @@ export const CustomKanban = ({
 type FilterbarProps = {
   customerSelect?: React.ReactNode;
   tickets: ISelectTickets[];
+  disableActionButton?: boolean;
 };
 
-const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
+export const Filterbar = ({
+  customerSelect,
+  tickets,
+  disableActionButton,
+}: FilterbarProps) => {
   const [openVisaFilter, setOpenVisaFilter] = React.useState(false);
   const [filterPillars, setFilterPillars] = useAtom(FilterPillarsAtom);
+  const [isKanbanView, setIsKanbanView] = useAtom(isKanbanViewAtom);
 
   const { user } = useUser();
   const userRole = user?.publicMetadata.role;
@@ -159,6 +182,22 @@ const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
   return (
     <div className="sticky left-1 mb-4 flex w-[98%] gap-3 border-b p-2 pt-0 text-sm">
       <div className="flex items-center gap-2">
+        {!disableActionButton && (
+          <Button
+            size={"icon"}
+            variant={"outline"}
+            className="mr-2 h-8 w-8"
+            onClick={() => {
+              setIsKanbanView(!isKanbanView);
+            }}
+          >
+            {isKanbanView ? (
+              <SquareKanbanIcon className="h-5 w-5" />
+            ) : (
+              <Table2Icon className="h-5 w-5" />
+            )}
+          </Button>
+        )}
         {customerSelect}
         <Popover open={openVisaFilter} onOpenChange={setOpenVisaFilter}>
           <PopoverTrigger asChild>
@@ -246,18 +285,21 @@ const Filterbar = ({ customerSelect, tickets }: FilterbarProps) => {
         </Popover>
       </div>
 
-      <div className="ml-auto flex gap-2">
-        {(userRole === "customer" || userRole === "admin") && (
-          <Link href={`/dashboard/builder/import?customer=${customer?.id}`}>
-            <Button className="flex gap-2">
-              <ImportIcon className="h-4 w-4" /> Import Tickets from Master List
-            </Button>
-          </Link>
-        )}
-        {(userRole === "customer" || userRole === "admin") && (
-          <NewTicketButton tickets={tickets} />
-        )}
-      </div>
+      {!disableActionButton && (
+        <div className="ml-auto flex gap-2">
+          {(userRole === "customer" || userRole === "admin") && (
+            <Link href={`/dashboard/builder/import?customer=${customer?.id}`}>
+              <Button className="flex gap-2">
+                <ImportIcon className="h-4 w-4" /> Import Tickets from Master
+                List
+              </Button>
+            </Link>
+          )}
+          {(userRole === "customer" || userRole === "admin") && (
+            <NewTicketButton tickets={tickets} />
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -532,6 +574,68 @@ const KanbanCard = ({
   card: ISelectTickets;
   handleDragStart: (e: DragEvent<HTMLDivElement>, card: ISelectTickets) => void;
 }) => {
+  const kanbanVisibileOptions = useAtomValue(kanbanVisibileOptionsAtom);
+
+  const isInteractable = useAtomValue(isInteractableAtom);
+
+  return (
+    <>
+      <DropIndicator beforeId={card.ticketId} column={card.column} />
+      <motion.div
+        layout
+        layoutId={card.ticketId}
+        draggable={isInteractable ? true : false}
+        onDragStart={(e) =>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          handleDragStart(e as any as DragEvent<HTMLDivElement>, card)
+        }
+        className={cn(
+          "relative cursor-pointer rounded border bg-card p-3 active:cursor-grabbing",
+          isInteractable ? "pl-6" : "",
+        )}
+      >
+        <TicketSheet card={card}>
+          <div>
+            {isInteractable && (
+              <DragHandleDots2Icon className="absolute left-2 top-3.5 -ml-1 h-4 w-4" />
+            )}
+            <div className="flex ">
+              <p className="text-sm">{card.title}</p>
+            </div>
+            <div className="mt-1 flex flex-wrap gap-1 ">
+              {kanbanVisibileOptions.showVisaPillars &&
+                card.pillars.map((pillar) => (
+                  <Badge
+                    variant="secondary"
+                    className="font-mono font-light"
+                    key={pillar}
+                  >
+                    {getLableForPillars(pillar)}
+                  </Badge>
+                ))}
+            </div>
+            <div className="mt-1 flex items-center gap-2 text-xs text-neutral-500">
+              <CalendarIcon className="h-3 w-3" />
+              {card.dueDate ? (
+                <p>{format(card.dueDate, "PPP")}</p>
+              ) : (
+                <p>Not set</p>
+              )}
+            </div>
+          </div>
+        </TicketSheet>
+      </motion.div>
+    </>
+  );
+};
+
+export const TicketSheet = ({
+  card,
+  children,
+}: {
+  card: ISelectTickets;
+  children: React.ReactNode;
+}) => {
   const { user } = useUser();
   const userRole = user?.publicMetadata.role;
   const isAdmin = userRole === "admin";
@@ -547,7 +651,7 @@ const KanbanCard = ({
   );
   const [ticketDueDate, setTicketDueDate] = useAtom(ticketDueDateAtom);
 
-  const kanbanVisibileOptions = useAtomValue(kanbanVisibileOptionsAtom);
+  const [openSheet, setOpenSheet] = React.useState(false);
 
   const filteredCardPillars = card.pillars.map((pillar) => {
     return visaPillars.find((vp) => vp.value === pillar);
@@ -570,7 +674,6 @@ const KanbanCard = ({
     setTicketDueDate(undefined);
   };
 
-  const [openSheet, setOpenSheet] = React.useState(false);
   const sheetOpenHandler = () => {
     if (openSheet) {
       onUnMount();
@@ -580,8 +683,6 @@ const KanbanCard = ({
     onSheetMount();
     setOpenSheet(true);
   };
-
-  const isInteractable = useAtomValue(isInteractableAtom);
 
   const utils = api.useUtils();
   const updateTicketMutation = api.kanban.updateTicket.useMutation({
@@ -599,17 +700,6 @@ const KanbanCard = ({
       await utils.kanban.getAllUsersTickets.invalidate();
     },
   });
-
-  type SaveTicketHandlerParameters = {
-    ticketId: string;
-    title: string;
-    description: string | null;
-    customerId: string;
-    pillars: VISA_PILLARS_EX[];
-    column: "backlog" | "todo" | "doing" | "review" | "done";
-    order: number;
-    assigneeId: string | null;
-  };
 
   const saveTicketHandler = ({
     ticketId,
@@ -634,157 +724,201 @@ const KanbanCard = ({
   };
 
   return (
-    <>
-      <DropIndicator beforeId={card.ticketId} column={card.column} />
-      <motion.div
-        layout
-        layoutId={card.ticketId}
-        draggable={isInteractable ? true : false}
-        onDragStart={(e) =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          handleDragStart(e as any as DragEvent<HTMLDivElement>, card)
-        }
-        className={cn(
-          "relative cursor-pointer rounded border bg-card p-3 active:cursor-grabbing",
-          isInteractable ? "pl-6" : "",
-        )}
-      >
-        <Sheet open={openSheet} onOpenChange={sheetOpenHandler}>
-          <SheetTrigger asChild>
-            <div>
-              {isInteractable && (
-                <DragHandleDots2Icon className="absolute left-2 top-3.5 -ml-1 h-4 w-4" />
+    <Sheet open={openSheet} onOpenChange={sheetOpenHandler}>
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent className="flex h-full flex-col sm:w-[750px] sm:max-w-[750px]">
+        <SheetHeader>
+          <>
+            <SheetTitle>
+              {isAdmin || isCustomer ? (
+                <input
+                  className="inline-block w-full border-none bg-transparent p-0 outline-none ring-0"
+                  value={ticketTitle}
+                  onChange={(e) => setTicketTitle(e.target.value)}
+                ></input>
+              ) : (
+                <p>{ticketTitle}</p>
               )}
-              <div className="flex ">
-                <p className="text-sm">{card.title}</p>
+            </SheetTitle>
+            <SheetDescription className="flex flex-col gap-2 space-y-1 border-b pb-2">
+              <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                <p className="">Status:</p>
+                <StatusButton
+                  // disabled={isCustomer}
+                  disabled={false}
+                  status={ticketStatus}
+                  setStatus={setTicketStatus}
+                />
               </div>
-              <div className="mt-1 flex flex-wrap gap-1 ">
-                {kanbanVisibileOptions.showVisaPillars &&
-                  card.pillars.map((pillar) => (
+
+              <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                <p className="">Visa Pillars:</p>
+                <PillarButton
+                  // disabled={!isAdmin}
+                  disabled={false}
+                  selectedPillars={ticketPillars}
+                  setSelectedPillars={setTicketPillars}
+                />
+              </div>
+
+              {isAdmin && (
+                <div className="grid grid-cols-[78px_1fr] items-center gap-3">
+                  <p className="">Assign:</p>
+                  <AssigneeButton
+                    disabled={!isAdmin}
+                    assigneeId={ticketAssigneeId}
+                    setAssigneeId={setTicketAssigneeId}
+                  />
+                </div>
+              )}
+
+              <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                <p className="">Status:</p>
+                <TicektDatePicker
+                  ticketDueDate={ticketDueDate}
+                  setTicketDueDate={setTicketDueDate}
+                />
+              </div>
+
+              {isAdmin || isCustomer ? (
+                <Textarea
+                  className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"
+                  value={ticketDescription ?? ""}
+                  placeholder="Ticket Description..."
+                  onChange={(e) => {
+                    setTicketDescription(e.target.value);
+                  }}
+                />
+              ) : (
+                <p className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1  shadow-none outline-none focus-visible:ring-0">
+                  {ticketDescription}
+                </p>
+              )}
+            </SheetDescription>
+          </>
+        </SheetHeader>
+        <ScrollArea className="h-full w-full">
+          <CommentSection ticketId={card.ticketId} />
+        </ScrollArea>
+        <SheetFooter>
+          <div className="mt-auto flex gap-2">
+            <SheetClose asChild>
+              <Button size="sm" variant="outline">
+                Discard
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button
+                onClick={() =>
+                  saveTicketHandler({
+                    ticketId: card.ticketId,
+                    title: ticketTitle,
+                    description: ticketDescription,
+                    customerId: card.customerId,
+                    pillars: ticketPillars.map((p) => p.value),
+                    column: ticketStatus,
+                    order: card.order,
+                    assigneeId: ticketAssigneeId,
+                  })
+                }
+                size="sm"
+              >
+                Save
+              </Button>
+            </SheetClose>
+          </div>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+export const TicketTable = ({ tickets }: { tickets: ISelectTickets[] }) => {
+  const filterPillars = useAtomValue(FilterPillarsAtom);
+
+  //apply filters on filterPillars
+  const filteredCards = tickets.filter((c) => {
+    if (filterPillars.length === 0) return true;
+    return filterPillars.some((p) => c.pillars.includes(p.value));
+  });
+
+  return (
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {/* <TableHead className="w-[150px]">Ticket ID</TableHead> */}
+            <TableHead className="w-[150px]">Title</TableHead>
+            <TableHead className="w-[350px]">Description</TableHead>
+            <TableHead className="w-[350px]">Pillars</TableHead>
+            <TableHead className="w-[100px]">Status</TableHead>
+            <TableHead className="w-[250px]">Assignee ID</TableHead>
+            <TableHead> Due Date</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredCards.map((ticket) => {
+            const dueDate = new Date(ticket.dueDate);
+            const today = new Date();
+            const diffDays = Math.ceil(
+              (dueDate - today) / (1000 * 60 * 60 * 24),
+            );
+            const dueDateStatus =
+              diffDays > 0
+                ? `In ${diffDays} days`
+                : `${Math.abs(diffDays)} days ago`;
+
+            return (
+              <TicketSheet key={ticket.ticketId} card={ticket}>
+                <TableRow
+                  key={ticket.ticketId}
+                  // onClick={() => handleRowClick(ticket)}
+                  className="cursor-pointer"
+                >
+                  {/* <TableCell className="text-sm">{ticket.ticketId}</TableCell> */}
+                  <TableCell className="font-medium">{ticket.title}</TableCell>
+                  <TableCell>
+                    {ticket.description?.length > 50
+                      ? `${ticket.description?.slice(0, 50)}...`
+                      : ticket.description}
+                  </TableCell>
+                  <TableCell className="flex flex-wrap gap-2">
+                    {ticket.pillars.map((pillar, index) => (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        // className="mb-1 mr-1 inline-block rounded-sm bg-secondary px-2 py-1 text-xs font-semibold text-secondary-foreground"
+                      >
+                        {pillar}
+                      </Badge>
+                    ))}
+                  </TableCell>
+                  <TableCell className="font-semibold capitalize">
+                    {ticket.column}
+                  </TableCell>
+                  <TableCell>{ticket.assigneeId?.slice(0, 8)}...</TableCell>
+                  <TableCell>
                     <Badge
                       variant="secondary"
-                      className="font-mono font-light"
-                      key={pillar}
+                      className={cn(
+                        `mr-2 `,
+                        diffDays > 7
+                          ? "bg-emerald-500 hover:bg-emerald-500/80"
+                          : diffDays > 0
+                            ? "bg-yellow-500 hover:bg-yellow-500/80"
+                            : "bg-red-500 text-destructive-foreground hover:bg-red-500/80",
+                      )}
                     >
-                      {getLableForPillars(pillar)}
+                      {dueDateStatus}
                     </Badge>
-                  ))}
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-xs text-neutral-500">
-                <CalendarIcon className="h-3 w-3" />
-                {card.dueDate ? (
-                  <p>{format(card.dueDate, "PPP")}</p>
-                ) : (
-                  <p>Not set</p>
-                )}
-              </div>
-            </div>
-          </SheetTrigger>
-          <SheetContent className="flex h-full flex-col sm:w-[750px] sm:max-w-[750px]">
-            <SheetHeader>
-              <>
-                <SheetTitle>
-                  {isAdmin || isCustomer ? (
-                    <input
-                      className="inline-block w-full border-none bg-transparent p-0 outline-none ring-0"
-                      value={ticketTitle}
-                      onChange={(e) => setTicketTitle(e.target.value)}
-                    ></input>
-                  ) : (
-                    <p>{ticketTitle}</p>
-                  )}
-                </SheetTitle>
-                <SheetDescription className="flex flex-col gap-2 space-y-1 border-b pb-2">
-                  <div className="grid grid-cols-[78px_1fr] items-start gap-3">
-                    <p className="">Status:</p>
-                    <StatusButton
-                      // disabled={isCustomer}
-                      disabled={false}
-                      status={ticketStatus}
-                      setStatus={setTicketStatus}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-[78px_1fr] items-start gap-3">
-                    <p className="">Visa Pillars:</p>
-                    <PillarButton
-                      // disabled={!isAdmin}
-                      disabled={false}
-                      selectedPillars={ticketPillars}
-                      setSelectedPillars={setTicketPillars}
-                    />
-                  </div>
-
-                  {isAdmin && (
-                    <div className="grid grid-cols-[78px_1fr] items-center gap-3">
-                      <p className="">Assign:</p>
-                      <AssigneeButton
-                        disabled={!isAdmin}
-                        assigneeId={ticketAssigneeId}
-                        setAssigneeId={setTicketAssigneeId}
-                      />
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-[78px_1fr] items-start gap-3">
-                    <p className="">Status:</p>
-                    <TicektDatePicker
-                      ticketDueDate={ticketDueDate}
-                      setTicketDueDate={setTicketDueDate}
-                    />
-                  </div>
-
-                  {isAdmin || isCustomer ? (
-                    <Textarea
-                      className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1 shadow-none outline-none focus-visible:ring-0"
-                      value={ticketDescription ?? ""}
-                      placeholder="Ticket Description..."
-                      onChange={(e) => {
-                        setTicketDescription(e.target.value);
-                      }}
-                    />
-                  ) : (
-                    <p className="border-y-1 inline-block w-full rounded-none border-x-0 bg-transparent p-0 py-1  shadow-none outline-none focus-visible:ring-0">
-                      {ticketDescription}
-                    </p>
-                  )}
-                </SheetDescription>
-              </>
-            </SheetHeader>
-            <ScrollArea className="h-full w-full">
-              <CommentSection ticketId={card.ticketId} />
-            </ScrollArea>
-            <SheetFooter>
-              <div className="mt-auto flex gap-2">
-                <SheetClose asChild>
-                  <Button size="sm" variant="outline">
-                    Discard
-                  </Button>
-                </SheetClose>
-                <SheetClose asChild>
-                  <Button
-                    onClick={() =>
-                      saveTicketHandler({
-                        ticketId: card.ticketId,
-                        title: ticketTitle,
-                        description: ticketDescription,
-                        customerId: card.customerId,
-                        pillars: ticketPillars.map((p) => p.value),
-                        column: ticketStatus,
-                        order: card.order,
-                        assigneeId: ticketAssigneeId,
-                      })
-                    }
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                </SheetClose>
-              </div>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
-      </motion.div>
+                    {format(dueDate, "dd/MM/yyyy")}
+                  </TableCell>
+                </TableRow>
+              </TicketSheet>
+            );
+          })}
+        </TableBody>
+      </Table>
     </>
   );
 };

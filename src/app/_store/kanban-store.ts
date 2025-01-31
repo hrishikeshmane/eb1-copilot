@@ -25,3 +25,5 @@ export const kanbanVisibileOptionsAtom = atom<KanbanVisibileOptionsAtom>({
 });
 
 export const isInteractableAtom = atom<boolean>(false);
+
+export const isKanbanViewAtom = atom<boolean>(true);
