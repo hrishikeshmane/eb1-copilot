@@ -113,7 +113,7 @@ export const siteConfig = {
       features: [
         "Filing discount of $1999 [ft. Lodestone]",
         "Profile strategy call (worth $499)",
-        "Weekly office-hour with mentors",
+        "EB1 roadmapping call with attorney",
         "Personalized recommendations",
         "Dedicated accountability manager",
         "Progress management dashboard",
