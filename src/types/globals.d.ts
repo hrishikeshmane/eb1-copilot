@@ -49,5 +49,6 @@ declare global {
     column: "backlog" | "todo" | "doing" | "review" | "done";
     order: number;
     assigneeId: string | null;
+    dueDate: Date | undefined;
   };
 }

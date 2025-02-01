@@ -52,9 +52,9 @@ export function TicektDatePicker({
         className="flex w-auto flex-col space-y-2 p-2"
       >
         <Select
-          onValueChange={(value) =>
-            setTicketDueDate(addDays(new Date(), parseInt(value)))
-          }
+          onValueChange={(value) => {
+            setTicketDueDate(addDays(new Date(), parseInt(value)));
+          }}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select" />

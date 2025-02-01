@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import {
+  adminOrVendorProcedure,
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
@@ -206,7 +207,7 @@ export const userDetailsRouter = createTRPCRouter({
     return userPillarData;
   }),
 
-  getUserPillarsByUserId: adminProcedure
+  getUserPillarsByUserId: adminOrVendorProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ input }) => {
       const userPillarData = await db.query.userVisaPillarDetails.findMany({
