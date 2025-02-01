@@ -37,7 +37,7 @@ export const kanbanRouter = createTRPCRouter({
     return tickets;
   }),
 
-  getCompletedTicketsByUserId: adminProcedure
+  getCompletedTicketsByUserId: adminOrVendorProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
       const tickets = await ctx.db.query.tickets.findMany({
@@ -137,23 +137,29 @@ export const kanbanRouter = createTRPCRouter({
         column: z
           .enum(["backlog", "todo", "doing", "review", "done"])
           .optional(),
+        dueDate: z.date().optional(),
         // order: z.number(),
         assigneeId: z.string().optional().nullable(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      let records = {
+        title: input.title,
+        description: input.description,
+        customerId: input.customerId,
+        pillars: input.pillars,
+        column: input.column,
+        assigneeId: input.assigneeId,
+        createdBy: ctx.session.userId,
+      };
+      if (input.dueDate) {
+        // @ts-ignore
+        records.dueDate = input.dueDate;
+      }
+
       await ctx.db
         .update(tickets)
-        .set({
-          title: input.title,
-          description: input.description,
-          customerId: input.customerId,
-          pillars: input.pillars,
-          column: input.column,
-          // order: input.order,
-          assigneeId: input.assigneeId,
-          createdBy: ctx.session.userId,
-        })
+        .set(records)
         .where(eq(tickets.ticketId, input.ticketId));
     }),
 

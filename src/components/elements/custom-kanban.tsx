@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, type DragEvent } from "react";
+import React, { useEffect, useState, type DragEvent } from "react";
 import { motion } from "framer-motion";
 import { ImportIcon, SquareKanbanIcon, Table2Icon, Trash } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
@@ -653,6 +653,10 @@ export const TicketSheet = ({
 
   const [openSheet, setOpenSheet] = React.useState(false);
 
+  useEffect(() => {
+    console.log("ticketDueDate??", ticketDueDate);
+  });
+
   const filteredCardPillars = card.pillars.map((pillar) => {
     return visaPillars.find((vp) => vp.value === pillar);
   }) as IPillars[];
@@ -708,9 +712,11 @@ export const TicketSheet = ({
     customerId,
     pillars,
     column,
+    dueDate,
     order,
     assigneeId,
   }: SaveTicketHandlerParameters) => {
+    console.log("saveTicketHandler??", dueDate);
     updateTicketMutation.mutate({
       ticketId,
       title,
@@ -718,6 +724,7 @@ export const TicketSheet = ({
       customerId,
       pillars,
       column,
+      dueDate,
       // order,
       assigneeId,
     });
@@ -773,7 +780,7 @@ export const TicketSheet = ({
               )}
 
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
-                <p className="">Status:</p>
+                <p className="">Due Date:</p>
                 <TicektDatePicker
                   ticketDueDate={ticketDueDate}
                   setTicketDueDate={setTicketDueDate}
@@ -819,6 +826,7 @@ export const TicketSheet = ({
                     column: ticketStatus,
                     order: card.order,
                     assigneeId: ticketAssigneeId,
+                    dueDate: ticketDueDate,
                   })
                 }
                 size="sm"

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import {
+  adminOrVendorProcedure,
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
@@ -113,7 +114,7 @@ export const userManagementRouter = createTRPCRouter({
       }
     }),
 
-  getUserInfoById: adminProcedure
+  getUserInfoById: adminOrVendorProcedure
     .input(
       z.object({
         userId: z.string(),
