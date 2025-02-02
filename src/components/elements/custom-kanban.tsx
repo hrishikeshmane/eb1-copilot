@@ -61,6 +61,8 @@ import {
   ticketDescriptionAtom,
   ticketDueDateAtom,
   isKanbanViewAtom,
+  FilterTicketStatusAtom,
+  defaultTicketStatus,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
@@ -166,7 +168,12 @@ export const Filterbar = ({
   disableActionButton,
 }: FilterbarProps) => {
   const [openVisaFilter, setOpenVisaFilter] = React.useState(false);
+  const [openTicketStatusFilter, setOpenTicketStatusFilter] =
+    React.useState(false);
   const [filterPillars, setFilterPillars] = useAtom(FilterPillarsAtom);
+  const [filterTicketStatus, setFilterTicketStatus] = useAtom(
+    FilterTicketStatusAtom,
+  );
   const [isKanbanView, setIsKanbanView] = useAtom(isKanbanViewAtom);
 
   const { user } = useUser();
@@ -199,90 +206,189 @@ export const Filterbar = ({
           </Button>
         )}
         {customerSelect}
-        <Popover open={openVisaFilter} onOpenChange={setOpenVisaFilter}>
-          <PopoverTrigger asChild>
-            <Button
-              className="-ml-2 flex items-center gap-1 pr-1"
-              size={"sm"}
-              variant="outline"
-            >
-              <PlusIcon className="" />
-              Visa Pillars
-              <Separator orientation="vertical" className="ml-2" />
-              <div className="flex max-w-[30rem] gap-1 overflow-x-hidden font-mono">
-                {filterPillars.length == 10 && (
-                  <div className="rounded-sm bg-secondary px-2 py-1">
-                    All Selected
-                  </div>
-                )}
-                {filterPillars.length >= 4 && filterPillars.length < 10 && (
-                  <div className="rounded-sm bg-secondary px-2 py-1">
-                    {filterPillars.length} Selected
-                  </div>
-                )}
-                {filterPillars.length < 4 &&
-                  filterPillars.map((vp) => (
-                    <div
-                      key={vp.value}
-                      className="rounded-sm bg-secondary px-2 py-1"
-                    >
-                      {vp.label}
+        <div className="flex gap-4">
+          <Popover open={openVisaFilter} onOpenChange={setOpenVisaFilter}>
+            <PopoverTrigger asChild>
+              <Button
+                className="-ml-2 flex items-center gap-1 pr-1"
+                size={"sm"}
+                variant="outline"
+              >
+                <PlusIcon className="" />
+                Visa Pillars
+                <Separator orientation="vertical" className="ml-2" />
+                <div className="flex max-w-[30rem] gap-1 overflow-x-hidden font-mono">
+                  {filterPillars.length == 10 && (
+                    <div className="rounded-sm bg-secondary px-2 py-1">
+                      All Selected
                     </div>
-                  ))}
-              </div>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="p-0" side="right" align="start">
-            <Command>
-              <CommandInput placeholder="Select Pillars..." />
-              <CommandList>
-                <CommandEmpty>No results found.</CommandEmpty>
-                <CommandGroup>
-                  <CommandItem onSelect={() => setFilterPillars(visaPillars)}>
-                    --Select All--
-                  </CommandItem>
-                  {visaPillars.map((status) => (
-                    <CommandItem
-                      key={status.value}
-                      value={status.value}
-                      className="flex cursor-pointer items-center gap-2"
-                      onSelect={(value) => {
-                        const newPillar = visaPillars.find(
-                          (pillar) => pillar.value === value,
-                        );
-                        if (!newPillar) return;
-
-                        // if new pillar is already in the selectedPillars, remove it
-                        if (
-                          filterPillars.some(
-                            (pillar) => pillar.value === newPillar.value,
-                          )
-                        ) {
-                          setFilterPillars(
-                            filterPillars.filter(
-                              (pillar) => pillar.value !== newPillar.value,
-                            ),
-                          );
-                          return;
-                        }
-
-                        setFilterPillars([...filterPillars, newPillar]);
-                      }}
-                    >
-                      <Checkbox
-                        id={status.value}
-                        checked={filterPillars.some(
-                          (pillar) => pillar.value === status.value,
-                        )}
-                      />
-                      {status.label}
+                  )}
+                  {filterPillars.length >= 4 && filterPillars.length < 10 && (
+                    <div className="rounded-sm bg-secondary px-2 py-1">
+                      {filterPillars.length} Selected
+                    </div>
+                  )}
+                  {filterPillars.length < 4 &&
+                    filterPillars.map((vp) => (
+                      <div
+                        key={vp.value}
+                        className="rounded-sm bg-secondary px-2 py-1"
+                      >
+                        {vp.label}
+                      </div>
+                    ))}
+                </div>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-0" side="right" align="start">
+              <Command>
+                <CommandInput placeholder="Select Pillars..." />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem onSelect={() => setFilterPillars(visaPillars)}>
+                      --Select All--
                     </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
+                    {visaPillars.map((status) => (
+                      <CommandItem
+                        key={status.value}
+                        value={status.value}
+                        className="flex cursor-pointer items-center gap-2"
+                        onSelect={(value) => {
+                          const newPillar = visaPillars.find(
+                            (pillar) => pillar.value === value,
+                          );
+                          if (!newPillar) return;
+
+                          // if new pillar is already in the selectedPillars, remove it
+                          if (
+                            filterPillars.some(
+                              (pillar) => pillar.value === newPillar.value,
+                            )
+                          ) {
+                            setFilterPillars(
+                              filterPillars.filter(
+                                (pillar) => pillar.value !== newPillar.value,
+                              ),
+                            );
+                            return;
+                          }
+
+                          setFilterPillars([...filterPillars, newPillar]);
+                        }}
+                      >
+                        <Checkbox
+                          id={status.value}
+                          checked={filterPillars.some(
+                            (pillar) => pillar.value === status.value,
+                          )}
+                        />
+                        {status.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+          {pathName.includes("vendor") && (
+            <Popover
+              open={openTicketStatusFilter}
+              onOpenChange={setOpenTicketStatusFilter}
+            >
+              <PopoverTrigger asChild>
+                <Button
+                  className="-ml-2 flex items-center gap-1 pr-1"
+                  size={"sm"}
+                  variant="outline"
+                >
+                  <PlusIcon className="" />
+                  Ticket Status
+                  <Separator orientation="vertical" className="ml-2" />
+                  <div className="flex max-w-[30rem] gap-1 overflow-x-hidden font-mono">
+                    {filterTicketStatus.length == 5 && (
+                      <div className="rounded-sm bg-secondary px-2 py-1">
+                        All Selected
+                      </div>
+                    )}
+                    {filterTicketStatus.length >= 4 &&
+                      filterTicketStatus.length < 5 && (
+                        <div className="rounded-sm bg-secondary px-2 py-1">
+                          {filterTicketStatus.length} Selected
+                        </div>
+                      )}
+                    {filterTicketStatus.length < 4 &&
+                      filterTicketStatus.map((vp) => (
+                        <div
+                          key={vp}
+                          className="rounded-sm bg-secondary px-2 py-1"
+                        >
+                          {vp}
+                        </div>
+                      ))}
+                  </div>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="p-0" side="right" align="start">
+                <Command>
+                  <CommandInput placeholder="Select Pillars..." />
+                  <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup>
+                      <CommandItem
+                        onSelect={() =>
+                          setFilterTicketStatus(defaultTicketStatus)
+                        }
+                      >
+                        --Select All--
+                      </CommandItem>
+                      {defaultTicketStatus.map((status) => (
+                        <CommandItem
+                          key={status}
+                          value={status}
+                          className="flex cursor-pointer items-center gap-2"
+                          onSelect={(value) => {
+                            const newStatus = defaultTicketStatus.find(
+                              (pillar) => pillar === value,
+                            );
+                            if (!newStatus) return;
+
+                            // if new pillar is already in the selectedPillars, remove it
+                            if (
+                              filterTicketStatus.some(
+                                (pillar) => pillar === newStatus,
+                              )
+                            ) {
+                              setFilterTicketStatus(
+                                filterTicketStatus.filter(
+                                  (pillar) => pillar !== newStatus,
+                                ),
+                              );
+                              return;
+                            }
+
+                            setFilterTicketStatus([
+                              ...filterTicketStatus,
+                              newStatus,
+                            ]);
+                          }}
+                        >
+                          <Checkbox
+                            id={status}
+                            checked={filterTicketStatus.some(
+                              (value) => value === status,
+                            )}
+                          />
+                          <span className="capitalize">{status}</span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          )}
+        </div>
       </div>
 
       {!disableActionButton && (
@@ -652,10 +758,6 @@ export const TicketSheet = ({
   const [ticketDueDate, setTicketDueDate] = useAtom(ticketDueDateAtom);
 
   const [openSheet, setOpenSheet] = React.useState(false);
-
-  useEffect(() => {
-    console.log("ticketDueDate??", ticketDueDate);
-  });
 
   const filteredCardPillars = card.pillars.map((pillar) => {
     return visaPillars.find((vp) => vp.value === pillar);

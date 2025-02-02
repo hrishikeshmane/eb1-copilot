@@ -25,7 +25,10 @@ import { useAtomValue } from "jotai";
 
 import { ArrowRight, ArrowUpDown, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FilterPillarsAtom } from "@/app/_store/kanban-store";
+import {
+  FilterPillarsAtom,
+  FilterTicketStatusAtom,
+} from "@/app/_store/kanban-store";
 import { TicketSheet } from "@/components/elements/custom-kanban";
 import { clerkClient } from "@clerk/nextjs";
 import Link from "next/link";
@@ -46,13 +49,19 @@ export const VendorTicketTable = ({
   tickets: ISelectTickets[];
 }) => {
   const filterPillars = useAtomValue(FilterPillarsAtom);
+  const filterTicketStatus = useAtomValue(FilterTicketStatusAtom);
 
   const filteredData = useMemo(() => {
-    return tickets.filter((ticket) => {
-      if (filterPillars.length === 0) return true;
-      return filterPillars.some((p) => ticket.pillars.includes(p.value));
-    });
-  }, [tickets, filterPillars]);
+    return tickets
+      .filter((ticket) => {
+        if (filterPillars.length === 0) return true;
+        return filterPillars.some((p) => ticket.pillars.includes(p.value));
+      })
+      .filter((ticket) => {
+        if (filterTicketStatus.length === 0) return true;
+        return filterTicketStatus.some((s) => ticket.column === s);
+      });
+  }, [tickets, filterPillars, filterTicketStatus]);
 
   const columns = useMemo<ColumnDef<ISelectTickets>[]>(
     () => [
