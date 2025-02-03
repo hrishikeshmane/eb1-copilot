@@ -804,6 +804,7 @@ export const TicketSheet = ({
     onSettled: async () => {
       await utils.kanban.getTicketsByUserId.invalidate();
       await utils.kanban.getAllUsersTickets.invalidate();
+      await utils.kanban.getVendorTickets.invalidate();
     },
   });
 
@@ -863,6 +864,7 @@ export const TicketSheet = ({
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Visa Pillars:</p>
                 <PillarButton
+                  isInteractable={!isVendor}
                   // disabled={!isAdmin}
                   disabled={false}
                   selectedPillars={ticketPillars}
@@ -870,10 +872,11 @@ export const TicketSheet = ({
                 />
               </div>
 
-              {isAdmin && (
+              {(isAdmin || isVendor) && (
                 <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                   <p className="">Assign:</p>
                   <AssigneeButton
+                    isInteractable={!isVendor}
                     disabled={!isAdmin}
                     assigneeId={ticketAssigneeId}
                     setAssigneeId={setTicketAssigneeId}
@@ -884,6 +887,7 @@ export const TicketSheet = ({
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Due Date:</p>
                 <TicektDatePicker
+                  isInteractable={!isVendor}
                   ticketDueDate={ticketDueDate}
                   setTicketDueDate={setTicketDueDate}
                 />
