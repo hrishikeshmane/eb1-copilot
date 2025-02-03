@@ -24,6 +24,7 @@ import {
   SquareKanbanIcon,
   Truck,
   UserCog,
+  UserRoundCheck,
   Users2,
 } from "lucide-react";
 import {
@@ -163,10 +164,66 @@ export const Navbar2 = () => {
                   )}
                 >
                   <LayoutDashboard className="h-5 w-5" />
-                  <span className="sr-only">Profile Management</span>
+                  <span className="sr-only">Admin Management</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Profile Management</TooltipContent>
+              <TooltipContent side="right">Admin Management</TooltipContent>
+            </Tooltip>
+          )}
+
+          {userRole === "admin" && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/dashboard/master-list"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/master-list" && "bg-accent",
+                  )}
+                >
+                  <GraduationCap className="h-5 w-5" />
+                  <span className="sr-only">Master List</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Master List</TooltipContent>
+            </Tooltip>
+          )}
+
+          {userRole === "vendor" && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/dashboard/vendor"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/user-management" &&
+                      "bg-accent text-foreground",
+                  )}
+                >
+                  <UserRoundCheck className="h-5 w-5" />
+                  <span className="sr-only">Vendor Management</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Vendor Management</TooltipContent>
+            </Tooltip>
+          )}
+
+          {userRole === "admin" && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/dashboard/admin"
+                  className={cn(
+                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                    pathName === "/dashboard/user-management" &&
+                      "bg-accent text-foreground",
+                  )}
+                >
+                  <UserRoundCheck className="h-5 w-5" />
+                  <span className="sr-only">Admin Management</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Admin Management</TooltipContent>
             </Tooltip>
           )}
 
@@ -186,24 +243,6 @@ export const Navbar2 = () => {
                 </Link>
               </TooltipTrigger>
               <TooltipContent side="right">User Management</TooltipContent>
-            </Tooltip>
-          )}
-
-          {userRole === "admin" && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  href="/dashboard/master-list"
-                  className={cn(
-                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
-                    pathName === "/dashboard/master-list" && "bg-accent",
-                  )}
-                >
-                  <GraduationCap className="h-5 w-5" />
-                  <span className="sr-only">Master List</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Master List</TooltipContent>
             </Tooltip>
           )}
         </nav>
