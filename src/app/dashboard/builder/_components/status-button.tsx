@@ -117,7 +117,7 @@ const StatusButton = ({ status, setStatus, disabled }: StatusButtonProps) => {
               return 0;
             }}
           >
-            <CommandInput placeholder="Select Vendor..." />
+            <CommandInput placeholder="Select Ticket Status..." />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>

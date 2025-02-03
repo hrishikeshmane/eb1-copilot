@@ -73,12 +73,12 @@ export const kanbanRouter = createTRPCRouter({
           .enum(["backlog", "todo", "doing", "review", "done"])
           .optional(),
         order: z.number(),
-        dueDate: z.date().optional(),
+        dueDate: z.union([z.number(), z.date()]).optional(),
         assigneeId: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      let records = {
+      const records = {
         title: input.title,
         description: input.description,
         customerId: input.customerId,
@@ -112,7 +112,7 @@ export const kanbanRouter = createTRPCRouter({
         .where(eq(tickets.ticketId, input.ticketId));
     }),
 
-  updateTicket: adminOrCustomerProcedure
+  updateTicket: protectedProcedure
     .input(
       z.object({
         ticketId: z.string(),
@@ -137,13 +137,13 @@ export const kanbanRouter = createTRPCRouter({
         column: z
           .enum(["backlog", "todo", "doing", "review", "done"])
           .optional(),
-        dueDate: z.date().optional(),
+        dueDate: z.union([z.number(), z.date()]).optional(),
         // order: z.number(),
         assigneeId: z.string().optional().nullable(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      let records = {
+      const records = {
         title: input.title,
         description: input.description,
         customerId: input.customerId,
