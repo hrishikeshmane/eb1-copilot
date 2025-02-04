@@ -23,7 +23,7 @@ import {
 type TicektDatePickerProps = {
   ticketDueDate: Date | undefined;
   setTicketDueDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
-  isInteractable?: boolean;
+  isInteractable: boolean;
 };
 
 export function TicektDatePicker({

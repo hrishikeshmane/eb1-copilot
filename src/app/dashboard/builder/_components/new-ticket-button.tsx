@@ -138,6 +138,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Visa Pillars:</p>
                 <PillarButton
+                  isInteractable={true}
                   disabled={false}
                   selectedPillars={ticketPillars}
                   setSelectedPillars={setTicketPillars}
@@ -148,6 +149,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
                 <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                   <p className="">Assign:</p>
                   <AssigneeButton
+                    isInteractable={true}
                     disabled={false}
                     assigneeId={ticketAssigneeId}
                     setAssigneeId={setTicketAssigneeId}
@@ -158,6 +160,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Due Date:</p>
                 <TicektDatePicker
+                  isInteractable={true}
                   ticketDueDate={ticketDueDate}
                   setTicketDueDate={setTicketDueDate}
                 />

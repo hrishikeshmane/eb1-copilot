@@ -24,7 +24,7 @@ type AssigneeButtonProps = {
   assigneeId: string | null;
   setAssigneeId: React.Dispatch<React.SetStateAction<string | null>>;
   disabled: boolean;
-  isInteractable?: boolean;
+  isInteractable: boolean;
 };
 
 function extractUserId(pathname: string) {
