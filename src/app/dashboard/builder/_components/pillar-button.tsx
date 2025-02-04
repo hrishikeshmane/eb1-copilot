@@ -21,7 +21,7 @@ type PillarButtonProps = {
   selectedPillars: IPillars[];
   setSelectedPillars: React.Dispatch<React.SetStateAction<IPillars[]>>;
   disabled: boolean;
-  isInteractable?: boolean;
+  isInteractable: boolean;
 };
 
 const PillarButton = ({
@@ -34,7 +34,19 @@ const PillarButton = ({
 
   return (
     <div className="w-full">
-      {isInteractable ? (
+      {!isInteractable ? (
+        <div className="flex w-full flex-wrap gap-1 font-mono text-xs">
+          {selectedPillars.length > 0 &&
+            selectedPillars.map((vp) => (
+              <div
+                key={vp.value}
+                className="rounded-sm bg-secondary px-2 py-1 text-secondary-foreground"
+              >
+                {vp.label}
+              </div>
+            ))}
+        </div>
+      ) : (
         <Popover
           modal={true}
           open={openPillarsPopover}
@@ -124,18 +136,6 @@ const PillarButton = ({
             </Command>
           </PopoverContent>
         </Popover>
-      ) : (
-        <div className="flex w-full flex-wrap gap-1 font-mono text-xs">
-          {selectedPillars.length > 0 &&
-            selectedPillars.map((vp) => (
-              <div
-                key={vp.value}
-                className="rounded-sm bg-secondary px-2 py-1 text-secondary-foreground"
-              >
-                {vp.label}
-              </div>
-            ))}
-        </div>
       )}
     </div>
   );
