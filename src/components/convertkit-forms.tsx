@@ -12,7 +12,7 @@ export const JoinNewsletterForm = () => {
     <ConvertKitForm
       template="clare"
       formId={JOIN_NEWSLETTER_FORM_ID}
-      submitText={`Join ${siteConfig.newsletterCount} immigrants`}
+      submitText={`Join ${siteConfig.newsletterCount}+ immigrants`}
       buttonBackground="#098938"
     />
   );
@@ -23,7 +23,7 @@ export const PopupForm = () => {
     <ConvertKitForm
       template="clare"
       formId={POPUP_FORM_ID}
-      submitText={`Join ${siteConfig.newsletterCount} immigrants`}
+      submitText={`Join ${siteConfig.newsletterCount}+ immigrants`}
       buttonBackground="#098938"
     />
   );
