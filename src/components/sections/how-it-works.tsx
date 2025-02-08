@@ -56,9 +56,12 @@ const data = [
 //   },
 // ];
 
-export default function Component() {
+export default function Component({ v2 }: { v2?: boolean }) {
   return (
-    <Section title="How it works" subtitle="Just 3 steps to get started">
+    <Section
+      title={v2 ? "FOUR-STEP JOURNEY" : "How it works"}
+      subtitle={v2 ? "How It Works" : "Just 3 steps to get started"}
+    >
       <Features data={data} />
     </Section>
   );

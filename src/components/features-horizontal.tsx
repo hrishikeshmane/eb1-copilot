@@ -78,6 +78,7 @@ type CardDataProps = {
   id: number;
   title: string;
   content: string;
+  component?: ReactNode;
   image?: string;
   video?: string;
   icon?: React.ReactNode;
@@ -270,7 +271,7 @@ export default function Features({
               {data[currentIndex]?.image ? (
                 <motion.img
                   key={currentIndex}
-                  src={data[currentIndex]!.image}
+                  src={data[currentIndex].image}
                   alt="feature"
                   className="relative aspect-auto h-full w-full rounded-lg border object-cover shadow-lg"
                   initial={{ opacity: 0, scale: 0.98 }}
@@ -281,14 +282,25 @@ export default function Features({
               ) : data[currentIndex]?.video ? (
                 <video
                   preload="auto"
-                  src={data[currentIndex]!.video}
+                  src={data[currentIndex].video}
                   className="aspect-auto h-full w-full rounded-lg border object-cover shadow-lg"
                   autoPlay
                   loop
                   muted
                 />
               ) : (
-                <div className="aspect-auto h-full min-h-[600px] w-full rounded-xl border border-neutral-300/50 bg-gray-200 p-1"></div>
+                <div className="flex aspect-auto h-full min-h-[600px] w-full items-center justify-center rounded-xl border border-neutral-300/50 bg-neutral-100 p-1">
+                  <motion.div
+                    className="max-w-2xl text-center"
+                    key={currentIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {data[currentIndex]?.component}
+                  </motion.div>
+                </div>
               )}
               <BorderBeam
                 size={400}
