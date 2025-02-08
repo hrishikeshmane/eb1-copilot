@@ -161,7 +161,7 @@ function HeroImage() {
   );
 }
 
-export default function Hero() {
+export default function Hero({ v2 }: { v2?: boolean }) {
   return (
     <section className="relative overflow-hidden pb-20 pt-16" id="hero">
       <div className="absolute inset-0 flex items-center justify-center">
@@ -176,11 +176,20 @@ export default function Hero() {
       </div>
       <div className="relative z-10 flex w-full flex-col items-center justify-start px-4 pt-20 sm:px-6 sm:pt-24 md:pt-20 lg:px-8">
         <HeroPill />
-        <HeroTitles
-          heading={["Your", "Green Card", "Dream,", "Now", "Within", "Reach"]}
-          subHeading="Self-sponsor Your EB-1A Extraordinary Ability Green Card With AI-Powered
+        {!v2 && (
+          <HeroTitles
+            heading={["Your", "Green Card", "Dream,", "Now", "Within", "Reach"]}
+            subHeading="Self-sponsor Your EB-1A Extraordinary Ability Green Card With AI-Powered
         Expertise"
-        />
+          />
+        )}
+        {!!v2 && (
+          <HeroTitles
+            heading={["Your", "Trusted", "Partner", "In", "US", "Immigration"]}
+            subHeading="From strategy to execution, we streamline every step of the immigration process - helping families, professionals, and businesses achieve their American dreams with confidence
+        Expertise"
+          />
+        )}
         <HeroCTA showBookCall={true} />
         {/* <HeroImage /> */}
         {/* <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div> */}

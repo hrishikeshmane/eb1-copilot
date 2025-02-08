@@ -10,6 +10,33 @@ import {
   Zap,
 } from "lucide-react";
 
+const problemsV2 = [
+  {
+    title: "O-1A Visa",
+    description:
+      "The O-1 visa has no cap, no degree requirement, and 15-day processing. With broad industry applicability, it’s a fast, flexible option for top professionals and entrepreneurs",
+    // icon: Clock,
+  },
+  {
+    title: "O-1A Visa",
+    description:
+      "The O-1 visa has no cap, no degree requirement, and 15-day processing. With broad industry applicability, it’s a fast, flexible option for top professionals and entrepreneurs",
+    // icon: Clock,
+  },
+  {
+    title: "EB2-NIW Visa",
+    description:
+      "The EB-2 NIW skips employer sponsorship and PERM, offering a self-petitioned path to a Green Card. Ideal for skilled professionals, researchers, and entrepreneurs driving national interest.",
+    // icon: Clock,
+  },
+  {
+    title: "EB1-A Visa",
+    description:
+      "The EB-1A offers a self-petitioned path to a Green Card with fastest processing and priority status. Ideal for new applicants and skilled professionals stuck in EB-2/EB-3 backlogs from 2014–2022.",
+    // icon: Clock,
+  },
+];
+
 const problems = [
   {
     title: "Decades-Long Wait Times",
@@ -31,26 +58,44 @@ const problems = [
   },
 ];
 
-export default function Component() {
+export default function Component({ v2 }: { v2?: boolean }) {
   return (
     <Section
-      title="Problem"
-      subtitle="Don't Let Outdated Processes and Employer Dependence Hold You Back."
+      title={v2 ? "TALENT VISA SOLUTIONS" : "Problem"}
+      subtitle={
+        v2
+          ? "Your Talent Belongs In The US"
+          : "Don't Let Outdated Processes and Employer Dependence Hold You Back."
+      }
     >
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-        {problems.map((problem, index) => (
-          <BlurFade key={index} delay={0.2 + index * 0.2} inView>
-            <Card className="bg-background border-none shadow-none">
-              <CardContent className="p-6 space-y-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <problem.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">{problem.title}</h3>
-                <p className="text-muted-foreground">{problem.description}</p>
-              </CardContent>
-            </Card>
-          </BlurFade>
-        ))}
+      <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+        {!v2 &&
+          problems.map((problem, index) => (
+            <BlurFade key={index} delay={0.2 + index * 0.2} inView>
+              <Card className="border-none bg-background shadow-none">
+                <CardContent className="space-y-4 p-6">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                    <problem.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold">{problem.title}</h3>
+                  <p className="text-muted-foreground">{problem.description}</p>
+                </CardContent>
+              </Card>
+            </BlurFade>
+          ))}
+      </div>
+      <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+        {!!v2 &&
+          problemsV2.map((problem, index) => (
+            <BlurFade key={index} delay={0.2 + index * 0.2} inView>
+              <Card className="border-none bg-background shadow-none">
+                <CardContent className="space-y-4 p-6">
+                  <h3 className="text-xl font-semibold">{problem.title}</h3>
+                  <p className="text-muted-foreground">{problem.description}</p>
+                </CardContent>
+              </Card>
+            </BlurFade>
+          ))}
       </div>
     </Section>
   );

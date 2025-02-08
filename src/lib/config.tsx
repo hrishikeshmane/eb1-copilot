@@ -139,7 +139,8 @@ export const siteConfig = {
       features: [
         "Includes attorney filing fee worth $12,000",
         "Unlimited attorney consults",
-        "Press coverage across outlets worth $7,000",
+        // "Press coverage across outlets worth $7,000",
+        "Press coverage across international outlets",
         "File patents for your work",
         "Publish papers based on your research",
         "Secure review opportunities",
