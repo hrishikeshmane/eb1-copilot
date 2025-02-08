@@ -3,6 +3,7 @@ import Link from "next/link";
 import { type POSTS_QUERYResult } from "sanity.types";
 import { ArrowRight } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
+import { JoinNewsletterForm } from "@/components/convertkit-forms";
 
 export function Posts({ posts }: { posts: POSTS_QUERYResult }) {
   return (
@@ -60,6 +61,16 @@ export function Posts({ posts }: { posts: POSTS_QUERYResult }) {
               ),
           )}
         </div>
+        <div className="mx-auto flex w-full max-w-7xl flex-col justify-center gap-4 rounded-lg bg-card px-4 py-16 ">
+            <h2 className="pb-4 text-center text-4xl font-bold">
+              Instead of wasting 10+ hours of your time, spend <br />
+              <span className="text-primary">{` < 5 minutes a week`}</span>{" "}
+              de-risking your future.
+            </h2>
+            <div className="flex w-full flex-col items-center justify-center gap-4 px-4 pt-8 ">
+              <JoinNewsletterForm />
+            </div>
+         </div>
       </div>
     </section>
   );
