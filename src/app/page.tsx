@@ -20,6 +20,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import CommunityTestimonials from "@/components/community-testimonials";
+import JoinNewsLetterDialog from "@/components/join-newsletter-dialog"
 
 export default function Home() {
   return (
@@ -216,6 +217,7 @@ export default function Home() {
         {/* fr */}
       </section>
       <CTA />
+      <JoinNewsLetterDialog />
       <Footer />
     </main>
   );

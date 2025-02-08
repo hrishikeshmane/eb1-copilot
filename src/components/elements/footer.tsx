@@ -31,6 +31,11 @@ const Footer = () => {
                     Blog
                   </Link>
                 </li>
+                <li className="mb-4">
+                  <Link href="https://www.unshackled.club/newsletter" className="hover:underline">
+                    Newsletter
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>

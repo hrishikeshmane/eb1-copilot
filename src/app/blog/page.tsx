@@ -1,6 +1,7 @@
 import { Posts } from "@/components/sanity/posts";
 import { sanityFetch } from "@/sanity/lib/live";
 import { POSTS_QUERY } from "@/sanity/lib/queries";
+import { JoinNewsletterForm } from "@/components/convertkit-forms";
 
 export const metadata = {
   title: "Blog | Insights on EB-1A and U.S. Immigration help",
@@ -26,5 +27,10 @@ export async function getPosts() {
 export default async function Page() {
   const { data: posts } = await getPosts();
 
-  return <Posts posts={posts} />;
+  return <>
+          <Posts posts={posts} />;
+          <div className="flex w-full flex-col items-center justify-center gap-4 py-4">
+            <JoinNewsletterForm />
+          </div>
+        </>
 }

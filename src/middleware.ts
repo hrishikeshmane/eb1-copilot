@@ -37,6 +37,7 @@ export default authMiddleware({
     "/api/webhook(.*)",
     "/api/uploadthing(.*)",
     "/api/cron(.*)",
+    "/newsletter",
     // "/studio(.*)",
     // "/studio/presentation(.*)",
     // "/api/draft-mode(.*)",
