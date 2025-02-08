@@ -1,6 +1,7 @@
 import { Posts } from "@/components/sanity/posts";
 import { sanityFetch } from "@/sanity/lib/live";
 import { POSTS_QUERY } from "@/sanity/lib/queries";
+import { JoinNewsletterForm } from "@/components/convertkit-forms";
 
 export const metadata = {
   title: "Blog | Insights on EB-1A and U.S. Immigration help",
@@ -26,5 +27,17 @@ export async function getPosts() {
 export default async function Page() {
   const { data: posts } = await getPosts();
 
-  return <Posts posts={posts} />;
+  return <>
+          <Posts posts={posts} />
+          <section className="mx-auto flex w-full max-w-7xl flex-col justify-center gap-4 rounded-lg bg-card px-4 py-16 ">
+            <h2 className="pb-4 text-center text-4xl font-bold">
+              Instead of wasting 10+ hours of your time, spend <br />
+              <span className="text-primary">{` < 5 minutes a week`}</span>{" "}
+              de-risking your future.
+            </h2>
+            <div className="flex w-full flex-col items-center justify-center gap-4 px-4 pt-8 ">
+              <JoinNewsletterForm />
+            </div>
+         </section>
+        </>
 }
