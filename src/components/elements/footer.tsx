@@ -12,6 +12,9 @@ const Footer = () => {
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
               2261 Market St. San Francisco, CA 94114
             </span>
+            <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
+              info@greencard.inc | +1(415)6540685
+            </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
               © {`${new Date().getUTCFullYear()} `}
               <Link href="https://greencard.inc/" className="hover:underline">
