@@ -32,7 +32,10 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="mb-4">
-                  <Link href="https://www.unshackled.club/newsletter" className="hover:underline">
+                  <Link
+                    href="https://www.unshackled.club/newsletter"
+                    className="hover:underline"
+                  >
                     Newsletter
                   </Link>
                 </li>
@@ -53,14 +56,46 @@ const Footer = () => {
                     LinkedIn
                   </Link>
                 </li>
-                {/* <li>
-                  <a
-                    href="https://discord.gg/4eeurUVvTy"
-                    className="hover:underline"
+                <li className="mb-4">
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.facebook.com/greencardinc/"
+                    className="hover:underline "
                   >
-                    Discord
-                  </a>
-                </li> */}
+                    Facebook
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://x.com/greencard_inc"
+                    className="hover:underline "
+                  >
+                    Twitter
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.instagram.com/greencard_inc/"
+                    className="hover:underline "
+                  >
+                    Instagram
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.youtube.com/@Greencard-inc"
+                    className="hover:underline "
+                  >
+                    Youtube
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
