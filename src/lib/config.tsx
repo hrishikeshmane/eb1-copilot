@@ -164,10 +164,9 @@ export const siteConfig = {
       // yearlyPrice: "$82",
       features: [
         "No annual filing cap",
-        "Reduce Sponsorship Cost",
-        "Incentivize Executives",
-        "Retain tenured employees",
         "Reduce sponsorship costs",
+        "Incentivise Executives",
+        "Retain tenured employees",
         // "Press coverage",
         // "Filing patents",
         // "Publish scholarly articles",
