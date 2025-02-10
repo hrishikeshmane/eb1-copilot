@@ -33,7 +33,8 @@ export default function Home() {
       <Solution v2 />
       {/* <HowItWorks v2 /> */}
       {/* <TestimonialsCarousel /> */}
-      <Features v2 />
+      <HowItWorks v2 />
+      {/* <Features v2 /> */}
       <Testimonials />
       {/* <CommunityTestimonials /> */}
       <Pricing />
