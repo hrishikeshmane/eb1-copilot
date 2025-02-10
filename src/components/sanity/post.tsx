@@ -11,7 +11,7 @@ export function Post({ post }: { post: POST_QUERYResult }) {
   return (
     <article className="container prose mx-auto flex max-w-6xl flex-col bg-background p-4 tracking-normal dark:prose-invert prose-headings:leading-tight prose-p:mb-1 prose-a:text-primary prose-ol:mt-0 prose-ul:mb-0 prose-ul:mt-0">
       {title ? <h1>{title}</h1> : null}
-      {author?.name} •{" "}
+      {author?.name} •{" "} 
       {publishedAt && new Date(publishedAt).toLocaleDateString()}
       {mainImage?.asset?._ref ? (
         <Image
