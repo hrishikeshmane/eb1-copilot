@@ -186,8 +186,7 @@ export default function Hero({ v2 }: { v2?: boolean }) {
         {!!v2 && (
           <HeroTitles
             heading={["Your", "Trusted", "Partner", "In", "US", "Immigration"]}
-            subHeading="From strategy to execution, we streamline every step of the immigration process - helping families, professionals, and businesses achieve their American dreams with confidence
-        Expertise"
+            subHeading="From strategy to execution, we streamline every step of the immigration process - helping families, professionals, and businesses achieve their American dreams with confidence"
           />
         )}
         <HeroCTA showBookCall={true} />
