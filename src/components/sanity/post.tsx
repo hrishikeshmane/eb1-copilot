@@ -2,14 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/sanity/lib/image";
-import { POST_QUERYResult } from "sanity.types";
+import { type POST_QUERYResult } from "sanity.types";
 import { JoinNewsletterForm } from "../convertkit-forms";
 
 export function Post({ post }: { post: POST_QUERYResult }) {
-  const { title, mainImage, body, author, publishedAt } = post || {};
+  const { title, mainImage, body, author, publishedAt } = post ?? {};
 
   return (
-    <main className="container prose prose-lg mx-auto flex max-w-6xl flex-col p-4">
+    <article className="container prose mx-auto flex max-w-6xl flex-col bg-background p-4 tracking-normal dark:prose-invert prose-headings:leading-tight prose-p:mb-1 prose-a:text-primary prose-ol:mt-0 prose-ul:mb-0 prose-ul:mt-0">
       {title ? <h1>{title}</h1> : null}
       {author?.name} •{" "}
       {publishedAt && new Date(publishedAt).toLocaleDateString()}
@@ -19,11 +19,11 @@ export function Post({ post }: { post: POST_QUERYResult }) {
           src={urlFor(mainImage?.asset?._ref).width(600).height(400).url()}
           width={600}
           height={300}
-          alt={title || ""}
+          alt={title ?? ""}
         />
       ) : null}
       {body ? <PortableText value={body} /> : null}
-      <div className="mx-auto flex w-full max-w-7xl flex-col justify-center gap-4 rounded-lg bg-card px-4 py-16 ">
+      <div className="mx-auto flex w-full max-w-7xl flex-col justify-center gap-4 rounded-lg bg-card px-4 py-16">
         <h2 className="pb-4 text-center text-4xl font-bold">
           Instead of wasting 10+ hours of your time, spend <br />
           <span className="text-primary">{` < 5 minutes a week`}</span>{" "}
@@ -46,11 +46,11 @@ export function Post({ post }: { post: POST_QUERYResult }) {
         further assistance, you can also connect with experienced immigration
         professionals through the Greencard Inc’s Directory and{" "}
         <Link target="_blank" href="https://www.unshackled.club/find-lawyers">
-          Contact Lawyer's .
+          Contact Lawyers .
         </Link>
         This consultation will provide better clarity and ensure that your
         specific needs are addressed with the appropriate legal expertise.
       </p>
-    </main>
+    </article>
   );
 }
