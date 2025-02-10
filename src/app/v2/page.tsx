@@ -121,33 +121,6 @@ export default function Home() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-4">
-                <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
-                  Can this product also help prepare for the O-1A?
-                </AccordionTrigger>
-                <AccordionContent className="space-y-2">
-                  <p>Indeed!</p>
-                  <p>
-                    The criteria for evidence for both EB-1A and O-1A are alike,
-                    but securing an O-1A doesn’t assure an EB-1A. It’s generally
-                    understood that the EB-1A demands a higher standard of proof
-                    compared to the O-1A.
-                  </p>
-                  <p>
-                    In essence, if you met the qualifications for the EB-1A, you
-                    would likely also qualify for the O-1A. This means you would
-                    have an alternative to the unpredictable H-1B lottery and
-                    wouldn’t be solely reliant on it.
-                  </p>
-                  <p>
-                    Moreover, the O-1 is a temporary visa, and you would
-                    eventually need to apply for the EB-1A Green Card. So, why
-                    not aim for the final goal, considering the O-1 as a
-                    stepping stone in the journey.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-
               <AccordionItem value="item-5">
                 <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
                   Why should I not directly approach a lawyer?
