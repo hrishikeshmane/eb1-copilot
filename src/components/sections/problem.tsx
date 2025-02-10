@@ -18,12 +18,6 @@ const problemsV2 = [
     // icon: Clock,
   },
   {
-    title: "O-1A Visa",
-    description:
-      "The O-1 visa has no cap, no degree requirement, and 15-day processing. With broad industry applicability, it’s a fast, flexible option for top professionals and entrepreneurs",
-    // icon: Clock,
-  },
-  {
     title: "EB2-NIW Visa",
     description:
       "The EB-2 NIW skips employer sponsorship and PERM, offering a self-petitioned path to a Green Card. Ideal for skilled professionals, researchers, and entrepreneurs driving national interest.",
@@ -84,7 +78,7 @@ export default function Component({ v2 }: { v2?: boolean }) {
             </BlurFade>
           ))}
       </div>
-      <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
         {!!v2 &&
           problemsV2.map((problem, index) => (
             <BlurFade key={index} delay={0.2 + index * 0.2} inView>

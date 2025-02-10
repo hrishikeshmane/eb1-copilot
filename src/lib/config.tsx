@@ -113,7 +113,7 @@ export const siteConfig = {
       period: "One Time",
       features: [
         "Filing discount of $1999 [ft. Lodestone]",
-        "Profile strategy call (worth $499)",
+        // "Profile strategy call (worth $499)",
         "EB1 roadmapping call with attorney",
         "Personalized recommendations",
         "Dedicated accountability manager",
@@ -145,10 +145,10 @@ export const siteConfig = {
         "File patents for your work",
         "Publish papers based on your research",
         "Secure review opportunities",
-        "End-to-end case management",
-        "Dedicated program manager",
         "Apply for selective memberships",
         "Contribute to technical books",
+        "Dedicated program manager",
+        "End-to-end case management",
       ],
       description:
         "Best for experienced professionals who want an end to end solution until they get their Green Card. Includes a thorough evaluation process to assess profiles and provide a final quote estimate.",
@@ -164,10 +164,9 @@ export const siteConfig = {
       // yearlyPrice: "$82",
       features: [
         "No annual filing cap",
-        "Secure Green cards faster",
+        "Reduce sponsorship costs",
         "Incentivise Executives",
         "Retain tenured employees",
-        "Reduce sponsorship costs",
         // "Press coverage",
         // "Filing patents",
         // "Publish scholarly articles",
