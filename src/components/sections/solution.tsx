@@ -147,7 +147,7 @@ const featuresV2 = [
   {
     title: "Structured Roadmap",
     description:
-      "GCI provides a structured, step-by-step roadmap to help applicants secure IP,  publications, and industry recognition, ensuring they meet or exceed standards for talent visas.",
+      "GCI provides a structured, step-by-step roadmap to help applicants secure IP, publications, and industry recognition, ensuring they meet or exceed standards for talent visas.",
     className: "hover:bg-red-500/10 transition-all duration-500 ease-out",
     content: (
       <>
@@ -169,7 +169,7 @@ const featuresV2 = [
   {
     title: "Attorney Support",
     description:
-      "GCI partners with Lodestone Legal to provide attorney support from day one, ensuring USCIS responses are addressed effectively and petitions align with evolving adjudication standards.",
+      "GCI partners with Lodestone Legal Law Firm to provide attorney support from day one, ensuring USCIS responses are addressed effectively and petitions align with evolving adjudication standards.",
     className:
       "order-3 xl:order-none hover:bg-blue-500/10 transition-all duration-500 ease-out",
     content: (
