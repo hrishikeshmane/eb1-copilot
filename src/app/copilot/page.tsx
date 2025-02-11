@@ -354,7 +354,7 @@ export function ProgramTimeline() {
             immigration attorney.
           </p>
           <div className="w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]">
-            <div className="mx-auto flex w-full justify-center -space-x-10 py-10 rtl:space-x-reverse">
+            <div className="mx-auto flex w-full scale-75 justify-center -space-x-10 py-10 md:scale-100 rtl:space-x-reverse">
               <Image
                 width={100}
                 height={100}

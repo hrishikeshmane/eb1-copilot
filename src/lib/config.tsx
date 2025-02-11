@@ -138,7 +138,7 @@ export const siteConfig = {
       period: "One Time",
       // yearlyPrice: "$40",
       features: [
-        "Includes attorney filing fee worth $12,000",
+        "Includes attorney filing fee",
         "Unlimited attorney consults",
         // "Press coverage across outlets worth $7,000",
         "Press coverage across international outlets",
