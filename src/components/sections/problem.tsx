@@ -18,13 +18,13 @@ const problemsV2 = [
     // icon: Clock,
   },
   {
-    title: "EB2-NIW Visa",
+    title: "EB-2 NIW Visa",
     description:
       "The EB-2 NIW skips employer sponsorship and PERM, offering a self-petitioned path to a Green Card. Ideal for skilled professionals, researchers, and entrepreneurs driving national interest.",
     // icon: Clock,
   },
   {
-    title: "EB1-A Visa",
+    title: "EB-1A Visa",
     description:
       "The EB-1A offers a self-petitioned path to a Green Card with fastest processing and priority status. Ideal for new applicants and skilled professionals stuck in EB-2/EB-3 backlogs from 2014–2022.",
     // icon: Clock,

@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="mb-6 flex flex-col gap-2 md:mb-0">
             <Logo />
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
-              2261 Market St. San Francisco, CA 94114
+              3100 Mowry Ave, Fremont, CA 94538
             </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
               info@greencard.inc | +1(415)6540685
