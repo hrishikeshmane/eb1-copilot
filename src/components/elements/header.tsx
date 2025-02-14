@@ -35,9 +35,9 @@ const Header = () => {
         <Link className="transition-all hover:underline" href="/copilot">
           EB1 Copilot
         </Link>
-        <Link className="transition-all hover:underline" href="/blog">
+        {/* <Link className="transition-all hover:underline" href="/blog">
           Blog
-        </Link>
+        </Link> */}
         {/* <Link className="transition-all hover:underline" href="/blog">
           Blog
         </Link> */}
