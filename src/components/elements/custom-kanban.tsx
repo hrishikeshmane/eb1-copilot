@@ -105,7 +105,7 @@ export const CustomKanban = ({
   const setIsInteractable = useSetAtom(isInteractableAtom);
   setIsInteractable(isInteractable);
 
-  // if customer is josn string, convert to User
+  // if customer is json string, convert to User
   const setCustomer = useSetAtom(customerAtom);
   if (!!customerString) {
     const userObj = JSON.parse(customerString) as User;

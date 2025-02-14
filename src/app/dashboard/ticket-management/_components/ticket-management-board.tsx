@@ -229,8 +229,8 @@ export function CustomerList({
   const filteredAndGroupedCustomers = useMemo(() => {
     const filteredCustomers = customers.filter(
       (customer) =>
-        customer.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        customer.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        customer.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        customer.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ??
         customer.emailAddresses[0]?.emailAddress
           .toLowerCase()
           .includes(searchTerm.toLowerCase()),
@@ -262,7 +262,7 @@ export function CustomerList({
                 <h2 className="mb-4 border-b font-bold">{group}</h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {filteredAndGroupedCustomers[group].map((c) => (
-                    <CustomerCard customer={c} subroute={subroute} />
+                    <CustomerCard key={c.id} customer={c} subroute={subroute} />
                   ))}
                 </div>
               </div>
