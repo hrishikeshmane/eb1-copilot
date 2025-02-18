@@ -92,10 +92,10 @@ export default function Component() {
             </h2>
             <div className="grid gap-6 lg:grid-cols-3">
               {[
-                "Attorney Discount ($2,999)",
-                "EB-1A Roadmapping with Attorney ($499 value)",
+                "Attorney Discount ($1,999)",
+                "EB-1A Roadmapping call with Attorney",
                 "Two consults with EB-1A mentors ($499 value)",
-                "Press Coverage in 5 outlets ($3,999 value)",
+                "Press Coverage in international outlets",
                 "Lifetime Unshackled Community Membership ($999 value)",
                 "Lifetime Access to Course ($799 value)",
                 "Dedicated Accountability Manager",
