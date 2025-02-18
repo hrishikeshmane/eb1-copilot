@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { type User } from "@clerk/nextjs/server";
 import { visaPillars, type IPillars } from "@/lib/constants";
+import { type ITag } from "@/server/db/schema";
 
 export type TicketStatus = "backlog" | "todo" | "doing" | "review" | "done";
 export const defaultTicketStatus: TicketStatus[] = [
@@ -18,6 +19,7 @@ export const FilterTicketStatusAtom = atom<TicketStatus[]>(defaultTicketStatus);
 export const ticketTitleAtom = atom<string>("");
 export const ticketStatusAtom = atom<TicketStatus>("backlog");
 export const ticketPillarsAtom = atom<IPillars[]>([]);
+export const ticketTagsAtom = atom<ITag[]>([]);
 export const ticketAssigneeIdAtom = atom<string | null>(null);
 export const ticketDescriptionAtom = atom<string | null>(null);
 export const ticketDueDateAtom = atom<Date | undefined>(undefined);
