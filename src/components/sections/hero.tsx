@@ -17,7 +17,7 @@ const ease = [0.16, 1, 0.3, 1];
 function HeroPill() {
   return (
     <motion.a
-      href="/copilot"
+      href="https://www.unshackled.club/marketplace"
       className="flex w-auto items-center space-x-2 whitespace-pre rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -26,7 +26,7 @@ function HeroPill() {
       <div className="w-fit rounded-full bg-accent px-2 py-0.5 text-center text-xs font-medium sm:text-sm">
         📣 Announcement
       </div>
-      <p className="text-xs font-medium sm:text-sm">Introducing EB1 Copilot</p>
+      <p className="text-xs font-medium sm:text-sm">Introducing Marketplace</p>
       <ArrowRightIcon className="mr-1 h-3 w-3" />
       {/* <svg
         width="12"
