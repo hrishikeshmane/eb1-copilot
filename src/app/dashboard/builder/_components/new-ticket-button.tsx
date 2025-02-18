@@ -25,6 +25,7 @@ import {
   ticketAssigneeIdAtom,
   ticketDescriptionAtom,
   ticketDueDateAtom,
+  ticketTagsAtom,
 } from "@/app/_store/kanban-store";
 import { ISelectComment, type ISelectTickets } from "@/server/db/schema";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,6 +34,7 @@ import { TicektDatePicker } from "./ticket-date-picker-button";
 import { Input } from "@/components/ui/input";
 import { Send, SendHorizonal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import TagsButton from "./tags-button";
 
 const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const customer = useAtomValue(customerAtom);
@@ -48,6 +50,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
     ticketDescriptionAtom,
   );
   const [ticketDueDate, setTicketDueDate] = useAtom(ticketDueDateAtom);
+  const [ticketTags, setTicketTags] = useAtom(ticketTagsAtom);
 
   const resetTicketStates = () => {
     setTicketTitle("");
@@ -55,6 +58,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
     setTicketPillars([]);
     setTicketAssigneeId(null);
     setTicketDescription(null);
+    setTicketTags([]);
   };
 
   const [openSheet, setOpenSheet] = React.useState(false);
@@ -66,6 +70,9 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   if (!customer) {
     return <div> Customer User not found</div>;
   }
+
+  const { data: AllTags } = api.tag.getAllAvailableTags.useQuery();
+
   const utils = api.useUtils();
   const addTicketMutation = api.kanban.addTicket.useMutation({
     onSuccess: async () => {
@@ -93,6 +100,8 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       (t) => t.column === ticketStatus,
     ).length;
 
+    const tagIds = ticketTags.map((tag) => tag.tagId);
+
     addTicketMutation.mutate({
       title: ticketTitle,
       customerId: customer.id,
@@ -102,6 +111,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       dueDate: ticketDueDate,
       assigneeId: isCustomer ? customer.id : ticketAssigneeId!,
       description: ticketDescription ?? undefined,
+      tagIds,
     });
     resetTicketStates();
     setOpenSheet(false);
@@ -142,6 +152,16 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
                   disabled={false}
                   selectedPillars={ticketPillars}
                   setSelectedPillars={setTicketPillars}
+                />
+              </div>
+              <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                <p className="">Tags:</p>
+                <TagsButton
+                  isInteractable={true}
+                  disabled={false}
+                  availableTags={AllTags ?? []}
+                  selectedTags={ticketTags}
+                  setSelectedTags={setTicketTags}
                 />
               </div>
 

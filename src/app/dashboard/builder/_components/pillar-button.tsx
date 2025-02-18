@@ -11,6 +11,7 @@ import {
 import {
   Popover,
   PopoverContent,
+  PopoverContentNotPortal,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -78,7 +79,7 @@ const PillarButton = ({
               </div>
             </Button>
           </PopoverTrigger>
-          <PopoverContent
+          <PopoverContentNotPortal
             className="h-full max-h-full p-0"
             side="bottom"
             align="start"
@@ -134,7 +135,7 @@ const PillarButton = ({
                 </CommandGroup>
               </CommandList>
             </Command>
-          </PopoverContent>
+          </PopoverContentNotPortal>
         </Popover>
       )}
     </div>

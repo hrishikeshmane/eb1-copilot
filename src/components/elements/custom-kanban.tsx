@@ -63,10 +63,11 @@ import {
   isKanbanViewAtom,
   FilterTicketStatusAtom,
   defaultTicketStatus,
+  ticketTagsAtom,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
-import { type ISelectTickets } from "@/server/db/schema";
+import { ITag, type ISelectTickets } from "@/server/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -85,6 +86,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import TagsButton from "@/app/dashboard/builder/_components/tags-button";
 
 type CustomKanbanProps = {
   children?: React.ReactNode;
@@ -512,7 +514,7 @@ const Column = ({ title, headingColor, cards, column }: ColumProps) => {
     onSettled: async () => {
       // Sync with server once mutation has settled
       await utils.kanban.getTicketsByUserId.invalidate();
-      utils.kanban.getAllUsersTickets.invalidate();
+      await utils.kanban.getAllUsersTickets.invalidate();
     },
   });
 
@@ -756,6 +758,8 @@ export const TicketSheet = ({
     ticketDescriptionAtom,
   );
   const [ticketDueDate, setTicketDueDate] = useAtom(ticketDueDateAtom);
+  const [ticketTags, setTicketTags] = useAtom(ticketTagsAtom);
+  const cardTags = (card as { ticketsToTags?: ITag[] }).ticketsToTags ?? [];
 
   const [openSheet, setOpenSheet] = React.useState(false);
 
@@ -770,6 +774,7 @@ export const TicketSheet = ({
     setTicketAssigneeId(card.assigneeId);
     setTicketDescription(card.description);
     setTicketDueDate(card.dueDate ?? undefined);
+    setTicketTags(cardTags.map((tag) => tag.tag as ITag));
   };
   const onUnMount = () => {
     setTicketTitle("");
@@ -778,6 +783,7 @@ export const TicketSheet = ({
     setTicketAssigneeId(null);
     setTicketDescription(null);
     setTicketDueDate(undefined);
+    setTicketTags([]);
   };
 
   const sheetOpenHandler = () => {
@@ -789,6 +795,8 @@ export const TicketSheet = ({
     onSheetMount();
     setOpenSheet(true);
   };
+
+  const { data: AllTags } = api.tag.getAllAvailableTags.useQuery();
 
   const utils = api.useUtils();
   const updateTicketMutation = api.kanban.updateTicket.useMutation({
@@ -819,7 +827,7 @@ export const TicketSheet = ({
     order,
     assigneeId,
   }: SaveTicketHandlerParameters) => {
-    console.log("saveTicketHandler??", dueDate);
+    const tagIds = ticketTags.map((tag) => tag.tagId);
     updateTicketMutation.mutate({
       ticketId,
       title,
@@ -830,6 +838,7 @@ export const TicketSheet = ({
       dueDate,
       // order,
       assigneeId,
+      tagIds,
     });
   };
 
@@ -869,6 +878,16 @@ export const TicketSheet = ({
                   disabled={false}
                   selectedPillars={ticketPillars}
                   setSelectedPillars={setTicketPillars}
+                />
+              </div>
+              <div className="grid grid-cols-[78px_1fr] items-start gap-3">
+                <p className="">Tags:</p>
+                <TagsButton
+                  isInteractable={!isVendor}
+                  disabled={false}
+                  availableTags={AllTags ?? []}
+                  selectedTags={ticketTags}
+                  setSelectedTags={setTicketTags}
                 />
               </div>
 
@@ -1077,7 +1096,7 @@ const BurnBarrel = () => {
     },
     onSettled: async () => {
       await utils.kanban.getTicketsByUserId.invalidate();
-      utils.kanban.getAllUsersTickets.invalidate();
+      await utils.kanban.getAllUsersTickets.invalidate();
     },
   });
 

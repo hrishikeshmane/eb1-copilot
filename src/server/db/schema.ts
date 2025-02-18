@@ -9,6 +9,7 @@ import {
   integer,
   index,
   blob,
+  primaryKey,
 } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 import { type VISA_PILLARS_EX } from "@/lib/constants";
@@ -236,6 +237,18 @@ export const usersRelations = relations(users, ({ one }) => ({
   }),
 }));
 
+export const tags = createTable("tags", {
+  tagId: text("tagId", { length: 256 })
+    .primaryKey()
+    .notNull()
+    .$defaultFn(createId),
+  name: text("name", { length: 256 }).notNull(),
+  color: text("color", { length: 256 }).notNull(),
+  createdAt: int("createdAt", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+});
+
 // Kanban board
 export const tickets = createTable(
   "tickets",
@@ -284,6 +297,45 @@ export const tickets = createTable(
     };
   },
 );
+
+// Junction table for the many-to-many relationship between tickets and tags
+export const ticketTags = createTable(
+  "ticket_tags",
+  {
+    ticketId: text("ticketId", { length: 256 })
+      .notNull()
+      .references(() => tickets.ticketId, { onDelete: "cascade" }),
+    tagId: text("tagId", { length: 256 })
+      .notNull()
+      .references(() => tags.tagId, { onDelete: "cascade" }),
+  },
+  (table) => {
+    return {
+      pk: primaryKey(table.ticketId, table.tagId),
+      ticketIdIdx: index("ticketId_idx").on(table.ticketId),
+      tagIdIdx: index("tagId_idx").on(table.tagId),
+    };
+  },
+);
+
+export const ticketsRelations = relations(tickets, ({ many }) => ({
+  ticketsToTags: many(ticketTags),
+}));
+
+export const tagsRelations = relations(tags, ({ many }) => ({
+  ticketsToTags: many(ticketTags),
+}));
+
+export const ticketsToTagsRelations = relations(ticketTags, ({ one }) => ({
+  ticket: one(tickets, {
+    fields: [ticketTags.ticketId],
+    references: [tickets.ticketId],
+  }),
+  tag: one(tags, {
+    fields: [ticketTags.tagId],
+    references: [tags.tagId],
+  }),
+}));
 
 export const masterList = createTable("masterList", {
   id: text("id").primaryKey().notNull().$defaultFn(createId),
@@ -347,3 +399,4 @@ export type ISelectTickets = typeof tickets.$inferSelect;
 export type ISelectUserVisaPillarDetails =
   typeof userVisaPillarDetails.$inferSelect;
 export type ISelectComment = typeof comments.$inferSelect;
+export type ITag = typeof tags.$inferSelect;
