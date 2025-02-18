@@ -761,13 +761,6 @@ export const TicketSheet = ({
   const [ticketTags, setTicketTags] = useAtom(ticketTagsAtom);
   const cardTags = (card as { ticketsToTags?: ITag[] }).ticketsToTags ?? [];
 
-  // useEffect(() => {
-  //   setTicketTags(cardTags);
-  //   return () => {
-  //     setTicketTags([]);
-  //   };
-  // }, [cardTags, setTicketTags]);
-
   const [openSheet, setOpenSheet] = React.useState(false);
 
   const filteredCardPillars = card.pillars.map((pillar) => {
