@@ -13,7 +13,7 @@ const Footer = () => {
               3100 Mowry Ave, Fremont, CA 94538
             </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
-              info@greencard.inc | +1(415)6540685
+              info@greencard.inc | +1 (415) 654-0685
             </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
               © {`${new Date().getUTCFullYear()} `}

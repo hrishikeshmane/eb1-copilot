@@ -15,15 +15,22 @@ const Header = () => {
     <header className="sticky top-0 z-50 flex h-16 w-full items-center border-b border-border/40 bg-background/95 px-4 backdrop-blur  backdrop-filter supports-[backdrop-filter]:bg-background/60 lg:px-20">
       <Logo />
       <div className="ml-8 hidden gap-7 text-sm sm:flex">
-        <Link className="transition-all hover:underline" href="/">
+        {/* <Link className="transition-all hover:underline" href="/">
           Home
-        </Link>
+        </Link> */}
         <Link
           className="transition-all hover:underline"
           href="https://www.unshackled.club/marketplace"
           target="_blank"
         >
           [NEW] Marketplace
+        </Link>
+        <Link
+          className="transition-all hover:underline"
+          href="https://www.unshackled.club/read-unshackled"
+          target="_blank"
+        >
+          Read Unshackled
         </Link>
         <Link
           className="transition-all hover:underline"
