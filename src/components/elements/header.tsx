@@ -25,13 +25,13 @@ const Header = () => {
         >
           Community
         </Link>
-        <Link
+        {/* <Link
           className="transition-all hover:underline"
           href="https://www.unshackled.club/find-lawyers"
           target="_blank"
         >
           Find Lawyers
-        </Link>
+        </Link> */}
         <Link className="transition-all hover:underline" href="/copilot">
           EB1 Copilot
         </Link>
@@ -72,13 +72,13 @@ const Header = () => {
               >
                 Community
               </Link>
-              <Link
+              {/* <Link
                 className="transition-all hover:underline"
                 href="https://www.unshackled.club/find-lawyers"
                 target="_blank"
               >
                 Find Lawyers
-              </Link>
+              </Link> */}
               <Link className="transition-all hover:underline" href="/copilot">
                 EB1 Copilot
               </Link>

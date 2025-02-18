@@ -118,7 +118,7 @@ export default function Component() {
           </div>
         </section>
 
-        <section className="w-full  py-12 md:py-24 lg:py-32">
+        {/* <section className="w-full  py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <h2 className="mb-8 text-center text-3xl tracking-tighter sm:text-4xl md:text-5xl">
               Meet Your Law Firm
@@ -167,7 +167,7 @@ export default function Component() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section className="w-full bg-gray-100 py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
@@ -345,42 +345,42 @@ export function ProgramTimeline() {
         </div>
       ),
     },
-    {
-      title: "Attorney Consult",
-      content: (
-        <div>
-          <p className="mb-4 text-xs font-normal text-neutral-800 dark:text-neutral-200 md:text-sm">
-            30 days after starting, you’ll have a consult with our expert
-            immigration attorney.
-          </p>
-          <div className="w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]">
-            <div className="mx-auto flex w-full scale-75 justify-center -space-x-10 py-10 md:scale-100 rtl:space-x-reverse">
-              <Image
-                width={100}
-                height={100}
-                className="h-40 w-40 rounded-full border-2  object-contain dark:border-gray-800"
-                src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/loadstone.jpg?raw=true"
-                alt="Lodestone Legal"
-              />
-              <Image
-                width={100}
-                height={100}
-                className="h-40 w-40 rounded-full border-2 object-cover dark:border-gray-800"
-                src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/lawyers/joel.png?raw=true"
-                alt="Joel A. Wisniewski"
-              />
-              <Image
-                width={100}
-                height={100}
-                className="h-40 w-40 rounded-full border-2  object-cover dark:border-gray-800"
-                src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/lawyers/allison.png?raw=true"
-                alt="Allison Kranz"
-              />
-            </div>
-          </div>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Attorney Consult",
+    //   content: (
+    //     <div>
+    //       <p className="mb-4 text-xs font-normal text-neutral-800 dark:text-neutral-200 md:text-sm">
+    //         30 days after starting, you’ll have a consult with our expert
+    //         immigration attorney.
+    //       </p>
+    //       <div className="w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]">
+    //         <div className="mx-auto flex w-full scale-75 justify-center -space-x-10 py-10 md:scale-100 rtl:space-x-reverse">
+    //           <Image
+    //             width={100}
+    //             height={100}
+    //             className="h-40 w-40 rounded-full border-2  object-contain dark:border-gray-800"
+    //             src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/loadstone.jpg?raw=true"
+    //             alt="Lodestone Legal"
+    //           />
+    //           <Image
+    //             width={100}
+    //             height={100}
+    //             className="h-40 w-40 rounded-full border-2 object-cover dark:border-gray-800"
+    //             src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/lawyers/joel.png?raw=true"
+    //             alt="Joel A. Wisniewski"
+    //           />
+    //           <Image
+    //             width={100}
+    //             height={100}
+    //             className="h-40 w-40 rounded-full border-2  object-cover dark:border-gray-800"
+    //             src="https://github.com/hrishikeshmane/unshackled-asstets/blob/main/lawyers/allison.png?raw=true"
+    //             alt="Allison Kranz"
+    //           />
+    //         </div>
+    //       </div>
+    //     </div>
+    //   ),
+    // },
     {
       title: "Profile Development",
       content: (

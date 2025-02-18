@@ -112,7 +112,7 @@ export const siteConfig = {
       price: "$12,999",
       period: "One Time",
       features: [
-        "Filing discount of $1999 [ft. Lodestone]",
+        "Filing discount of $1999",
         // "Profile strategy call (worth $499)",
         "EB1 roadmapping call with attorney",
         "Personalized recommendations",
@@ -237,8 +237,7 @@ export const siteConfig = {
       answer: (
         <>
           <p>
-            We’ve partnered with Lodestone Legal, led by expert attorney Allison
-            Kranz, who has extensive experience in filing EB-1A cases,
+            We’ve partnered with leading immigration lawfirm, led by expert attorneys, who have extensive experience in filing EB-1A cases,
             especially for individuals in the tech and STEM fields.
           </p>
         </>
