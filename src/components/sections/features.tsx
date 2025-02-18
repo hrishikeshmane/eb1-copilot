@@ -104,7 +104,7 @@ const dataV2 = [
   {
     id: 3,
     title: "Legal Strategy & Petition Preparation",
-    content: "Lodestone Legal",
+    content: "Attorneys",
     component: (
       <div className="space-y-6">
         <div className="space-y-4">
@@ -137,7 +137,7 @@ const dataV2 = [
   {
     id: 4,
     title: "Filing & Government Interactions",
-    content: "Lodestone Legal",
+    content: "Attorneys",
     component: (
       <div className="space-y-6">
         <div className="space-y-4">

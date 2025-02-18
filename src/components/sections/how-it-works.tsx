@@ -87,7 +87,7 @@ const dataV2 = [
   {
     id: 3,
     title: "Legal Strategy & Petition Preparation",
-    subtitle: "Lodestone Legal",
+    subtitle: "Attorneys",
     content: [
       {
         title: "Initial Consultation",
@@ -110,7 +110,7 @@ const dataV2 = [
   {
     id: 4,
     title: "Filing & Government Interactions",
-    subtitle: "Lodestone Legal",
+    subtitle: "Attorneys",
     content: [
       {
         title: "Application Submission",
