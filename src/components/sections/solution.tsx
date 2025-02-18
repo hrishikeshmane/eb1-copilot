@@ -169,7 +169,7 @@ const featuresV2 = [
   {
     title: "Attorney Support",
     description:
-      "GCI partners with attorneys to provide legal support from day one, ensuring USCIS responses are addressed effectively and petitions align with evolving adjudication standards.",
+      "GCI partners with leading immigration attorneys to provide support from day one, ensuring USCIS responses are addressed effectively and petitions align with evolving adjudication standards.",
     className:
       "order-3 xl:order-none hover:bg-blue-500/10 transition-all duration-500 ease-out",
     content: (

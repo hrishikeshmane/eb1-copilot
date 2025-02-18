@@ -20,6 +20,13 @@ const Header = () => {
         </Link>
         <Link
           className="transition-all hover:underline"
+          href="https://www.unshackled.club/marketplace"
+          target="_blank"
+        >
+          [NEW] Marketplace
+        </Link>
+        <Link
+          className="transition-all hover:underline"
           href="https://www.unshackled.club/community"
           target="_blank"
         >
