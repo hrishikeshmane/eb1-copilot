@@ -1,49 +1,44 @@
 import { z } from "zod";
-
 import {
   adminOrVendorProcedure,
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
 } from "@/server/api/trpc";
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
-import { customerDetails, IUsersWithInfo, users } from "@/server/db/schema";
-import { profile } from "console";
-import { profileStatusOptions } from "@/lib/constants";
+import { customerDetails } from "@/server/db/schema";
 
 export const userManagementRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
-    //TODO: Paginated user list
-    const allUsers = await clerkClient.users.getUserList({
-      orderBy: "-created_at",
-      limit: 500,
-    });
-    const usersWithInfo: IUsersWithInfo[] = await ctx.db.query.users.findMany({
+    const usersWithInfo = await ctx.db.query.users.findMany({
       with: {
         userInfo: true,
       },
+      orderBy: (users, { desc }) => [desc(users.createdAt)],
     });
 
-    // add fields- phone, linkedIn, priorityCallSheduled in allUsers
-    const usersWithAdditionalInfo = allUsers.map((user) => {
-      const userInfo = usersWithInfo.find(
-        (userInfo) => userInfo.userId === user.id,
-      );
-      return {
-        ...user,
-        priorityCallSheduled: userInfo?.priorityCallSheduled,
-        phone: userInfo?.userInfo?.phone,
-        linkedIn: userInfo?.userInfo?.linkedIn,
-        customerPaid: userInfo?.customerPaid,
-        customerType: userInfo?.customerType,
-        createdAt: userInfo?.createdAt,
-        updatedAt: userInfo?.updatedAt,
-      };
-    });
+    const usersWithAdditionalInfo = usersWithInfo.map((user) => ({
+      id: user.userId,
+      first_name: user.firstName ?? "",
+      last_name: user.lastName ?? "",
+      username: user.username,
+      image_url: user.imageUrl,
+      has_image: user.hasImage,
+      primary_email_address_id: user.primaryEmailAddressId,
+      email_addresses: user.emailAddresses ?? [],
+      public_metadata: user.publicMetadata,
+      priorityCallSheduled: user.priorityCallSheduled,
+      phone: user.userInfo?.phone,
+      linkedIn: user.userInfo?.linkedIn,
+      customerPaid: user.customerPaid,
+      customerType: user.customerType,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    }));
+
     return usersWithAdditionalInfo;
-    // return allUsers;
   }),
 
   getAllVendors: adminProcedure.query(async ({ ctx }) => {
