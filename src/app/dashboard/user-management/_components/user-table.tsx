@@ -33,7 +33,6 @@ import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 
 import { type TransformedUser } from "@/types/globals";
-import { transformUserData } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -147,7 +146,7 @@ export function UserTableContainer<TData extends TransformedUser, TValue>({
     return <p>Error Loading users</p>;
   }
 
-  const data = transformUserData(users.data ?? []) as TData[];
+  const data = (users.data ?? []) as TData[];
 
   return <UserTable<TData, TValue> columns={columns} data={data} />;
 }

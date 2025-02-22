@@ -16,37 +16,6 @@ export function getLableForPillars(value: string) {
   if (pillar) return pillar.label;
 }
 
-type UserInfoType = {
-  priorityCallSheduled?: boolean;
-  phone?: string;
-  linkedIn?: string;
-  customerPaid?: boolean;
-  customerType?: boolean;
-};
-
-export const transformUserData = (
-  userData: ((User & UserInfoType) | null)[],
-): TransformedUser[] => {
-  return userData
-    .filter((user): user is User & UserInfoType => user !== null)
-    .map((user) => ({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      emailAddresses: user.emailAddresses?.[0]?.emailAddress ?? "",
-      imageUrl: user.imageUrl,
-      contactNumber:
-        user.phoneNumbers.length > 0
-          ? JSON.stringify(user.phoneNumbers[0])
-          : null,
-      onBoarded: user.publicMetadata.onBoarded as boolean,
-      role: user.publicMetadata.role as string,
-      id: user.id,
-      priorityCallSheduled: user.priorityCallSheduled,
-      phone: user.phone,
-      linkedin: user.linkedIn,
-    }));
-};
-
 export function formatDate(date: string) {
   let currentDate = new Date().getTime();
   if (!date.includes("T")) {

@@ -8,7 +8,8 @@ import {
 import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
-import { customerDetails } from "@/server/db/schema";
+import { customerDetails, users } from "@/server/db/schema";
+import { TransformedUser } from "@/types/globals";
 
 export const userManagementRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
@@ -19,24 +20,26 @@ export const userManagementRouter = createTRPCRouter({
       orderBy: (users, { desc }) => [desc(users.createdAt)],
     });
 
-    const usersWithAdditionalInfo = usersWithInfo.map((user) => ({
-      id: user.userId,
-      first_name: user.firstName ?? "",
-      last_name: user.lastName ?? "",
-      username: user.username,
-      image_url: user.imageUrl,
-      has_image: user.hasImage,
-      primary_email_address_id: user.primaryEmailAddressId,
-      email_addresses: user.emailAddresses ?? [],
-      public_metadata: user.publicMetadata,
-      priorityCallSheduled: user.priorityCallSheduled,
-      phone: user.userInfo?.phone,
-      linkedIn: user.userInfo?.linkedIn,
-      customerPaid: user.customerPaid,
-      customerType: user.customerType,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    }));
+    const usersWithAdditionalInfo = usersWithInfo.map(
+      (user) =>
+        ({
+          id: user.userId,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          imageUrl: user.imageUrl,
+          emailAddresses:
+            (user.emailAddresses as { emailAddress: string }[] | null)?.[0]
+              ?.emailAddress ?? "",
+          onBoarded: user.onBoarded,
+          role: user.role,
+          priorityCallSheduled: user.priorityCallSheduled,
+          phone: user.userInfo?.phone,
+          linkedin: user.userInfo?.linkedIn,
+          customerPaid: user.customerPaid,
+          customerType: user.customerType,
+          contactNumber: null,
+        }) satisfies TransformedUser as TransformedUser,
+    );
 
     return usersWithAdditionalInfo;
   }),
