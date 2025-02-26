@@ -72,7 +72,8 @@ export const columns: ColumnDef<TransformedUser>[] = [
       return (
         <div className="flex items-center gap-2">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={userData.imageUrl} />
+            {/* TODO: fix this weird thing */}
+            <AvatarImage src={userData.imageUrl ?? undefined} />
             <AvatarFallback>
               {firstName.charAt(0) + lastName.charAt(0)}
             </AvatarFallback>

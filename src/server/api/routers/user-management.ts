@@ -1,49 +1,47 @@
 import { z } from "zod";
-
 import {
   adminOrVendorProcedure,
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
 } from "@/server/api/trpc";
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
-import { customerDetails, IUsersWithInfo, users } from "@/server/db/schema";
-import { profile } from "console";
-import { profileStatusOptions } from "@/lib/constants";
+import { customerDetails, users } from "@/server/db/schema";
+import { TransformedUser } from "@/types/globals";
 
 export const userManagementRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
-    //TODO: Paginated user list
-    const allUsers = await clerkClient.users.getUserList({
-      orderBy: "-created_at",
-      limit: 500,
-    });
-    const usersWithInfo: IUsersWithInfo[] = await ctx.db.query.users.findMany({
+    const usersWithInfo = await ctx.db.query.users.findMany({
       with: {
         userInfo: true,
       },
+      orderBy: (users, { desc }) => [desc(users.createdAt)],
     });
 
-    // add fields- phone, linkedIn, priorityCallSheduled in allUsers
-    const usersWithAdditionalInfo = allUsers.map((user) => {
-      const userInfo = usersWithInfo.find(
-        (userInfo) => userInfo.userId === user.id,
-      );
-      return {
-        ...user,
-        priorityCallSheduled: userInfo?.priorityCallSheduled,
-        phone: userInfo?.userInfo?.phone,
-        linkedIn: userInfo?.userInfo?.linkedIn,
-        customerPaid: userInfo?.customerPaid,
-        customerType: userInfo?.customerType,
-        createdAt: userInfo?.createdAt,
-        updatedAt: userInfo?.updatedAt,
-      };
-    });
+    const usersWithAdditionalInfo = usersWithInfo.map(
+      (user) =>
+        ({
+          id: user.userId,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          imageUrl: user.imageUrl,
+          emailAddresses:
+            (user.emailAddresses as { emailAddress: string }[] | null)?.[0]
+              ?.emailAddress ?? "",
+          onBoarded: user.onBoarded,
+          role: user.role,
+          priorityCallSheduled: user.priorityCallSheduled,
+          phone: user.userInfo?.phone,
+          linkedin: user.userInfo?.linkedIn,
+          customerPaid: user.customerPaid,
+          customerType: user.customerType,
+          contactNumber: null,
+        }) satisfies TransformedUser as TransformedUser,
+    );
+
     return usersWithAdditionalInfo;
-    // return allUsers;
   }),
 
   getAllVendors: adminProcedure.query(async ({ ctx }) => {
