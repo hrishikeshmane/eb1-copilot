@@ -1,7 +1,7 @@
 import { defineQuery } from "next-sanity";
 
 export const POSTS_QUERY =
-  defineQuery(`*[_type == "post" && defined(slug.current)][0...50]{
+  defineQuery(`*[_type == "post" && defined(slug.current)][0...500]{
     _id,
     title,
     slug,
