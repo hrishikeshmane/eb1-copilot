@@ -6,16 +6,16 @@ export type TransformedUser = {
   firstName: string | null;
   lastName: string | null;
   emailAddresses: string;
-  imageUrl: string | undefined;
+  imageUrl: string | null;
   contactNumber: string | null;
   onBoarded: boolean;
   role: string;
   id: string | null;
-  priorityCallSheduled?: boolean;
+  priorityCallSheduled: boolean | null;
   phone?: string;
   linkedin?: string;
-  customerPaid?: boolean;
-  customerType?: string;
+  customerPaid: boolean | null;
+  customerType: string | null;
 };
 
 declare global {
