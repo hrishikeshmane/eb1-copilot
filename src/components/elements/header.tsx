@@ -49,6 +49,14 @@ const Header = () => {
         <Link className="transition-all hover:underline" href="/copilot">
           EB1 Copilot
         </Link>
+        <Link
+          className="transition-all hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://go.readunshackled.com/gci-uac"
+        >
+          [NEW] Conference
+        </Link>
         {/* <Link className="transition-all hover:underline" href="/blog">
           Blog
         </Link> */}
@@ -95,6 +103,14 @@ const Header = () => {
               </Link> */}
               <Link className="transition-all hover:underline" href="/copilot">
                 EB1 Copilot
+              </Link>
+              <Link
+                className="transition-all hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="http://go.readunshackled.com/gci-uac"
+              >
+                [NEW] Conference
               </Link>
               {/* <Link className="transition-all hover:underline" href="/blog">
                 Blog

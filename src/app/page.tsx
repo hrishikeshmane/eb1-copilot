@@ -19,12 +19,21 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import CommunityTestimonials from "@/components/community-testimonials";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <main>
       <Header />
+      <Link
+        target="_blank"
+        rel="noopener noreferrer"
+        href="http://go.readunshackled.com/gci-uac"
+        className="md:text-md sticky top-16 z-50 flex h-10 w-full cursor-pointer items-center justify-center bg-primary text-center text-sm font-semibold text-primary-foreground"
+      >
+        Attend the LARGEST conference for high-skilled immigrants in America
+        [Aug 15-16, 2025]
+      </Link>
       <Banner />
       <Hero v2 />
       <Logos />
