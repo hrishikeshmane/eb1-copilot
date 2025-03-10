@@ -43,6 +43,7 @@ import {
 } from "@radix-ui/react-icons";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useProjectDatasets } from "sanity";
 // import {DataTableColumnHeader} from "./data-table-column-header";
 
 export const columns: ColumnDef<TransformedUser>[] = [
@@ -244,6 +245,7 @@ export const columns: ColumnDef<TransformedUser>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
+      const userData = row.original;
       const userId = row.original.id;
       const userFullName = row.original.firstName + " " + row.original.lastName;
       const userRole = row.original.role;
@@ -254,6 +256,13 @@ export const columns: ColumnDef<TransformedUser>[] = [
           await utils.userManagement.getAllUsers.invalidate();
         },
       });
+
+      const disableOnboardingFormMutation =
+        api.userManagement.disableOnboardingForm.useMutation({
+          onSettled: async () => {
+            await utils.userManagement.getAllUsers.invalidate();
+          },
+        });
 
       // ESlint fails to understand that cell is also a react component
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -341,6 +350,21 @@ export const columns: ColumnDef<TransformedUser>[] = [
                   }
                 >
                   Change Role to Customer
+                </DropdownMenuItem>
+              )}
+              {userRole === "customer" && (
+                <DropdownMenuItem
+                  // disabled={
+                  //   userData.onBoarded ||
+                  //   (userData.disableOnboardingForm ?? false)
+                  // }
+                  onClick={() =>
+                    disableOnboardingFormMutation.mutate({
+                      userId: userId ?? "",
+                    })
+                  }
+                >
+                  Disable Onboarding Form
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem className="border-primary">

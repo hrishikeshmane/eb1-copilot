@@ -61,6 +61,9 @@ export const users = createTable("users", {
     enum: ["unpaid", "copilot", "autopilot"],
   }).default("unpaid"),
   // .notNull()
+  disableOnboardingForm: integer("disableOnboardingForm", {
+    mode: "boolean",
+  }).default(false),
 });
 
 export const customerDetails = createTable("customerDetails", {
