@@ -64,10 +64,11 @@ import {
   FilterTicketStatusAtom,
   defaultTicketStatus,
   ticketTagsAtom,
+  FilterTagsAtom,
 } from "@/app/_store/kanban-store";
 import { Loader2 } from "lucide-react";
 import { type User } from "@clerk/nextjs/server";
-import { ITag, type ISelectTickets } from "@/server/db/schema";
+import { type ITag, type ISelectTickets } from "@/server/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -172,10 +173,12 @@ export const Filterbar = ({
   const [openVisaFilter, setOpenVisaFilter] = React.useState(false);
   const [openTicketStatusFilter, setOpenTicketStatusFilter] =
     React.useState(false);
+  const [openTagsFilter, setOpenTagsFilter] = React.useState(false);
   const [filterPillars, setFilterPillars] = useAtom(FilterPillarsAtom);
   const [filterTicketStatus, setFilterTicketStatus] = useAtom(
     FilterTicketStatusAtom,
   );
+  const [filterTags, setFilterTags] = useAtom(FilterTagsAtom);
   const [isKanbanView, setIsKanbanView] = useAtom(isKanbanViewAtom);
 
   const { user } = useUser();
@@ -187,6 +190,9 @@ export const Filterbar = ({
   const [kanbanVisibileOptions, setKanbanVisibileOptions] = useAtom(
     kanbanVisibileOptionsAtom,
   );
+
+  const tagsQuery = api.tag.getAllAvailableTags.useQuery();
+  const allTags = tagsQuery.data ?? [];
 
   return (
     <div className="sticky left-1 mb-4 flex w-[98%] gap-3 border-b p-2 pt-0 text-sm">
@@ -293,6 +299,84 @@ export const Filterbar = ({
               </Command>
             </PopoverContent>
           </Popover>
+
+          <Popover open={openTagsFilter} onOpenChange={setOpenTagsFilter}>
+            <PopoverTrigger asChild>
+              <Button
+                className="-ml-2 flex items-center gap-1 pr-1"
+                size={"sm"}
+                variant="outline"
+              >
+                <PlusIcon className="" />
+                Tags
+                <Separator orientation="vertical" className="ml-2" />
+                <div className="flex max-w-[30rem] gap-1 overflow-x-hidden font-mono">
+                  {filterTags.length === allTags.length &&
+                    allTags.length > 0 && (
+                      <div className="rounded-sm bg-secondary px-2 py-1">
+                        All Selected
+                      </div>
+                    )}
+                  {filterTags.length >= 4 &&
+                    filterTags.length < allTags.length && (
+                      <div className="rounded-sm bg-secondary px-2 py-1">
+                        {filterTags.length} Selected
+                      </div>
+                    )}
+                  {filterTags.length < 4 &&
+                    filterTags.map((tag) => (
+                      <div
+                        key={tag.tagId}
+                        className="rounded-sm bg-secondary px-2 py-1"
+                      >
+                        {tag.name}
+                      </div>
+                    ))}
+                </div>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-0" side="right" align="start">
+              <Command>
+                <CommandInput placeholder="Search tags..." />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem onSelect={() => setFilterTags(allTags)}>
+                      --Select All--
+                    </CommandItem>
+                    {allTags.map((tag) => (
+                      <CommandItem
+                        key={tag.tagId}
+                        value={tag.tagId}
+                        className="flex cursor-pointer items-center gap-2"
+                        onSelect={() => {
+                          const isSelected = filterTags.some(
+                            (t) => t.tagId === tag.tagId,
+                          );
+                          if (isSelected) {
+                            setFilterTags(
+                              filterTags.filter((t) => t.tagId !== tag.tagId),
+                            );
+                          } else {
+                            setFilterTags([...filterTags, tag]);
+                          }
+                        }}
+                      >
+                        <Checkbox
+                          id={tag.tagId}
+                          checked={filterTags.some(
+                            (t) => t.tagId === tag.tagId,
+                          )}
+                        />
+                        {tag.name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+
           {pathName.includes("vendor") && (
             <Popover
               open={openTicketStatusFilter}
@@ -333,7 +417,7 @@ export const Filterbar = ({
               </PopoverTrigger>
               <PopoverContent className="p-0" side="right" align="start">
                 <Command>
-                  <CommandInput placeholder="Select Pillars..." />
+                  <CommandInput placeholder="Select Status..." />
                   <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup>
@@ -355,7 +439,6 @@ export const Filterbar = ({
                             );
                             if (!newStatus) return;
 
-                            // if new pillar is already in the selectedPillars, remove it
                             if (
                               filterTicketStatus.some(
                                 (pillar) => pillar === newStatus,
@@ -891,7 +974,7 @@ export const TicketSheet = ({
                 />
               </div>
 
-              {(isAdmin || isVendor) && (
+              {isAdmin && (
                 <div className="grid grid-cols-[78px_1fr] items-center gap-3">
                   <p className="">Assign:</p>
                   <AssigneeButton
@@ -968,11 +1051,21 @@ export const TicketSheet = ({
 
 export const TicketTable = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const filterPillars = useAtomValue(FilterPillarsAtom);
+  const filterTags = useAtomValue(FilterTagsAtom);
 
-  //apply filters on filterPillars
+  //apply filters
   const filteredCards = tickets.filter((c) => {
-    if (filterPillars.length === 0) return true;
-    return filterPillars.some((p) => c.pillars.includes(p.value));
+    if (filterPillars.length === 0 && filterTags.length === 0) return true;
+    const hasPillar =
+      filterPillars.length === 0 ||
+      filterPillars.some((p) => c.pillars.includes(p.value));
+    const hasTag =
+      filterTags.length === 0 ||
+      (c.ticketsToTags &&
+        c.ticketsToTags.some((tt) =>
+          filterTags.some((ft) => ft.tagId === tt.tag.tagId),
+        ));
+    return hasPillar && hasTag;
   });
 
   return (

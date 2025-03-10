@@ -15,6 +15,7 @@ export const defaultTicketStatus: TicketStatus[] = [
 export const customerAtom = atom<User | undefined>(undefined);
 export const FilterPillarsAtom = atom<IPillars[]>(visaPillars);
 export const FilterTicketStatusAtom = atom<TicketStatus[]>(defaultTicketStatus);
+export const FilterTagsAtom = atom<ITag[]>([]);
 
 export const ticketTitleAtom = atom<string>("");
 export const ticketStatusAtom = atom<TicketStatus>("backlog");
