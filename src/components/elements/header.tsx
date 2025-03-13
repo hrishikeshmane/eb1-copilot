@@ -88,6 +88,20 @@ const Header = () => {
                   <li>
                     <Link
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      href="http://unshackled.club/newsletter"
+                      target="_blank"
+                    >
+                      <div className="text-sm font-medium leading-none">
+                        Newsletter
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Stay updated with our weekly immigration insights
+                      </p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       href="http://go.readunshackled.com/webinar"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -183,7 +197,7 @@ const Header = () => {
                   <li>
                     <Link
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                      href="#"
+                      href="https://go.greencard.inc/evaluation"
                     >
                       <div className="text-sm font-medium leading-none">
                         EB1 Autopilot
