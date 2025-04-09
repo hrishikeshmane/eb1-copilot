@@ -126,7 +126,7 @@ const Header = () => {
               <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4">
-                  <li>
+                  {/* <li>
                     <Link
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       href="https://www.unshackled.club/community"
@@ -139,7 +139,7 @@ const Header = () => {
                         Join our vibrant community of ambitious immigrants
                       </p>
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
@@ -175,7 +175,7 @@ const Header = () => {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <NavigationMenu>
+        {/* <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Get EB1 Support</NavigationMenuTrigger>
@@ -211,7 +211,26 @@ const Header = () => {
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
-        </NavigationMenu>
+        </NavigationMenu> */}
+        <Link
+          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
+          href="https://go.greencard.inc/evaluation"
+          target="_blank"
+        >
+          <div className="text-sm font-medium leading-none">
+            Get EB1 Support
+          </div>
+        </Link>
+        <Link
+          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
+          href="https://www.unshackled.club/community"
+          target="_blank"
+        >
+          <div className="text-sm font-medium leading-none">Community</div>
+          {/* <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            Join our vibrant community of ambitious immigrants
+          </p> */}
+        </Link>
       </div>
 
       <div className="ml-auto hidden items-center space-x-4 sm:flex">
