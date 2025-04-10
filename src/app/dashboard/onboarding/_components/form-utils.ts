@@ -63,6 +63,7 @@ export const formSchema = z.object({
     errorMap: () => ({ message: "Select an option" }),
   }),
   resumeUrl: z.string().url(),
+  resumeContent: z.string(),
   // resume: z.instanceof(File).optional(),
   resume: z.any(),
   // .refine((file) => {

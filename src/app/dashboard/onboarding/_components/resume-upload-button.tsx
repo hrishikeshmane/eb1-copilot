@@ -2,7 +2,7 @@
 
 import { useUploadThing } from "@/lib/uploadthing";
 import { usePostHog } from "posthog-js/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { type FormType } from "./form-utils";
 import { type UseFormReturn } from "react-hook-form";
@@ -12,12 +12,14 @@ import { Button } from "@/components/ui/button";
 import Loader from "@/components/elements/loader";
 import { useUser } from "@clerk/nextjs";
 import { useLogger } from "next-axiom";
+import { pdfjs } from "react-pdf";
 
 // inferred input off useUploadThing
 type Input = Parameters<typeof useUploadThing>;
 
 const useUploadThingInputProps = (
   resumeSetter: (file: File) => void,
+  setResumeContent: (content: string) => void,
   ...args: Input
 ) => {
   const $ut = useUploadThing(...args);
@@ -26,7 +28,22 @@ const useUploadThingInputProps = (
     if (!e.target.files) return;
     if (!e.target.files[0]) return;
 
-    resumeSetter(e.target.files[0]);
+    const file = e.target.files[0];
+    resumeSetter(file);
+
+    // Read PDF content
+    const fileArrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjs.getDocument({ data: fileArrayBuffer }).promise;
+    let fullText = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map((item: any) => item.str).join(" ");
+      fullText += pageText + "\n";
+    }
+
+    setResumeContent(fullText);
 
     const selectedFiles = Array.from(e.target.files);
     const result = await $ut.startUpload(selectedFiles);
@@ -45,14 +62,24 @@ const useUploadThingInputProps = (
 };
 
 const ResumeUploadButton = ({ form }: { form: UseFormReturn<FormType> }) => {
+  const [resumeContent, setResumeContent] = useState<string | null>(null);
   const { user, isLoaded } = useUser();
   const log = useLogger().with({ userId: user?.id });
   const posthog = usePostHog();
   const resumeSetter = (file: File) => {
     form.setValue("resume", file);
   };
+
+  useEffect(() => {
+    if (resumeContent) {
+      console.log("Resume content:", resumeContent);
+      form.setValue("resumeContent", resumeContent);
+    }
+  }, [resumeContent, form]);
+
   const { inputProps, isUploading } = useUploadThingInputProps(
     resumeSetter,
+    setResumeContent, // Pass the setter function
     "resumeUploader",
     {
       onUploadBegin() {

@@ -139,6 +139,7 @@ export const userInfo = createTable("userInfo", {
     enum: ["socialMedia", "friend", "onlineSearch", "other"],
   }).notNull(),
   resumeUrl: text("resumeUrl", { length: 256 }),
+  resumeContent: text("resumeContent", { length: 8000 }),
 
   // Current Status
   currentlyInUS: integer("currentlyInUS", { mode: "boolean" }).notNull(),
