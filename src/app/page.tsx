@@ -20,10 +20,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Link from "next/link";
+import Script from "next/script";
 
 export default function Home() {
   return (
     <main>
+      <Script src='https://data.processwebsitedata.com/cscripts/5QdCk4b6kt-9f2308be.js' strategy="lazyOnload" />
       <Header />
       <Link
         target="_blank"
