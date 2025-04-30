@@ -10,6 +10,7 @@ import TrackerBoard from "../../profile-tracker/_components/traker-board";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
+import { formatDate, parseISO } from "date-fns";
 
 const UserDetailView = ({
   customer,
@@ -183,7 +184,11 @@ const CustomerInfoDetails = ({ userId }: { userId: string }) => {
         />
         <CustomerInfoFields
           label="Priority Date If Any"
-          value={userData.priorityDateIfAny ?? "None"}
+          value={
+            userData.priorityDateIfAny
+              ? formatDate(parseISO(userData.priorityDateIfAny), "PPPP")
+              : "None"
+          }
         />
         <CustomerInfoFields
           label="Field Expert In"
