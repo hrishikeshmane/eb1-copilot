@@ -21,7 +21,7 @@ export async function sendOnBoardingEmail(userPersonalInfo: ISelectUserInfo) {
   const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: [userEmail, ...GCI_ADMIN_EMAIL],
-    subject: "Congratz on onboarding to Greencard Inc!",
+    subject: "Thanks for submitting the Onboarding Questionnaire!",
     react: WelcomeEmail({
       userPersonalInfo: userPersonalInfo,
     }) as React.ReactElement,
