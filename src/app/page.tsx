@@ -19,12 +19,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import CommunityTestimonials from "@/components/community-testimonials";
+import Link from "next/link";
+import Script from "next/script";
 
 export default function Home() {
   return (
     <main>
+      <Script src='https://data.processwebsitedata.com/cscripts/5QdCk4b6kt-9f2308be.js' strategy="lazyOnload" />
       <Header />
+      <Link
+        target="_blank"
+        rel="noopener noreferrer"
+        href="http://go.readunshackled.com/unshackled-uac"
+        className="md:text-md sticky top-16 z-20 flex h-12 w-full items-center justify-center bg-primary text-center text-sm font-semibold text-primary-foreground underline hover:cursor-pointer md:h-10"
+      >
+        Attend the LARGEST conference for high-skilled immigrants in America
+        [Aug 15-16, 2025]
+      </Link>
       <Banner />
       <Hero v2 />
       <Logos />
@@ -35,11 +46,11 @@ export default function Home() {
       {/* <TestimonialsCarousel /> */}
       <HowItWorks v2 />
       {/* <Features v2 /> */}
-      <Testimonials />
+      {/* <Testimonials /> */}
       {/* <CommunityTestimonials /> */}
-      <Pricing />
+      {/* <Pricing /> */}
       {/* <FAQ /> */}
-      <section className="z-10 mx-auto my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
+      {/* <section className="z-10 mx-auto my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
         <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-3xl font-bold  md:text-4xl">
           FAQ
         </h2>
@@ -187,8 +198,7 @@ export default function Home() {
             </Accordion>
           </div>
         </div>
-        {/* fr */}
-      </section>
+      </section> */}
       <CTA />
       <Footer />
     </main>

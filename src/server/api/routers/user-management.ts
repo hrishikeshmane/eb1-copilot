@@ -38,6 +38,7 @@ export const userManagementRouter = createTRPCRouter({
           customerPaid: user.customerPaid,
           customerType: user.customerType,
           contactNumber: null,
+          disableOnboardingForm: user.disableOnboardingForm,
         }) satisfies TransformedUser as TransformedUser,
     );
 
@@ -94,6 +95,19 @@ export const userManagementRouter = createTRPCRouter({
       return user;
     }),
 
+  // TODO: we should make changes in our code to use DB only instead of clerk. this is a big tech debt
+  getUserFromDB: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.query.users.findFirst({
+        where: (table) => eq(table.userId, input.userId),
+        // with: {
+        //   userInfo: true,
+        // },
+      });
+      return user;
+    }),
+
   updateUserRole: adminProcedure
     .input(z.object({ userId: z.string(), role: z.string() }))
     .mutation(async ({ input }) => {
@@ -112,6 +126,25 @@ export const userManagementRouter = createTRPCRouter({
       }
     }),
 
+  disableOnboardingForm: adminProcedure
+    .input(z.object({ userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.db
+          .update(users)
+          .set({
+            disableOnboardingForm: true,
+          })
+          .where(eq(users.userId, input.userId))
+          .execute();
+      } catch (e) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to disable Onboarding Form for User",
+        });
+      }
+    }),
+
   getUserInfoById: adminOrVendorProcedure
     .input(
       z.object({
@@ -125,27 +158,25 @@ export const userManagementRouter = createTRPCRouter({
       return userInfoData;
     }),
 
-  getAccountManagerAndResearchAssistants: adminProcedure.query(
-    async ({ ctx }) => {
-      let emailAddress = [
-        "aksakansha9@gmail.com",
-        "soumanti2@gmail.com",
-        "bswati19@gmail.com",
-        "hrishi.mane26@gmail.com",
-      ];
+  getAccountManagerAndResearchAssistants: adminProcedure.query(async () => {
+    let emailAddress = [
+      "aksakansha9@gmail.com",
+      "soumanti2@gmail.com",
+      "bswati19@gmail.com",
+      "hrishi.mane26@gmail.com",
+    ];
 
-      const accountManagers = await clerkClient.users.getUserList({
-        emailAddress,
-      });
+    const accountManagers = await clerkClient.users.getUserList({
+      emailAddress,
+    });
 
-      emailAddress = ["hrishi.mane26@gmail.com"];
+    emailAddress = ["hrishi.mane26@gmail.com"];
 
-      const researchAssistants = await clerkClient.users.getUserList({
-        emailAddress,
-      });
-      return { accountManagers, researchAssistants };
-    },
-  ),
+    const researchAssistants = await clerkClient.users.getUserList({
+      emailAddress,
+    });
+    return { accountManagers, researchAssistants };
+  }),
 
   addUserToProgram: adminProcedure
     .input(

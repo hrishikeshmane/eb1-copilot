@@ -57,12 +57,13 @@ const StatusButton = ({ status, setStatus, disabled }: StatusButtonProps) => {
   const { user } = useUser();
   const userRole = user?.publicMetadata.role;
 
-  let selectTicketStatus: TicketStatus[];
-  if (userRole === "vendor") {
-    selectTicketStatus = ticketStatus.filter((s) => s.value !== "done");
-  } else {
-    selectTicketStatus = ticketStatus;
-  }
+  // let selectTicketStatus: TicketStatus[];
+  // if (userRole === "vendor") {
+  //   selectTicketStatus = ticketStatus.filter((s) => s.value !== "done");
+  // } else {
+  //   selectTicketStatus = ticketStatus;
+  // }
+  const selectTicketStatus = ticketStatus;
 
   return (
     <div>

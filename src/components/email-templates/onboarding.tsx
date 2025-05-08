@@ -30,7 +30,7 @@ export const OnboardingEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
 }) => (
   <Html>
     <Head />
-    <Preview>Greencard Inc- Your Journey to freedom begins here!</Preview>
+    <Preview>Greencard Inc- Your Journey to talent visa begins here!</Preview>
     <Tailwind
       config={{
         theme: {
@@ -55,7 +55,7 @@ export const OnboardingEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
           </Row>
           <Text style={paragraph}>Hi {userPersonalInfo.fullName},</Text>
           <Text style={paragraph}>
-            Welcome to Greencard Inc. Your Journey to Freedom begins here!
+            Welcome to Greencard Inc. Your Journey to talent visa begins here!
           </Text>
 
           <Text style={paragraph}>

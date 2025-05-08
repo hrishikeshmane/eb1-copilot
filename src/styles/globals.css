@@ -178,6 +178,10 @@
   animation: rotating-word_rotate_words_5__8iX5A 4s infinite;
 }
 
+.formkit-powered-by-convertkit {
+  display: none !important;
+}
+
 @keyframes rotating-word_rotate_words_5__8iX5A {
   0% {
     transform: translateY(-80%);

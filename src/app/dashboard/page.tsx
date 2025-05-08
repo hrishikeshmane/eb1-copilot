@@ -19,7 +19,7 @@ export default async function Page() {
       {isCustomer && (
         <>
           <div className="mt-1">
-            <p>Your journey to freedom begins here</p>
+            <p>Your journey to talent visa begins here</p>
           </div>
         </>
       )}

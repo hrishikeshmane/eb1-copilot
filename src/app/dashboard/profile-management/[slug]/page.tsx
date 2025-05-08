@@ -7,7 +7,7 @@ import { User } from "@clerk/nextjs/server";
 import UserDetailView from "../_components/user-detail-view";
 import CustomerSelect from "../_components/customer-select";
 
-const page = ({ params }: { params: { slug: string } }) => {
+const Page = ({ params }: { params: { slug: string } }) => {
   const userId = params.slug;
   const customerUser = api.userManagement.getUser.useQuery({ userId });
   const [selectedCustomer, setSelectedCustomer] = React.useState<
@@ -25,6 +25,7 @@ const page = ({ params }: { params: { slug: string } }) => {
       </>
     );
   }
+  console.log("customerUser.data ??", customerUser.data);
 
   return (
     <div className="ml-2">
@@ -40,4 +41,4 @@ const page = ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default page;
+export default Page;

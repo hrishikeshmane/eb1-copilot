@@ -61,6 +61,9 @@ export const users = createTable("users", {
     enum: ["unpaid", "copilot", "autopilot"],
   }).default("unpaid"),
   // .notNull()
+  disableOnboardingForm: integer("disableOnboardingForm", {
+    mode: "boolean",
+  }).default(false),
 });
 
 export const customerDetails = createTable("customerDetails", {
@@ -136,6 +139,7 @@ export const userInfo = createTable("userInfo", {
     enum: ["socialMedia", "friend", "onlineSearch", "other"],
   }).notNull(),
   resumeUrl: text("resumeUrl", { length: 256 }),
+  resumeContent: text("resumeContent", { length: 8000 }),
 
   // Current Status
   currentlyInUS: integer("currentlyInUS", { mode: "boolean" }).notNull(),
