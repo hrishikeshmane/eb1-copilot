@@ -70,6 +70,8 @@ export const columns: ColumnDef<TransformedUser>[] = [
       const lastName = userData.lastName!;
       const emailAddresses = userData.emailAddresses;
 
+      const isOnboarded = row.original.onBoarded;
+
       return (
         <div className="flex items-center gap-2">
           <Avatar className="h-8 w-8">
@@ -80,12 +82,16 @@ export const columns: ColumnDef<TransformedUser>[] = [
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <Link
-              href={`/dashboard/profile-management/${userData.id}`}
-              className="hover:underline"
-            >
-              {firstName + " " + lastName}
-            </Link>
+            {isOnboarded ? (
+              <Link
+                href={`/dashboard/profile-management/${userData.id}`}
+                className="hover:underline"
+              >
+                {firstName + " " + lastName}
+              </Link>
+            ) : (
+              <span>{firstName + " " + lastName}</span>
+            )}
             <span className="lowercase text-muted-foreground">
               {emailAddresses}
             </span>
