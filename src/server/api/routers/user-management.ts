@@ -95,6 +95,19 @@ export const userManagementRouter = createTRPCRouter({
       return user;
     }),
 
+  // TODO: we should make changes in our code to use DB only instead of clerk. this is a big tech debt
+  getUserFromDB: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.query.users.findFirst({
+        where: (table) => eq(table.userId, input.userId),
+        // with: {
+        //   userInfo: true,
+        // },
+      });
+      return user;
+    }),
+
   updateUserRole: adminProcedure
     .input(z.object({ userId: z.string(), role: z.string() }))
     .mutation(async ({ input }) => {
