@@ -79,7 +79,12 @@ export const columns: ColumnDef<TransformedUser>[] = [
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span>{firstName + " " + lastName}</span>
+            <Link
+              href={`/dashboard/profile-management/${userData.id}`}
+              className="hover:underline"
+            >
+              {firstName + " " + lastName}
+            </Link>
             <span className="lowercase text-muted-foreground">
               {emailAddresses}
             </span>

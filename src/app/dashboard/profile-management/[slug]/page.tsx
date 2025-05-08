@@ -5,7 +5,7 @@ import React from "react";
 import { api } from "@/trpc/react";
 import { User } from "@clerk/nextjs/server";
 import UserDetailView from "../_components/user-detail-view";
-import CustomerSelect from "../../ticket-management/_components/customer-select";
+import CustomerSelect from "../_components/customer-select";
 
 const page = ({ params }: { params: { slug: string } }) => {
   const userId = params.slug;

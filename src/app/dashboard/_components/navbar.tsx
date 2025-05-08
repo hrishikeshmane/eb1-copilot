@@ -86,20 +86,6 @@ const Navbar = () => {
               </Link>
             )}
 
-            {userRole === "admin" && (
-              <Link
-                href="/dashboard/ticket-management"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-secondary-foreground dark:hover:text-primary",
-                  pathName.endsWith("/dashboard/ticket-management") &&
-                    "bg-muted text-foreground",
-                )}
-              >
-                <KanbanSquareDashedIcon className="h-4 w-4" />
-                Ticket Management
-              </Link>
-            )}
-
             {/* profile-management */}
             {userRole === "admin" && (
               <Link
