@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/popover";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { api } from "@/trpc/react";
-import { type User } from "@clerk/nextjs/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Loader from "@/components/elements/loader";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -47,7 +46,7 @@ const AssigneeButton = ({
   });
   const vendors = api.userManagement.getAllVendors.useQuery();
   const assignableUsers = vendors.data?.concat(customerUser.data ?? []);
-  const assignee = assignableUsers?.find((v) => v.id === assigneeId);
+  const assignee = assignableUsers?.find((v) => v.userId === assigneeId);
   const [openAssigneePopover, setOpenAssigneePopover] = React.useState(false);
 
   return (
@@ -74,11 +73,11 @@ const AssigneeButton = ({
                 )}
                 {!!assignee && (
                   <div
-                    key={assignee.id}
+                    key={assignee.userId}
                     className="flex items-center gap-2 font-sans text-sm font-normal"
                   >
                     <Avatar className="h-6 w-6">
-                      <AvatarImage src={assignee.imageUrl} />
+                      <AvatarImage src={assignee.imageUrl ?? ""} />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <span>{`${assignee.firstName} ${assignee.lastName}`}</span>
@@ -95,7 +94,7 @@ const AssigneeButton = ({
             <Command
               filter={(value, search) => {
                 if (search && value && vendors.status === "success") {
-                  const vendor = vendors.data.find((v) => v.id === value);
+                  const vendor = vendors.data.find((v) => v.userId === value);
                   if (!vendor) return 0;
                   if (
                     (vendor.firstName ?? "")
@@ -144,8 +143,8 @@ const AssigneeButton = ({
                   {vendors.status === "success" &&
                     vendors.data.map((vendor) => (
                       <CommandItem
-                        key={vendor.id}
-                        value={vendor.id}
+                        key={vendor.userId}
+                        value={vendor.userId}
                         className="flex items-center gap-2"
                         onSelect={(value) => {
                           setAssigneeId(value);
@@ -155,7 +154,7 @@ const AssigneeButton = ({
                       >
                         <div className="flex items-center gap-2">
                           <Avatar className="h-7 w-7">
-                            <AvatarImage src={vendor.imageUrl} />
+                            <AvatarImage src={vendor.imageUrl ?? ""} />
                             <AvatarFallback>CN</AvatarFallback>
                           </Avatar>
                           <span>{`${vendor.firstName} ${vendor.lastName}`}</span>
@@ -177,11 +176,11 @@ const AssigneeButton = ({
           )}
           {!!assignee && (
             <div
-              key={assignee.id}
+              key={assignee.userId}
               className="flex items-center gap-2 font-sans text-sm font-normal"
             >
               <Avatar className="h-6 w-6">
-                <AvatarImage src={assignee.imageUrl} />
+                <AvatarImage src={assignee.imageUrl ?? ""} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <span>{`${assignee.firstName} ${assignee.lastName}`}</span>

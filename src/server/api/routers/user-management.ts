@@ -46,13 +46,10 @@ export const userManagementRouter = createTRPCRouter({
   }),
 
   getAllVendors: adminProcedure.query(async ({ ctx }) => {
-    const allUsers = await clerkClient.users.getUserList({
-      limit: 500,
+    const allVendors = await ctx.db.query.users.findMany({
+      where: (table) => eq(table.role, "vendor"),
     });
-    const vendors = allUsers.filter(
-      (user) => user.publicMetadata.role === "vendor",
-    );
-    return vendors;
+    return allVendors;
   }),
 
   getAllCustomers: adminProcedure.query(async ({ ctx }) => {

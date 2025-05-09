@@ -212,7 +212,7 @@ const Header = () => {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu> */}
-        <Link
+        {/* <Link
           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
           href="https://go.greencard.inc/evaluation"
           target="_blank"
@@ -220,9 +220,9 @@ const Header = () => {
           <div className="text-sm font-medium leading-none">
             Get EB1 Support
           </div>
-        </Link>
+        </Link> */}
         <Link
-          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
+          className="block cursor-pointer select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
           href="https://www.unshackled.club/community"
           target="_blank"
         >
@@ -304,7 +304,7 @@ const Header = () => {
 
               <Separator />
 
-              <div className="py-2">
+              {/* <div className="py-2">
                 <h3 className="mb-1 font-semibold">Get EB1 Support</h3>
                 <Link
                   className="block py-1 pl-2 text-sm text-muted-foreground hover:text-foreground"
@@ -318,7 +318,7 @@ const Header = () => {
                 >
                   EB1 Autopilot
                 </Link>
-              </div>
+              </div> */}
 
               <div className="mt-4">
                 <GetStartedButton className="w-full" />

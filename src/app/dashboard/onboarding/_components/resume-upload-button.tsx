@@ -21,17 +21,34 @@ const useUploadThingInputProps = (
   ...args: Input
 ) => {
   const $ut = useUploadThing(...args);
+  const { user, isLoaded } = useUser();
+  const log = useLogger().with({ userId: user?.id });
 
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    if (!e.target.files[0]) return;
+    if (!e.target.files) {
+      log.warn("Onboarding Form Resume Upload - No files selected for upload");
+      return;
+    }
+    if (!e.target.files[0]) {
+      log.warn("Onboarding Form Resume Upload - Empty file selection");
+      return;
+    }
 
     resumeSetter(e.target.files[0]);
 
     const selectedFiles = Array.from(e.target.files);
-    const result = await $ut.startUpload(selectedFiles);
+    try {
+      const result = await $ut.startUpload(selectedFiles);
+      // console.log("uploaded files", result);
+      // log.info("Onboarding Form Resume Upload completed successfully", {
+      //   result: result,
+      // });
+    } catch (error) {
+      log.error("Onboarding Form Resume Upload - Error in startUpload", {
+        error: error,
+      });
+    }
 
-    console.log("uploaded files", result);
   };
 
   return {
@@ -68,6 +85,7 @@ const ResumeUploadButton = ({ form }: { form: UseFormReturn<FormType> }) => {
         log.error("Error uploading resume", {
           message: error.message,
           error: error,
+          stack: error.stack,
         });
       },
       onClientUploadComplete(data) {

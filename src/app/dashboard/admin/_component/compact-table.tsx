@@ -127,7 +127,7 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const adminUsers =
         api.userManagement.getAccountManagerAndResearchAssistants.useQuery();
       const AMs = adminUsers.data?.accountManagers;
@@ -142,6 +142,8 @@ export const columns: ColumnDef<User>[] = [
           userId,
           accountManager: AMId,
         });
+
+        table.options.meta?.updateData(row.index, "accountManager", AMId);
       };
 
       return (
@@ -176,7 +178,7 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const adminUsers =
         api.userManagement.getAccountManagerAndResearchAssistants.useQuery();
       const RAs = adminUsers.data?.researchAssistants;
@@ -191,6 +193,7 @@ export const columns: ColumnDef<User>[] = [
           userId,
           researchAssistant: RAId,
         });
+        table.options.meta?.updateData(row.index, "researchAssistant", RAId);
       };
 
       return (
@@ -225,7 +228,7 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const editCustomerDetailsMutation =
         api.userManagement.updateCustomerDetails.useMutation();
 
@@ -239,6 +242,8 @@ export const columns: ColumnDef<User>[] = [
           userId,
           profileStatus: value,
         });
+
+        table.options.meta?.updateData(row.index, "profileStatus", value);
       };
 
       return (
@@ -280,7 +285,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "raIntroCallDone",
     header: "RA Intro Call Done",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const editCustomerDetailsMutation =
         api.userManagement.updateCustomerDetails.useMutation();
 
@@ -291,6 +296,12 @@ export const columns: ColumnDef<User>[] = [
           userId,
           raIntroCallDone: value === "Yes" ? true : false,
         });
+
+        table.options.meta?.updateData(
+          row.index,
+          "raIntroCallDone",
+          value === "Yes",
+        );
       };
 
       return (
@@ -312,7 +323,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "attorneyCall",
     header: "Attorney Call Done",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const editCustomerDetailsMutation =
         api.userManagement.updateCustomerDetails.useMutation();
 
@@ -323,6 +334,12 @@ export const columns: ColumnDef<User>[] = [
           userId,
           attorneyCall: value === "Yes" ? true : false,
         });
+
+        table.options.meta?.updateData(
+          row.index,
+          "attorneyCall",
+          value === "Yes",
+        );
       };
 
       return (

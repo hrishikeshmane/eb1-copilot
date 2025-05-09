@@ -156,7 +156,7 @@ const OnboardingPage = () => {
       setIsSubmitting(false);
       toast.error("An error occured- " + error.message, { duration: 30000 });
       console.error("Error submitting onboarding form", error);
-      log.error("Error submitting onboarding form", {
+      log.error("Onboarding Form - Error submitting ", {
         message: error.message,
         error: error,
         data: form.getValues(),
@@ -180,20 +180,37 @@ const OnboardingPage = () => {
     const fields = steps[currentStep]?.fields;
     const output = await form.trigger(fields, { shouldFocus: true });
 
+    log.info("Onboarding Form - validation attempted", {
+      step: currentStep,
+      stepName: steps[currentStep]?.name,
+      fields: fields,
+      isValid: output,
+      formErrors: form.formState.errors
+    });
+
     console.log("formErrors", form.formState.errors);
     if (!output) {
       toast.error(
         "Please complete the form with valid response before proceeding.",
       );
+      log.warn("Onboarding Form - validation failed", {
+        step: currentStep,
+        stepName: steps[currentStep]?.name,
+        formErrors: form.formState.errors
+      });
+      console.log("VALIDATION ERRORS", steps[currentStep]?.name, form.formState.errors);
       return;
     }
 
     if (currentStep === steps.length - 1) {
       setIsSubmitting(true);
       toast.info("Submitting your response...");
-      await form.handleSubmit(processForm, (errors) =>
-        console.log("handleSubmitError", errors),
-      )();
+      await form.handleSubmit(processForm, (errors) => {
+        log.error("Onboarding Form submission validation error", {
+          errors: errors
+        });
+        console.log("handleSubmitError", errors);
+      })();
     }
     if (currentStep < steps.length - 1) {
       setPreviousStep(currentStep);
