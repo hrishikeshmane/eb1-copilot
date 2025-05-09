@@ -82,7 +82,7 @@ const TagsButton = ({
                 key={tag.tagId}
                 className="rounded-sm bg-secondary px-2 py-1 text-secondary-foreground"
               >
-                {tag.tagId}
+                {tag.name}
               </div>
             ))}
         </div>

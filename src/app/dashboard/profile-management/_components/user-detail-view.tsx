@@ -10,6 +10,22 @@ import TrackerBoard from "../../profile-tracker/_components/traker-board";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
+import { format, parseISO } from "date-fns";
+
+export const formatDateSafe = (dateString: string | null) => {
+  try {
+    // Return early if falsy value
+    if (!dateString) return "N/A";
+
+    // Handle extra quotes by removing them
+    const cleanDate = dateString.replace(/^"+|"+$/g, "");
+
+    // Return formatted date
+    return format(parseISO(cleanDate), "MMMM d, yyyy");
+  } catch (error) {
+    return "Invalid date";
+  }
+};
 
 const UserDetailView = ({
   customer,
@@ -92,6 +108,7 @@ const CustomerInfoDetails = ({ userId }: { userId: string }) => {
   }
 
   const userData = userInfo.data as ISelectUserInfo;
+  console.log("userData??", userData);
 
   return (
     <ScrollArea className="h-full w-full p-0 pb-0 pt-2">
@@ -183,7 +200,7 @@ const CustomerInfoDetails = ({ userId }: { userId: string }) => {
         />
         <CustomerInfoFields
           label="Priority Date If Any"
-          value={userData.priorityDateIfAny ?? "None"}
+          value={formatDateSafe(userData.priorityDateIfAny)}
         />
         <CustomerInfoFields
           label="Field Expert In"

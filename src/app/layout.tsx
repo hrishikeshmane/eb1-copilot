@@ -17,6 +17,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { type Metadata } from "next";
+import Head from "next/head";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,8 +25,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Greencard Inc.",
-  description: "Your Trusted Partner In US Immigration",
+  title: "EB-1A GreenCard Inc. | Your Path to U.S. Permanent Residency.",
+  description:
+    "Achieve your U.S. green card with our AI-driven EB-1A self-sponsorship solutions. Get expert guidance on U.S. immigration pathways, including Apply EB-1A visa application, EB-2 NIW, and O-1 visas.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
   keywords: [
     "EB-1A Green Card",
@@ -35,9 +37,16 @@ export const metadata: Metadata = {
     "Greencard inc",
     "leading U.S. immigration attorneys",
     "u.s. green card",
+    "eb-1a green card",
+    "self-sponsorship",
+    "ai immigration solutions",
+    "US permanent residency",
+    "greencard inc",
+    "leading U.S. immigration attorneys",
+    "u.s. green card",
   ],
   alternates: {
-    canonical: "/",
+    canonical: "https://www.greencard.inc/",
   },
   verification: {
     google: "Ax1JTyzFVFsJ48SAd0JZwzSY20npItA57VvupdUe1qY",
@@ -55,6 +64,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <GoogleTagManager gtmId="GTM-WW2M6M6C" />
+      <Head>
+        <meta name="robots" content="index, follow" />
+      </Head>
       <body
         className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
       >

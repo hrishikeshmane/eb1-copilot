@@ -1,11 +1,15 @@
 import { z } from "zod";
-import { createTRPCRouter, adminOrCustomerProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  adminOrCustomerProcedure,
+  protectedProcedure,
+} from "@/server/api/trpc";
 import { and, eq } from "drizzle-orm";
 import { tags, ticketTags } from "@/server/db/schema";
 
 export const tagRouter = createTRPCRouter({
   // get all tags in tags table
-  getAllAvailableTags: adminOrCustomerProcedure.query(async ({ ctx }) => {
+  getAllAvailableTags: protectedProcedure.query(async ({ ctx }) => {
     const tags = await ctx.db.query.tags.findMany();
     return tags;
   }),

@@ -10,6 +10,7 @@ import { PopupButton, useCalendlyEventListener } from "react-calendly";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { siteConfig } from "@/lib/config";
+import { formatDateSafe } from "../../profile-management/_components/user-detail-view";
 
 const UserInfoDetails = () => {
   const router = useRouter();
@@ -133,7 +134,7 @@ const UserInfoDetails = () => {
         <UserInfoFields label="Industry Type" value={userData.industryType} />
         <UserInfoFields
           label="Priority Date If Any"
-          value={userData.priorityDateIfAny ?? "None"}
+          value={formatDateSafe(userData.priorityDateIfAny)}
         />
         <UserInfoFields
           label="Field Expert In"

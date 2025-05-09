@@ -52,13 +52,10 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder="Filter name or email..."
           value={
-            (table.getColumn("user.firstName")?.getFilterValue() as string) ??
-            ""
+            (table.getColumn("nameAndEmail")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table
-              .getColumn("user.firstName")
-              ?.setFilterValue(event.target.value)
+            table.getColumn("nameAndEmail")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />

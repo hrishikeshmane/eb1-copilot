@@ -27,6 +27,7 @@ import { ArrowRight, ArrowUpDown, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   FilterPillarsAtom,
+  FilterTagsAtom,
   FilterTicketStatusAtom,
 } from "@/app/_store/kanban-store";
 import { TicketSheet } from "@/components/elements/custom-kanban";
@@ -50,6 +51,7 @@ export const VendorTicketTable = ({
 }) => {
   const filterPillars = useAtomValue(FilterPillarsAtom);
   const filterTicketStatus = useAtomValue(FilterTicketStatusAtom);
+  const filterTags = useAtomValue(FilterTagsAtom);
 
   const filteredData = useMemo(() => {
     return tickets
@@ -60,8 +62,14 @@ export const VendorTicketTable = ({
       .filter((ticket) => {
         if (filterTicketStatus.length === 0) return true;
         return filterTicketStatus.some((s) => ticket.column === s);
+      })
+      .filter((ticket) => {
+        if (filterTags.length === 0) return true;
+        return ticket.ticketsToTags?.some((tt) =>
+          filterTags.some((ft) => ft.tagId === tt.tag.tagId),
+        );
       });
-  }, [tickets, filterPillars, filterTicketStatus]);
+  }, [tickets, filterPillars, filterTicketStatus, filterTags]);
 
   const columns = useMemo<ColumnDef<ISelectTickets>[]>(
     () => [

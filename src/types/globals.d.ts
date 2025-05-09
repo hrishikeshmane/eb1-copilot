@@ -16,6 +16,7 @@ export type TransformedUser = {
   linkedin?: string;
   customerPaid: boolean | null;
   customerType: string | null;
+  disableOnboardingForm: boolean | null;
 };
 
 declare global {
