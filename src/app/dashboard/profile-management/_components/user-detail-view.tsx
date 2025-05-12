@@ -10,6 +10,7 @@ import TrackerBoard from "../../profile-tracker/_components/traker-board";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
+import { CustomKanban } from "@/components/elements/custom-kanban";
 import { format, parseISO } from "date-fns";
 
 export const formatDateSafe = (dateString: string | null) => {
@@ -60,6 +61,9 @@ const UserDetailView = ({
           <TabsList className="grid w-[500px] grid-cols-2">
             <TabsTrigger value="personal-info">Personal Info</TabsTrigger>
             <TabsTrigger value="visa-pillars">Visa Pillars</TabsTrigger>
+            <TabsTrigger value="ticket-management">
+              Ticket Management
+            </TabsTrigger>
           </TabsList>
           <Link
             className="ml-auto mr-6"
@@ -85,6 +89,24 @@ const UserDetailView = ({
               userPillars={userPillars.data}
               completedTickets={completedTickets.data}
             />
+          </TabsContent>
+          <TabsContent
+            className="h-full focus-visible:ring-0"
+            value="ticket-management"
+          >
+            <div className="ml-2">
+              <CustomKanban
+                customer={customer}
+                isInteractable={true}
+                isAdmin={true}
+              >
+                {/* <CustomerSelect
+          customers={customers}
+          customer={selectedCustomer}
+          setCustomer={setSelectedCustomer}
+        /> */}
+              </CustomKanban>
+            </div>
           </TabsContent>
         </div>
       </Tabs>
