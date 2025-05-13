@@ -58,7 +58,7 @@ const UserDetailView = ({
       <Tabs defaultValue="personal-info" className="w-full pl-4">
         <div className="flex w-full items-center">
           {children}
-          <TabsList className="grid w-[1000px] grid-cols-3">
+          <TabsList className="grid w-[600px] grid-cols-3">
             <TabsTrigger value="personal-info">Personal Info</TabsTrigger>
             <TabsTrigger value="visa-pillars">Visa Pillars</TabsTrigger>
             <TabsTrigger value="ticket-management">
