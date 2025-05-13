@@ -18,6 +18,8 @@ import { api } from "@/trpc/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Loader from "@/components/elements/loader";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useAtomValue } from "jotai";
+import { customerAtom } from "@/app/_store/kanban-store";
 
 type AssigneeButtonProps = {
   assigneeId: string | null;
@@ -41,13 +43,22 @@ const AssigneeButton = ({
   // TODO: move this call to in the custom kanban component
   const pathname = usePathname();
   const userPathId = extractUserId(pathname);
-  const customerUser = api.userManagement.getUser.useQuery({
-    userId: userPathId!,
-  });
+  // const customerUser = api.userManagement.getUser.useQuery({
+  //   userId: userPathId!,
+  // });
+  const customer = useAtomValue(customerAtom);
+  const customerWithUserId = customer
+    ? { ...customer, userId: customer.id }
+    : null;
   const vendors = api.userManagement.getAllVendors.useQuery();
-  const assignableUsers = vendors.data?.concat(customerUser.data ?? []);
+  // const assignableUsers = vendors.data?.concat(customerUser.data ?? []);
+  const assignableUsers = vendors.data?.concat(customerWithUserId ?? []);
+
   const assignee = assignableUsers?.find((v) => v.userId === assigneeId);
   const [openAssigneePopover, setOpenAssigneePopover] = React.useState(false);
+  console.log("customer atom??", customer);
+  console.log("userPathId??", userPathId);
+  // console.log("assigneeCustomer ??", customerUser);
 
   return (
     <div>
@@ -123,7 +134,7 @@ const AssigneeButton = ({
                 )}
                 <CommandGroup heading="Customer">
                   <CommandItem
-                    value={customerUser.data?.id}
+                    value={customer?.id}
                     className="flex items-center gap-2"
                     onSelect={(value) => {
                       setAssigneeId(value);
@@ -132,10 +143,10 @@ const AssigneeButton = ({
                   >
                     <div className="flex items-center gap-2">
                       <Avatar className="h-7 w-7">
-                        <AvatarImage src={customerUser.data?.imageUrl} />
+                        <AvatarImage src={customer?.imageUrl} />
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
-                      <span>{`${customerUser.data?.firstName} ${customerUser.data?.lastName}`}</span>
+                      <span>{`${customer?.firstName} ${customer?.lastName}`}</span>
                     </div>
                   </CommandItem>
                 </CommandGroup>

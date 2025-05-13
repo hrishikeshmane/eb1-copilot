@@ -70,6 +70,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   if (!customer) {
     return <div> Customer User not found</div>;
   }
+  console.log("customer ??", customer);
 
   const { data: AllTags } = api.tag.getAllAvailableTags.useQuery();
 
