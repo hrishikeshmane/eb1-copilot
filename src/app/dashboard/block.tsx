@@ -136,26 +136,6 @@ export const Navbar2 = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="/dashboard/ticket-management"
-                  className={cn(
-                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
-                    pathName === "/dashboard/ticket-management" &&
-                      "bg-accent text-foreground",
-                  )}
-                >
-                  <KanbanSquareDashedIcon className="h-5 w-5" />
-                  <span className="sr-only">Ticket Management</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Ticket Management</TooltipContent>
-            </Tooltip>
-          )}
-
-          {/* profile-management */}
-          {userRole === "admin" && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
                   href="/dashboard/profile-management"
                   className={cn(
                     "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",

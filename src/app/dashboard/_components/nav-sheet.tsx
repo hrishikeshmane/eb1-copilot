@@ -124,20 +124,6 @@ const NavSheet = () => {
 
             {userRole === "admin" && (
               <Link
-                href="/dashboard/ticket-management"
-                className={cn(
-                  "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
-                  pathName.endsWith("/dashboard/ticket-management") &&
-                    "bg-muted",
-                )}
-              >
-                <KanbanSquareDashedIcon className="h-5 w-5" />
-                Ticket Management
-              </Link>
-            )}
-
-            {userRole === "admin" && (
-              <Link
                 href="/dashboard/profile-management"
                 className={cn(
                   "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground",
