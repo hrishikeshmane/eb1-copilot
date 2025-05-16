@@ -135,10 +135,11 @@ const OnboardingPage = () => {
   const onBoarded = userMetadata?.onBoarded;
   const log = useLogger().with({ userId: user?.id });
 
-  // useFormPersist("onboarding-form", {
-  //   watch: form.watch,
-  //   setValue: form.setValue,
-  // });
+  const { clear: clearPersistForm } = useFormPersist("onboarding-form", {
+    watch: form.watch,
+    setValue: form.setValue,
+    storage: window.localStorage,
+  });
 
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
@@ -148,6 +149,7 @@ const OnboardingPage = () => {
   const addUserMutaion = api.userDetails.addUser.useMutation({
     onSuccess: () => {
       setIsSubmitting(false);
+      clearPersistForm();
       toast.success("Your Response has been submitted.");
       router.refresh();
       // router.push("/dashboard/profile");
@@ -185,7 +187,7 @@ const OnboardingPage = () => {
       stepName: steps[currentStep]?.name,
       fields: fields,
       isValid: output,
-      formErrors: form.formState.errors
+      formErrors: form.formState.errors,
     });
 
     console.log("formErrors", form.formState.errors);
@@ -196,9 +198,13 @@ const OnboardingPage = () => {
       log.warn("Onboarding Form - validation failed", {
         step: currentStep,
         stepName: steps[currentStep]?.name,
-        formErrors: form.formState.errors
+        formErrors: form.formState.errors,
       });
-      console.log("VALIDATION ERRORS", steps[currentStep]?.name, form.formState.errors);
+      console.log(
+        "VALIDATION ERRORS",
+        steps[currentStep]?.name,
+        form.formState.errors,
+      );
       return;
     }
 
@@ -207,7 +213,7 @@ const OnboardingPage = () => {
       toast.info("Submitting your response...");
       await form.handleSubmit(processForm, (errors) => {
         log.error("Onboarding Form submission validation error", {
-          errors: errors
+          errors: errors,
         });
         console.log("handleSubmitError", errors);
       })();
