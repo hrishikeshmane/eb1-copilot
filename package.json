@@ -16,7 +16,8 @@
     "clerk:listen": "ngrok http 3000",
     "clerk:listen-static": "ngrok http --domain=wombat-sure-gladly.ngrok-free.app 3000",
     "sanity:types": "npx sanity@latest schema extract && npx sanity@latest typegen generate",
-    "backfill": "tsx src/server/scripts/db-backfill.ts"
+    "backfill": "tsx src/server/scripts/db-backfill.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",
