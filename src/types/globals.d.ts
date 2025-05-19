@@ -17,6 +17,7 @@ export type TransformedUser = {
   customerPaid: boolean | null;
   customerType: string | null;
   disableOnboardingForm: boolean | null;
+  createdAt: Date;
 };
 
 declare global {

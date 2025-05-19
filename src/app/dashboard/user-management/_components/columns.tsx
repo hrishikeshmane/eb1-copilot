@@ -101,6 +101,57 @@ export const columns: ColumnDef<TransformedUser>[] = [
     },
   },
   {
+    accessorKey: "createdAt",
+    filterFn: (row, columnId, value) => {
+      const date = row.getValue(columnId);
+      if (!(date instanceof Date)) {
+        console.error(
+          `Value of column "${columnId}" is expected to be a date, but got ${date}`,
+        );
+        return false;
+      }
+
+      if (value === undefined) {
+        return true;
+      }
+
+      const { from, to } = value;
+      if (
+        !(from instanceof Date || from === undefined) ||
+        !(to instanceof Date || to === undefined)
+      ) {
+        console.error(
+          `Filter value of column "${columnId}" is expected to be an array of two dates, but got ${value}`,
+        );
+        return false;
+      }
+
+      if ((from || to) && !date) {
+        return false;
+      }
+
+      if (from && !to) {
+        return date.getTime() >= from.getTime();
+      } else if (!from && to) {
+        return date.getTime() <= to.getTime();
+      } else if (from && to) {
+        return (
+          date.getTime() >= from.getTime() && date.getTime() <= to.getTime()
+        );
+      }
+
+      return true;
+    },
+    header: () => {
+      return <span>Created At</span>;
+    },
+    cell: ({ row }) => {
+      const userData = row.original;
+      const createdAt = userData.createdAt;
+      return <span>{createdAt.toLocaleDateString()}</span>;
+    },
+  },
+  {
     accessorKey: "contact",
     header: () => {
       return <span>Contact</span>;
