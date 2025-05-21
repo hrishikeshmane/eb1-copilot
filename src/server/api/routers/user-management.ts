@@ -39,6 +39,7 @@ export const userManagementRouter = createTRPCRouter({
           customerType: user.customerType,
           contactNumber: null,
           disableOnboardingForm: user.disableOnboardingForm,
+          dataRoomLink: user.dataRoomLink,
         }) satisfies TransformedUser as TransformedUser,
     );
 

@@ -64,6 +64,7 @@ export const users = createTable("users", {
   disableOnboardingForm: integer("disableOnboardingForm", {
     mode: "boolean",
   }).default(false),
+  dataRoomLink: text("dataRoomLink", { length: 256 }),
 });
 
 export const customerDetails = createTable("customerDetails", {
@@ -312,6 +313,9 @@ export const ticketTags = createTable(
     tagId: text("tagId", { length: 256 })
       .notNull()
       .references(() => tags.tagId, { onDelete: "cascade" }),
+      createdAt: int("createdAt", { mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
   },
   (table) => {
     return {

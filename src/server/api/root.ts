@@ -7,6 +7,7 @@ import { masterList } from "../db/schema";
 import { masterListRouter } from "./routers/master-list";
 import { commentRouter } from "./routers/comments";
 import { tagRouter } from "./routers/tag";
+import { dataroomRouter } from "./routers/dataroom";
 
 /**
  * This is the primary router for your server.
@@ -21,6 +22,7 @@ export const appRouter = createTRPCRouter({
   masterList: masterListRouter,
   comment: commentRouter,
   tag: tagRouter,
+  dataroom: dataroomRouter,
 });
 
 // export type definition of API

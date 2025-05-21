@@ -1,0 +1,1023 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "a7ba6b31-f935-4b3b-a5fa-3e8e8703101b",
+  "prevId": "14675cae-44b0-42b8-adfb-692251a858ac",
+  "tables": {
+    "eb1-copilot_comments": {
+      "name": "eb1-copilot_comments",
+      "columns": {
+        "commentId": {
+          "name": "commentId",
+          "type": "text(256)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ticketId": {
+          "name": "ticketId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text(2000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "eb1-copilot_comments_ticketId_eb1-copilot_tickets_ticketId_fk": {
+          "name": "eb1-copilot_comments_ticketId_eb1-copilot_tickets_ticketId_fk",
+          "tableFrom": "eb1-copilot_comments",
+          "tableTo": "eb1-copilot_tickets",
+          "columnsFrom": [
+            "ticketId"
+          ],
+          "columnsTo": [
+            "ticketId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "eb1-copilot_comments_userId_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_comments_userId_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_comments",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_customerDetails": {
+      "name": "eb1-copilot_customerDetails",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "accountManager": {
+          "name": "accountManager",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "researchAssistant": {
+          "name": "researchAssistant",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "customerType": {
+          "name": "customerType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dueDate": {
+          "name": "dueDate",
+          "type": "blob",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(date('now'))"
+        },
+        "raIntroCallDone": {
+          "name": "raIntroCallDone",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
+        },
+        "attorneyCall": {
+          "name": "attorneyCall",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
+        },
+        "profileStatus": {
+          "name": "profileStatus",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'onboarding'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "eb1-copilot_customerDetails_userId_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_customerDetails_userId_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_customerDetails",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "eb1-copilot_customerDetails_accountManager_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_customerDetails_accountManager_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_customerDetails",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "accountManager"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "eb1-copilot_customerDetails_researchAssistant_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_customerDetails_researchAssistant_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_customerDetails",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "researchAssistant"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_masterList": {
+      "name": "eb1-copilot_masterList",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text(2000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_masterListTickets": {
+      "name": "eb1-copilot_masterListTickets",
+      "columns": {
+        "ticketId": {
+          "name": "ticketId",
+          "type": "text(256)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "masterListId": {
+          "name": "masterListId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text(2000)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pillars": {
+          "name": "pillars",
+          "type": "blob",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        }
+      },
+      "indexes": {
+        "masterListId_idx": {
+          "name": "masterListId_idx",
+          "columns": [
+            "masterListId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "eb1-copilot_masterListTickets_masterListId_eb1-copilot_masterList_id_fk": {
+          "name": "eb1-copilot_masterListTickets_masterListId_eb1-copilot_masterList_id_fk",
+          "tableFrom": "eb1-copilot_masterListTickets",
+          "tableTo": "eb1-copilot_masterList",
+          "columnsFrom": [
+            "masterListId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_tags": {
+      "name": "eb1-copilot_tags",
+      "columns": {
+        "tagId": {
+          "name": "tagId",
+          "type": "text(256)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "color": {
+          "name": "color",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_ticket_tags": {
+      "name": "eb1-copilot_ticket_tags",
+      "columns": {
+        "ticketId": {
+          "name": "ticketId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tagId": {
+          "name": "tagId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "ticketId_idx": {
+          "name": "ticketId_idx",
+          "columns": [
+            "ticketId"
+          ],
+          "isUnique": false
+        },
+        "tagId_idx": {
+          "name": "tagId_idx",
+          "columns": [
+            "tagId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "eb1-copilot_ticket_tags_ticketId_eb1-copilot_tickets_ticketId_fk": {
+          "name": "eb1-copilot_ticket_tags_ticketId_eb1-copilot_tickets_ticketId_fk",
+          "tableFrom": "eb1-copilot_ticket_tags",
+          "tableTo": "eb1-copilot_tickets",
+          "columnsFrom": [
+            "ticketId"
+          ],
+          "columnsTo": [
+            "ticketId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "eb1-copilot_ticket_tags_tagId_eb1-copilot_tags_tagId_fk": {
+          "name": "eb1-copilot_ticket_tags_tagId_eb1-copilot_tags_tagId_fk",
+          "tableFrom": "eb1-copilot_ticket_tags",
+          "tableTo": "eb1-copilot_tags",
+          "columnsFrom": [
+            "tagId"
+          ],
+          "columnsTo": [
+            "tagId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "eb1-copilot_ticket_tags_ticketId_tagId_pk": {
+          "columns": [
+            "tagId",
+            "ticketId"
+          ],
+          "name": "eb1-copilot_ticket_tags_ticketId_tagId_pk"
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_tickets": {
+      "name": "eb1-copilot_tickets",
+      "columns": {
+        "ticketId": {
+          "name": "ticketId",
+          "type": "text(256)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "masterTickedId": {
+          "name": "masterTickedId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "null"
+        },
+        "title": {
+          "name": "title",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text(2000)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "customerId": {
+          "name": "customerId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "pillars": {
+          "name": "pillars",
+          "type": "blob",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "column": {
+          "name": "column",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'backlog'"
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dueDate": {
+          "name": "dueDate",
+          "type": "blob",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "null"
+        },
+        "assigneeId": {
+          "name": "assigneeId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdBy": {
+          "name": "createdBy",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        }
+      },
+      "indexes": {
+        "customerId_idx": {
+          "name": "customerId_idx",
+          "columns": [
+            "customerId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "eb1-copilot_tickets_customerId_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_tickets_customerId_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_tickets",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "customerId"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "eb1-copilot_tickets_assigneeId_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_tickets_assigneeId_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_tickets",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "assigneeId"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "eb1-copilot_tickets_createdBy_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_tickets_createdBy_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_tickets",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "createdBy"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_userInfo": {
+      "name": "eb1-copilot_userInfo",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "consent": {
+          "name": "consent",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "fullName": {
+          "name": "fullName",
+          "type": "text(126)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text(126)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text(15)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "linkedIn": {
+          "name": "linkedIn",
+          "type": "text(126)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "highestEducation": {
+          "name": "highestEducation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "major": {
+          "name": "major",
+          "type": "text(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "brithCountry": {
+          "name": "brithCountry",
+          "type": "text(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "nationalityCountry": {
+          "name": "nationalityCountry",
+          "type": "text(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hearAboutUs": {
+          "name": "hearAboutUs",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "resumeUrl": {
+          "name": "resumeUrl",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "resumeContent": {
+          "name": "resumeContent",
+          "type": "text(8000)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "currentlyInUS": {
+          "name": "currentlyInUS",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "everBeenToUS": {
+          "name": "everBeenToUS",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "everAppliedForGreenCard": {
+          "name": "everAppliedForGreenCard",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "addFamilyMembers": {
+          "name": "addFamilyMembers",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currentEmployerInUS": {
+          "name": "currentEmployerInUS",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currentVisa": {
+          "name": "currentVisa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "interestedIn": {
+          "name": "interestedIn",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "isStudent": {
+          "name": "isStudent",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "graduationYear": {
+          "name": "graduationYear",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currentRole": {
+          "name": "currentRole",
+          "type": "text(200)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "industryType": {
+          "name": "industryType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "priorityDateIfAny": {
+          "name": "priorityDateIfAny",
+          "type": "text(300)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fieldExpertIn": {
+          "name": "fieldExpertIn",
+          "type": "text(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "eb1-copilot_userInfo_userId_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_userInfo_userId_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_userInfo",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_userVisaPillarDetails": {
+      "name": "eb1-copilot_userVisaPillarDetails",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "pillar": {
+          "name": "pillar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "detail": {
+          "name": "detail",
+          "type": "text(2000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "eb1-copilot_userVisaPillarDetails_userId_eb1-copilot_users_userId_fk": {
+          "name": "eb1-copilot_userVisaPillarDetails_userId_eb1-copilot_users_userId_fk",
+          "tableFrom": "eb1-copilot_userVisaPillarDetails",
+          "tableTo": "eb1-copilot_users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "userId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_users": {
+      "name": "eb1-copilot_users",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "text(256)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "firstName": {
+          "name": "firstName",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "lastName": {
+          "name": "lastName",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "username": {
+          "name": "username",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "hasImage": {
+          "name": "hasImage",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
+        },
+        "imageUrl": {
+          "name": "imageUrl",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "primaryEmailAddressId": {
+          "name": "primaryEmailAddressId",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "emailAddresses": {
+          "name": "emailAddresses",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "publicMetadata": {
+          "name": "publicMetadata",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "onBoarded": {
+          "name": "onBoarded",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "priorityCallSheduled": {
+          "name": "priorityCallSheduled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
+        },
+        "customerPaid": {
+          "name": "customerPaid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
+        },
+        "customerType": {
+          "name": "customerType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'unpaid'"
+        },
+        "disableOnboardingForm": {
+          "name": "disableOnboardingForm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
+        },
+        "dataRoomLink": {
+          "name": "dataRoomLink",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "eb1-copilot_waitlist": {
+      "name": "eb1-copilot_waitlist",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "eb1-copilot_waitlist_email_unique": {
+          "name": "eb1-copilot_waitlist_email_unique",
+          "columns": [
+            "email"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
