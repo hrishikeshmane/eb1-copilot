@@ -46,7 +46,6 @@ export const dataroomRouter = createTRPCRouter({
   createDataroom: protectedProcedure
     .input(dataroomInput)
     .mutation(async ({ ctx, input }) => {
-      console.log('[dataroom] Starting dataroom creation process for user:', input.userId);
       try {
         const auth = new google.auth.GoogleAuth({
           credentials: {
@@ -60,7 +59,6 @@ export const dataroomRouter = createTRPCRouter({
 
         // Helper function to create folder and return its ID
         async function createFolder(name: string, parentId: string): Promise<string> {
-          console.log('[dataroom] Creating folder:', name, 'under parent:', parentId);
           const folderMetadata = {
             name: name,
             mimeType: 'application/vnd.google-apps.folder',
@@ -90,7 +88,6 @@ export const dataroomRouter = createTRPCRouter({
         }
 
         // Check if root folder exists
-        console.log('[dataroom] Checking if root folder exists with name:', input.name);
         const existingFolder = await drive.files.list({
           q: `name='${input.name}' and mimeType='application/vnd.google-apps.folder' and '${PARENT_FOLDER_ID}' in parents and trashed=false`,
           fields: 'files(id, webViewLink)',
@@ -101,7 +98,6 @@ export const dataroomRouter = createTRPCRouter({
         if (files.length > 0) {
           const folderId = files[0]?.id ?? '';
           const folderLink = files[0]?.webViewLink ?? '';
-          console.log('[dataroom] Existing folder found - ID:', folderId, 'Link:', folderLink);
           
           return {
             success: true,
@@ -114,7 +110,6 @@ export const dataroomRouter = createTRPCRouter({
         }
 
         // Create root folder
-        console.log('[dataroom] Creating root folder');
         const rootFolder = await drive.files.create({
           requestBody: {
             name: input.name,
@@ -132,11 +127,9 @@ export const dataroomRouter = createTRPCRouter({
         }
 
         // Create folder structure
-        console.log('[dataroom] Creating folder structure');
         await createFolderStructure(folderStructure, rootFolder.data.id);
 
         // Set permissions for user
-        console.log('[dataroom] Setting folder permissions for user:', input.userEmail);
         await drive.permissions.create({
           fileId: rootFolder.data.id,
           requestBody: {
@@ -148,7 +141,6 @@ export const dataroomRouter = createTRPCRouter({
         });
 
         // Update user's dataRoomLink
-        console.log('[dataroom] Updating user record with dataroom link');
         await ctx.db
           .update(users)
           .set({ dataRoomLink: rootFolder.data.webViewLink })
@@ -163,11 +155,6 @@ export const dataroomRouter = createTRPCRouter({
           message: "Dataroom created successfully with full folder structure"
         };
       } catch (error) {
-        console.error('[dataroom] Error in dataroom creation:', error);
-        console.error('[dataroom] Error details:', {
-          message: error instanceof Error ? error.message : 'Unknown error',
-          stack: error instanceof Error ? error.stack : undefined
-        });
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to create dataroom or update user",
