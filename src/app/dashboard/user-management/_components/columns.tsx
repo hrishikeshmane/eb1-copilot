@@ -323,9 +323,8 @@ export const columns: ColumnDef<TransformedUser>[] = [
             setIsProgramDialogOpen(false);
           }
         });
-        
+
       const handleAddUserToProgram = async () => {
-        console.log("Selected values:", userProgramForm);
         // validate form
         if (
           !userProgramForm.accountManager ||
