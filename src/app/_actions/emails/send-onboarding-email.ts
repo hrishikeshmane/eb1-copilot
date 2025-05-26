@@ -8,6 +8,8 @@ const FROM_EMAIL = "Greencard Inc <hello@greencard.inc>";
 const RESEND_KEY = process.env.RESEND_KEY;
 const GCI_ADMIN_EMAIL = [
   "sasi+onboarding@greencard.inc",
+  "abraham+onboarding@openventure.com",
+  "thushanth+onboarding@openventure.com",
   "hi+onboarding@readunshackled.com",
   "hello+onboarding@greencard.inc",
   "nikin+onboarding@greencard.inc",
