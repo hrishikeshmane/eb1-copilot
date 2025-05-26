@@ -41,10 +41,19 @@ import {
   ArrowUpIcon,
   CaretSortIcon,
 } from "@radix-ui/react-icons";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+} from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useProjectDatasets } from "sanity";
-// import {DataTableColumnHeader} from "./data-table-column-header";
+import { User } from "@clerk/nextjs/server";
 
 export const columns: ColumnDef<TransformedUser>[] = [
   {
@@ -367,83 +376,175 @@ export const columns: ColumnDef<TransformedUser>[] = [
       const AMs = adminUsers.data?.accountManagers;
       const RAs = adminUsers.data?.researchAssistants;
 
-      return (
-        <Dialog>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              {userRole !== "admin" && (
-                <DropdownMenuItem
-                  onClick={() =>
-                    updateRoleMutation.mutate({
-                      userId: userId ?? "",
-                      role: "admin",
-                    })
-                  }
-                >
-                  Change Role to Admin
-                </DropdownMenuItem>
-              )}
-              {userRole !== "vendor" && (
-                <DropdownMenuItem
-                  onClick={() =>
-                    updateRoleMutation.mutate({
-                      userId: String(userId),
-                      role: "vendor",
-                    })
-                  }
-                >
-                  Change Role to Vendor
-                </DropdownMenuItem>
-              )}
-              {userRole !== "customer" && (
-                <DropdownMenuItem
-                  onClick={() =>
-                    updateRoleMutation.mutate({
-                      userId: userId ?? "",
-                      role: "customer",
-                    })
-                  }
-                >
-                  Change Role to Customer
-                </DropdownMenuItem>
-              )}
-              {userRole === "customer" && (
-                <DropdownMenuItem
-                  // disabled={
-                  //   userData.onBoarded ||
-                  //   (userData.disableOnboardingForm ?? false)
-                  // }
-                  onClick={() =>
-                    disableOnboardingFormMutation.mutate({
-                      userId: userId ?? "",
-                    })
-                  }
-                >
-                  Disable Onboarding Form
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuItem className="border-primary">
-                <DialogTrigger className="font-semibold text-primary">
-                  Add User to Program
-                </DialogTrigger>
-              </DropdownMenuItem>
+      const [newComment, setNewComment] = useState("");
+      const addCommentMutation = api.userManagement.addComment.useMutation({
+        onSuccess: async () => {
+          toast.success("Comment added successfully");
+          await utils.userManagement.getAllUsers.invalidate();
+        },
+        onError: () => {
+          toast.error("Failed to add comment");
+        },
+      });
 
-              {/* <DropdownMenuItem
-                  onClick={() => navigator.clipboard.writeText(payment.id)}
-                >
-                  Copy payment ID
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>View customer</DropdownMenuItem>
-                <DropdownMenuItem>View payment details</DropdownMenuItem> */}
-            </DropdownMenuContent>
+      const addCommentHandler = () => {
+        if (!newComment) {
+          toast.error("Please enter a comment");
+          return;
+        }
+        addCommentMutation.mutate({
+          userId: userId!,
+          comments: userData.comments ?? [],
+          newComment: newComment,
+        });
+        setNewComment("");
+      };
+
+      // from userData.comments, put userId to commentsData
+      // after making call to userManagement.getUser
+      const commentsData = new Map<string, User | undefined>();
+      userData.comments?.forEach((comment) => {
+        if (!commentsData.has(comment.userId)) {
+          const user = api.userManagement.getUser.useQuery({
+            userId: comment.userId,
+          });
+          commentsData.set(comment.userId, user.data);
+        }
+      });
+
+      return (
+        <>
+          <Dialog>
+            <Sheet>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Open menu</span>
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  {userRole !== "admin" && (
+                    <DropdownMenuItem
+                      onClick={() =>
+                        updateRoleMutation.mutate({
+                          userId: userId ?? "",
+                          role: "admin",
+                        })
+                      }
+                    >
+                      Change Role to Admin
+                    </DropdownMenuItem>
+                  )}
+                  {userRole !== "vendor" && (
+                    <DropdownMenuItem
+                      onClick={() =>
+                        updateRoleMutation.mutate({
+                          userId: String(userId),
+                          role: "vendor",
+                        })
+                      }
+                    >
+                      Change Role to Vendor
+                    </DropdownMenuItem>
+                  )}
+                  {userRole !== "customer" && (
+                    <DropdownMenuItem
+                      onClick={() =>
+                        updateRoleMutation.mutate({
+                          userId: userId ?? "",
+                          role: "customer",
+                        })
+                      }
+                    >
+                      Change Role to Customer
+                    </DropdownMenuItem>
+                  )}
+                  {userRole === "customer" && (
+                    <DropdownMenuItem
+                      onClick={() =>
+                        disableOnboardingFormMutation.mutate({
+                          userId: userId ?? "",
+                        })
+                      }
+                    >
+                      Disable Onboarding Form
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem className="border-primary">
+                    <DialogTrigger className="font-semibold text-primary">
+                      Add User to Program
+                    </DialogTrigger>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="border-blue-500">
+                    <SheetTrigger className="font-semibold text-blue-600">
+                      Manage Comments
+                    </SheetTrigger>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <SheetContent className="sm:max-w-lg">
+                <SheetHeader>
+                  <SheetTitle className="text-base">Manage Comments</SheetTitle>
+                  <SheetDescription>{`View and add comments for ${userFullName ?? "user"}`}</SheetDescription>
+                </SheetHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="new-comment">Add New Comment</Label>
+                    <textarea
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      id="new-comment"
+                      className="min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      placeholder="Enter your comment here..."
+                    />
+                  </div>
+                  <Button
+                    className="w-full"
+                    type="submit"
+                    onClick={addCommentHandler}
+                  >
+                    Add Comment
+                  </Button>
+                  <div className="grid gap-2">
+                    <Label>Previous Comments</Label>
+                    <div className="h-[calc(100vh-21rem)] overflow-y-auto rounded-md border p-4">
+                      <div className="space-y-4">
+                        {/* Display fetched comments */}
+                        {[...(userData.comments ?? [])]
+                          .reverse()
+                          .map((comment, idx) => (
+                            <div key={idx} className="border-b pb-2">
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium">
+                                  {commentsData.get(comment.userId)
+                                    ?.firstName ?? comment.userId}
+                                </span>
+                                <span className="text-sm text-muted-foreground">
+                                  {new Date(
+                                    parseInt(comment.timestamp),
+                                  ).toLocaleDateString()}
+                                </span>
+                              </div>
+                              <p className="mt-1 text-sm">{comment.comment}</p>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <SheetFooter className="sm:justify-end">
+                  {/* <Button
+                    className="w-full"
+                    type="submit"
+                    onClick={addCommentHandler}
+                  >
+                    Add Comment
+                  </Button> */}
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
                 <DialogTitle>Add User to Program</DialogTitle>
@@ -542,8 +643,8 @@ export const columns: ColumnDef<TransformedUser>[] = [
                 </DialogClose>
               </DialogFooter>
             </DialogContent>
-          </DropdownMenu>
-        </Dialog>
+          </Dialog>
+        </>
       );
     },
   },
