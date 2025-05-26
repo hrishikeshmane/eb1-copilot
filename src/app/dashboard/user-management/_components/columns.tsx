@@ -400,18 +400,6 @@ export const columns: ColumnDef<TransformedUser>[] = [
         setNewComment("");
       };
 
-      // from userData.comments, put userId to commentsData
-      // after making call to userManagement.getUser
-      const commentsData = new Map<string, User | undefined>();
-      userData.comments?.forEach((comment) => {
-        if (!commentsData.has(comment.userId)) {
-          const user = api.userManagement.getUser.useQuery({
-            userId: comment.userId,
-          });
-          commentsData.set(comment.userId, user.data);
-        }
-      });
-
       return (
         <>
           <Dialog>
@@ -515,20 +503,20 @@ export const columns: ColumnDef<TransformedUser>[] = [
                         {[...(userData.comments ?? [])]
                           .reverse()
                           .map((comment, idx) => (
-                            <div key={idx} className="border-b pb-2">
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium">
-                                  {commentsData.get(comment.userId)
-                                    ?.firstName ?? comment.userId}
-                                </span>
-                                <span className="text-sm text-muted-foreground">
-                                  {new Date(
-                                    parseInt(comment.timestamp),
-                                  ).toLocaleDateString()}
-                                </span>
-                              </div>
-                              <p className="mt-1 text-sm">{comment.comment}</p>
-                            </div>
+                            <UserComment key={idx} comment={comment} />
+                            // <div key={idx} className="border-b pb-2">
+                            //   <div className="flex items-center justify-between">
+                            //     <span className="font-medium">
+                            //       {comment.userId}
+                            //     </span>
+                            //     <span className="text-sm text-muted-foreground">
+                            //       {new Date(
+                            //         parseInt(comment.timestamp),
+                            //       ).toLocaleDateString()}
+                            //     </span>
+                            //   </div>
+                            //   <p className="mt-1 text-sm">{comment.comment}</p>
+                            // </div>
                           ))}
                       </div>
                     </div>
@@ -649,3 +637,36 @@ export const columns: ColumnDef<TransformedUser>[] = [
     },
   },
 ];
+
+const UserComment = ({
+  comment,
+}: {
+  comment: {
+    comment: string;
+    timestamp: string;
+    userId: string;
+  };
+}) => {
+  const userDetails = api.userManagement.getUser.useQuery({
+    userId: comment.userId,
+  });
+
+  return (
+    <div className="border-b pb-2">
+      <div className="flex items-center justify-between">
+        {userDetails.isSuccess ? (
+          <span className="font-medium">
+            {userDetails.data.firstName} {userDetails.data.lastName}
+          </span>
+        ) : (
+          <span className="font-medium">User Undefined</span>
+        )}
+
+        <span className="text-sm text-muted-foreground">
+          {new Date(parseInt(comment.timestamp)).toLocaleDateString()}
+        </span>
+      </div>
+      <p className="mt-1 text-sm">{comment.comment}</p>
+    </div>
+  );
+};
