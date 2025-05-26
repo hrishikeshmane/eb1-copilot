@@ -264,6 +264,9 @@ export const columns: ColumnDef<User>[] = [
         </Select>
       );
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "startDate",
