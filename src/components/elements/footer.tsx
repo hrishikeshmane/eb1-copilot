@@ -110,7 +110,7 @@ const Footer = () => {
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="/terms"
+                    href="https://docs.google.com/document/d/e/2PACX-1vST6ifdC_kKPBd2e7rfqWvQ-p7E3Z3HWSv7dtHQUg6gp59eYgz69MHIQQ_3R8FcCZGyHecv8dEQonhV/pub"
                     className="hover:underline "
                   >
                     Terms &amp; Conditions
@@ -130,7 +130,7 @@ const Footer = () => {
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://docs.google.com/document/d/e/2PACX-1vSFryh8tuExtEPszK-fSFsIBwxIjWKqovmb0t2EoepZk8lPfYBCw_rFg8d_qdUczlX2TDn_YhMvFokE/pub"
+                    href="https://docs.google.com/document/d/e/2PACX-1vS5K4eFlPI4T2pzljQ9nnGdL3a54rjcrMCpiPK4xZOI2dww80M6Z8gD0GXmt-6yODX1eHamfdGWZu7L/pub"
                     className="hover:underline"
                   >
                     Privacy Policy
@@ -140,7 +140,7 @@ const Footer = () => {
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://docs.google.com/document/d/e/2PACX-1vQTwm5Dnpkqajoxvuuh2XIXCtXlj6nyFxP5khRiyFaYSWDtJUAaX_wGI1D6H6VGpA/pub"
+                    href="https://docs.google.com/document/d/e/2PACX-1vSSbZI_rXtlwkJZ10A2JM5PsVL99MSzMOpkX41DOjNhxp_OGxpMSHSaqrin9aw-rK8QPWZgXv-9C2pI/pub"
                     className="hover:underline"
                   >
                     Saas

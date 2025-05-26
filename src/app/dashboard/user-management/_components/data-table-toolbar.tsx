@@ -9,6 +9,10 @@ import { DataTableViewOptions } from "./data-table-view-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 import { onBoardedMap, userRolesMap } from "@/lib/constants";
+import { DatePickerWithRange } from "./date-range-picker";
+import { DateRange } from "react-day-picker";
+import { subDays } from "date-fns";
+import { useState } from "react";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -31,6 +35,18 @@ export function DataTableToolbar<TData>({
           }}
           className="h-8 w-[150px] lg:w-[250px]"
         />
+        {table.getColumn("createdAt") && (
+          <DatePickerWithRange
+            date={
+              table.getColumn("createdAt")?.getFilterValue() as
+                | DateRange
+                | undefined
+            }
+            setDate={(date) => {
+              table.getColumn("createdAt")?.setFilterValue(date);
+            }}
+          />
+        )}
         {table.getColumn("onBoarded") &&
           (console.log(
             "table.getColumn('onBoarded')",

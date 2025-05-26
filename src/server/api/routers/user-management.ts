@@ -8,8 +8,8 @@ import {
 import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
-import { customerDetails, users } from "@/server/db/schema";
-import { TransformedUser } from "@/types/globals";
+import { comments, customerDetails, users } from "@/server/db/schema";
+import { type TransformedUser } from "@/types/globals";
 
 export const userManagementRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
@@ -39,6 +39,8 @@ export const userManagementRouter = createTRPCRouter({
           customerType: user.customerType,
           contactNumber: null,
           disableOnboardingForm: user.disableOnboardingForm,
+          createdAt: user.createdAt,
+          comments: user.comments,
         }) satisfies TransformedUser as TransformedUser,
     );
 
@@ -84,6 +86,44 @@ export const userManagementRouter = createTRPCRouter({
     );
     return customers;
   }),
+
+  addComment: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(), // customer userId
+        comments: z.array(
+          z.object({
+            comment: z.string(),
+            userId: z.string(),
+            timestamp: z.string(),
+          }),
+        ),
+        newComment: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.db
+          .update(users)
+          .set({
+            comments: [
+              ...input.comments,
+              {
+                comment: input.newComment,
+                userId: ctx.session.userId,
+                timestamp: new Date().getTime().toString(),
+              },
+            ],
+          })
+          .where(eq(users.userId, input.userId))
+          .execute();
+      } catch (e) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to add comment for the User",
+        });
+      }
+    }),
 
   getUser: protectedProcedure
     .input(z.object({ userId: z.string() }))
