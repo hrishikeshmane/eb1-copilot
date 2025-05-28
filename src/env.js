@@ -27,6 +27,9 @@ export const env = createEnv({
     UPLOADTHING_SECRET: z.string(),
     UPLOADTHING_APP_ID: z.string(),
     RESEND_API_KEY: z.string(),
+    GOOGLE_PRIVATE_KEY: z.string(),
+    GOOGLE_CLIENT_EMAIL: z.string(),
+    PARENT_FOLDER_ID: z.string(),
   },
 
   /**
@@ -64,6 +67,9 @@ export const env = createEnv({
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
+    GOOGLE_PRIVATE_KEY: process.env.GOOGLE_PRIVATE_KEY,
+    GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL,
+    PARENT_FOLDER_ID: process.env.PARENT_FOLDER_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

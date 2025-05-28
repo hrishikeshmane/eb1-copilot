@@ -19,6 +19,7 @@ export type TransformedUser = {
   disableOnboardingForm: boolean | null;
   comments: { comment: string; timestamp: string; userId: string }[] | null;
   createdAt: Date;
+  dataRoomLink: string | null;
 };
 
 declare global {
