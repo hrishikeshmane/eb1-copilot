@@ -349,6 +349,7 @@ export const columns: ColumnDef<TransformedUser>[] = [
         api.userManagement.addUserToProgram.useMutation({
           onSuccess: (data) => {
             toast.success(data.message);
+            utils.userManagement.getAllUsers.invalidate();
           },
           onError: (error) => {
             toast.error(error.message);
