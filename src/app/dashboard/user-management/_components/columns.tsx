@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
-import { Loader2, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -44,7 +44,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useProjectDatasets } from "sanity";
-import { useRouter } from "next/navigation";
 // import {DataTableColumnHeader} from "./data-table-column-header";
 
 export const columns: ColumnDef<TransformedUser>[] = [
@@ -261,7 +260,7 @@ export const columns: ColumnDef<TransformedUser>[] = [
       const userId = row.original.id;
       const userFullName = row.original.firstName + " " + row.original.lastName;
       const userRole = row.original.role;
-      const userEmail = row.original.emailAddresses;
+      const userEmail = userData.emailAddresses;
 
       const utils = api.useUtils();
       const updateRoleMutation = api.userManagement.updateUserRole.useMutation({
@@ -279,52 +278,28 @@ export const columns: ColumnDef<TransformedUser>[] = [
 
       // ESlint fails to understand that cell is also a react component
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [isDataRoomDialogOpen, setIsDataRoomDialogOpen] = useState(false)
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [isProgramDialogOpen, setIsProgramDialogOpen] = useState(false)
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const [userProgramForm, setUserProgramForm] = useState({
         accountManager: "",
         researchAssistant: "",
         customerType: "",
       });
 
-      const createDataroomMutation = api.dataroom.createDataroom.useMutation({
-        onSuccess: () => {
-          toast.success("Dataroom created successfully");
-          utils.userManagement.getAllUsers.invalidate();
-        },
-        onError: (error) => {
-          toast.error("Failed to create dataroom: " + error.message);
-        },
-        onSettled: () => {
-          setIsDataRoomDialogOpen(false);
-        },
-      });
-
-      const handleCreateDataroom = () => {
-        createDataroomMutation.mutate({
-          name: userFullName,
-          userId: userId!,
-          userEmail: userEmail,
-        });
-
-      };
+      const [isDialogOpen, setIsDialogOpen] = useState(false)
 
       const addUserToProgramMutation =
         api.userManagement.addUserToProgram.useMutation({
-          onSuccess: () => {
-            toast.success("User added to program successfully");
+          onSuccess: (data) => {
+            toast.success(data.message);
           },
-          onError: () => {
-            toast.error("Failed to add user to program");
+          onError: (error) => {
+            toast.error(error.message);
           },
           onSettled: () => {
-            setIsProgramDialogOpen(false);
+            setIsDialogOpen(false)
           }
         });
-
       const handleAddUserToProgram = async () => {
+        console.log("Selected values:", userProgramForm);
         // validate form
         if (
           !userProgramForm.accountManager ||
@@ -335,13 +310,18 @@ export const columns: ColumnDef<TransformedUser>[] = [
           return;
         }
 
+        const selectedAM = AMs?.find(user => user.id === userProgramForm.accountManager);
+        const selectedRA = RAs?.find(user => user.id === userProgramForm.researchAssistant);
+
         addUserToProgramMutation.mutate({
           userId: userId!,
           accountMangerId: userProgramForm.accountManager,
           researchAssistantId: userProgramForm.researchAssistant,
           customerType: userProgramForm.customerType as "copilot" | "autopilot",
+          readEmails: [userEmail],
+          writeEmails: [selectedRA?.emailAddresses[0]?.emailAddress ?? '', selectedAM?.emailAddresses[0]?.emailAddress ?? ''],
+          userName: userFullName,
         });
-
       };
 
       const adminUsers =
@@ -350,7 +330,7 @@ export const columns: ColumnDef<TransformedUser>[] = [
       const RAs = adminUsers.data?.researchAssistants;
 
       return (
-        <>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -411,160 +391,27 @@ export const columns: ColumnDef<TransformedUser>[] = [
                   Disable Onboarding Form
                 </DropdownMenuItem>
               )}
-              {userData.dataRoomLink ? (
-                <DropdownMenuItem>
-                  <Link
-                    href={userData.dataRoomLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-semibold text-primary"
-                  >
-                    Data Room
-                  </Link>
-                </DropdownMenuItem>
-              ) : (
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <Dialog open={isDataRoomDialogOpen} onOpenChange={setIsDataRoomDialogOpen}>
-                    <DialogTrigger asChild>
-                      <span className="font-semibold text-primary">Create Data Room</span>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
-                      <DialogHeader>
-                        <DialogTitle>Create Data Room</DialogTitle>
-                        <DialogDescription>
-                          This will create a dedicated data room for {userFullName} with all necessary folders and permissions. Are you sure you want to proceed?
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter className="sm:justify-end">
-                        <DialogClose asChild>
-                          <Button type="button" variant="secondary" disabled={createDataroomMutation.isPending}>
-                            Cancel
-                          </Button>
-                        </DialogClose>
-                        <Button 
-                          type="submit" 
-                          onClick={handleCreateDataroom}
-                          disabled={createDataroomMutation.isPending}
-                        >
-                          {createDataroomMutation.isPending ? (
-                            <>
-                              Creating
-                              <Loader2 className="animate-spin ml-1 h-5 w-5 text-white" />
-                            </>
-                          ) : (
-                            'Create Data Room'
-                          )}
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="border-primary">
-                <Dialog open={isProgramDialogOpen} onOpenChange={setIsProgramDialogOpen}>
-                  <DialogTrigger asChild>
-                    <span className="font-semibold text-primary">Add User to Program</span>
+              {
+                userData.dataRoomLink && (
+                  <DropdownMenuItem>
+                    <Link
+                      href={userData.dataRoomLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-primary"
+                    >
+                      View Data Room
+                    </Link>
+                  </DropdownMenuItem>
+                )
+              }
+              {!userData.dataRoomLink &&
+                <DropdownMenuItem className="border-primary">
+                  <DialogTrigger className="font-semibold text-primary">
+                    Add User to Program
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle>Add User to Program</DialogTitle>
-                      <DialogDescription>
-                        {`This action will mark ${userFullName ?? "user"} as a paid customer`}
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="flex items-center space-x-2">
-                      <div className="grid flex-1 gap-2">
-                        <Label>Select Account Manger</Label>
-                        <Select
-                          onValueChange={(value) =>
-                            setUserProgramForm((prev) => ({
-                              ...prev,
-                              accountManager: value,
-                            }))
-                          }
-                        >
-                          <SelectTrigger className="">
-                            <SelectValue placeholder="Select Account Manger" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Account Mangers</SelectLabel>
-                              {AMs?.map((user) => (
-                                <SelectItem key={user.id} value={user.id}>
-                                  {user.firstName + " " + user.lastName}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="grid flex-1 gap-2">
-                        <Label>Select Research Assistant</Label>
-                        <Select
-                          onValueChange={(value) =>
-                            setUserProgramForm((prev) => ({
-                              ...prev,
-                              researchAssistant: value,
-                            }))
-                          }
-                        >
-                          <SelectTrigger className="">
-                            <SelectValue placeholder="Select Research Assistant" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Research Assistants</SelectLabel>
-                              {RAs?.map((user) => (
-                                <SelectItem key={user.id} value={user.id}>
-                                  {user.firstName + " " + user.lastName}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="grid flex-1 gap-2">
-                        <Label>Select Customer Type</Label>
-                        <Select
-                          onValueChange={(value) =>
-                            setUserProgramForm((prev) => ({
-                              ...prev,
-                              customerType: value,
-                            }))
-                          }
-                        >
-                          <SelectTrigger className="">
-                            <SelectValue placeholder="Customer Type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Customer Types</SelectLabel>
-                              <SelectItem value="copilot">EB1 Copilot</SelectItem>
-                              <SelectItem value="autopilot">EB1 Autopilot</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <DialogFooter className="sm:justify-end">
-                      <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                          Discard
-                        </Button>
-                      </DialogClose>
-                      <DialogClose asChild>
-                        <Button type="submit" onClick={handleAddUserToProgram}>
-                          Save
-                        </Button>
-                      </DialogClose>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </DropdownMenuItem>
+                </DropdownMenuItem>
+              }
 
               {/* <DropdownMenuItem
                   onClick={() => navigator.clipboard.writeText(payment.id)}
@@ -575,9 +422,110 @@ export const columns: ColumnDef<TransformedUser>[] = [
                 <DropdownMenuItem>View customer</DropdownMenuItem>
                 <DropdownMenuItem>View payment details</DropdownMenuItem> */}
             </DropdownMenuContent>
-
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Add User to Program</DialogTitle>
+                <DialogDescription>
+                  {`This action will mark ${userFullName ?? "user"} as a paid customer 
+                  and create a dataroom with write access for 
+                  Research Assistants and Account Managers, 
+                  while providing view access to ${userFullName ?? "the customer"}`}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex items-center space-x-2">
+                <div className="grid flex-1 gap-2">
+                  <Label>Select Account Manger</Label>
+                  <Select
+                    onValueChange={(value) =>
+                      setUserProgramForm((prev) => ({
+                        ...prev,
+                        accountManager: value,
+                      }))
+                    }
+                  >
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Select Account Manger" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Account Mangers</SelectLabel>
+                        {AMs?.map((user) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.firstName + " " + user.lastName}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="grid flex-1 gap-2">
+                  <Label>Select Research Assistant</Label>
+                  <Select
+                    onValueChange={(value) =>
+                      setUserProgramForm((prev) => ({
+                        ...prev,
+                        researchAssistant: value,
+                      }))
+                    }
+                  >
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Select Research Assistant" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Research Assistants</SelectLabel>
+                        {RAs?.map((user) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.firstName + " " + user.lastName}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="grid flex-1 gap-2">
+                  <Label>Select Customer Type</Label>
+                  <Select
+                    onValueChange={(value) =>
+                      setUserProgramForm((prev) => ({
+                        ...prev,
+                        customerType: value,
+                      }))
+                    }
+                  >
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Customer Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Customer Types</SelectLabel>
+                        <SelectItem value="copilot">EB1 Copilot</SelectItem>
+                        <SelectItem value="autopilot">EB1 Autopilot</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter className="sm:justify-end">
+                <DialogClose asChild>
+                  <Button type="button" variant="secondary" disabled={addUserToProgramMutation.isPending}>
+                    Discard
+                  </Button>
+                </DialogClose>
+                  <Button type="submit" onClick={handleAddUserToProgram} disabled={addUserToProgramMutation.isPending}>
+                    {addUserToProgramMutation.isPending ? 
+                      "Adding User to Program..." : 
+                      "Save"
+                    }
+                  </Button>
+              </DialogFooter>
+            </DialogContent>
           </DropdownMenu>
-        </>
+        </Dialog>
       );
     },
   },
