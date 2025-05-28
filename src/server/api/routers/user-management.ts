@@ -10,6 +10,8 @@ import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { comments, customerDetails, users } from "@/server/db/schema";
 import { type TransformedUser } from "@/types/globals";
+import { google } from 'googleapis';
+import { env } from "@/env";
 
 export const userManagementRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
@@ -41,6 +43,7 @@ export const userManagementRouter = createTRPCRouter({
           disableOnboardingForm: user.disableOnboardingForm,
           createdAt: user.createdAt,
           comments: user.comments,
+          dataRoomLink: user.dataRoomLink,
         }) satisfies TransformedUser as TransformedUser,
     );
 
@@ -222,15 +225,52 @@ export const userManagementRouter = createTRPCRouter({
         accountMangerId: z.string(),
         researchAssistantId: z.string(),
         customerType: z.enum(["copilot", "autopilot"]),
+        readEmails: z.array(z.string()),
+        writeEmails: z.array(z.string()),
+        userName: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(customerDetails).values({
-        userId: input.userId,
-        accountManager: input.accountMangerId,
-        researchAssistant: input.researchAssistantId,
-        customerType: input.customerType,
-      });
+      try {
+        const existingCustomer = await ctx.db.query.customerDetails.findFirst({
+          where: (table) => eq(table.userId, input.userId)
+        });
+    
+        // Check if user has a dataroom
+        const user = await ctx.db.query.users.findFirst({
+          where: (table) => eq(table.userId, input.userId)
+        });
+    
+        if (existingCustomer) {
+          // User already in program, check/create dataroom
+          if (!user?.dataRoomLink) {
+            // Create dataroom if it doesn't exist
+            const dataRoomLink = await createUserDataroom(ctx, input.userId, input.readEmails, input.writeEmails, input.userName);
+            return { message: "User already added to program, dataroom created successfully" };
+          }
+          return { message: "User already added to program" };
+        }
+    
+        // Add user to program
+        await ctx.db.insert(customerDetails).values({
+          userId: input.userId,
+          accountManager: input.accountMangerId,
+          researchAssistant: input.researchAssistantId,
+          customerType: input.customerType,
+        });
+        // Create dataroom if it doesn't exist
+        if (!user?.dataRoomLink) {
+          const dataRoomLink = await createUserDataroom(ctx, input.userId, input.readEmails, input.writeEmails, input.userName);
+        }
+    
+        return { message: "User added to program successfully" };
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to add user to program or create dataroom",
+          cause: error instanceof Error ? error.message : 'Unknown error'
+        });
+      }
     }),
 
   getAllCustomerDetails: adminProcedure
@@ -334,3 +374,157 @@ export const userManagementRouter = createTRPCRouter({
       });
     }),
 });
+
+const GOOGLE_PRIVATE_KEY = env.GOOGLE_PRIVATE_KEY;
+const GOOGLE_CLIENT_EMAIL = env.GOOGLE_CLIENT_EMAIL;
+const PARENT_FOLDER_ID = env.PARENT_FOLDER_ID;
+
+// Define folder structure
+const folderStructure = {
+  "All Evidence Documents": {
+    "Authorship | Certificates": null,
+    "Authorship Paper": null,
+    "Awards": null,
+    "Book": null,
+    "Conference": null,
+    "Critical Role | Employment": null,
+    "Editorial Board Membership": null,
+    "High Salary": null,
+    "Judging": null,
+    "Memberships": null,
+    "Patent": null,
+    "Peer Reviews": null,
+    "Press Articles": null
+  },
+  "All Letters": null,
+  "Employer Documents": null,
+  "Personal Documents": null,
+  "Press": null,
+  "Resources": {
+    "LOR Guide": null,
+    "LOR Templates": null
+  }
+};
+
+// Helper function to create dataroom
+async function createUserDataroom(ctx: any, userId: string, readEmails: string[], writeEmails: string[], userName: string) {
+  try {
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: GOOGLE_CLIENT_EMAIL,
+        private_key: GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      },
+      scopes: ['https://www.googleapis.com/auth/drive.file'],
+    });
+
+    const drive = google.drive({ version: 'v3', auth });
+
+    // Helper function to create folder and return its ID
+    async function createFolder(name: string, parentId: string): Promise<string> {
+      const folderMetadata = {
+        name: name,
+        mimeType: 'application/vnd.google-apps.folder',
+        parents: [parentId],
+      };
+
+      const folder = await drive.files.create({
+        requestBody: folderMetadata,
+        fields: 'id',
+      });
+
+      if (!folder.data.id) {
+        throw new Error(`Failed to create folder: ${name}`);
+      }
+
+      return folder.data.id;
+    }
+
+    // Recursive function to create folder structure
+    async function createFolderStructure(structure: Record<string, any>, parentId: string) {
+      for (const [folderName, subFolders] of Object.entries(structure)) {
+        const newFolderId = await createFolder(folderName, parentId);
+        if (subFolders !== null) {
+          await createFolderStructure(subFolders, newFolderId);
+        }
+      }
+    }
+
+    // Check if root folder exists
+    // const existingFolder = await drive.files.list({
+    //   q: `name='${userName}' and mimeType='application/vnd.google-apps.folder' and '${PARENT_FOLDER_ID}' in parents and trashed=false`,
+    //   fields: 'files(id, webViewLink)',
+    // });
+
+    // const files = existingFolder.data.files ?? [];
+    
+    // if (files.length > 0) {
+    //   const folderLink = files[0]?.webViewLink ?? '';
+    //   await ctx.db
+    //     .update(users)
+    //     .set({ dataRoomLink: folderLink })
+    //     .where(eq(users.userId, userId));
+      
+    //   return folderLink;
+    // }
+
+    // Create root folder
+    const rootFolder = await drive.files.create({
+      requestBody: {
+        name: userName,
+        mimeType: 'application/vnd.google-apps.folder',
+        parents: [PARENT_FOLDER_ID],
+      },
+      fields: 'id, webViewLink',
+    });
+
+    if (!rootFolder.data.id || !rootFolder.data.webViewLink) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to create root folder",
+      });
+    }
+
+    // Create folder structure
+    await createFolderStructure(folderStructure, rootFolder.data.id);
+
+    // Set permissions for user
+
+    for (const userEmail of readEmails) {
+      await drive.permissions.create({
+        fileId: rootFolder.data.id,
+        requestBody: {
+          type: 'user',
+          role:'reader',
+          emailAddress: userEmail,
+        },
+        fields: 'id',
+      });
+    }
+
+    for (const userEmail of writeEmails) {
+      await drive.permissions.create({
+        fileId: rootFolder.data.id,
+        requestBody: {
+          type: 'user',
+          role:'writer',
+          emailAddress: userEmail,
+        },
+        fields: 'id',
+      })
+    }
+
+    // Update user's dataRoomLink
+    await ctx.db
+      .update(users)
+      .set({ dataRoomLink: rootFolder.data.webViewLink })
+      .where(eq(users.userId, userId));
+
+      return rootFolder.data.webViewLink;
+  } catch (error) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Failed to create dataroom",
+      cause: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+}

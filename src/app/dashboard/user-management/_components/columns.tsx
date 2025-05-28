@@ -320,6 +320,7 @@ export const columns: ColumnDef<TransformedUser>[] = [
       const userId = row.original.id;
       const userFullName = row.original.firstName + " " + row.original.lastName;
       const userRole = row.original.role;
+      const userEmail = userData.emailAddresses;
 
       const utils = api.useUtils();
       const updateRoleMutation = api.userManagement.updateUserRole.useMutation({
@@ -342,14 +343,20 @@ export const columns: ColumnDef<TransformedUser>[] = [
         researchAssistant: "",
         customerType: "",
       });
+
+      const [isDialogOpen, setIsDialogOpen] = useState(false)
+
       const addUserToProgramMutation =
         api.userManagement.addUserToProgram.useMutation({
-          onSuccess: () => {
-            toast.success("User added to program successfully");
+          onSuccess: (data) => {
+            toast.success(data.message);
           },
-          onError: () => {
-            toast.error("Failed to add user to program");
+          onError: (error) => {
+            toast.error(error.message);
           },
+          onSettled: () => {
+            setIsDialogOpen(false)
+          }
         });
       const handleAddUserToProgram = async () => {
         console.log("Selected values:", userProgramForm);
@@ -363,11 +370,17 @@ export const columns: ColumnDef<TransformedUser>[] = [
           return;
         }
 
+        const selectedAM = AMs?.find(user => user.id === userProgramForm.accountManager);
+        const selectedRA = RAs?.find(user => user.id === userProgramForm.researchAssistant);
+
         addUserToProgramMutation.mutate({
           userId: userId!,
           accountMangerId: userProgramForm.accountManager,
           researchAssistantId: userProgramForm.researchAssistant,
           customerType: userProgramForm.customerType as "copilot" | "autopilot",
+          readEmails: [userEmail],
+          writeEmails: [selectedRA?.emailAddresses[0]?.emailAddress ?? '', selectedAM?.emailAddresses[0]?.emailAddress ?? ''],
+          userName: userFullName,
         });
       };
 
@@ -402,7 +415,7 @@ export const columns: ColumnDef<TransformedUser>[] = [
 
       return (
         <>
-          <Dialog>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <Sheet>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -460,11 +473,27 @@ export const columns: ColumnDef<TransformedUser>[] = [
                       Disable Onboarding Form
                     </DropdownMenuItem>
                   )}
-                  <DropdownMenuItem className="border-primary">
-                    <DialogTrigger className="font-semibold text-primary">
-                      Add User to Program
-                    </DialogTrigger>
+              {
+                userData.dataRoomLink && (
+                  <DropdownMenuItem>
+                    <Link
+                      href={userData.dataRoomLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-primary"
+                    >
+                      View Data Room
+                    </Link>
                   </DropdownMenuItem>
+                )
+              }
+              {!userData.dataRoomLink &&
+                    <DropdownMenuItem className="border-primary">
+                      <DialogTrigger className="font-semibold text-primary">
+                        Add User to Program
+                      </DialogTrigger>
+                    </DropdownMenuItem>
+              }
                   <DropdownMenuItem className="border-blue-500">
                     <SheetTrigger className="font-semibold text-blue-600">
                       Manage Comments
@@ -537,7 +566,10 @@ export const columns: ColumnDef<TransformedUser>[] = [
               <DialogHeader>
                 <DialogTitle>Add User to Program</DialogTitle>
                 <DialogDescription>
-                  {`This action will mark ${userFullName ?? "user"} as a paid customer`}
+                  {`This action will mark ${userFullName ?? "user"} as a paid customer 
+                  and create a dataroom with write access for 
+                  Research Assistants and Account Managers, 
+                  while providing view access to ${userFullName ?? "the customer"}`}
                 </DialogDescription>
               </DialogHeader>
               <div className="flex items-center space-x-2">
@@ -620,15 +652,16 @@ export const columns: ColumnDef<TransformedUser>[] = [
               </div>
               <DialogFooter className="sm:justify-end">
                 <DialogClose asChild>
-                  <Button type="button" variant="secondary">
+                  <Button type="button" variant="secondary" disabled={addUserToProgramMutation.isPending}>
                     Discard
                   </Button>
                 </DialogClose>
-                <DialogClose asChild>
-                  <Button type="submit" onClick={handleAddUserToProgram}>
-                    Save
+                  <Button type="submit" onClick={handleAddUserToProgram} disabled={addUserToProgramMutation.isPending}>
+                    {addUserToProgramMutation.isPending ? 
+                      "Adding User to Program..." : 
+                      "Save"
+                    }
                   </Button>
-                </DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>

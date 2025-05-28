@@ -8,6 +8,20 @@
       "when": 1715448982473,
       "tag": "0000_safe_impossible_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1747464167616,
+      "tag": "0001_square_power_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1747464290627,
+      "tag": "0002_colorful_speedball",
+      "breakpoints": true
     }
   ]
 }

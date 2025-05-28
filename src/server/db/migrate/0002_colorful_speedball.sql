@@ -1,0 +1,1 @@
+ALTER TABLE `eb1-copilot_ticket_tags` ADD `createdAt` integer DEFAULT (unixepoch()) NOT NULL;
