@@ -66,7 +66,7 @@ export const users = createTable("users", {
   disableOnboardingForm: integer("disableOnboardingForm", {
     mode: "boolean",
   }).default(false),
-  dataRoomLink: text("dataRoomLink", { length: 256 }),
+  dataRoomLink: text("dataRoomLink", { length: 256 }).default(""),
 });
 
 export const customerDetails = createTable("customerDetails", {

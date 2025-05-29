@@ -232,15 +232,15 @@ export const userManagementRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
+        // Check if user already exists in program
         const existingCustomer = await ctx.db.query.customerDetails.findFirst({
           where: (table) => eq(table.userId, input.userId)
         });
-    
         // Check if user has a dataroom
         const user = await ctx.db.query.users.findFirst({
           where: (table) => eq(table.userId, input.userId)
         });
-    
+
         if (existingCustomer) {
           // User already in program, check/create dataroom
           if (!user?.dataRoomLink) {
@@ -250,7 +250,7 @@ export const userManagementRouter = createTRPCRouter({
           }
           return { message: "User already added to program" };
         }
-    
+
         // Add user to program
         await ctx.db.insert(customerDetails).values({
           userId: input.userId,
@@ -258,11 +258,12 @@ export const userManagementRouter = createTRPCRouter({
           researchAssistant: input.researchAssistantId,
           customerType: input.customerType,
         });
+
         // Create dataroom if it doesn't exist
         if (!user?.dataRoomLink) {
           const dataRoomLink = await createUserDataroom(ctx, input.userId, input.readEmails, input.writeEmails, input.userName);
         }
-    
+
         return { message: "User added to program successfully" };
       } catch (error) {
         throw new TRPCError({
@@ -456,14 +457,14 @@ async function createUserDataroom(ctx: any, userId: string, readEmails: string[]
     // });
 
     // const files = existingFolder.data.files ?? [];
-    
+
     // if (files.length > 0) {
     //   const folderLink = files[0]?.webViewLink ?? '';
     //   await ctx.db
     //     .update(users)
     //     .set({ dataRoomLink: folderLink })
     //     .where(eq(users.userId, userId));
-      
+
     //   return folderLink;
     // }
 
@@ -494,7 +495,7 @@ async function createUserDataroom(ctx: any, userId: string, readEmails: string[]
         fileId: rootFolder.data.id,
         requestBody: {
           type: 'user',
-          role:'reader',
+          role: 'reader',
           emailAddress: userEmail,
         },
         fields: 'id',
@@ -506,7 +507,7 @@ async function createUserDataroom(ctx: any, userId: string, readEmails: string[]
         fileId: rootFolder.data.id,
         requestBody: {
           type: 'user',
-          role:'writer',
+          role: 'writer',
           emailAddress: userEmail,
         },
         fields: 'id',
@@ -519,7 +520,7 @@ async function createUserDataroom(ctx: any, userId: string, readEmails: string[]
       .set({ dataRoomLink: rootFolder.data.webViewLink })
       .where(eq(users.userId, userId));
 
-      return rootFolder.data.webViewLink;
+    return rootFolder.data.webViewLink;
   } catch (error) {
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",

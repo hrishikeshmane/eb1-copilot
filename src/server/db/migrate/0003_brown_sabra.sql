@@ -1,0 +1,1 @@
+ALTER TABLE `eb1-copilot_users` ADD `comments` blob;

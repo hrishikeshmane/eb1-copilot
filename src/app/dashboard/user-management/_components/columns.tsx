@@ -359,7 +359,7 @@ export const columns: ColumnDef<TransformedUser>[] = [
           },
         });
       const handleAddUserToProgram = async () => {
-        console.log("Selected values:", userProgramForm);
+        // console.log("Selected values:", userProgramForm);
         // validate form
         if (
           !userProgramForm.accountManager ||
