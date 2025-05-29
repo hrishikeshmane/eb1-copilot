@@ -53,7 +53,7 @@ export const users = createTable("users", {
   priorityCallSheduled: integer("priorityCallSheduled", {
     mode: "boolean",
   }).default(false),
-  comments: blob("comments", { mode: "json" }).$type<
+  comments: text("comments", { mode: "json" }).$type<
     { comment: string; timestamp: string; userId: string }[]
   >(),
   // TODO: remove customerPaid and customerType from this table
