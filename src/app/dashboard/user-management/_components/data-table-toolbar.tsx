@@ -13,10 +13,65 @@ import { DatePickerWithRange } from "./date-range-picker";
 import { DateRange } from "react-day-picker";
 import { subDays } from "date-fns";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
+
+const exportToCSV = (table: Table<any>) => {
+  const filteredRows = table.getFilteredRowModel().rows;
+  const csvData = filteredRows.map(row => {
+    const data = row.original;
+    return {
+      "Full Name": `${data.firstName} ${data.lastName}`,
+      "Email": data.emailAddresses,
+      "Created At": data.createdAt.toLocaleDateString(),
+      "Contact": data.phone || 'none',
+      "On Boarded": data.onBoarded ? 'Yes' : 'No',
+      "Priority Call Scheduled": data.priorityCallSheduled ? 'Yes' : 'No',
+      "Role": data.role
+    };
+  });
+
+  if (csvData.length === 0) {
+    toast.error("No data to export");
+    return;
+  }
+
+  const headers = [
+    "Full Name",
+    "Email",
+    "Created At",
+    "Contact",
+    "On Boarded",
+    "Priority Call Scheduled",
+    "Role"
+  ];
+
+  const csvString = [
+    headers.join(','),
+    ...csvData.map(row => [
+      row["Full Name"],
+      row["Email"],
+      row["Created At"],
+      row["Contact"],
+      row["On Boarded"],
+      row["Priority Call Scheduled"],
+      row["Role"]
+    ].map(value => `"${value}"`).join(','))
+  ].join('\n');
+
+  const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'user_data.csv');
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
 export function DataTableToolbar<TData>({
   table,
@@ -89,7 +144,16 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <div className="flex items-center space-x-2">
+        <Button
+          variant="outline"
+          onClick={() => exportToCSV(table)}
+          className="h-8"
+        >
+          Export to CSV
+        </Button>
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   );
 }
