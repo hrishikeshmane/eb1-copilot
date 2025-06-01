@@ -148,7 +148,7 @@ export function DataTableToolbar<TData>({
         <Button
           variant="outline"
           onClick={() => exportToCSV(table)}
-          className="h-8"
+          className="h-8 text-xs"
         >
           Export to CSV
         </Button>
