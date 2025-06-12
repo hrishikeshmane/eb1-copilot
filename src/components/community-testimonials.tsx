@@ -30,12 +30,6 @@ const reviews = [
     position: "Staff Software Engineer AI/ML.",
   },
   {
-    body: "I was in the H-1B lottery for three years straight and still didn't get selected. Eventually, my company's lawyer asked me if I had any papers or publications. When I said `no`, they discouraged me from pursuing the O-1A path at that time. So I didn't. But then once again my name wasn't picked a fourth time in the H-1B lottery. This time my back was against the wall. That's when I discovered the Unshackled book and eventually the community. The chapter on O-1A in the book gave me confidence that I can build my profile. Within the next 6 months, I did it and got my O-1A approved.",
-    name: "Chinmay J.",
-    img: "https://github.com/hrishikeshmane/unshackled-asstets/blob/main/community/review-avatar/Chinmay%20Jog.png?raw=true",
-    position: "Sr. Machine Learning Engineer",
-  },
-  {
     body: "To me, Unshackled was the starting point of discovering a wealth of community, experiences, and resources that have been a friend through a pretty complex process. From simple tips to accessing others who were in similar boats to always having someone willing to help, the community has been unmatched.",
     name: "Zoya B.",
     img: "https://github.com/hrishikeshmane/unshackled-asstets/blob/main/community/review-avatar/Zoya%20Brar.jpeg?raw=true",

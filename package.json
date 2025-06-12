@@ -73,7 +73,7 @@
     "@trpc/next": "next",
     "@trpc/react-query": "next",
     "@trpc/server": "next",
-    "@uploadthing/react": "^6.5.4",
+    "@uploadthing/react": "^7.3.1",
     "@vercel/analytics": "^1.2.2",
     "@vercel/speed-insights": "^1.0.10",
     "ai": "^3.4.33",
@@ -125,7 +125,7 @@
     "svix": "^1.21.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
-    "uploadthing": "^6.10.4",
+    "uploadthing": "^7.7.2",
     "vaul": "^0.9.0",
     "zod": "^3.22.4",
     "zustand": "^4.5.2"
