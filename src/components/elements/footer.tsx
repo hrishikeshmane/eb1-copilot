@@ -216,12 +216,12 @@ const Footer = () => {
           </div>
         </div> */}
         <p className="mx-auto w-full py-2 text-center text-xs text-muted-foreground">
-          Disclaimer: The information provided by EB1A Experts is for
-          educational and informational purposes only. While we strive to offer
-          valuable insights, we do not provide legal advice or representation
-          before U.S. immigration authorities. Decisions related to immigration
-          should be based on individual circumstances, and seeking professional
-          legal advice may be beneficial where needed.
+          Disclaimer: Greencard Inc is not a law firm and does not provide legal
+          advice. All content on our platform—including programs, webinars,
+          emails, and documents—is for general informational purposes only.
+          Participating in Greencard Inc does not create an attorney-client
+          relationship. For legal matters, please consult a qualified
+          immigration attorney or official U.S. government resources.
         </p>
       </div>
     </footer>
