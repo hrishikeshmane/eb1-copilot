@@ -13,12 +13,14 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 import { type VISA_PILLARS_EX } from "@/lib/constants";
+
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
  * database instance for multiple projects.
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
+
 export const createTable = sqliteTableCreator((name) => `eb1-copilot_${name}`);
 
 export const waitlist = createTable("waitlist", {
