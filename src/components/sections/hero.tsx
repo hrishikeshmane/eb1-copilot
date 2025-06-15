@@ -175,7 +175,7 @@ export default function Hero({ v2 }: { v2?: boolean }) {
         />
       </div>
       <div className="relative z-10 flex w-full flex-col items-center justify-start px-4 pt-20 sm:px-6 sm:pt-24 md:pt-20 lg:px-8">
-        <HeroPill />
+        {/* <HeroPill /> */}
         {!v2 && (
           <HeroTitles
             heading={["Your", "Green Card", "Dream,", "Now", "Within", "Reach"]}

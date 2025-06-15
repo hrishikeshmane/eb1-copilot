@@ -25,7 +25,10 @@ import Script from "next/script";
 export default function Home() {
   return (
     <main>
-      <Script src='https://data.processwebsitedata.com/cscripts/5QdCk4b6kt-9f2308be.js' strategy="lazyOnload" />
+      <Script
+        src="https://data.processwebsitedata.com/cscripts/5QdCk4b6kt-9f2308be.js"
+        strategy="lazyOnload"
+      />
       <Header />
       <Link
         target="_blank"
@@ -38,13 +41,13 @@ export default function Home() {
       </Link>
       <Banner />
       <Hero v2 />
-      <Logos />
+      {/* <Logos /> */}
       {/* <Introducing /> */}
       <Problem v2 />
-      <Solution v2 />
+      {/* <Solution v2 /> */}
       {/* <HowItWorks v2 /> */}
       {/* <TestimonialsCarousel /> */}
-      <HowItWorks v2 />
+      {/* <HowItWorks v2 /> */}
       {/* <Features v2 /> */}
       {/* <Testimonials /> */}
       {/* <CommunityTestimonials /> */}

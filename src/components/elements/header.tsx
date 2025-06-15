@@ -120,26 +120,12 @@ const Header = () => {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <NavigationMenu>
+        {/* <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4">
-                  {/* <li>
-                    <Link
-                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                      href="https://www.unshackled.club/community"
-                      target="_blank"
-                    >
-                      <div className="text-sm font-medium leading-none">
-                        Community
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Join our vibrant community of ambitious immigrants
-                      </p>
-                    </Link>
-                  </li> */}
                   <li>
                     <Link
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
@@ -173,7 +159,7 @@ const Header = () => {
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
-        </NavigationMenu>
+        </NavigationMenu> */}
 
         {/* <NavigationMenu>
           <NavigationMenuList>
@@ -221,6 +207,19 @@ const Header = () => {
             Get EB1 Support
           </div>
         </Link> */}
+        <Link
+          className="block cursor-pointer select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+          href="http://go.readunshackled.com/gci-uac"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="text-sm font-medium leading-none">
+            [NEW] Conference
+          </div>
+          {/* <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Attend our upcoming conference
+                      </p> */}
+        </Link>
         <Link
           className="block cursor-pointer select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
           href="https://www.unshackled.club/community"
@@ -293,13 +292,13 @@ const Header = () => {
                 >
                   [NEW] Conference
                 </Link>
-                <Link
+                {/* <Link
                   className="block py-1 pl-2 text-sm text-muted-foreground hover:text-foreground"
                   href="https://www.unshackled.club/marketplace"
                   target="_blank"
                 >
                   [NEW] Marketplace
-                </Link>
+                </Link> */}
               </div>
 
               <Separator />

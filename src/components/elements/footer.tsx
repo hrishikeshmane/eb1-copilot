@@ -216,7 +216,12 @@ const Footer = () => {
           </div>
         </div> */}
         <p className="mx-auto w-full py-2 text-center text-xs text-muted-foreground">
-          Disclaimer: Greencard Inc is not a law firm and does not provide legal advice. All content on our platform—including programs, webinars, emails, and documents—is for general informational purposes only. Participating in Greencard Inc does not create an attorney-client relationship. For legal matters, please consult a qualified immigration attorney or official U.S. government resources.
+          Disclaimer: Greencard Inc is not a law firm and does not provide legal
+          advice. All content on our platform—including programs, webinars,
+          emails, and documents—is for general informational purposes only.
+          Participating in Greencard Inc does not create an attorney-client
+          relationship. For legal matters, please consult a qualified
+          immigration attorney or official U.S. government resources.
         </p>
       </div>
     </footer>
