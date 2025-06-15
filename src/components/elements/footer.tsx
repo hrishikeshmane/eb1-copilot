@@ -69,7 +69,7 @@ const Footer = () => {
                     Facebook
                   </Link>
                 </li>
-                <li className="mb-4">
+                {/* <li className="mb-4">
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
@@ -78,7 +78,7 @@ const Footer = () => {
                   >
                     Twitter
                   </Link>
-                </li>
+                </li> */}
                 <li className="mb-4">
                   <Link
                     target="_blank"
@@ -89,7 +89,7 @@ const Footer = () => {
                     Instagram
                   </Link>
                 </li>
-                <li className="mb-4">
+                {/* <li className="mb-4">
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
@@ -98,7 +98,7 @@ const Footer = () => {
                   >
                     Youtube
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div>
