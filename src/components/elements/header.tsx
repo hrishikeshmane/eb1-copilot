@@ -292,13 +292,13 @@ const Header = () => {
                 >
                   [NEW] Conference
                 </Link>
-                <Link
+                {/* <Link
                   className="block py-1 pl-2 text-sm text-muted-foreground hover:text-foreground"
                   href="https://www.unshackled.club/marketplace"
                   target="_blank"
                 >
                   [NEW] Marketplace
-                </Link>
+                </Link> */}
               </div>
 
               <Separator />
