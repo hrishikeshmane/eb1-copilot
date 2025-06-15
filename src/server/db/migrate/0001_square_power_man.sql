@@ -10,13 +10,13 @@ CREATE TABLE `eb1-copilot_customerDetails` (
 	FOREIGN KEY (`userId`) REFERENCES `eb1-copilot_users`(`userId`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`accountManager`) REFERENCES `eb1-copilot_users`(`userId`) ON UPDATE no action ON DELETE restrict,
 	FOREIGN KEY (`researchAssistant`) REFERENCES `eb1-copilot_users`(`userId`) ON UPDATE no action ON DELETE restrict
-);
+); 
 --> statement-breakpoint
 CREATE TABLE `eb1-copilot_masterList` (
 	`id` text PRIMARY KEY NOT NULL,
 	`title` text(256) NOT NULL,
 	`description` text(2000) NOT NULL
-);
+);       
 --> statement-breakpoint
 CREATE TABLE `eb1-copilot_masterListTickets` (
 	`ticketId` text(256) PRIMARY KEY NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `eb1-copilot_ticket_tags` (
 	PRIMARY KEY(`tagId`, `ticketId`),
 	FOREIGN KEY (`ticketId`) REFERENCES `eb1-copilot_tickets`(`ticketId`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`tagId`) REFERENCES `eb1-copilot_tags`(`tagId`) ON UPDATE no action ON DELETE cascade
-);
+); 
 --> statement-breakpoint
 ALTER TABLE `eb1-copilot_tickets` ADD `masterTickedId` text(256) DEFAULT null;--> statement-breakpoint
 ALTER TABLE `eb1-copilot_tickets` ADD `dueDate` blob DEFAULT null;--> statement-breakpoint
