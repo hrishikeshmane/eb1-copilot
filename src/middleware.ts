@@ -5,6 +5,12 @@ import { type NextRequest, NextResponse } from "next/server";
 // import { redirectToSignIn } from "@clerk/nextjs/server";
 
 export default authMiddleware({
+  beforeAuth: (req) => {
+    const pathname = req.nextUrl.pathname;
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL("/dashboard", req.nextUrl.origin));
+    }
+  },
   afterAuth: (auth, req) => {
     const pathname = req.nextUrl.pathname;
     if (auth.isPublicRoute || pathname.startsWith("/studio")) {
