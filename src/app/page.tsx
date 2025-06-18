@@ -43,7 +43,7 @@ export default function Home() {
       <Hero v2 />
       {/* <Logos /> */}
       {/* <Introducing /> */}
-      <Problem v2 />
+      {/* <Problem v2 /> */}
       {/* <Solution v2 /> */}
       {/* <HowItWorks v2 /> */}
       {/* <TestimonialsCarousel /> */}
