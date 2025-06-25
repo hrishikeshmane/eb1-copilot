@@ -50,7 +50,7 @@ function HeroTitles({
   subHeading,
 }: {
   heading: string[];
-  subHeading: string;
+  subHeading?: string;
 }) {
   return (
     <div className="flex w-full max-w-3xl flex-col space-y-4 overflow-hidden pt-8">
@@ -80,18 +80,20 @@ function HeroTitles({
           </motion.span>
         ))}
       </motion.h1>
-      <motion.p
-        className="mx-auto max-w-2xl text-center text-lg leading-7 text-muted-foreground sm:text-xl sm:leading-9"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          delay: 0.6,
-          duration: 0.8,
-          ease,
-        }}
-      >
-        {subHeading}
-      </motion.p>
+      {subHeading && (
+        <motion.p
+          className="mx-auto max-w-2xl text-center text-lg leading-7 text-muted-foreground sm:text-xl sm:leading-9"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.6,
+            duration: 0.8,
+            ease,
+          }}
+        >
+          {subHeading}
+        </motion.p>
+      )}
     </div>
   );
 }
@@ -115,7 +117,7 @@ export function HeroCTA({ showBookCall }: { showBookCall?: boolean }) {
           Dashboard
           <ArrowRightIcon className="transform transition-transform duration-200 ease-in-out group-hover:translate-x-1" />
         </Link> */}
-        <GetStartedButton />
+        {/* <GetStartedButton /> */}
         {!!showBookCall && (
           <Link
             href="https://go.greencard.inc/evaluation"
@@ -195,7 +197,6 @@ export default function Hero({ v2 }: { v2?: boolean }) {
               "With",
               "Ease",
             ]}
-            subHeading="From strategy to execution, we streamline every step of the immigration process - helping families, professionals, and businesses achieve their American dreams with confidence"
           />
         )}
         <HeroCTA showBookCall={true} />
