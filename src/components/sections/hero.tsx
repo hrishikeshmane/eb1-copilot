@@ -185,7 +185,16 @@ export default function Hero({ v2 }: { v2?: boolean }) {
         )}
         {!!v2 && (
           <HeroTitles
-            heading={["Your", "Trusted", "Partner", "In", "US", "Immigration"]}
+            heading={[
+              "Navigate",
+              "Your",
+              "Life",
+              "In",
+              "The",
+              "U.S",
+              "With",
+              "Ease",
+            ]}
             subHeading="From strategy to execution, we streamline every step of the immigration process - helping families, professionals, and businesses achieve their American dreams with confidence"
           />
         )}
