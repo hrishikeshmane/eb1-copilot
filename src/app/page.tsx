@@ -30,7 +30,7 @@ export default function Home() {
         strategy="lazyOnload"
       />
       <Header />
-      <Link
+      {/* <Link
         target="_blank"
         rel="noopener noreferrer"
         href="http://go.readunshackled.com/unshackled-uac"
@@ -38,7 +38,7 @@ export default function Home() {
       >
         Attend the LARGEST conference for high-skilled immigrants in America
         [Aug 15-16, 2025]
-      </Link>
+      </Link> */}
       <Banner />
       <Hero v2 />
       {/* <Logos /> */}
@@ -202,7 +202,7 @@ export default function Home() {
           </div>
         </div>
       </section> */}
-      <CTA />
+      {/* <CTA /> */}
       <Footer />
     </main>
   );

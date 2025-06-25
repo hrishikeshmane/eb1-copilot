@@ -52,7 +52,13 @@ const Header = () => {
       <Logo />
 
       <div className="ml-8 hidden gap-4 text-sm sm:flex">
-        <NavigationMenu>
+        <Link
+          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+          href="/blog"
+        >
+          <div className="text-sm font-medium leading-none">Resources</div>
+        </Link>
+        {/* <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Learn</NavigationMenuTrigger>
@@ -118,7 +124,7 @@ const Header = () => {
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
-        </NavigationMenu>
+        </NavigationMenu> */}
 
         {/* <NavigationMenu>
           <NavigationMenuList>
@@ -207,7 +213,7 @@ const Header = () => {
             Get EB1 Support
           </div>
         </Link> */}
-        <Link
+        {/* <Link
           className="block cursor-pointer select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
           href="http://go.readunshackled.com/gci-uac"
           target="_blank"
@@ -216,20 +222,15 @@ const Header = () => {
           <div className="text-sm font-medium leading-none">
             [NEW] Conference
           </div>
-          {/* <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Attend our upcoming conference
-                      </p> */}
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           className="block cursor-pointer select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
           href="https://www.unshackled.club/community"
           target="_blank"
         >
           <div className="text-sm font-medium leading-none">Community</div>
-          {/* <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            Join our vibrant community of ambitious immigrants
-          </p> */}
-        </Link>
+
+        </Link> */}
       </div>
 
       <div className="ml-auto hidden items-center space-x-4 sm:flex">
@@ -249,8 +250,15 @@ const Header = () => {
             <nav className="grid gap-2 text-lg font-medium">
               <Logo />
               <Separator />
+              <Link
+                className="block py-1 pl-2 text-muted-foreground hover:text-foreground"
+                href="/blog"
+                target="_blank"
+              >
+                Resources
+              </Link>
 
-              <div className="py-2">
+              {/* <div className="py-2">
                 <h3 className="mb-1 font-semibold">Learn</h3>
                 <Link
                   className="block py-1 pl-2 text-sm text-muted-foreground hover:text-foreground"
@@ -271,12 +279,12 @@ const Header = () => {
                 >
                   Join a Webinar
                 </Link>
-              </div>
+              </div> */}
 
-              <Separator />
+              {/* <Separator /> */}
 
               <div className="py-2">
-                <h3 className="mb-1 font-semibold">Explore</h3>
+                {/* <h3 className="mb-1 font-semibold">Explore</h3>
                 <Link
                   className="block py-1 pl-2 text-sm text-muted-foreground hover:text-foreground"
                   href="https://www.unshackled.club/community"
@@ -291,7 +299,7 @@ const Header = () => {
                   rel="noopener noreferrer"
                 >
                   [NEW] Conference
-                </Link>
+                </Link> */}
                 {/* <Link
                   className="block py-1 pl-2 text-sm text-muted-foreground hover:text-foreground"
                   href="https://www.unshackled.club/marketplace"
