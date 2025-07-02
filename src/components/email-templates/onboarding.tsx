@@ -81,7 +81,7 @@ export const OnboardingEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 <Column>Major: {userPersonalInfo.major}</Column>
               </Row>
               <Row className="py-1">
-                <Column>Brith Country: {userPersonalInfo.brithCountry}</Column>
+                <Column>Birth Country: {userPersonalInfo.brithCountry}</Column>
               </Row>
               <Row className="py-1">
                 <Column>

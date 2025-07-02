@@ -144,7 +144,7 @@ const CustomerInfoDetails = ({ userId }: { userId: string }) => {
         />
         <CustomerInfoFields label="Major" value={userData.major} />
         <CustomerInfoFields
-          label="Brith Country"
+          label="Birth Country"
           value={userData.brithCountry}
         />
         <CustomerInfoFields

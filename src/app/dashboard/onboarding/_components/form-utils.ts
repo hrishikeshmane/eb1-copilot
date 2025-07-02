@@ -45,7 +45,7 @@ export const formSchema = z.object({
       message: "Your Major is required.",
     })
     .max(50, { message: "Your Major should be less than 50 characters." }),
-  brithCountry: z
+  birthCountry: z
     .string()
     .min(2, {
       message: "Your Birth Country is required.",
@@ -576,7 +576,7 @@ export const steps: Step[] = [
       "linkedIn",
       "highestEducation",
       "major",
-      "brithCountry",
+      "birthCountry",
       "nationalityCountry",
       "hearAboutUs",
       "resumeUrl",

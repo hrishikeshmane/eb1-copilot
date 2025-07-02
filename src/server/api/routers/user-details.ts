@@ -41,7 +41,7 @@ export const userDetailsRouter = createTRPCRouter({
               linkedIn: input.formData.linkedIn,
               highestEducation: input.formData.highestEducation,
               major: input.formData.major,
-              brithCountry: input.formData.brithCountry,
+              brithCountry: input.formData.birthCountry,
               nationalityCountry: input.formData.nationalityCountry,
               hearAboutUs: input.formData.hearAboutUs,
               resumeUrl: input.formData.resumeUrl,

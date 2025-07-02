@@ -166,7 +166,7 @@ const PersonalInfoForm = ({ form }: SubFormProps) => {
       <li className="col-span-1">
         <FormField
           control={form.control}
-          name="brithCountry"
+          name="birthCountry"
           render={({ field }) => (
             <FormItem className="flex h-full flex-col justify-between">
               <FormLabel>

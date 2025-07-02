@@ -86,7 +86,7 @@ const UserInfoDetails = () => {
           value={userData.highestEducation}
         />
         <UserInfoFields label="Major" value={userData.major} />
-        <UserInfoFields label="Brith Country" value={userData.brithCountry} />
+        <UserInfoFields label="Birth Country" value={userData.brithCountry} />
         <UserInfoFields
           label="Nationality Country"
           value={userData.nationalityCountry}

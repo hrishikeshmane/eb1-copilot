@@ -46,7 +46,7 @@ const OnboardingPage = () => {
       linkedIn: "" as FormType["linkedIn"],
       highestEducation: "" as FormType["highestEducation"],
       major: "" as FormType["major"],
-      brithCountry: "" as FormType["brithCountry"],
+      birthCountry: "" as FormType["birthCountry"],
       nationalityCountry: "" as FormType["nationalityCountry"],
       hearAboutUs: "" as FormType["hearAboutUs"],
       resumeUrl: undefined,
