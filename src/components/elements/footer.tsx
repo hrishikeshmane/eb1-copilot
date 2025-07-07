@@ -9,12 +9,12 @@ const Footer = () => {
         <div className="md:flex md:justify-between">
           <div className="mb-6 flex flex-col gap-2 md:mb-0">
             <Logo />
-            <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
+            {/* <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
               3100 Mowry Ave, Fremont, CA 94538
-            </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
+            </span> */}
+            {/* <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-left">
               info@greencard.inc | +1 (415) 654-0685
-            </span>
+            </span> */}
             <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
               © {`${new Date().getUTCFullYear()} `}
               <Link href="https://greencard.inc/" className="hover:underline">
@@ -24,7 +24,7 @@ const Footer = () => {
             </span>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-6">
-            <div>
+            {/* <div>
               <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
                 Resources
               </h2>
@@ -43,42 +43,12 @@ const Footer = () => {
                   </Link>
                 </li>
               </ul>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
                 Follow us
               </h2>
               <ul className="font-medium text-gray-500 dark:text-gray-400">
-                <li className="mb-4">
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://www.linkedin.com/company/greencardinc"
-                    className="hover:underline "
-                  >
-                    LinkedIn
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://www.facebook.com/greencardinc/"
-                    className="hover:underline "
-                  >
-                    Facebook
-                  </Link>
-                </li>
-                {/* <li className="mb-4">
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://x.com/greencard_inc"
-                    className="hover:underline "
-                  >
-                    Twitter
-                  </Link>
-                </li> */}
                 <li className="mb-4">
                   <Link
                     target="_blank"
@@ -89,18 +59,8 @@ const Footer = () => {
                     Instagram
                   </Link>
                 </li>
-                {/* <li className="mb-4">
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://www.youtube.com/@Greencard-inc"
-                    className="hover:underline "
-                  >
-                    Youtube
-                  </Link>
-                </li> */}
               </ul>
-            </div>
+            </div> */}
             <div>
               <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
                 Legal
