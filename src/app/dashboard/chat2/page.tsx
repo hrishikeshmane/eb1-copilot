@@ -8,35 +8,38 @@ import { Thread } from "@/components/assistant-ui/thread";
 import { api } from "@/trpc/react";
 import Loader from "@/components/elements/loader";
 import { useVercelUseChatRuntime } from "@assistant-ui/react-ai-sdk";
-import { RecommenderDetailsForm } from "./_components/details-form";
+import { RecommenderDetailsForm } from "./_components/recommender-details-form";
 import { GeneratedLetter } from "./_components/generated-letter";
+import { CreateTicketForm } from "./_components/create-ticket-form";
 
-// Tool UI for getRecommenderDetails
 const GetRecommenderDetailsToolUI = makeAssistantToolUI<
   { purpose: string },
   any
 >({
   toolName: "getRecommenderDetails",
-  render: ({ args, addResult }) => (
-    <RecommenderDetailsForm purpose={args.purpose} addResult={addResult} />
-  ),
+  render: (props) => <RecommenderDetailsForm {...props} />,
 });
 
-// Tool UI for generateRecommendationLetter
 const GenerateRecommendationLetterToolUI = makeAssistantToolUI<
   any,
   { content: string; recommenderDetails: any; userInfo: any; userPillars: any }
 >({
   toolName: "generateRecommendationLetter",
-  render: ({ result }) =>
-    result ? (
-      <GeneratedLetter
-        content={result.content}
-        recommenderDetails={result.recommenderDetails}
-        userInfo={result.userInfo}
-        userPillars={result.userPillars}
-      />
-    ) : null,
+  render: (props) => <GeneratedLetter {...props} />,
+});
+
+const CreateBacklogTicketToolUI = makeAssistantToolUI<
+  {
+    title: string;
+    description?: string;
+    pillars?: string[];
+    dueDate?: string;
+    assigneeId?: string;
+  },
+  { success: boolean; ticketId?: string }
+>({
+  toolName: "createBacklogTicket",
+  render: (props) => <CreateTicketForm {...props} />,
 });
 
 export default function ChatPage() {
@@ -59,6 +62,7 @@ export default function ChatPage() {
       <AssistantRuntimeProvider runtime={runtime}>
         <GetRecommenderDetailsToolUI />
         <GenerateRecommendationLetterToolUI />
+        <CreateBacklogTicketToolUI />
         <Thread />
       </AssistantRuntimeProvider>
     </div>

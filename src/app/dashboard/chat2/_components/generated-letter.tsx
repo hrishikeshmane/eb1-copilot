@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,30 +9,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Download, Edit, CheckCircle2 } from "lucide-react";
+import { Download, Edit, CheckCircle2 } from "lucide-react";
 
 interface GeneratedLetterProps {
-  content: string;
-  recommenderDetails: any;
-  userInfo: any;
-  userPillars: any;
+  result?: { content: string; recommenderDetails: any };
 }
 
-export function GeneratedLetter({
-  content,
-  recommenderDetails,
-}: GeneratedLetterProps) {
-  const [copied, setCopied] = useState(false);
+export function GeneratedLetter({ result }: GeneratedLetterProps) {
+  if (!result) return null;
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(content);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
-    }
-  };
+  const { content, recommenderDetails } = result;
 
   const downloadLetter = () => {
     const blob = new Blob([content], { type: "text/plain" });
@@ -73,10 +58,6 @@ export function GeneratedLetter({
 
         {/* Actions */}
         <div className="flex flex-wrap gap-2">
-          <Button onClick={copyToClipboard} variant="outline" size="sm">
-            <Copy className="mr-2 h-4 w-4" />
-            {copied ? "Copied!" : "Copy Text"}
-          </Button>
           <Button onClick={downloadLetter} variant="outline" size="sm">
             <Download className="mr-2 h-4 w-4" />
             Download

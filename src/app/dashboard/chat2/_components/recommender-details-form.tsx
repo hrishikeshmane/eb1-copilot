@@ -14,12 +14,12 @@ import {
 } from "@/components/ui/card";
 
 interface RecommenderDetailsFormProps {
-  purpose: string;
+  args: { purpose: string };
   addResult: (result: any) => void;
 }
 
 export function RecommenderDetailsForm({
-  purpose,
+  args,
   addResult,
 }: RecommenderDetailsFormProps) {
   const [formData, setFormData] = useState({
@@ -71,7 +71,7 @@ export function RecommenderDetailsForm({
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <CardTitle>Recommender Details</CardTitle>
-        <CardDescription>{purpose}</CardDescription>
+        <CardDescription>{args.purpose}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
