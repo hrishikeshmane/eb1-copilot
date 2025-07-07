@@ -17,7 +17,6 @@ import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { type Metadata } from "next";
-import Head from "next/head";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -64,9 +63,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <GoogleTagManager gtmId="GTM-WW2M6M6C" />
-      <Head>
+      <head>
         <meta name="robots" content="index, follow" />
-      </Head>
+      </head>
       <body
         className={`min-w-screen min-h-screen bg-background font-sans antialiased ${inter.variable}`}
       >

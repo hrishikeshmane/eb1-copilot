@@ -1,11 +1,43 @@
 "use client";
 import { useChat } from "ai/react";
-import { useEdgeRuntime, AssistantRuntimeProvider } from "@assistant-ui/react";
+import {
+  AssistantRuntimeProvider,
+  makeAssistantToolUI,
+} from "@assistant-ui/react";
 import { Thread } from "@/components/assistant-ui/thread";
 import { api } from "@/trpc/react";
 import Loader from "@/components/elements/loader";
 import { useVercelUseChatRuntime } from "@assistant-ui/react-ai-sdk";
-import { nanoid } from "nanoid";
+import { RecommenderDetailsForm } from "./_components/details-form";
+import { GeneratedLetter } from "./_components/generated-letter";
+
+// Tool UI for getRecommenderDetails
+const GetRecommenderDetailsToolUI = makeAssistantToolUI<
+  { purpose: string },
+  any
+>({
+  toolName: "getRecommenderDetails",
+  render: ({ args, addResult }) => (
+    <RecommenderDetailsForm purpose={args.purpose} addResult={addResult} />
+  ),
+});
+
+// Tool UI for generateRecommendationLetter
+const GenerateRecommendationLetterToolUI = makeAssistantToolUI<
+  any,
+  { content: string; recommenderDetails: any; userInfo: any; userPillars: any }
+>({
+  toolName: "generateRecommendationLetter",
+  render: ({ result }) =>
+    result ? (
+      <GeneratedLetter
+        content={result.content}
+        recommenderDetails={result.recommenderDetails}
+        userInfo={result.userInfo}
+        userPillars={result.userPillars}
+      />
+    ) : null,
+});
 
 export default function ChatPage() {
   const userInfo = api.userDetails.getUserInfo.useQuery();
@@ -14,20 +46,6 @@ export default function ChatPage() {
   const chat = useChat({
     api: "/api/chat",
     body: { userInfo: userInfo.data, userPillars: userPillars.data },
-    //   initialMessages: [
-    //     {
-    //       id: nanoid(),
-    //       role: "system",
-    //       content: `You are an AI assistant helping users with their US talent visa journey. Remember to keep you responses concise.
-    // Here are the user details:
-    // ${JSON.stringify(userInfo.data, null, 2)}
-
-    // And here are the user's achievements:
-    // ${JSON.stringify(userPillars.data, null, 2)}
-
-    // Use this information to provide personalized responses to the user's questions about their visa journey, recommendations, or any other related queries.`,
-    //     },
-    //   ],
   });
 
   const runtime = useVercelUseChatRuntime(chat);
@@ -39,10 +57,9 @@ export default function ChatPage() {
   return (
     <div className="mx-auto -mt-4 flex h-[calc(100vh-4rem)] flex-col">
       <AssistantRuntimeProvider runtime={runtime}>
-        <Thread
-        // runtime={runtime}
-        // assistantMessage={{ components: { Text: MarkdownText } }}
-        />
+        <GetRecommenderDetailsToolUI />
+        <GenerateRecommendationLetterToolUI />
+        <Thread />
       </AssistantRuntimeProvider>
     </div>
   );
