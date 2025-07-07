@@ -75,7 +75,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
 import Link from "next/link";
-import { TicektDatePicker } from "@/app/dashboard/builder/_components/ticket-date-picker-button";
+import { TicketDatePicker } from "@/app/dashboard/builder/_components/ticket-date-picker-button";
 import { format } from "date-fns";
 import Loader from "./loader";
 import {
@@ -988,7 +988,7 @@ export const TicketSheet = ({
 
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Due Date:</p>
-                <TicektDatePicker
+                <TicketDatePicker
                   isInteractable={!isVendor}
                   ticketDueDate={ticketDueDate}
                   setTicketDueDate={setTicketDueDate}

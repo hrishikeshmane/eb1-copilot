@@ -30,7 +30,7 @@ import {
 import { ISelectComment, type ISelectTickets } from "@/server/db/schema";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@clerk/nextjs";
-import { TicektDatePicker } from "./ticket-date-picker-button";
+import { TicketDatePicker } from "./ticket-date-picker-button";
 import { Input } from "@/components/ui/input";
 import { Send, SendHorizonal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -180,7 +180,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
 
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Due Date:</p>
-                <TicektDatePicker
+                <TicketDatePicker
                   isInteractable={true}
                   ticketDueDate={ticketDueDate}
                   setTicketDueDate={setTicketDueDate}

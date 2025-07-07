@@ -4,39 +4,47 @@ import { api } from "@/trpc/react";
 import { Button } from "@/components/ui/button";
 import PillarButton from "../../builder/_components/pillar-button";
 import { Input } from "@/components/ui/input";
-import { TicektDatePicker } from "../../builder/_components/ticket-date-picker-button";
+import { TicketDatePicker } from "../../builder/_components/ticket-date-picker-button";
 import { toast } from "sonner";
+import TagsButton from "../../builder/_components/tags-button";
+import { ITag } from "@/server/db/schema";
 
 interface CreateTicketFormProps {
   args: {
-    title: string;
-    description?: string;
-    pillars?: string[];
-    dueDate?: string;
-    assigneeId?: string;
+    ticket: {
+      title: string;
+      description?: string;
+      pillars?: string[];
+      dueDate?: string;
+    };
   };
   addResult: (result: { success: boolean; ticketId?: string }) => void;
   status: { type: string };
 }
 
-export function CreateTicketForm({
-  args,
-  addResult,
-  status,
-}: CreateTicketFormProps) {
+export function CreateTicketForm(props: CreateTicketFormProps) {
+  const { args, addResult, status } = props;
+  console.log("args", args);
+  console.log("status", status);
+  console.log("addResult", addResult);
+
   const [pillars, setPillars] = useState<IPillars[]>(
-    args.pillars
-      ? visaPillars.filter((p) => args.pillars?.includes(p.value))
+    args.ticket.pillars
+      ? visaPillars.filter((p) => args.ticket.pillars?.includes(p.value))
       : [],
   );
+  const [tags, setTags] = useState<ITag[]>([]);
   const [dueDate, setDueDate] = useState<Date | undefined>(
-    args.dueDate ? new Date(args.dueDate) : undefined,
+    args.ticket.dueDate ? new Date(args.ticket.dueDate) : undefined,
   );
-  const [assigneeId, setAssigneeId] = useState<string | undefined>(
-    args.assigneeId,
+  const [assigneeId, setAssigneeId] = useState<string | undefined>(undefined);
+  const [title, setTitle] = useState<string>(args.ticket.title);
+  const [description, setDescription] = useState<string>(
+    args.ticket.description || "",
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const { data: allTags } = api.tag.getAllAvailableTags.useQuery();
   const addTicket = api.kanban.addTicket.useMutation({
     onSuccess: (data) => {
       toast.success("Ticket created!");
@@ -48,18 +56,30 @@ export function CreateTicketForm({
     },
   });
 
-  const canSubmit = !!(args.title && pillars.length > 0 && !isSubmitting);
+  const canSubmit = !!(
+    args.ticket.title &&
+    pillars.length > 0 &&
+    !isSubmitting
+  );
 
   return (
     <div className="mx-auto max-w-lg rounded border bg-white p-4">
       <h3 className="mb-2 text-lg font-bold">Create Ticket</h3>
       <div className="mb-2">
         <label className="block font-medium">Title</label>
-        <Input value={args.title} disabled className="w-full" />
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full"
+        />
       </div>
       <div className="mb-2">
         <label className="block font-medium">Description</label>
-        <Input value={args.description || ""} disabled className="w-full" />
+        <Input
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full"
+        />
       </div>
       <div className="mb-2">
         <label className="block font-medium">
@@ -73,8 +93,18 @@ export function CreateTicketForm({
         />
       </div>
       <div className="mb-2">
+        <label className="block font-medium">Tags</label>
+        <TagsButton
+          selectedTags={tags}
+          setSelectedTags={setTags}
+          disabled={false}
+          isInteractable={true}
+          availableTags={allTags}
+        />
+      </div>
+      <div className="mb-2">
         <label className="block font-medium">Due Date</label>
-        <TicektDatePicker
+        <TicketDatePicker
           ticketDueDate={dueDate}
           setTicketDueDate={setDueDate}
           isInteractable={true}
@@ -86,8 +116,8 @@ export function CreateTicketForm({
         onClick={() => {
           setIsSubmitting(true);
           addTicket.mutate({
-            title: args.title,
-            description: args.description,
+            title: args.ticket.title,
+            description: args.ticket.description,
             customerId: "123",
             pillars: pillars.map((p) => p.value),
             column: "backlog",

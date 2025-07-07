@@ -1,3 +1,4 @@
+import { visaPillars } from "@/lib/constants";
 import { openai } from "@ai-sdk/openai";
 import { auth } from "@clerk/nextjs/server";
 import { generateText, streamText, tool } from "ai";
@@ -46,6 +47,9 @@ Use the "getRecommenderDetails" tool to get the recommender details. Then use th
             .string()
             .default(
               "To collect recommender information for generating a personalized Letter of Recommendation",
+            )
+            .describe(
+              "The purpose of collecting the recommender details. This will be used to generate a personalized Letter of Recommendation",
             ),
         }),
         execute: async ({ purpose }) => {
@@ -60,17 +64,36 @@ Use the "getRecommenderDetails" tool to get the recommender details. Then use th
         description:
           "Generate a USCIS-compliant Letter of Recommendation based on user and recommender details",
         parameters: z.object({
-          recommenderDetails: z.object({
-            fullName: z.string(),
-            jobTitle: z.string(),
-            institution: z.string(),
-            field: z.string(),
-            credentials: z.string(),
-            relationship: z.string(),
-            email: z.string().optional(),
-            phone: z.string().optional(),
-          }),
-          additionalContext: z.string().optional(),
+          recommenderDetails: z
+            .object({
+              fullName: z.string().describe("The full name of the recommender"),
+              jobTitle: z.string().describe("The job title of the recommender"),
+              institution: z
+                .string()
+                .describe("The institution of the recommender"),
+              field: z.string().describe("The field of the recommender"),
+              credentials: z
+                .string()
+                .describe("The credentials of the recommender"),
+              relationship: z
+                .string()
+                .describe(
+                  "The relationship between the user and the recommender",
+                ),
+              email: z
+                .string()
+                .optional()
+                .describe("The email of the recommender"),
+              phone: z
+                .string()
+                .optional()
+                .describe("The phone number of the recommender"),
+            })
+            .describe("The details of the recommender"),
+          additionalContext: z
+            .string()
+            .optional()
+            .describe("Additional context for the letter"),
         }),
         execute: async ({ recommenderDetails, additionalContext }) => {
           const letterResult = await generateText({
@@ -142,10 +165,31 @@ A strong closing endorsement of my EB1A petition
       createTicket: tool({
         description: "Create a ticket for the user",
         parameters: z.object({
-          ticket: z.object({
-            title: z.string(),
-            description: z.string(),
-          }),
+          ticket: z
+            .object({
+              title: z.string().describe("The title of the ticket"),
+              description: z.string().describe("The description of the ticket"),
+              visaPillars: z
+                .enum(
+                  visaPillars.map((pillar) => pillar.value) as [
+                    string,
+                    ...string[],
+                  ],
+                )
+                .array()
+                .optional()
+                .describe(
+                  "The pillars of the ticket. If not provided, the ticket will be created with the default pillars",
+                ),
+              dueDate: z
+                .string()
+                .datetime()
+                .optional()
+                .describe(
+                  "The due date of the ticket. If not provided, the ticket will be created with the default due date",
+                ),
+            })
+            .describe("The details of the ticket"),
         }),
         execute: async ({ ticket }) => {
           console.log("ticket", ticket);

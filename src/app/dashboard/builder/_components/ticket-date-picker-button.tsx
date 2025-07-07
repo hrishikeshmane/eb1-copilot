@@ -20,17 +20,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type TicektDatePickerProps = {
+type TicketDatePickerProps = {
   ticketDueDate: Date | undefined;
   setTicketDueDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
   isInteractable: boolean;
 };
 
-export function TicektDatePicker({
+export function TicketDatePicker({
   ticketDueDate,
   setTicketDueDate,
   isInteractable,
-}: TicektDatePickerProps) {
+}: TicketDatePickerProps) {
   return (
     <>
       {isInteractable ? (
