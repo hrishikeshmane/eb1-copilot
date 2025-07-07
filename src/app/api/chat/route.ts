@@ -36,42 +36,7 @@ Use this information to provide personalized responses to the user's questions a
 
 ## Instructions for drafting a Letter of Recommendation
 
-Use the "getRecommenderDetails" tool to get the recommender details. Replace the [Recommender's Full Name], [Recommender's Job Title], [Recommender's Institution/Organization], and [Recommender's Field] with the recommender details.
-
-I am ${userInfo?.username}, and I am an EB1A petition applicant. I need your help drafting a Letter of Recommendation for my case.
-I am getting this LOR from [Recommender's Full Name], who is a [Recommender's Job Title] at [Recommender's Institution/Organization]. They are a well-respected expert in [Recommender's Field], and are known for [Recommender's briefly mention their major credentials, awards, or accomplishments].
-We are connected through [mention how the recommender knows your work — through a collaboration, project, patent analysis, conference, publication review, etc. If they don't know me personally, they've reviewed my publicly available work like patents, books, or research contributions.]
-To make things easier, I am uploading both my profile (CV/resume) and the recommender's profile, along with supporting documents related to my work — including:
-
-Please help me draft a USCIS-compliant Letter of Recommendation in the following format. Maintain a formal, academic tone and keep the length around 2 pages.
-
-✍️ Structure for the Letter of Recommendation:
-✅ First and Second Passages:
-
-Introduce who the recommender is
-How they know me and how they became familiar with my work
-Why they are qualified to assess and endorse my achievements
-If there is no direct collaboration, note that their opinion is based on my public work (patents, presentations, publications, etc.
-
-✅ Third and Fourth Passages:
-
-Use simple, clear language to describe my accomplishments
-Avoid jargon and explain complex ideas like you would to an 8th-grade student
-Include:
-How my work is novel or original
-What existed in the field before
-What impact my work has had (on the field, the public, or institutions)
-Examples of adoption or application of my work
-My role in key projects (especially if collaborative)
-Why my accomplishments are considered rare in the field
-Use real data, examples, or stories when possible to make it human and relatable
-
-✅ Final Passage:
-
-Why my work is important to the U.S.
-What the future impact will be for both the field and the country
-Why my work is of national scope and importance
-A strong closing endorsement of my EB1A petition`,
+Use the "getRecommenderDetails" tool to get the recommender details. Then use the "generateRecommendationLetter" tool to generate a letter with the recommender details.`,
     tools: {
       getRecommenderDetails: tool({
         description:
@@ -108,14 +73,11 @@ A strong closing endorsement of my EB1A petition`,
           additionalContext: z.string().optional(),
         }),
         execute: async ({ recommenderDetails, additionalContext }) => {
-          console.log("recommenderDetails", recommenderDetails);
-          console.log("additionalContext", additionalContext);
-
-          console.log("generating letter");
-
           const letterResult = await generateText({
             model: openai(MODEL),
             prompt: `Generate a USCIS-compliant Letter of Recommendation for an EB1A petition.
+
+Today's date: ${new Date().toLocaleDateString()}
 
 User Details:
 ${JSON.stringify(userInfo, null, 2)}
@@ -129,33 +91,43 @@ ${JSON.stringify(recommenderDetails, null, 2)}
 Additional Context:
 ${additionalContext || "None provided"}
 
-Please draft a formal, academic Letter of Recommendation following this structure:
+I am ${userInfo?.username}, and I am an EB1A petition applicant. I need your help drafting a Letter of Recommendation for my case.
+I am getting this LOR from [Recommender's Full Name], who is a [Recommender's Job Title] at [Recommender's Institution/Organization]. They are a well-respected expert in [Recommender's Field], and are known for [Recommender's briefly mention their major credentials, awards, or accomplishments].
+We are connected through [mention how the recommender knows your work — through a collaboration, project, patent analysis, conference, publication review, etc. If they don't know me personally, they've reviewed my publicly available work like patents, books, or research contributions.]
+To make things easier, I am uploading both my profile (CV/resume) and the recommender's profile, along with supporting documents related to my work — including:
 
+Please help me draft a USCIS-compliant Letter of Recommendation in the following format. Maintain a formal, academic tone and keep the length around 2 pages.
+
+✍️ Structure for the Letter of Recommendation:
 ✅ First and Second Passages:
-- Introduce who the recommender is
-- How they know the applicant and became familiar with their work
-- Why they are qualified to assess and endorse the achievements
-- If no direct collaboration, note opinion is based on public work
+
+Introduce who the recommender is
+How they know me and how they became familiar with my work
+Why they are qualified to assess and endorse my achievements
+If there is no direct collaboration, note that their opinion is based on my public work (patents, presentations, publications, etc.
 
 ✅ Third and Fourth Passages:
-- Use simple, clear language to describe accomplishments
-- Avoid jargon, explain complex ideas simply
-- Include novelty, originality, and impact of the work
-- Examples of adoption or application
-- Role in key projects
-- Why accomplishments are rare in the field
-- Use real data and examples
+
+Use simple, clear language to describe my accomplishments
+Avoid jargon and explain complex ideas like you would to an 8th-grade student
+Include:
+How my work is novel or original
+What existed in the field before
+What impact my work has had (on the field, the public, or institutions)
+Examples of adoption or application of my work
+My role in key projects (especially if collaborative)
+Why my accomplishments are considered rare in the field
+Use real data, examples, or stories when possible to make it human and relatable
 
 ✅ Final Passage:
-- Why the work is important to the U.S.
-- Future impact for the field and country
-- National scope and importance
-- Strong closing endorsement of the EB1A petition
 
-Format as a formal business letter with proper letterhead structure. Keep it around 2 pages in length.`,
+Why my work is important to the U.S.
+What the future impact will be for both the field and the country
+Why my work is of national scope and importance
+A strong closing endorsement of my EB1A petition
+
+**IMPORTANT**: Replace all the placeholders with the recommender details.`,
           });
-
-          console.log(letterResult);
 
           return {
             type: "generated_letter",
@@ -163,6 +135,24 @@ Format as a formal business letter with proper letterhead structure. Keep it aro
             recommenderDetails,
             userInfo,
             userPillars,
+          };
+        },
+      }),
+
+      createTicket: tool({
+        description: "Create a ticket for the user",
+        parameters: z.object({
+          ticket: z.object({
+            title: z.string(),
+            description: z.string(),
+          }),
+        }),
+        execute: async ({ ticket }) => {
+          console.log("ticket", ticket);
+
+          return {
+            type: "generated_ticket",
+            ...ticket,
           };
         },
       }),

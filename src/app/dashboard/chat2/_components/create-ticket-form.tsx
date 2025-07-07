@@ -35,10 +35,8 @@ export function CreateTicketForm({
   const [assigneeId, setAssigneeId] = useState<string | undefined>(
     args.assigneeId,
   );
-  const [confirm, setConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const userInfo = api.userDetails.getUserInfo.useQuery();
   const addTicket = api.kanban.addTicket.useMutation({
     onSuccess: (data) => {
       toast.success("Ticket created!");
@@ -50,25 +48,7 @@ export function CreateTicketForm({
     },
   });
 
-  const canSubmit = !!(
-    args.title &&
-    pillars.length > 0 &&
-    userInfo.data &&
-    userInfo.data.userId &&
-    !isSubmitting
-  );
-
-  if (status.type === "complete") {
-    return <div>✅ Ticket created!</div>;
-  }
-
-  if (!userInfo.data) {
-    return userInfo.isLoading ? (
-      <div>Loading user info...</div>
-    ) : (
-      <div>User not found</div>
-    );
-  }
+  const canSubmit = !!(args.title && pillars.length > 0 && !isSubmitting);
 
   return (
     <div className="mx-auto max-w-lg rounded border bg-white p-4">
@@ -100,36 +80,25 @@ export function CreateTicketForm({
           isInteractable={true}
         />
       </div>
-      {!confirm ? (
-        <Button
-          className="mt-4 w-full"
-          disabled={!canSubmit}
-          onClick={() => setConfirm(true)}
-        >
-          Confirm & Create Ticket
-        </Button>
-      ) : (
-        <Button
-          className="mt-4 w-full"
-          disabled={!canSubmit}
-          onClick={() => {
-            if (!userInfo.data) return;
-            setIsSubmitting(true);
-            addTicket.mutate({
-              title: args.title,
-              description: args.description,
-              customerId: userInfo.data.userId,
-              pillars: pillars.map((p) => p.value),
-              column: "backlog",
-              order: 0, // You may want to fetch the correct order
-              dueDate: dueDate,
-              assigneeId: assigneeId,
-            });
-          }}
-        >
-          Create Ticket
-        </Button>
-      )}
+      <Button
+        className="mt-4 w-full"
+        disabled={!canSubmit}
+        onClick={() => {
+          setIsSubmitting(true);
+          addTicket.mutate({
+            title: args.title,
+            description: args.description,
+            customerId: "123",
+            pillars: pillars.map((p) => p.value),
+            column: "backlog",
+            order: 0, // You may want to fetch the correct order
+            dueDate: dueDate,
+            assigneeId: assigneeId,
+          });
+        }}
+      >
+        Create Ticket
+      </Button>
     </div>
   );
 }

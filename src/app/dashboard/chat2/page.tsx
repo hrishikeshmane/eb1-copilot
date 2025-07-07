@@ -28,7 +28,7 @@ const GenerateRecommendationLetterToolUI = makeAssistantToolUI<
   render: (props) => <GeneratedLetter {...props} />,
 });
 
-const CreateBacklogTicketToolUI = makeAssistantToolUI<
+const CreateTicketToolUI = makeAssistantToolUI<
   {
     title: string;
     description?: string;
@@ -38,7 +38,7 @@ const CreateBacklogTicketToolUI = makeAssistantToolUI<
   },
   { success: boolean; ticketId?: string }
 >({
-  toolName: "createBacklogTicket",
+  toolName: "createTicket",
   render: (props) => <CreateTicketForm {...props} />,
 });
 
@@ -62,7 +62,7 @@ export default function ChatPage() {
       <AssistantRuntimeProvider runtime={runtime}>
         <GetRecommenderDetailsToolUI />
         <GenerateRecommendationLetterToolUI />
-        <CreateBacklogTicketToolUI />
+        <CreateTicketToolUI />
         <Thread />
       </AssistantRuntimeProvider>
     </div>

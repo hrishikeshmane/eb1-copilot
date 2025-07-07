@@ -41,7 +41,7 @@ export function RecommenderDetailsForm({
     setIsSubmitting(true);
 
     try {
-      await addResult({
+      addResult({
         recommenderDetails: formData,
         additionalContext,
       });

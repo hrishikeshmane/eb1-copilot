@@ -94,7 +94,7 @@ export function GeneratedLetter({ result }: GeneratedLetterProps) {
                 <strong>Type:</strong> EB1A Petition Support
               </p>
               <p>
-                <strong>Length:</strong> ~{Math.ceil(content.length / 500)}{" "}
+                <strong>Length:</strong> ~{Math.ceil(content.length / 1800)}{" "}
                 pages
               </p>
               <p>
