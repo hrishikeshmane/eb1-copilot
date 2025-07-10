@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   const userInfo = request.userInfo;
   const userPillars = request.userPillars;
 
-  const result = streamText({
+  const result = await streamText({
     model: openai(MODEL),
     messages: messages,
     system: `You are an AI assistant helping users with their US talent visa journey. Remember to keep you responses concise.
@@ -203,5 +203,5 @@ A strong closing endorsement of my EB1A petition
     },
   });
 
-  return (await result).toDataStreamResponse();
+  return result.toDataStreamResponse();
 }

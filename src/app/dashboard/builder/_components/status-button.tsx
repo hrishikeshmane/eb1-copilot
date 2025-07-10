@@ -16,32 +16,7 @@ import {
 import { PlusIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
-
-type TicketStatus = {
-  lable: "Backlog" | "Todo" | "In Progress" | "In Review" | "Complete";
-  value: "backlog" | "todo" | "doing" | "review" | "done";
-  css: string;
-};
-
-const ticketStatus: TicketStatus[] = [
-  { lable: "Backlog", value: "backlog", css: "text-neutral-500" },
-  { lable: "Todo", value: "todo", css: "text-yellow-600 dark:text-yellow-200" },
-  {
-    lable: "In Progress",
-    value: "doing",
-    css: "text-blue-600 dark:text-blue-200",
-  },
-  {
-    lable: "In Review",
-    value: "review",
-    css: "text-violet-600 dark:text-violet-200",
-  },
-  {
-    lable: "Complete",
-    value: "done",
-    css: "text-emerald-600 dark:text-emerald-200",
-  },
-];
+import { ticketStatus } from "@/lib/constants";
 
 type StatusButtonProps = {
   status: "backlog" | "todo" | "doing" | "review" | "done";
