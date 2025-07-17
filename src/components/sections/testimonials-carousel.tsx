@@ -30,10 +30,10 @@ const highlightTestimonials = [
   },
   {
     testimonial:
-      "I was overwhelmed by the complexity of the EB1A process, but Greencard Inc. simplified everything with their intuitive platform and step-by-step guidance. They helped me secure the right evidence get on to right opportunities. Nikin and RK's support was truly invaluable!",
+      "I was overwhelmed by the complexity of the EB1A process, but Greencard Inc. simplified everything with their intuitive platform and step-by-step guidance. They helped me secure the right evidence get on to right opportunities. Their support was truly invaluable!",
     company: "Netflix",
     position: "Product Manager",
-    name: "Paul Sanchez",
+    name: "Anup Singh",
   },
   {
     testimonial:
@@ -54,7 +54,7 @@ const highlightTestimonials = [
       "With Greencard Inc., I didn’t just get access to top lawyers and mentors, I got a streamlined process with access to the profile builder that helped me gather everything I needed without the usual stress, and exporting my case materials was quick and easy. The support I received was invaluable in getting my EB1A approval in just 1 year",
     company: "Microsoft",
     position: "Software Engineering Manager",
-    name: "Omolola Adbio",
+    name: "Rakesh Reddy",
   },
 ];
 

@@ -41,19 +41,19 @@ export default function Home() {
       </Link> */}
       <Banner />
       <Hero v2 />
-      {/* <Logos /> */}
+      <Logos />
       {/* <Introducing /> */}
-      {/* <Problem v2 /> */}
+      <Problem v2 />
       {/* <Solution v2 /> */}
       {/* <HowItWorks v2 /> */}
       {/* <TestimonialsCarousel /> */}
       {/* <HowItWorks v2 /> */}
       {/* <Features v2 /> */}
-      {/* <Testimonials /> */}
+      <Testimonials />
       {/* <CommunityTestimonials /> */}
       {/* <Pricing /> */}
       {/* <FAQ /> */}
-      {/* <section className="z-10 mx-auto my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
+      <section className="z-10 mx-auto my-8 flex w-[20rem] flex-col sm:w-[30rem] md:w-[40rem] lg:w-[62rem]">
         <h2 className="mx-auto my-5 mb-1 -skew-x-2 text-center text-3xl font-bold  md:text-4xl">
           FAQ
         </h2>
@@ -201,8 +201,8 @@ export default function Home() {
             </Accordion>
           </div>
         </div>
-      </section> */}
-      {/* <CTA /> */}
+      </section>
+      <CTA />
       <Footer />
     </main>
   );
