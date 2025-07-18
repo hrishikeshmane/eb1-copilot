@@ -49,7 +49,7 @@ export default function Home() {
       {/* <TestimonialsCarousel /> */}
       {/* <HowItWorks v2 /> */}
       {/* <Features v2 /> */}
-      <Testimonials />
+      {/* <Testimonials /> */}
       {/* <CommunityTestimonials /> */}
       {/* <Pricing /> */}
       {/* <FAQ /> */}
