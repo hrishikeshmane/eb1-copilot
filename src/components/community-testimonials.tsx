@@ -109,19 +109,19 @@ const CommunityTestimonials = () => {
   return (
     <div>
       <div className="relative flex flex-row items-center justify-center overflow-hidden bg-background sm:px-20 md:h-[40rem]">
-        <div className="hidden md:flex">
-          <Marquee pauseOnHover vertical className="[--duration:30s]">
+        {/* <div className="hidden md:flex">
+          <Marquee pauseOnHover className="[--duration:30s]">
             {firstRow.map((review) => (
               <ReviewCard key={review.name} {...review} />
             ))}
           </Marquee>
-          <Marquee reverse pauseOnHover vertical className="[--duration:30s]">
+          <Marquee reverse pauseOnHover className="[--duration:30s]">
             {secondRow.map((review) => (
               <ReviewCard key={review.name} {...review} />
             ))}
           </Marquee>
-        </div>
-        <div className="scale-75 flex-col px-4 md:hidden">
+        </div> */}
+        <div className="scale-75 flex-col px-4">
           <Marquee pauseOnHover>
             {firstRow.map((review) => (
               <ReviewCard key={review.name} {...review} />
