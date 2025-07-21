@@ -38,7 +38,7 @@ const TagsButton = ({
 }: TagsButtonProps) => {
   const [openPillarsPopover, setOpenPillarsPopover] = React.useState(false);
   const [newTag, setNewTag] = React.useState("");
-  const [allTags, setAllTags] = React.useState<ITag[]>(availableTags);
+  const [allTags, setAllTags] = React.useState<ITag[]>(availableTags ?? []);
 
   const utils = api.useUtils();
   const createTagMutation = api.tag.createTag.useMutation({

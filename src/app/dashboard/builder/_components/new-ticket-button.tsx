@@ -30,11 +30,17 @@ import {
 import { ISelectComment, type ISelectTickets } from "@/server/db/schema";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@clerk/nextjs";
-import { TicektDatePicker } from "./ticket-date-picker-button";
+import { TicketDatePicker } from "./ticket-date-picker-button";
 import { Input } from "@/components/ui/input";
-import { Send, SendHorizonal } from "lucide-react";
+import {
+  SendHorizonal,
+  SparklesIcon,
+  Loader2Icon,
+  SendHorizonalIcon,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TagsButton from "./tags-button";
+import { parseISO } from "date-fns";
 
 const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   const customer = useAtomValue(customerAtom);
@@ -51,6 +57,48 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
   );
   const [ticketDueDate, setTicketDueDate] = useAtom(ticketDueDateAtom);
   const [ticketTags, setTicketTags] = useAtom(ticketTagsAtom);
+
+  const [useAI, setUseAI] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const generateTicketWithAI = async () => {
+    try {
+      setIsGenerating(true);
+      const response = await fetch("/api/generate-ticket", {
+        method: "POST",
+        body: JSON.stringify({ prompt: aiPrompt }),
+      });
+
+      const data = await response.json();
+
+      console.log("data", data);
+
+      setTicketTitle(data.title);
+      setTicketStatus(data.status);
+      setTicketPillars(data.visaPillars);
+      setTicketDescription(data.description);
+      setTicketDueDate(data.dueDate && parseISO(data.dueDate));
+      setTicketTags(
+        (
+          data.tags as {
+            name: string;
+            color: string;
+            createdAt: Date;
+            tagId: string;
+          }[]
+        )?.map((tag) => ({
+          ...tag,
+          createdAt: new Date(tag.createdAt),
+        })) ?? [],
+      );
+    } catch (error) {
+      console.error("error", error);
+      toast.error("Could not generate ticket with AI");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   const resetTicketStates = () => {
     setTicketTitle("");
@@ -180,7 +228,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
 
               <div className="grid grid-cols-[78px_1fr] items-start gap-3">
                 <p className="">Due Date:</p>
-                <TicektDatePicker
+                <TicketDatePicker
                   isInteractable={true}
                   ticketDueDate={ticketDueDate}
                   setTicketDueDate={setTicketDueDate}
@@ -201,6 +249,22 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
         {/* <CommentSection /> */}
 
         <SheetFooter>
+          {useAI && (
+            <div className="mt-auto flex gap-2">
+              <Input
+                placeholder="AI Prompt"
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+              />
+              <Button size="sm" onClick={() => generateTicketWithAI()}>
+                {isGenerating ? (
+                  <Loader2Icon className="animate-spin" />
+                ) : (
+                  <SendHorizonalIcon />
+                )}
+              </Button>
+            </div>
+          )}
           <div className="mt-auto flex gap-2">
             <SheetClose asChild>
               <Button size="sm" variant="outline">
@@ -212,6 +276,10 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
               Add Ticket
             </Button>
             {/* </SheetClose> */}
+            <Button size="sm" onClick={() => setUseAI(true)}>
+              <SparklesIcon />
+              Generate with AI
+            </Button>
           </div>
         </SheetFooter>
       </SheetContent>
