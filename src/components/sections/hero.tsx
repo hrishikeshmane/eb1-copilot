@@ -8,7 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { ArrowRight, ArrowUpRightIcon, Phone } from "lucide-react";
+import { ArrowUpRightIcon, Phone } from "lucide-react";
 import GetStartedButton from "../elements/get-started-button";
 import Image from "next/image";
 
@@ -119,42 +119,17 @@ export function HeroCTA({ showBookCall }: { showBookCall?: boolean }) {
         </Link> */}
         {/* <GetStartedButton /> */}
         {!!showBookCall && (
-          <>
-            <Link
-              href="https://go.greencard.inc/evaluation"
-              className={cn(
-                buttonVariants({ variant: "secondary" }),
-                "group flex gap-2 sm:w-auto",
-              )}
-            >
-              {/* <Icons.logo className="h-6 w-6" /> */}
-              <Phone className="h-4 w-4" />
-              Book a Free Consultation
-            </Link>
-
-            <Link
-              href="https://www.visavibe.xyz/insights"
-              className={cn(
-                buttonVariants({ variant: "secondary" }),
-                "group flex gap-2 sm:w-auto",
-              )}
-            >
-              {/* <Icons.logo className="h-6 w-6" /> */}
-              Explore Insights
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-
-            <Link
-              href="https://www.visavibe.xyz/database"
-              className={cn(
-                buttonVariants({ variant: "secondary" }),
-                "group flex gap-2 sm:w-auto",
-              )}
-            >
-              {/* <Icons.logo className="h-6 w-6" /> */}
-              Search Case Database``
-            </Link>
-          </>
+          <Link
+            href="https://go.greencard.inc/evaluation"
+            className={cn(
+              buttonVariants({ variant: "secondary" }),
+              "group flex gap-2 sm:w-auto",
+            )}
+          >
+            {/* <Icons.logo className="h-6 w-6" /> */}
+            <Phone className="h-4 w-4" />
+            Book a Free Consultation
+          </Link>
         )}
       </motion.div>
       {/* <motion.p
@@ -214,11 +189,13 @@ export default function Hero({ v2 }: { v2?: boolean }) {
           <HeroTitles
             heading={[
               "Navigate",
-              "your",
-              "US",
-              "Journey",
-              "with",
-              "confidence",
+              "Your",
+              "Life",
+              "In",
+              "The",
+              "U.S",
+              "With",
+              "Ease",
             ]}
           />
         )}
