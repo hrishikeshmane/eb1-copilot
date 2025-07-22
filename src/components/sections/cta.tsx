@@ -19,7 +19,7 @@ export default function CtaSection() {
         <Link
           href="https://go.greencard.inc/evaluation"
           className={cn(
-            buttonVariants({ variant: "default" }),
+            buttonVariants({ variant: "secondary" }),
             "group flex gap-2 sm:w-auto",
           )}
         >
@@ -30,7 +30,7 @@ export default function CtaSection() {
         <Link
           href="https://www.visavibe.xyz/insights"
           className={cn(
-            buttonVariants({ variant: "default" }),
+            buttonVariants({ variant: "secondary" }),
             "group flex gap-2 sm:w-auto",
           )}
         >
@@ -42,7 +42,7 @@ export default function CtaSection() {
         <Link
           href="https://www.visavibe.xyz/database"
           className={cn(
-            buttonVariants({ variant: "default" }),
+            buttonVariants({ variant: "secondary" }),
             "group flex gap-2 sm:w-auto",
           )}
         >
