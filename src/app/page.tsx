@@ -185,19 +185,6 @@ export default function Home() {
                   </p>
                 </AccordionContent>
               </AccordionItem>
-
-              <AccordionItem value="item-7">
-                <AccordionTrigger className="text-left text-lg font-bold md:text-xl">
-                  Do you provide payment plans and discounts for groups?
-                </AccordionTrigger>
-                <AccordionContent className="space-y-2">
-                  <p>
-                    Yes, we do provide discounts for groups if you and one or
-                    more of your friends sign up together.
-                  </p>
-                  <p>We also have a 4-month installment plan available.</p>
-                </AccordionContent>
-              </AccordionItem>
             </Accordion>
           </div>
         </div>
