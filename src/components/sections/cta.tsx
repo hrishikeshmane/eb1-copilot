@@ -4,28 +4,52 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { HeroCTA } from "./hero";
+import { ArrowRight, PhoneIcon } from "lucide-react";
 
 export default function CtaSection() {
   return (
     <Section
       id="cta"
       title="Ready to get started?"
-      subtitle="Start Your Green Card Journey Now!"
+      subtitle="Start Exploring Visa Insights Today"
       className="rounded-xl bg-primary/10 py-16"
       // className="bg-liberty t rounded-xl bg-primary/10 bg-[length:1300px_850px] bg-center bg-no-repeat py-24 bg-blend-multiply "
     >
-      {/* <div className="flex w-full flex-col items-center justify-center space-y-4 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+      <div className="flex w-full flex-col items-center justify-center space-y-4 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0">
         <Link
-          href="/signup"
+          href="https://go.greencard.inc/evaluation"
           className={cn(
-            buttonVariants({ variant: "default" }),
-            "w-full sm:w-auto text-background flex gap-2"
+            buttonVariants({ variant: "secondary" }),
+            "group flex gap-2 sm:w-auto",
           )}
         >
-          <Icons.logo className="h-6 w-6" />
-          Get started for free
+          <PhoneIcon className="h-4 w-4" />
+          Book a Free Consultation
         </Link>
-      </div> */}
+
+        <Link
+          href="https://www.visavibe.xyz/insights"
+          className={cn(
+            buttonVariants({ variant: "secondary" }),
+            "group flex gap-2 sm:w-auto",
+          )}
+        >
+          {/* <Icons.logo className="h-6 w-6" /> */}
+          Explore Insights
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+
+        <Link
+          href="https://www.visavibe.xyz/database"
+          className={cn(
+            buttonVariants({ variant: "secondary" }),
+            "group flex gap-2 sm:w-auto",
+          )}
+        >
+          {/* <Icons.logo className="h-6 w-6" /> */}
+          Search Case Database``
+        </Link>
+      </div>
       <HeroCTA />
     </Section>
   );
