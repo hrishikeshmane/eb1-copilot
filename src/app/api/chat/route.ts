@@ -19,9 +19,35 @@ export async function POST(req: Request) {
 
   const request = await req.json();
 
-  const messages = request.messages;
+  let messages = request.messages;
   const userInfo = request.userInfo;
   const userPillars = request.userPillars;
+
+  const resumeUrl = userInfo.resumeUrl;
+
+  if (resumeUrl) {
+    const resume = await fetch(resumeUrl);
+    const resumeBuffer = await resume.arrayBuffer();
+
+    messages = [
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: "Attached is my resume. Please use it when drafting a Letter of Recommendation.",
+          },
+          {
+            type: "file",
+            data: resumeBuffer,
+            mimeType: "application/pdf",
+            filename: "resume.pdf",
+          },
+        ],
+      },
+      ...messages,
+    ];
+  }
 
   const result = await streamText({
     model: openai(MODEL),
