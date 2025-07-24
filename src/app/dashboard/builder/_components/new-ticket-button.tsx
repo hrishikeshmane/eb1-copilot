@@ -75,10 +75,11 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       console.log("data", data);
 
       setTicketTitle(data.title);
-      setTicketStatus(data.status);
-      setTicketPillars(data.visaPillars);
       setTicketDescription(data.description);
-      setTicketDueDate(data.dueDate && parseISO(data.dueDate));
+      if (data.status) setTicketStatus(data.status);
+      if (data.visaPillars) setTicketPillars(data.visaPillars);
+      if (data.dueDate) setTicketDueDate(parseISO(data.dueDate));
+
       setTicketTags(
         (
           data.tags as {
