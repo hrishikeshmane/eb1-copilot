@@ -26,7 +26,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "GreenCard Inc. | Your Path to U.S. Permanent Residency.",
   description:
-    "Achieve your U.S. green card with our AI-driven EB-1A self-sponsorship solutions. Get expert guidance on U.S. immigration pathways, including Apply EB-1A visa application, EB-2 NIW, and O-1 visas.",
+    "Greencard Inc helps high skilled immigrants navigate life in the US by providing education and guidance about talent visa (O1, EB2 NIW, EB1A) pathways",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
   keywords: [
     "EB-1A Green Card",
