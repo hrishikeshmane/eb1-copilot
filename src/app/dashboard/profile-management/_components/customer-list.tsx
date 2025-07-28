@@ -19,6 +19,16 @@ type GroupedUsers = {
   Rest: User[];
 };
 
+function getFullName(firstName: string | null, lastName: string | null) {
+  if (firstName && lastName) {
+    return `${firstName} ${lastName}`;
+  } else if (firstName) {
+    return firstName;
+  } else if (lastName) {
+    return lastName;
+  }
+}
+
 export function CustomerList({
   customers,
   subroute,
@@ -73,8 +83,10 @@ export function CustomerList({
   const filteredAndGroupedCustomers = useMemo(() => {
     const filteredCustomers = customers.filter(
       (customer) =>
-        customer.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ??
-        customer.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        getFullName(customer.firstName, customer.lastName)
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase()) ??
+        customer.username?.toLowerCase().includes(searchTerm.toLowerCase()) ??
         customer.emailAddresses[0]?.emailAddress
           .toLowerCase()
           .includes(searchTerm.toLowerCase()),
