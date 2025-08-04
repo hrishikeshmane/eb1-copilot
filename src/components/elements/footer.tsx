@@ -70,7 +70,7 @@ const Footer = () => {
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://docs.google.com/document/d/e/2PACX-1vST6ifdC_kKPBd2e7rfqWvQ-p7E3Z3HWSv7dtHQUg6gp59eYgz69MHIQQ_3R8FcCZGyHecv8dEQonhV/pub"
+                    href="https://docs.google.com/document/d/1pyLa32_UFXssTSgOz87h1VjFwVRfCDEKR110445phRA/edit?tab=t.0"
                     className="hover:underline "
                   >
                     Terms &amp; Conditions
