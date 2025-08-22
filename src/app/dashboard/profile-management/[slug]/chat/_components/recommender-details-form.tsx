@@ -14,12 +14,22 @@ import {
 } from "@/components/ui/card";
 
 interface RecommenderDetailsFormProps {
-  args: { purpose: string };
-  addResult: (result: any) => void;
+  addResult: (result: {
+    recommenderDetails: {
+      fullName: string;
+      jobTitle: string;
+      institution: string;
+      field: string;
+      credentials: string;
+      relationship: string;
+      email: string;
+      phone: string;
+    };
+    additionalContext: string;
+  }) => void;
 }
 
 export function RecommenderDetailsForm({
-  args,
   addResult,
 }: RecommenderDetailsFormProps) {
   const [formData, setFormData] = useState({
@@ -71,7 +81,10 @@ export function RecommenderDetailsForm({
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <CardTitle>Recommender Details</CardTitle>
-        <CardDescription>{args.purpose}</CardDescription>
+        <CardDescription>
+          Please provide the details of the recommender you want to use for your
+          letter of recommendation.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
