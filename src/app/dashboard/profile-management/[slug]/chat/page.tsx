@@ -47,7 +47,12 @@ export default function Page({ params }: { params: { slug: string } }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      sendMessage({ text: input });
+      sendMessage(
+        {
+          text: input,
+        },
+        { body: { userInfo: userInfo.data, userPillars: userPillars.data } },
+      );
       setInput("");
     }
   };
@@ -57,7 +62,6 @@ export default function Page({ params }: { params: { slug: string } }) {
   const { messages, sendMessage, status, addToolResult } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
-      body: { userInfo: userInfo.data, userPillars: userPillars.data },
     }),
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
   });
