@@ -2,11 +2,11 @@ import { useState } from "react";
 import { visaPillars, type IPillars } from "@/lib/constants";
 import { api } from "@/trpc/react";
 import { Button } from "@/components/ui/button";
-import PillarButton from "../../builder/_components/pillar-button";
+import PillarButton from "../../../../builder/_components/pillar-button";
 import { Input } from "@/components/ui/input";
-import { TicketDatePicker } from "../../builder/_components/ticket-date-picker-button";
+import { TicketDatePicker } from "../../../../builder/_components/ticket-date-picker-button";
 import { toast } from "sonner";
-import TagsButton from "../../builder/_components/tags-button";
+import TagsButton from "../../../../builder/_components/tags-button";
 import { ITag } from "@/server/db/schema";
 
 interface CreateTicketFormProps {
@@ -18,15 +18,11 @@ interface CreateTicketFormProps {
       dueDate?: string;
     };
   };
-  addResult: (result: { success: boolean; ticketId?: string }) => void;
-  status: { type: string };
+  addResult: (result: { success: boolean; ticketId: string }) => void;
 }
 
 export function CreateTicketForm(props: CreateTicketFormProps) {
-  const { args, addResult, status } = props;
-  console.log("args", args);
-  console.log("status", status);
-  console.log("addResult", addResult);
+  const { args, addResult } = props;
 
   if (!args) {
     return <div>Loading...</div>;
@@ -52,7 +48,7 @@ export function CreateTicketForm(props: CreateTicketFormProps) {
   const addTicket = api.kanban.addTicket.useMutation({
     onSuccess: (data) => {
       toast.success("Ticket created!");
-      addResult({ success: true, ticketId: data?.ticketId });
+      addResult({ success: true, ticketId: data?.ticketId || "" });
     },
     onError: (err) => {
       toast.error("Failed to create ticket");

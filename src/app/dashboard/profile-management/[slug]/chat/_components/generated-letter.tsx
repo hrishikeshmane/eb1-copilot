@@ -41,22 +41,18 @@ export function GeneratedLetter({ result }: GeneratedLetterProps) {
               <CheckCircle2 className="h-5 w-5 text-green-500" />
               Letter of Recommendation Generated
             </CardTitle>
-            <CardDescription>
-              USCIS-compliant letter from {recommenderDetails.fullName}
-            </CardDescription>
+            <CardDescription>USCIS-compliant letter</CardDescription>
           </div>
           <Badge variant="secondary">EB1A Petition</Badge>
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Letter Content */}
         <div className="rounded-lg border bg-gray-50 p-6">
           <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-gray-800">
             {content}
           </pre>
         </div>
 
-        {/* Actions */}
         <div className="flex flex-wrap gap-2">
           <Button onClick={downloadLetter} variant="outline" size="sm">
             <Download className="mr-2 h-4 w-4" />
@@ -68,25 +64,26 @@ export function GeneratedLetter({ result }: GeneratedLetterProps) {
           </Button>
         </div>
 
-        {/* Summary */}
         <div className="grid grid-cols-1 gap-4 border-t pt-4 md:grid-cols-2">
-          <div>
-            <h4 className="mb-2 text-sm font-semibold">Recommender Info</h4>
-            <div className="space-y-1 text-sm text-gray-600">
-              <p>
-                <strong>Name:</strong> {recommenderDetails.fullName}
-              </p>
-              <p>
-                <strong>Title:</strong> {recommenderDetails.jobTitle}
-              </p>
-              <p>
-                <strong>Institution:</strong> {recommenderDetails.institution}
-              </p>
-              <p>
-                <strong>Field:</strong> {recommenderDetails.field}
-              </p>
+          {recommenderDetails && (
+            <div>
+              <h4 className="mb-2 text-sm font-semibold">Recommender Info</h4>
+              <div className="space-y-1 text-sm text-gray-600">
+                <p>
+                  <strong>Name:</strong> {recommenderDetails.fullName}
+                </p>
+                <p>
+                  <strong>Title:</strong> {recommenderDetails.jobTitle}
+                </p>
+                <p>
+                  <strong>Institution:</strong> {recommenderDetails.institution}
+                </p>
+                <p>
+                  <strong>Field:</strong> {recommenderDetails.field}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
           <div>
             <h4 className="mb-2 text-sm font-semibold">Letter Details</h4>
             <div className="space-y-1 text-sm text-gray-600">

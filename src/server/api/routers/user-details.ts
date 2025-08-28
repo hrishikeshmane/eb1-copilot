@@ -200,6 +200,15 @@ export const userDetailsRouter = createTRPCRouter({
     return userInfoData;
   }),
 
+  getUserInfoByUserId: adminOrVendorProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ input }) => {
+      const userInfoData = await db.query.userInfo.findFirst({
+        where: (table) => eq(table.userId, input.userId),
+      });
+      return userInfoData;
+    }),
+
   getUserPillars: protectedProcedure.query(async ({ ctx }) => {
     const userPillarData = await db.query.userVisaPillarDetails.findMany({
       where: (table) => eq(table.userId, ctx.session.userId),
