@@ -42,8 +42,6 @@ export async function POST(req: Request) {
   const userInfo = request.userInfo;
   const userPillars = request.userPillars;
 
-  console.log("Chat request: ", request);
-
   const result = streamText({
     model: openai(MODEL),
     messages: convertToModelMessages(messages),

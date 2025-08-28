@@ -57,8 +57,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     }
   };
 
-  console.log(userInfo.data, userPillars.data);
-
   const { messages, sendMessage, status, addToolResult } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",

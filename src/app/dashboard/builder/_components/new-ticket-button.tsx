@@ -41,9 +41,16 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TagsButton from "./tags-button";
 import { parseISO } from "date-fns";
+import { visaPillars } from "@/lib/constants";
+import { User } from "@clerk/nextjs/server";
 
-const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
-  const customer = useAtomValue(customerAtom);
+const NewTicketButton = ({
+  tickets,
+  customer,
+}: {
+  tickets: ISelectTickets[];
+  customer?: User;
+}) => {
   const { user } = useUser();
   const userRole = user?.publicMetadata.role;
   const isCustomer = userRole === "customer";
@@ -67,7 +74,7 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       setIsGenerating(true);
       const response = await fetch("/api/generate-ticket", {
         method: "POST",
-        body: JSON.stringify({ prompt: aiPrompt }),
+        body: JSON.stringify({ prompt: aiPrompt, user: customer }),
       });
 
       const data = await response.json();
@@ -77,7 +84,10 @@ const NewTicketButton = ({ tickets }: { tickets: ISelectTickets[] }) => {
       setTicketTitle(data.title);
       setTicketDescription(data.description);
       if (data.status) setTicketStatus(data.status);
-      if (data.visaPillars) setTicketPillars(data.visaPillars);
+      if (data.visaPillars)
+        setTicketPillars(
+          visaPillars.filter((p) => data.visaPillars.includes(p.value)),
+        );
       if (data.dueDate) setTicketDueDate(parseISO(data.dueDate));
 
       setTicketTags(

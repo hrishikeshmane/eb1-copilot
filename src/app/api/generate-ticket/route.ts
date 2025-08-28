@@ -22,8 +22,7 @@ export async function POST(req: Request) {
   const request = await req.json();
 
   const prompt = request.prompt;
-  const userInfo = request.userInfo;
-  const userPillars = request.userPillars;
+  const user = request.user;
 
   const allTags = await api.tag.getAllAvailableTags();
 
@@ -32,10 +31,7 @@ export async function POST(req: Request) {
     prompt,
     system: `You are an AI assistant helping users with their US talent visa journey. Remember to keep you responses concise.
 Here are the user details:
-${JSON.stringify(userInfo, null, 2)}
-
-And here are the user's achievements:
-${JSON.stringify(userPillars, null, 2)}
+${JSON.stringify(user, null, 2)}
 
 Use this information to generate tickets for the user.`,
     schema: z

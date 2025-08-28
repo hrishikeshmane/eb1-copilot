@@ -14,7 +14,7 @@ interface CreateTicketFormProps {
     ticket: {
       title: string;
       description?: string;
-      pillars?: string[];
+      visaPillars?: string[];
       dueDate?: string;
     };
   };
@@ -28,9 +28,11 @@ export function CreateTicketForm(props: CreateTicketFormProps) {
     return <div>Loading...</div>;
   }
 
+  console.log(args);
+
   const [pillars, setPillars] = useState<IPillars[]>(
-    args?.ticket.pillars
-      ? visaPillars.filter((p) => args?.ticket.pillars?.includes(p.value))
+    args?.ticket.visaPillars
+      ? visaPillars.filter((p) => args?.ticket.visaPillars?.includes(p.value))
       : [],
   );
   const [tags, setTags] = useState<ITag[]>([]);

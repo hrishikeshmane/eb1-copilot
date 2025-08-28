@@ -487,7 +487,7 @@ export const Filterbar = ({
             </Link>
           )}
           {(userRole === "customer" || userRole === "admin") && (
-            <NewTicketButton tickets={tickets} />
+            <NewTicketButton tickets={tickets} customer={customer} />
           )}
         </div>
       )}
