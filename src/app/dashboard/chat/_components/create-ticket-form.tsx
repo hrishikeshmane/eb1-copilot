@@ -10,7 +10,7 @@ import TagsButton from "../../builder/_components/tags-button";
 import { ITag } from "@/server/db/schema";
 
 interface CreateTicketFormProps {
-  args: {
+  args?: {
     ticket: {
       title: string;
       description?: string;
@@ -28,19 +28,23 @@ export function CreateTicketForm(props: CreateTicketFormProps) {
   console.log("status", status);
   console.log("addResult", addResult);
 
+  if (!args) {
+    return <div>Loading...</div>;
+  }
+
   const [pillars, setPillars] = useState<IPillars[]>(
-    args.ticket.pillars
-      ? visaPillars.filter((p) => args.ticket.pillars?.includes(p.value))
+    args?.ticket.pillars
+      ? visaPillars.filter((p) => args?.ticket.pillars?.includes(p.value))
       : [],
   );
   const [tags, setTags] = useState<ITag[]>([]);
   const [dueDate, setDueDate] = useState<Date | undefined>(
-    args.ticket.dueDate ? new Date(args.ticket.dueDate) : undefined,
+    args?.ticket.dueDate ? new Date(args?.ticket.dueDate) : undefined,
   );
   const [assigneeId, setAssigneeId] = useState<string | undefined>(undefined);
-  const [title, setTitle] = useState<string>(args.ticket.title);
+  const [title, setTitle] = useState<string>(args?.ticket.title || "");
   const [description, setDescription] = useState<string>(
-    args.ticket.description || "",
+    args?.ticket.description || "",
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -57,7 +61,7 @@ export function CreateTicketForm(props: CreateTicketFormProps) {
   });
 
   const canSubmit = !!(
-    args.ticket.title &&
+    args?.ticket.title &&
     pillars.length > 0 &&
     !isSubmitting
   );
@@ -116,8 +120,8 @@ export function CreateTicketForm(props: CreateTicketFormProps) {
         onClick={() => {
           setIsSubmitting(true);
           addTicket.mutate({
-            title: args.ticket.title,
-            description: args.ticket.description,
+            title: args?.ticket.title,
+            description: args?.ticket.description,
             customerId: "123",
             pillars: pillars.map((p) => p.value),
             column: "backlog",

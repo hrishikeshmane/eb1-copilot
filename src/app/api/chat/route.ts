@@ -23,8 +23,11 @@ export async function POST(req: Request) {
   const userInfo = request.userInfo;
   const userPillars = request.userPillars;
 
-  const result = await streamText({
+  console.log("Chat request: ", request);
+
+  const result = streamText({
     model: openai(MODEL),
+<<<<<<< Updated upstream
     messages: messages,
     system: `You are an AI assistant helping users with their US talent visa journey. Remember to keep you responses concise.
 Here are the user details:
@@ -38,6 +41,13 @@ Use this information to provide personalized responses to the user's questions a
 ## Instructions for drafting a Letter of Recommendation
 
 Use the "getRecommenderDetails" tool to get the recommender details. Then use the "generateRecommendationLetter" tool to generate a letter with the recommender details.`,
+||||||| constructed merge base
+    messages: convertToModelMessages(messages),
+    system: SYSTEM_PROMPT(userInfo, userPillars),
+=======
+    messages: convertToModelMessages(messages),
+    system: SYSTEM_PROMPT(userInfo, userPillars, visaPillars),
+>>>>>>> Stashed changes
     tools: {
       getRecommenderDetails: tool({
         description:
