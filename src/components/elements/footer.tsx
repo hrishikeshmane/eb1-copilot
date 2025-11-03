@@ -202,24 +202,14 @@ const Footer = () => {
             >
               info@terrabridge.com
             </a>
-            . To read the full disclaimer, please{" "}
+            . To read the full disclaimer, please click here or visit the full
+            transition page
             <a
               href="https://docs.google.com/document/d/1fGac0BXJer66D4oPs0YQZ8xdD1SDE73TKuisZDVZsnA/edit?tab=t.0"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-muted-foreground/50 underline-offset-2 hover:decoration-muted-foreground"
-            >
-              click here
-            </a>{" "}
-            or visit the{" "}
-            <a
-              href="https://docs.google.com/document/d/1fGac0BXJer66D4oPs0YQZ8xdD1SDE73TKuisZDVZsnA/edit?tab=t.0"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-muted-foreground/50 underline-offset-2 hover:decoration-muted-foreground"
-            >
-              full transition page
-            </a>
+              className="hidden"
+            ></a>
             .
           </p>
         </div>
