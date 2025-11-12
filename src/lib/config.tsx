@@ -23,7 +23,7 @@ export const siteConfig = {
     instagram: "https://instagram.com/magicuidesign/",
   },
   call: {
-    priorityScheduleCallLink: "https://calendly.com/greencardinc-rk/eb-1a",
+    priorityScheduleCallLink: "https://eval.openventure.com/greencard",
   },
   header: [
     {
@@ -237,7 +237,8 @@ export const siteConfig = {
       answer: (
         <>
           <p>
-            We’ve partnered with leading immigration lawfirm, led by expert attorneys, who have extensive experience in filing EB-1A cases,
+            We’ve partnered with leading immigration lawfirm, led by expert
+            attorneys, who have extensive experience in filing EB-1A cases,
             especially for individuals in the tech and STEM fields.
           </p>
         </>
